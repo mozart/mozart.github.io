@@ -1,0 +1,60 @@
+@article{Uniform:2000,
+   author = {Joachim Niehren},
+   journal = {Journal of Functional Programming},
+   title = {Uniform Confluence in Concurrent Computation},
+   year = {2000},
+   pages= {453--499},
+   volume = {10},
+   number = {5},
+   month = sep,
+   note = {{An} unabridged version from June 30, 1999 is available at
+    {\URL{www.ps.uni-sb.de/Papers/abstracts/Uniform:99.html.}}},
+  abstract = {Indeterminism is typical for concurrent computation. If
+several concurrent actors compete for the same resource then
+at most one of them may succeed, whereby the choice of the
+successful actor is indeterministic. As a consequence, the
+execution of a concurrent program may be nonconfluent. Even
+worse, most observables (termination, computational result,
+and time complexity) typically depend on the scheduling of
+actors created during program execution. This property
+contrast concurrent programs from purely functional programs.
+A functional program is uniformly confluent in the sense
+that all its possible executions coincide modulo reordering
+of execution steps. In this paper, we investigate
+concurrent programs that are uniformly confluent and
+their relation to eager and lazy functional programs.
+
+We study uniform confluence in concurrent computation
+within the applicative core of the $\pi$-calculus
+which is
+widely used in different models of concurrent
+programming (with interleaving semantics). In particular,
+the applicative
+core of the $\pi$-calculus serves as a kernel in
+foundations of concurrent constraint programming with
+first-class procedures (as provided by the programming
+language Oz). We model eager functional programming
+in the $\lambda$-calculus with weak call-by-value reduction
+and lazy functional programming in the call-by-need
+$\lambda$-calculus with standard reduction. As a measure of
+time complexity, we count application steps. We encode the
+$\lambda$-calculus with both above reduction strategies
+into the applicative core of the $\pi$-calculus
+and show that
+time complexity is preserved. Our correctness proofs employs
+a new technique based on uniform confluence and simulations.
+The strength of our technique is illustrated by proving a
+folk theorem, namely that the call-by-need
+complexity of a functional program is smaller than its call-by-value
+complexity.
+
+A shortened version of this report will appear in the
+Journal of Functional Programming. Due to lack of space,
+this journal version does not contain the encoding of
+the $\delta$-calculus (introduced in the paper) into
+the applicative core of the
+$\pi$-calculus (given here), which is of its own interest.},
+  project-key={C1},
+  ma-key={niehren@ps.uni-sb.de}
+}
+

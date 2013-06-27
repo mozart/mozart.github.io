@@ -1,0 +1,27 @@
+<?php include("/services/mozart/httpd/html/pslab.php"); ?>
+
+<?php pslab_bibheader("Le protocole réparti de Distributed Oz (In French)"); ?>
+<div class=margin>
+<p class=paperyear>1999</p>
+<p class=paperauthor>Iliès Alouini and Peter Van Roy</p>
+<menu class=paperlinks>
+<li><p><a href="http://www.ps.uni-sb.de/PapersOz/Others/alouini98.ps.gz">Postscript</a><li><p><a href="http://www.ps.uni-sb.de/PapersOz/abstracts/alouini98.bib">BibTeX Entry</a>
+</menu>
+</div>
+<p>
+Distributed Oz is a programming language designed for building distributed 
+applications. This paper defines a model, called the <i> distribution 
+graph</i>,
+for the distributed execution of the language. Within this
+model, each category of Oz language entity (stateful, stateless,
+and single assignment) is implemented by a protocol that defines its
+network behavior.  The model explains how these language entities
+interact, and in particular, how distributed operations on one language
+entity can result in the creation of new remote references to other
+language entities.  We define the protocol for stateless data
+(procedures and records) within this model; the other two protocols
+have been published previously.  This model is the
+foundation of the Mozart programming system, which implements Oz.
+</p>
+<!--PATCH HERE-->
+<?php pslab_footer("Webmaster"); ?>

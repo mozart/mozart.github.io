@@ -1,0 +1,46 @@
+@Article{situated-tcs,
+author  = {Andreas Podelski and Gert Smolka},
+title   = {Situated Simplification},
+journal = {Theoretical Computer Science},
+year    = 1997,
+month   = feb,
+volume  = 173,
+pages   = {209--233}
+}
+@InProceedings{CP:95,
+author  = "Andreas Podelski and Gert Smolka",
+title   = "Situated Simplification",
+booktitle = "Proceedings of the 1st Conference on Principles and
+                  Practice of Constraint Programming",
+address = "Cassis, France",
+month   = sep,
+year    = 1995,
+publisher = "Springer-Verlag",
+series  = "Lecture Notes in Computer Science, vol.~976",
+editor  = "Ugo Montanari",
+pages   = "328--344",
+filename =      "SituSimpli95.ps.gz",
+directory =     "ProgrammingSysLab",
+project-key={C1},
+ma-key={smolka@ps.uni-sb.de},
+abstract={Testing satisfaction of guards is the essential operation of
+concurrent constraint programming (CCP) systems.  We present and
+prove correct, for the first time, an incremental algorithm for the
+simultaneous tests of entailment and disentailment of rational tree
+constraints to be used in CCP systems with deep guards (e.g., AKL or
+Oz).  The algorithm is presented as the simplification of the
+constraints which form the (possibly deep) guards and which are
+  situated at different nodes (or, local computation spaces) in a tree
+(of arbitrary depth).  In this algorithm, each variable may have
+multiple bindings (representing multiple constraints on the same
+variable in different nodes).  These may be realized by re- and
+de-installation upon each newly resumed check of the guard in the
+corresponding node (as done, e.g., in AKL or Oz), or by using look-up
+tables (with entries indexed by the nodes).  We give a simple
+fixed-point algorithm and use it for proving that the tests
+implemented by another, practical algorithm are correct and complete
+for entailment and disentailment.  We formulate the results in this
+paper for rational tree constraints; they can be adapted to finite and
+feature trees.}
+}
+

@@ -1,0 +1,27 @@
+@TechReport{modules-98,
+  author = {Denys Duchier and Leif Kornstaedt and Christian Schulte and Gert Smolka}, 
+  title =  {{A Higher-order Module Discipline with Separate Compilation, Dynamic Linking, and Pickling}}, 
+  note  =  {DRAFT},
+  INSTITUTION = {Programming Systems Lab, DFKI and Universit{\"a}t des 
+Saarlandes},
+  year = {1998},
+  abstract = {We present a higher-order module discipline with
+  separate compilation and concurrent dynamic linking.
+  Based on first-order modules one can program security
+  policies for systems that link modules from untrusted
+  locations (e.g., Java).  We introduce a pickling
+  operation that writes persistent clones of volatile,
+  possibly higher-order data structures on the file
+  system.  Our pickling operation respects lexical
+  binding.  Our module discipline is based on functors,
+  which are annotated functions that are applied to
+  modules and return modules.  Pickled computed
+  functors can be used interchangeably with compiled
+  functors.  In contrast to compiled functors, pickled
+  computed functors can carry computed data structures
+  with them, which has significant practical
+  applications.},
+  project-key={C1},
+  ma-key={duchier@ps.uni-sb.de kornstae@ps.uni-sb.de schulte@ps.uni-sb.de smolka@ps.uni-sb.de}
+}
+

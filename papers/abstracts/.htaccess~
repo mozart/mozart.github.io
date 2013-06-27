@@ -1,0 +1,3 @@
+AddInputFilter PHP .html
+AddOutputFilter PHP .html
+AddInputFilter INCLUDES .html
