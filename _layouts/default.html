@@ -9,8 +9,7 @@
     <meta name="author" content="Mozart Consortium">
 
 
-    <!-- Le styles -->
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -29,7 +28,7 @@
         }
       }
     </style>
-    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet">
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -56,14 +55,18 @@
           </button>
           <a class="brand" href="#">The Mozart Programming System</a>
           <div class="nav-collapse collapse">
+
+            {% comment %}
             <!-- <p class="navbar-text pull-right">
               Logged in as <a href="#" class="navbar-link">Username</a>
             </p> -->
+            {% endcomment %}
+
             <ul class="nav">
-              <li class="active"><a href="#">About</a></li>
-              <li><a href="#download">Download</a></li>
-              <li><a href="#documentation">Documentation</a></li>
-              <li><a href="#contact">Report a bug</a></li>              
+              <li><a href="/">About</a></li>
+              <li><a href="/download/">Download</a></li>
+              <li><a href="/documentation/">Documentation</a></li>
+              <li><a href="/report-a-bug">Report a bug</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -72,8 +75,43 @@
 
     <div class="container-fluid">
 
-    {{ content }}
+      <div class="row-fluid">
 
+
+        <div class="span3">
+          {% comment %} <!-- sidebar nav goes in this column --> {% endcomment %}
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">About</li>
+              <li class=""><a href="/">Mozart</a></li>
+              <li class=""><a href="/publications/">Publications</a></li>
+              <li><a href="/governance/">History and governance</a></li>
+
+              <li class="nav-header">Use</li>
+              <li><a href="/download/">Download</a></li>
+              <li><a href="/documentation/">Documentation</a></li>
+              <li><a href="/report-a-bug">Report a bug</a></li>
+
+              <li class="nav-header">Participate</li>
+              <li><a href="/mailing-lists/">How to get involved</a></li>
+              <li><a href="https://github.com/mozart/mozart2">Source code (Github)</a></li>
+              <li><a href="/mailing-lists/">Mailing list</a></li>
+              <li><a href="/license-info/">License information</a></li>   
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+
+
+
+        <div class="span9">
+          {% comment %} <!-- The page content is inserted in this main column --> {% endcomment %}
+          {{ content }}
+        </div><!--/span-->
+        
+
+
+      </div><!--/row-->
+    
     </div><!--/.fluid-container-->
 
     <hr>
@@ -82,10 +120,26 @@
       <p>&copy; Mozart Consortium 2013</p>
     </footer>
 
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- javascript -->
+    <!-- At end for faster page load -->
     <script src="http://code.jquery.com/jquery.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    
+    <script>
+    $(document).ready(function () {
+      // match the path with the trailing "/" removed
+      // then select links with and without the "/" by reinserting it
+      var pagepath = this.location.pathname;
+      if(pagepath.charAt( pagepath.length-1 ) == "/") {
+          pagepath = pagepath.slice(0, -1)
+      }
+      // short url match
+      $('a[href="' + this.location.pathname + '"]').parent().addClass('active');
+      $('a[href="' + this.location.pathname + '/"]').parent().addClass('active');      
+      // long url match
+      $('a[href="' + document.URL + '"]').parent().addClass('active');
+      $('a[href="' + document.URL + '/"]').parent().addClass('active');      
+    });
+    </script>
   </body>
 </html>

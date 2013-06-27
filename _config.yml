@@ -11,3 +11,7 @@ timezone: Europe/Brussels
 safe: true
 lsi: false
 pygments: true
+
+
+redcloth:
+  hard_breaks: false
