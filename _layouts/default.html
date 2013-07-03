@@ -18,6 +18,10 @@
       .sidebar-nav {
         padding: 9px 0;
       }
+      
+      #mozart-logo-img {
+        margin-bottom: 5px;
+      }
 
       @media (max-width: 980px) {
         /* Enable use of floated navbar text */
@@ -45,7 +49,6 @@
   </head>
 
   <body>
-
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
@@ -78,8 +81,10 @@
 
       <div class="row-fluid">
 
-
         <div class="span3">
+
+          <a href="/"><img src="/img/logo_new.png" alt="Mozart Logo" id="mozart-logo-img"></a>
+
           {% comment %} <!-- sidebar nav goes in this column --> {% endcomment %}
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
@@ -97,9 +102,8 @@
               <li><a href="/report-a-bug">Report a bug</a></li>
 
               <li class="nav-header">Participate</li>
-              <li><a href="/mailing-lists/">How to get involved</a></li>
               <li><a href="/mailing-lists/">Mailing list</a></li>
-              <li><a href="/license-info/">License information</a></li>   
+              <li><a href="/license-info/">License information</a></li>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
