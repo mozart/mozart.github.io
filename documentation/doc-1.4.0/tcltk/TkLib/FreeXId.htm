@@ -1,0 +1,42 @@
+<HTML><HEAD><TITLE>Tk Library Procedures - Tk_FreeXId manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tk_FreeXId - make X resource identifier available for reuse
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tk.h&gt;</B><BR>
+<B>Tk_FreeXId(</B><I>display, id</I><B>)</B><BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>Display <B>*display</B> (in)<DD>
+Display for which <I>id</I> was allocated.
+<P><DT>XID <B>id</B> (in)<DD>
+Identifier of X resource (window, font, pixmap, cursor, graphics
+context, or colormap) that is no longer in use.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+The default allocator for resource identifiers provided by Xlib is very
+simple-minded and does not allow resource identifiers to be re-used.
+If a long-running application reaches the end of the resource id
+space, it will generate an X protocol error and crash.
+Tk replaces the default id allocator with its own allocator, which
+allows identifiers to be reused.
+In order for this to work, <B>Tk_FreeXId</B> must be called to
+tell the allocator about resources that have been freed.
+Tk automatically calls <B>Tk_FreeXId</B> whenever it frees a
+resource, so if you use procedures like <B>Tk_GetFontStruct</B>,
+<B><A HREF="../TkLib/GetGC.htm">Tk_GetGC</A></B>, and <B><A HREF="../TkLib/GetPixmap.htm">Tk_GetPixmap</A></B> then you need not call
+<B>Tk_FreeXId</B>.
+However, if you allocate resources directly from Xlib, for example
+by calling <B>XCreatePixmap</B>, then you should call <B>Tk_FreeXId</B>
+when you call the corresponding Xlib free procedure, such as
+<B>XFreePixmap</B>.
+If you don't call <B>Tk_FreeXId</B> then the resource identifier will
+be lost, which could cause problems if the application runs long enough
+to lose all of the available identifiers.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/R.htm#resource identifier">resource identifier</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1990 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

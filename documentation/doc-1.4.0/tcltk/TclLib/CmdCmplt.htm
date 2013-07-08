@@ -1,0 +1,26 @@
+<HTML><HEAD><TITLE>Library Procedures - Tcl_CommandComplete manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tcl_CommandComplete - Check for unmatched braces in a Tcl command
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tcl.h&gt;</B><BR>
+int<BR>
+<B>Tcl_CommandComplete</B>(<I>cmd</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>char <B>*cmd</B> (in)<DD>
+Command string to test for completeness.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+<B>Tcl_CommandComplete</B> takes a Tcl command string
+as argument and determines whether it contains one or more
+complete commands (i.e. there are no unclosed quotes, braces,
+brackets, or variable references).
+If the command string is complete then it returns 1; otherwise it returns 0.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/C.htm#complete command">complete command</A>, <A href="../Keywords/P.htm#partial command">partial command</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1989-1993 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

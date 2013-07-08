@@ -1,0 +1,45 @@
+<HTML><HEAD><TITLE>Tcl Library Procedures - Tcl_SetRecursionLimit manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tcl_SetRecursionLimit - set maximum allowable nesting depth in interpreter
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tcl.h&gt;</B><BR>
+int<BR>
+<B>Tcl_SetRecursionLimit</B>(<I>interp, depth</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT><A HREF="../TclLib/Interp.htm">Tcl_Interp</A> <B>*interp</B> (in)<DD>
+Interpreter whose recursion limit is to be set.
+Must be greater than zero.
+<P><DT>int <B>depth</B> (in)<DD>
+New limit for nested calls to <B><A HREF="../TclLib/Eval.htm">Tcl_Eval</A></B> for <I>interp</I>.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+At any given time Tcl enforces a limit on the number of recursive
+calls that may be active for <B><A HREF="../TclLib/Eval.htm">Tcl_Eval</A></B> and related procedures
+such as <B><A HREF="../TclLib/Eval.htm">Tcl_GlobalEval</A></B>.
+Any call to <B><A HREF="../TclLib/Eval.htm">Tcl_Eval</A></B> that exceeds this depth is aborted with
+an error.
+By default the recursion limit is 1000.
+<P>
+<B>Tcl_SetRecursionLimit</B> may be used to change the maximum
+allowable nesting depth for an interpreter.
+The <I>depth</I> argument specifies a new limit for <I>interp</I>,
+and <B>Tcl_SetRecursionLimit</B> returns the old limit.
+To read out the old limit without modifying it, invoke
+<B>Tcl_SetRecursionDepth</B> with <I>depth</I> equal to 0.
+<P>
+The <B>Tcl_SetRecursionLimit</B> only sets the size of the Tcl
+call stack:  it cannot by itself prevent stack overflows on the
+C stack being used by the application.  If your machine has a
+limit on the size of the C stack, you may get stack overflows
+before reaching the limit set by <B>Tcl_SetRecursionLimit</B>.
+If this happens, see if there is a mechanism in your system for
+increasing the maximum size of the C stack.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/N.htm#nesting depth">nesting depth</A>, <A href="../Keywords/R.htm#recursion">recursion</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1989-1993 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

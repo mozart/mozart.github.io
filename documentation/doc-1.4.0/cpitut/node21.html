@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>3.1 Introduction</TITLE><LINK href="ozdoc.css" rel="stylesheet" type="text/css"></HEAD><BODY><TABLE align="center" border="0" cellpadding="6" cellspacing="6" class="nav"><TR bgcolor="#DDDDDD"><TD><A href="lp.html">- Up -</A></TD><TD><A href="node22.html#lp.tutorial.fd">Next &gt;&gt;</A></TD></TR></TABLE><DIV id="lp.tutorial.intro"><H2><A name="lp.tutorial.intro">3.1 Introduction</A></H2><P>The introduction of linear programming solvers in Oz is based on real-interval constraints introduced in <A href="node12.html#ct.casestudy">Section&nbsp;2.2</A>. </P><P> The modules <CODE>LP</CODE> and <CODE>RI</CODE> are provided as contribution (being part of the Mozart Oz 3 distribution<A href="node21.html#label24"><SUP>1</SUP></A>) and can be accessed either by </P><BLOCKQUOTE class="code"><CODE>&nbsp;<SPAN class="keyword">declare</SPAN>&nbsp;[LP&nbsp;RI]&nbsp;=&nbsp;{Module<SPAN class="keyword">.</SPAN>link&nbsp;[<SPAN class="string">'x-oz://contrib/LP'</SPAN>&nbsp;<BR><SPAN class="string">'x-oz://contrib/RI'</SPAN>]}</CODE></BLOCKQUOTE><P> or by </P><BLOCKQUOTE class="code"><CODE>&nbsp;<SPAN class="keyword">import</SPAN>&nbsp;RI&nbsp;<SPAN class="keyword">at</SPAN>&nbsp;<SPAN class="string">'x-oz://contrib/RI'</SPAN>&nbsp;LP<BR><SPAN class="keyword">at</SPAN>&nbsp;<SPAN class="string">'x-oz://contrib/LP'</SPAN></CODE></BLOCKQUOTE><P> as part of a functor definition. </P><P> The module <CODE>LP</CODE> uses per default <EM>LP_SOLVE 2.x</EM> as linear programming solver. A version compatible with Mozart Oz can be downloaded via: </P><UL><LI><P><A href="http://www.mozart-oz.org/download/mozart-ftp/extras/lp_solve_2.3_mozart.tar.gz">http://www.mozart-oz.org/download/mozart-ftp/extras/lp_solve_2.3_mozart.tar.gz</A>.</P></LI></UL><P> Unpack the archive and make it. You will be told what else has to be done. Please note that we are not able to sort out any problems concerning the actual <EM>LP_SOLVE 2.x</EM> solver and that we are not responsible for that kind of problems resp. bugs. </P><P>Linear programming solver (LP solver) handle problems of the following kind <A href="bib.html#chvantal:83">[Chv83]</A>: </P><BLOCKQUOTE id="lp.tutorial.lp.general"><P><IMG alt="\begin{array}{lcccccclr}
+\multicolumn{9}{l}{\mbox{\bf minimize resp. maximize:}} \\
+& c_1 x_1 & + & \ldots & + & c_n x_n &   &   & \mbox{objective function}\\ \\
+\multicolumn{9}{l}{\mbox{\bf subject to:}} \\
+& a_{1,1} x_1 & + & \cdots & + & a_{n,1} x_n & \diamond & b_1 & \mbox{constraints}\\
+& \vdots      &   &        &   & \vdots      &          & \vdots &  \\    
+& a_{1,m} x_1 &  + & \cdots & + & a_{n,m} x_n & \diamond & b_m & \\
+&             &    &         &  &            & & & (\diamond \in \{\le, = , \ge\}) \\ \\
+& \multicolumn{7}{l}{l_i \le x_i \le u_i \;\;\;\;(i = 1,\ldots,n)} & \mbox{bound constraints}.
+\end{array}" src="latex104.png"></P></BLOCKQUOTE><P> </P><P>The module <CODE>LP</CODE> provides a procedure <CODE>LP<SPAN class="keyword">.</SPAN>solve</CODE> to call an LP solver. Further, a procedure to configure the LP solver is provided (see <A href="../cpiref/lp.html#lp.reference">Section&nbsp;3.1 of ``The Mozart Constraint Extensions Reference''</A>). </P><P class="margin">A simple example.</P><P> A simple example explains best how the LP solver is invoked: </P><BLOCKQUOTE class="linenumbers"><PRE><SPAN class="keyword">declare</SPAN>&nbsp;<BR>X1&nbsp;=&nbsp;{RI<SPAN class="keyword">.</SPAN>var<SPAN class="keyword">.</SPAN>bounds&nbsp;0<SPAN class="keyword">.</SPAN>0&nbsp;RI<SPAN class="keyword">.</SPAN>sup}<BR>X2&nbsp;=&nbsp;{RI<SPAN class="keyword">.</SPAN>var<SPAN class="keyword">.</SPAN>bounds&nbsp;0<SPAN class="keyword">.</SPAN>0&nbsp;RI<SPAN class="keyword">.</SPAN>sup}<BR>Ret&nbsp;Sol<BR><SPAN class="keyword">in</SPAN>&nbsp;<BR>{LP<SPAN class="keyword">.</SPAN>solve<BR>&nbsp;[X1&nbsp;X2]<BR>&nbsp;objfn(row:&nbsp;[8<SPAN class="keyword">.</SPAN>0&nbsp;5<SPAN class="keyword">.</SPAN>0]&nbsp;opt:&nbsp;max)<BR>&nbsp;constrs(<BR>&nbsp;&nbsp;&nbsp;&nbsp;constr(row:&nbsp;[1<SPAN class="keyword">.</SPAN>0&nbsp;1<SPAN class="keyword">.</SPAN>0]&nbsp;type:&nbsp;<SPAN class="string">'=&lt;'</SPAN>&nbsp;rhs:6<SPAN class="keyword">.</SPAN>0)&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;constr(row:&nbsp;[9<SPAN class="keyword">.</SPAN>0&nbsp;5<SPAN class="keyword">.</SPAN>0]&nbsp;type:&nbsp;<SPAN class="string">'=&lt;'</SPAN>&nbsp;rhs:45<SPAN class="keyword">.</SPAN>0))<BR>&nbsp;Sol<BR>&nbsp;Ret}<BR>&nbsp;<BR></PRE></BLOCKQUOTE><P> </P><P>The corresponding linear program is as follows: </P><BLOCKQUOTE id="lp.tutorial.lp.simp_ex"><P><IMG alt="\begin{array}{lcccc}
+\mbox{\bf maximize:}   & & 8x_1 + 5x_2 &      &   \\
+\mbox{\bf subject to:} &     & x_1 + x_2   & \le & 6 \\ 
+                  &     & 9x_1 + 5x_2   & \le & 45 \\
+& \multicolumn{4}{l}{x_1,x_2 \ge 0} 
+\end{array}" src="latex105.png"></P></BLOCKQUOTE><P> Note that the bound constraints for the LP solver are derived from the current bounds of the real-interval variables. Further, when minimizing the objective function the following constraint <IMG alt="c_1 x_1 + \ldots + c_n x_n \le \overline{\tt Sol}" src="latex106.png"> is added. On the other hand, the constraint <IMG alt=" c_1 x_1 + \ldots + c_n x_n \ge \underline{\tt Sol}" src="latex107.png"> is added when maximizing. </P><P>Before running the LP solver, the variables are constrained to </P><BLOCKQUOTE class="code"><CODE>X1<SPAN class="keyword">&lt;</SPAN>real&nbsp;interval:[0<SPAN class="keyword">,</SPAN>&nbsp;1<SPAN class="keyword">.</SPAN>79769e<SPAN class="keyword">+</SPAN>308]<SPAN class="keyword">&gt;</SPAN></CODE></BLOCKQUOTE><P> and </P><BLOCKQUOTE class="code"><CODE>X2<SPAN class="keyword">&lt;</SPAN>real&nbsp;interval:[0<SPAN class="keyword">,</SPAN>1<SPAN class="keyword">.</SPAN>79769e<SPAN class="keyword">+</SPAN>308]<SPAN class="keyword">&gt;.</SPAN></CODE></BLOCKQUOTE><P> The LP solver binds the variables to: <CODE>X1=3<SPAN class="keyword">.</SPAN>75</CODE>, <CODE>X2=2<SPAN class="keyword">.</SPAN>25</CODE>, <CODE>Sol=41<SPAN class="keyword">.</SPAN>25</CODE>, and <CODE>Ret=optimal</CODE>. </P><P class="margin">The tutorial problem: Solving a multiknapsack problem.</P><P> This tutorial uses a multiknapsack problem to demonstrate the benefits of combining finite domain constraint programming and linear programming. First, we tackle the problem with finite domain constraints and linear programming separately (see <A href="node22.html#lp.tutorial.fd">Section&nbsp;3.2</A> and <A href="node23.html#lp.tutorial.lp">Section&nbsp;3.3</A>). One difficulty arises for linear programming: since integral solutions are required and the LP solver returns non-integral solution, we have to implement a branch&amp;bound solver to obtain an integral solution. Finally, we combine both solvers. </P><P>Throughout this tutorial, we use a multi-knapsack problem (taken from <A href="bib.html#beringerdebacker:95a">[BdB95]</A>. The problem variables <IMG alt="\mbox{\bf
+x}" src="latex108.png"> represent the number of goods to be produced. Each good requires certain resources: man power, materials, and machines (represented by matrix <IMG alt="\mbox{\bf A}" src="latex109.png">) where a given capacity per resource (<IMG alt="\mbox{\bf b}" src="latex110.png">) may not be exceeded. Each good generates a profit according to <IMG alt="\mbox{\bf
+c}" src="latex111.png"> where the overall profit shall be maximal. </P><P></P><BLOCKQUOTE id="lp.tutorial.lp.det"><P><IMG alt="\begin{array}{l}
+\begin{array}{llccccc}
+\mbox{\bf maximize:}   & \mbox{\bf c} & \times & \mbox{\bf x} & & \\
+\mbox{\bf subject to:} & \mbox{\bf A} & \times & \mbox{\bf x} & \le & \mbox{\bf b}\\
+& \multicolumn{6}{l}{\mbox{{\bf x} are integral.}}
+\end{array} \\
+\mbox{where}\\
+\begin{array}{l}
+\mbox{\bf A}=\left[
+\begin{array}{lcccccccccccccc}
+\mbox{\textit{man:}} & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1\\
+\mbox{\textit{material 1:}} & 0 & 4 & 5 & 0 & 0 & 0 & 0 & 4 & 5 & 0 & 0 & 0 & 0\\
+\mbox{\textit{material 2:}} & 4 & 0 & 3 & 0 & 0 & 0 & 3 & 0 & 4 & 0 & 0 & 0 & 0\\
+\mbox{\textit{machine 1:}} & 7 & 0 & 0 & 6 & 0 & 0 & 7 & 0 & 0 & 6 & 0 & 0 & 0\\
+\mbox{\textit{machine 2:}} & 0 & 0 & 0 & 4 & 5 & 0 & 0 & 0 & 0 & 5 & 4 & 0 & 0\\
+\mbox{\textit{machine 3:}} & 0 & 0 & 0 & 0 & 4 & 3 & 0 & 0 & 0 & 0 & 4 & 2 & 1\\
+\mbox{\textit{machine 4:}} & 0 & 3 & 0 & 0 & 0 & 5 & 0 & 3 & 0 & 0 & 0 & 3 & 3\\
+\end{array}
+\right]
+\mbox{\bf b}=\left[
+\begin{array}{c}
+14\\
+17\\
+20\\
+34\\
+26\\
+16\\
+16\\
+\end{array}
+\right]
+\\ \\
+\mbox{\bf c}=\left[
+\begin{array}{ccccccccccccc}
+5 & 7 & 5 & 11 & 8 & 10 & 6 & 8 & 3 & 12 & 9 & 8 & 4\\
+\end{array}
+\right]\\ \\
+\mbox{\bf x}=\left[
+\begin{array}{ccccccccccccc}
+x_1 & x_2 & x_3 & x_4 & x_5 & x_6 & x_7 & x_8 & x_9 & x_{10} & x_{11} & x_{12} & x_{13}\\
+\end{array}
+\right]\\
+\end{array}\\
+\end{array}" src="latex112.png"></P></BLOCKQUOTE><P> </P><P>The problem specification as Oz term is as follows: </P><BLOCKQUOTE class="linenumbers"><PRE><SPAN class="keyword">declare</SPAN>&nbsp;<BR>Problem&nbsp;=<BR>problem(<BR>&nbsp;&nbsp;&nbsp;resources:<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resource(<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;man:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r(ta:&nbsp;14&nbsp;npp:&nbsp;[1&nbsp;1&nbsp;1&nbsp;1&nbsp;1&nbsp;1&nbsp;1&nbsp;1&nbsp;1&nbsp;1&nbsp;1&nbsp;1&nbsp;1])<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;material1:&nbsp;r(ta:&nbsp;17&nbsp;npp:&nbsp;[0&nbsp;4&nbsp;5&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;4&nbsp;5&nbsp;0&nbsp;0&nbsp;0&nbsp;0])<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;material2:&nbsp;r(ta:&nbsp;20&nbsp;npp:&nbsp;[4&nbsp;0&nbsp;3&nbsp;0&nbsp;0&nbsp;0&nbsp;3&nbsp;0&nbsp;4&nbsp;0&nbsp;0&nbsp;0&nbsp;0])<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;machine1:&nbsp;&nbsp;r(ta:&nbsp;34&nbsp;npp:&nbsp;[7&nbsp;0&nbsp;0&nbsp;6&nbsp;0&nbsp;0&nbsp;7&nbsp;0&nbsp;0&nbsp;6&nbsp;0&nbsp;0&nbsp;0])<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;machine2:&nbsp;&nbsp;r(ta:&nbsp;26&nbsp;npp:&nbsp;[0&nbsp;0&nbsp;0&nbsp;4&nbsp;5&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;5&nbsp;4&nbsp;0&nbsp;0])<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;machine3:&nbsp;&nbsp;r(ta:&nbsp;16&nbsp;npp:&nbsp;[0&nbsp;0&nbsp;0&nbsp;0&nbsp;4&nbsp;3&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;4&nbsp;2&nbsp;1])<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;machine4:&nbsp;&nbsp;r(ta:&nbsp;16&nbsp;npp:&nbsp;[0&nbsp;3&nbsp;0&nbsp;0&nbsp;0&nbsp;5&nbsp;0&nbsp;3&nbsp;0&nbsp;0&nbsp;0&nbsp;3&nbsp;3]))<BR>&nbsp;&nbsp;&nbsp;profit:&nbsp;[5&nbsp;7&nbsp;5&nbsp;11&nbsp;8&nbsp;10&nbsp;6&nbsp;8&nbsp;3&nbsp;12&nbsp;9&nbsp;8&nbsp;4])<BR>&nbsp;<BR>&nbsp;<BR></PRE></BLOCKQUOTE><P> </P></DIV><TABLE align="center" border="0" cellpadding="6" cellspacing="6" class="nav"><TR bgcolor="#DDDDDD"><TD><A href="lp.html">- Up -</A></TD><TD><A href="node22.html#lp.tutorial.fd">Next &gt;&gt;</A></TD></TR></TABLE><HR align="left" width="30%"><DIV class="footnote"><A name="label24">1. </A>The modules <CODE>LP</CODE> and <CODE>RI</CODE> are <EM>not</EM> provided on any Windows platform.</DIV><HR><ADDRESS><A href="http://www.ps.uni-sb.de/~tmueller/">Tobias&nbsp;Müller</A><BR><SPAN class="version">Version 1.4.0 (20080702)</SPAN></ADDRESS></BODY></HTML>

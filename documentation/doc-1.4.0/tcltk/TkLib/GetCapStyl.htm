@@ -1,0 +1,52 @@
+<HTML><HEAD><TITLE>Library Procedures - Tk_GetCapStyle manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tk_GetCapStyle, Tk_NameOfCapStyle - translate between strings and cap styles
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tk.h&gt;</B><BR>
+int<BR>
+<B>Tk_GetCapStyle(</B><I>interp, string, capPtr</I><B>)</B><BR>
+char *<BR>
+<B>Tk_NameOfCapStyle(</B><I>cap</I><B>)</B><BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT><A HREF="../TclLib/Interp.htm">Tcl_Interp</A> <B>*interp</B> (in)<DD>
+Interpreter to use for error reporting.
+<P><DT>char <B>*string</B> (in)<DD>
+String containing name of cap style: one of ```butt'', ``projecting'',
+or ``round''.
+<P><DT>int <B>*capPtr</B> (out)<DD>
+Pointer to location in which to store X cap style corresponding to
+<I>string</I>.
+<P><DT>int <B>cap</B> (in)<DD>
+Cap style: one of <B>CapButt</B>, <B>CapProjecting</B>, or <B>CapRound</B>.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+<B>Tk_GetCapStyle</B> places in <I>*capPtr</I> the X cap style
+corresponding to <I>string</I>.
+This will be one of the values
+<B>CapButt</B>, <B>CapProjecting</B>, or <B>CapRound</B>.
+Cap styles are typically used in X graphics contexts to indicate
+how the end-points of lines should be capped.
+See the X documentation for information on what each style
+implies.
+<P>
+Under normal circumstances the return value is <B>TCL_OK</B> and
+<I>interp</I> is unused.
+If <I>string</I> doesn't contain a valid cap style
+or an abbreviation of one of these names, then an error message is
+stored in <I>interp-&gt;result</I>, <B>TCL_ERROR</B> is returned, and
+<I>*capPtr</I> is unmodified.
+<P>
+<B>Tk_NameOfCapStyle</B> is the logical inverse of <B>Tk_GetCapStyle</B>.
+Given a cap style such as <B>CapButt</B> it returns a
+statically-allocated string corresponding to <I>cap</I>.
+If <I>cap</I> isn't a legal cap style, then
+``unknown cap style'' is returned.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/B.htm#butt">butt</A>, <A href="../Keywords/C.htm#cap style">cap style</A>, <A href="../Keywords/P.htm#projecting">projecting</A>, <A href="../Keywords/R.htm#round">round</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1990 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

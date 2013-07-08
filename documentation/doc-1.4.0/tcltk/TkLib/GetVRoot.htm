@@ -1,0 +1,39 @@
+<HTML><HEAD><TITLE>Tk Library Procedures - Tk_GetVRootGeometry manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tk_GetVRootGeometry - Get location and size of virtual root for window
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tk.h&gt;</B><BR>
+<B>Tk_GetVRootGeometry(</B><I>tkwin, xPtr, yPtr, widthPtr, heightPtr</I><B>)</B><BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>Tk_Window <B>tkwin</B> (in)<DD>
+Token for window whose virtual root is to be queried.
+<P><DT>int <B>xPtr</B> (out)<DD>
+Points to word in which to store x-offset of virtual root.
+<P><DT>int <B>yPtr</B> (out)<DD>
+Points to word in which to store y-offset of virtual root.
+<P><DT>int <B>widthPtr</B> (out)<DD>
+Points to word in which to store width of virtual root.
+<P><DT>int <B>heightPtr</B> (out)<DD>
+Points to word in which to store height of virtual root.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+<B>TkGetVRootGeometry</B> returns geometry information about the virtual
+root window associated with <I>tkwin</I>.  The ``associated'' virtual
+root is the one in which <I>tkwin</I>'s nearest top-level ancestor (or
+<I>tkwin</I> itself if it is a top-level window) has
+been reparented by the window manager.  This window is identified by
+a <B>__SWM_ROOT</B> or <B>__WM_ROOT</B> property placed on the top-level
+window by the window manager.
+If <I>tkwin</I> is not associated with a virtual root (e.g.
+because the window manager doesn't use virtual roots) then *<I>xPtr</I> and
+*<I>yPtr</I> will be set to 0 and *<I>widthPtr</I> and *<I>heightPtr</I>
+will be set to the dimensions of the screen containing <I>tkwin</I>.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/G.htm#geometry">geometry</A>, <A href="../Keywords/H.htm#height">height</A>, <A href="../Keywords/L.htm#location">location</A>, <A href="../Keywords/V.htm#virtual root">virtual root</A>, <A href="../Keywords/W.htm#width">width</A>, <A href="../Keywords/W.htm#window manager">window manager</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1990 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

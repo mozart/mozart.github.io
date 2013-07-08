@@ -1,0 +1,26 @@
+<HTML><HEAD><TITLE>Built-In Commands - concat manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+concat - Join lists together
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>concat</B><I> </I>?<I>arg arg ...</I>?<BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+This command treats each argument as a list and concatenates them
+into a single list.
+It also eliminates leading and trailing spaces in the <I>arg</I>'s
+and adds a single separator space between <I>arg</I>'s.
+It permits any number of arguments.  For example,
+the command
+<PRE><B>concat a b {c d e} {f {g h}}</B></PRE>
+will return
+<PRE><B>a b c d e f {g h}</B></PRE>
+as its result.
+<P>
+If no <I>arg</I>s are supplied, the result is an empty string.
+
+<H3><A NAME="M5">KEYWORDS</A></H3>
+<A href="../Keywords/C.htm#concatenate">concatenate</A>, <A href="../Keywords/J.htm#join">join</A>, <A href="../Keywords/L.htm#lists">lists</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1993 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

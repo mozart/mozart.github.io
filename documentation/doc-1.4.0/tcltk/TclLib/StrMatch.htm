@@ -1,0 +1,30 @@
+<HTML><HEAD><TITLE>Library Procedures - Tcl_StringMatch manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tcl_StringMatch - test whether a string matches a pattern
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tcl.h&gt;</B><BR>
+int<BR>
+<B>Tcl_StringMatch</B>(<I>string</I>, <I>pattern</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>char <B>*string</B> (in)<DD>
+String to test.
+<P><DT>char <B>*pattern</B> (in)<DD>
+Pattern to match against string.  May contain special
+characters from the set *?&#92;[].
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+This utility procedure determines whether a string matches
+a given pattern.  If it does, then <B>Tcl_StringMatch</B> returns
+1.  Otherwise <B>Tcl_StringMatch</B> returns 0.  The algorithm
+used for matching is the same algorithm used in the ``<A HREF="../TclCmd/string.htm">string match</A>''
+Tcl command and is similar to the algorithm used by the C-shell
+for file name matching;  see the <A HREF="../TclCmd/Tcl.htm">Tcl</A> manual entry for details.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/M.htm#match">match</A>, <A href="../Keywords/P.htm#pattern">pattern</A>, <A href="../Keywords/S.htm#string">string</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1989-1993 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

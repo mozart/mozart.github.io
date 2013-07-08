@@ -1,0 +1,39 @@
+<HTML><HEAD><TITLE>Library Procedures - Tk_HandleEvent manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tk_HandleEvent - invoke event handlers for window system events
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tk.h&gt;</B><BR>
+<B>Tk_HandleEvent</B>(<I>eventPtr</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>XEvent <B>*eventPtr</B> (in)<DD>
+Pointer to X event to dispatch to relevant handler(s).
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+<B>Tk_HandleEvent</B> is a lower-level procedure that deals with window
+events.  It is called by <B>Tk_ServiceEvent</B> (and indirectly by
+<B>Tk_DoOneEvent</B>), and in a few other cases within Tk.
+It makes callbacks to any window event
+handlers (created by calls to <B><A HREF="../TkLib/EventHndlr.htm">Tk_CreateEventHandler</A></B>)
+that match <I>eventPtr</I> and then returns.  In some cases
+it may be useful for an application to bypass the Tk event
+queue and call <B>Tk_HandleEvent</B> directly instead of
+calling <B>Tk_QueueEvent</B> followed by
+<B>Tk_ServiceEvent</B>.
+<P>
+This procedure may be invoked recursively.  For example,
+it is possible to invoke <B>Tk_HandleEvent</B> recursively
+from a handler called by <B>Tk_HandleEvent</B>.  This sort
+of operation is useful in some modal situations, such
+as when a
+notifier has been popped up and an application wishes to
+wait for the user to click a button in the notifier before
+doing anything else.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/C.htm#callback">callback</A>, <A href="../Keywords/E.htm#event">event</A>, <A href="../Keywords/H.htm#handler">handler</A>, <A href="../Keywords/W.htm#window">window</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1990-1992 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

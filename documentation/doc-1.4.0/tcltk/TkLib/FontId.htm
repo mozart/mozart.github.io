@@ -1,0 +1,61 @@
+<HTML><HEAD><TITLE>Library Procedures - Tk_FontId manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tk_FontId, Tk_FontMetrics, Tk_PostscriptFontName - accessor functions for 
+fonts
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tk.h&gt;</B><BR>
+Font<BR>
+<B>Tk_FontId(</B><I>tkfont</I><B>)</B><BR>
+void<BR>
+<B>Tk_GetFontMetrics(</B><I>tkfont, fmPtr</I><B>)</B><BR>
+int<BR>
+<B>Tk_PostscriptFontName(</B><I>tkfont, dsPtr</I><B>)</B><BR>
+<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>Tk_Font <B>tkfont</B> (in)<DD>
+Opaque font token being queried.  Must have been returned by a previous
+call to <B><A HREF="../TkLib/GetFont.htm">Tk_GetFont</A></B>.
+<P><DT>Tk_FontMetrics <B>*fmPtr</B> (out)<DD>
+Pointer to structure in which the font metrics for <I>tkfont</I> will
+be stored.
+<P><DT>Tcl_DString <B>*dsPtr</B> (out)<DD>
+Pointer to an initialized <B>Tcl_DString</B> to which the name of the
+Postscript font that corresponds to <I>tkfont</I> will be appended.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+Given a <I>tkfont</I>, <B>Tk_FontId</B> returns the token that should be
+selected into an XGCValues structure in order to construct a graphics
+context that can be used to draw text in the specified font.  
+<P>
+<B>Tk_GetFontMetrics</B> computes the ascent, descent, and linespace of the
+<I>tkfont</I> in pixels and stores those values in the structure pointer to by
+<I>fmPtr</I>.  These values can be used in computations such as to space
+multiple lines of text, to align the baselines of text in different
+fonts, and to vertically align text in a given region.  See the
+documentation for the <B><A HREF="../TkCmd/font.htm">font</A></B> command for definitions of the terms
+ascent, descent, and linespace, used in font metrics.  
+<P>
+<B>Tk_PostscriptFontName</B> maps a <I>tkfont</I> to the corresponding
+Postcript font name that should be used when printing.  The return value
+is the size in points of the <I>tkfont</I> and the Postscript font name is
+appended to <I>dsPtr</I>.  <I>DsPtr</I> must refer to an initialized
+<B>Tcl_DString</B>.  Given a ``reasonable'' Postscript printer, the
+following screen font families should print correctly:
+<DL><P><DD>
+<B>Avant Garde</B>, <B>Arial</B>, <B>Bookman</B>, <B>Courier</B>, 
+<B>Courier New</B>, <B>Geneva</B>, <B>Helvetica</B>, <B>Monaco</B>,
+<B>New Century Schoolbook</B>, <B>New York</B>, <B>Palatino</B>, <B>Symbol</B>,
+<B>Times</B>, <B>Times New Roman</B>, <B>Zapf Chancery</B>, and 
+<B>Zapf Dingbats</B>.
+</DL>
+<P>
+Any other font families may not print correctly because the computed
+Postscript font name may be incorrect or not exist on the printer.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/F.htm#font">font</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

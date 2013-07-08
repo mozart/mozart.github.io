@@ -1,0 +1,50 @@
+<HTML><HEAD><TITLE>Library Procedures - Tk_SetClass manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tk_SetClass, Tk_Class - set or retrieve a window's class
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tk.h&gt;</B><BR>
+<B>Tk_SetClass</B>(<I>tkwin, class</I>)<BR>
+<A HREF="../TkLib/GetUid.htm">Tk_Uid</A><BR>
+<B>Tk_Class</B>(<I>tkwin</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>Tk_Window <B>tkwin</B> (in)<DD>
+Token for window.
+<P><DT>char <B>*class</B> (in)<DD>
+New class name for window.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+<B>Tk_SetClass</B> is called to associate a class with a particular
+window.  The <I>class</I> string identifies the type of the
+window;  all windows with the same general class of behavior
+(button, menu, etc.) should have the same class.  By
+convention all class names start with a capital letter, and
+there exists a Tcl command with the same name as
+each class (except all in lower-case) which can be used to
+create and manipulate windows of that class.
+A window's class string is initialized to NULL
+when the window is created.
+<P>
+For main windows, Tk automatically propagates the name and class
+to the WM_CLASS property used by window managers.  This happens
+either when a main window is actually created (e.g. in
+<B><A HREF="../TkLib/CrtWindow.htm">Tk_MakeWindowExist</A></B>), or when <B>Tk_SetClass</B>
+is called, whichever occurs later.  If a main window has not been
+assigned a class then Tk will not set the WM_CLASS property for
+the window.
+<P>
+<B>Tk_Class</B> is a macro that returns the
+current value of <I>tkwin</I>'s class.  The value is returned
+as a <A HREF="../TkLib/GetUid.htm">Tk_Uid</A>, which may be used just like a string pointer but also has
+the properties of a unique identifier (see the manual entry for
+<B><A HREF="../TkLib/GetUid.htm">Tk_GetUid</A></B> for details).
+If <I>tkwin</I> has not yet been given a class, then
+<B>Tk_Class</B> will return NULL.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/C.htm#class">class</A>, <A href="../Keywords/U.htm#unique identifier">unique identifier</A>, <A href="../Keywords/W.htm#window">window</A>, <A href="../Keywords/W.htm#window manager">window manager</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1990 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

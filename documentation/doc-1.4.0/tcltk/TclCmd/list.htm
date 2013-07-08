@@ -1,0 +1,28 @@
+<HTML><HEAD><TITLE>Built-In Commands - list manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+list - Create a list
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>list </B>?<I>arg arg ...</I>?<BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+This command returns a list comprised of all the <I>arg</I>s,
+or an empty string if no <I>arg</I>s are specified.
+Braces and backslashes get added as necessary, so that the <B>index</B> command
+may be used on the result to re-extract the original arguments, and also
+so that <B><A HREF="../TclCmd/eval.htm">eval</A></B> may be used to execute the resulting list, with
+<I>arg1</I> comprising the command's name and the other <I>arg</I>s comprising
+its arguments.  <B>List</B> produces slightly different results than
+<B><A HREF="../TclCmd/concat.htm">concat</A></B>:  <B><A HREF="../TclCmd/concat.htm">concat</A></B> removes one level of grouping before forming
+the list, while <B>list</B> works directly from the original arguments.
+For example, the command
+<PRE><B>list a b {c d e} {f {g h}}</B></PRE>
+will return
+<PRE><B>a b {c d e} {f {g h}}</B></PRE>
+while <B><A HREF="../TclCmd/concat.htm">concat</A></B> with the same arguments will return
+<PRE><B>a b c d e f {g h}</B></PRE>
+<H3><A NAME="M5">KEYWORDS</A></H3>
+<A href="../Keywords/E.htm#element">element</A>, <A href="../Keywords/L.htm#list">list</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1993 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

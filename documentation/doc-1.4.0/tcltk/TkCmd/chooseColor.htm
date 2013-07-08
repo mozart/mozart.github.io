@@ -1,0 +1,36 @@
+<HTML><HEAD><TITLE>Tk Built-In Commands - tk_chooseColor manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+tk_chooseColor - pops up a dialog box for the user to select a color.
+<P>
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>tk_chooseColor </B>?<I>option value ...</I>?<BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+The procedure <B>tk_chooseColor</B> pops up a dialog box for the
+user to select a color. The following <I>option-value</I> pairs are
+possible as command line arguments:
+<P>
+<DL>
+<P><DT><A NAME="M5"><B>-initialcolor</B> <I>color</I></A><DD>
+Specifies the color to display in the color dialog when it pops
+up. <I>color</I> must be in a form acceptable to the <B><A HREF="../TkLib/GetColor.htm">Tk_GetColor</A></B>
+function.
+<P><DT><A NAME="M6"><B>-parent</B> <I>window</I></A><DD>
+Makes <I>window</I> the logical parent of the color dialog. The color
+dialog is displayed on top of its parent window.
+<P><DT><A NAME="M7"><B>-title</B> <I>titleString</I></A><DD>
+Specifies a string to display as the title of the dialog box. If this
+option is not specified, then a default title will be displayed.
+<P></DL>
+<P>
+If the user selects a color, <B>tk_chooseColor</B> will return the
+name of the color in a form acceptable to <B><A HREF="../TkLib/GetColor.htm">Tk_GetColor</A></B>.  If the
+user cancels the operation, both commands will return the empty
+string.
+<H3><A NAME="M8">EXAMPLE</A></H3>
+<PRE>button .b -fg [tk_chooseColor -initialcolor gray -title &quot;Choose color&quot;]</PRE>
+<H3><A NAME="M9">KEYWORDS</A></H3>
+<A href="../Keywords/C.htm#color selection dialog">color selection dialog</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

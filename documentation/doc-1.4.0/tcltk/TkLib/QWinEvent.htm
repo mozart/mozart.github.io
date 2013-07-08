@@ -1,0 +1,32 @@
+<HTML><HEAD><TITLE>Tk Library Procedures - Tk_QueueWindowEvent manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tk_QueueWindowEvent - Add a window event to the Tcl event queue
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tk.h&gt;</B><BR>
+<B>Tk_QueueWindowEvent</B>(<I>eventPtr, position</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>XEvent <B>*eventPtr</B> (in)<DD>
+An event to add to the event queue.
+<P><DT>Tcl_QueuePosition <B>position</B> (in)<DD>
+Where to add the new event in the queue:  <B>TCL_QUEUE_TAIL</B>,
+<B>TCL_QUEUE_HEAD</B>, or <B>TCL_QUEUE_MARK</B>.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+This procedure places a window event on Tcl's
+internal event queue for eventual servicing.  It creates a
+Tcl_Event structure, copies the event into that structure,
+and calls <B><A HREF="../TclLib/Notifier.htm">Tcl_QueueEvent</A></B> to add the event to the queue.
+When the event is eventually removed from the queue it is
+processed just like all window events.
+<P>
+The <I>position</I> argument to <B>Tk_QueueWindowEvent</B> has
+the same significance as for <B><A HREF="../TclLib/Notifier.htm">Tcl_QueueEvent</A></B>;  see the
+documentation for <B><A HREF="../TclLib/Notifier.htm">Tcl_QueueEvent</A></B> for details.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/C.htm#callback">callback</A>, <A href="../Keywords/C.htm#clock">clock</A>, <A href="../Keywords/H.htm#handler">handler</A>, <A href="../Keywords/M.htm#modal timeout">modal timeout</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

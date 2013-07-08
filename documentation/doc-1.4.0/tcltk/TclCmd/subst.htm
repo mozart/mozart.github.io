@@ -1,0 +1,36 @@
+<HTML><HEAD><TITLE>Tcl Built-In Commands - subst manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+subst - Perform backslash, command, and variable substitutions
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>subst </B>?<B>-nobackslashes</B>? ?<B>-nocommands</B>? ?<B>-novariables</B>? <I>string</I><BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+This command performs variable substitutions, command substitutions,
+and backslash substitutions on its <I>string</I> argument and
+returns the fully-substituted result.
+The substitutions are performed in exactly the same way as for
+Tcl commands.
+As a result, the <I>string</I> argument is actually substituted twice,
+once by the Tcl parser in the usual fashion for Tcl commands, and
+again by the <I>subst</I> command.
+<P>
+If any of the <B>-nobackslashes</B>, <B>-nocommands</B>, or
+<B>-novariables</B> are specified, then the corresponding substitutions
+are not performed.
+For example, if <B>-nocommands</B> is specified, no command substitution
+is performed:  open and close brackets are treated as ordinary characters
+with no special interpretation.
+<P>
+Note: when it performs its substitutions, <I>subst</I> does not
+give any special treatment to double quotes or curly braces.  For
+example, the script
+<PRE><B>set a 44
+subst {xyz {$a}}</B></PRE>
+returns ``<B>xyz {44}</B>'', not ``<B>xyz {$a}</B>''.
+
+<H3><A NAME="M5">KEYWORDS</A></H3>
+<A href="../Keywords/B.htm#backslash substitution">backslash substitution</A>, <A href="../Keywords/C.htm#command substitution">command substitution</A>, <A href="../Keywords/V.htm#variable substitution">variable substitution</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

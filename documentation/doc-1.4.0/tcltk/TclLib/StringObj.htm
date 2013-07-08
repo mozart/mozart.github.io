@@ -1,0 +1,114 @@
+<HTML><HEAD><TITLE>Tcl Library Procedures - Tcl_StringObj manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tcl_NewStringObj, Tcl_SetStringObj, Tcl_GetStringFromObj, Tcl_AppendToObj, Tcl_AppendStringsToObj, Tcl_SetObjLength, TclConcatObj - manipulate Tcl objects as strings
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tcl.h&gt;</B><BR>
+Tcl_Obj *<BR>
+<B>Tcl_NewStringObj</B>(<I>bytes, length</I>)<BR>
+<B>Tcl_SetStringObj</B>(<I>objPtr, bytes, length</I>)<BR>
+char *<BR>
+<B>Tcl_GetStringFromObj</B>(<I>objPtr, lengthPtr</I>)<BR>
+<B>Tcl_AppendToObj</B>(<I>objPtr, bytes, length</I>)<BR>
+<B>Tcl_AppendStringsToObj</B>(<I>objPtr, string, string, ... </I><B>(char *) NULL</B>)<BR>
+<B>Tcl_SetObjLength</B>(<I>objPtr, newLength</I>)<BR>
+Tcl_Obj *<BR>
+<B>Tcl_ConcatObj</B>(<I>objc, objv</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>char <B>*bytes</B> (in)<DD>
+Points to the first byte of an array of bytes
+used to set or append to a string object.
+This byte array may contain embedded null bytes
+unless <I>length</I> is negative.
+<P><DT>int <B>length</B> (in)<DD>
+The number of bytes to copy from <I>bytes</I> when
+initializing, setting, or appending to a string object.
+If negative, all bytes up to the first null are used.
+<P><DT>Tcl_Obj <B>*objPtr</B> (in/out)<DD>
+Points to an object to manipulate.
+<P><DT>int <B>*lengthPtr</B> (out)<DD>
+If non-NULL, the location where <B>Tcl_GetStringFromObj</B> will store
+the the length of an object's string representation.
+<P><DT>char <B>*string</B> (in)<DD>
+Null-terminated string value to append to <I>objPtr</I>.
+<P><DT>int <B>newLength</B> (in)<DD>
+New length for the string value of <I>objPtr</I>, not including the
+final NULL character.
+<P><DT>int <B>objc</B> (in)<DD>
+The number of elements to concatenate.
+<P><DT>Tcl_Obj <B>*objv[]</B> (in)<DD>
+The array of objects to concatenate.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+The procedures described in this manual entry allow Tcl objects to
+be manipulated as string values.  They use the internal representation
+of the object to store additional information to make the string
+manipulations more efficient.  In particular, they make a series of
+append operations efficient by allocating extra storage space for the
+string so that it doesn't have to be copied for each append.
+<P>
+<B>Tcl_NewStringObj</B> and <B>Tcl_SetStringObj</B> create a new object
+or modify an existing object to hold a copy of
+the string given by <I>bytes</I> and <I>length</I>.
+<B>Tcl_NewStringObj</B> returns a pointer to a newly created object
+with reference count zero.
+Both procedures set the object to hold a copy of the specified string.
+<B>Tcl_SetStringObj</B> frees any old string representation
+as well as any old internal representation of the object.
+<P>
+<B>Tcl_GetStringFromObj</B> returns an object's string representation.
+This is given by the returned byte pointer
+and length, which is stored in <I>lengthPtr</I> if it is non-NULL.
+If the object's string representation is invalid
+(its byte pointer is NULL),
+the string representation is regenerated from the
+object's internal representation.
+The storage referenced by the returned byte pointer
+is owned by the object manager and should not be modified by the caller.
+<P>
+<B>Tcl_AppendToObj</B> appends the data given by <I>bytes</I> and
+<I>length</I> to the object specified by <I>objPtr</I>.  It does this
+in a way that handles repeated calls relatively efficiently (it
+overallocates the string space to avoid repeated reallocations
+and copies of object's string value).
+<P>
+<B>Tcl_AppendStringsToObj</B> is similar to <B>Tcl_AppendToObj</B>
+except that it can be passed more than one value to append and
+each value must be a null-terminated string (i.e. none of the
+values may contain internal null characters).  Any number of
+<I>string</I> arguments may be provided, but the last argument
+must be a NULL pointer to indicate the end of the list.
+<P>
+The <B>Tcl_SetObjLength</B> procedure changes the length of the
+string value of its <I>objPtr</I> argument.  If the <I>newLength</I>
+argument is greater than the space allocated for the object's
+string, then the string space is reallocated and the old value
+is copied to the new space; the bytes between the old length of
+the string and the new length may have arbitrary values.
+If the <I>newLength</I> argument is less than the current length
+of the object's string, with <I>objPtr-&gt;length</I> is reduced without
+reallocating the string space; the original allocated size for the
+string is recorded in the object, so that the string length can be
+enlarged in a subsequent call to <B>Tcl_SetObjLength</B> without
+reallocating storage.  In all cases <B>Tcl_SetObjLength</B> leaves
+a null character at <I>objPtr-&gt;bytes[newLength]</I>.
+<P>
+The <B>Tcl_ConcatObj</B> function returns a new string object whose
+value is the space-separated concatenation of the string
+representations of all of the objects in the <I>objv</I>
+array. <B>Tcl_ConcatObj</B> eliminates leading and trailing white space
+as it copies the string representations of the <I>objv</I> array to the
+result. If an element of the <I>objv</I> array consists of nothing but
+white space, then that object is ignored entirely. This white-space
+removal was added to make the output of the <B><A HREF="../TclCmd/concat.htm">concat</A></B> command
+cleaner-looking. <B>Tcl_ConcatObj</B> returns a pointer to a
+newly-created object whose ref count is zero.
+
+<H3><A NAME="M6">SEE ALSO</A></H3>
+<B><A HREF="../TclLib/Object.htm">Tcl_NewObj</A></B>, <B><A HREF="../TclLib/Object.htm">Tcl_IncrRefCount</A></B>, <B><A HREF="../TclLib/Object.htm">Tcl_DecrRefCount</A></B>
+<H3><A NAME="M7">KEYWORDS</A></H3>
+<A href="../Keywords/A.htm#append">append</A>, <A href="../Keywords/I.htm#internal representation">internal representation</A>, <A href="../Keywords/O.htm#object">object</A>, <A href="../Keywords/O.htm#object type">object type</A>, <A href="../Keywords/S.htm#string object">string object</A>, <A href="../Keywords/S.htm#string type">string type</A>, <A href="../Keywords/S.htm#string representation">string representation</A>, <A href="../Keywords/C.htm#concat">concat</A>, <A href="../Keywords/C.htm#concatenate">concatenate</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1997 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

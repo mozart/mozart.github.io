@@ -1,0 +1,45 @@
+<HTML><HEAD><TITLE>Tk Library Procedures - Tk_GetPixmap manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tk_GetPixmap, Tk_FreePixmap - allocate and free pixmaps
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tk.h&gt;</B><BR>
+Pixmap<BR>
+<B>Tk_GetPixmap(</B><I>display, d, width, height, depth</I><B>)</B><BR>
+<B>Tk_FreePixmap(</B><I>display, pixmap</I><B>)</B><BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>Display <B>*display</B> (in)<DD>
+X display for the pixmap.
+<P><DT>Drawable <B>d</B> (in)<DD>
+Pixmap or window where the new pixmap will be used for drawing.
+<P><DT>int <B>width</B> (in)<DD>
+Width of pixmap.
+<P><DT>int <B>height</B> (in)<DD>
+Height of pixmap.
+<P><DT>int <B>depth</B> (in)<DD>
+Number of bits per pixel in pixmap.
+<P><DT>Pixmap <B>pixmap</B> (in)<DD>
+Pixmap to destroy.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+These procedures are identical to the Xlib procedures <B>XCreatePixmap</B>
+and <B>XFreePixmap</B>, except that they have extra code to manage X
+resource identifiers so that identifiers for deleted pixmaps can be
+reused in the future.
+It is important for Tk applications to use these procedures rather
+than <B>XCreatePixmap</B> and <B>XFreePixmap</B>;  otherwise long-running
+applications may run out of resource identifiers.
+<P>
+<B>Tk_GetPixmap</B> creates a pixmap suitable for drawing in <I>d</I>,
+with dimensions given by <I>width</I>, <I>height</I>, and <I>depth</I>,
+and returns its identifier.
+<B>Tk_FreePixmap</B> destroys the pixmap given by <I>pixmap</I> and makes
+its resource identifier available for reuse.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/P.htm#pixmap">pixmap</A>, <A href="../Keywords/R.htm#resource identifier">resource identifier</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1990 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

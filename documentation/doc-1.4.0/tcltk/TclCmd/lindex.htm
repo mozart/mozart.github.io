@@ -1,0 +1,25 @@
+<HTML><HEAD><TITLE>Tcl Built-In Commands - lindex manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+lindex - Retrieve an element from a list
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>lindex </B><I>list index</I><BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+This command treats <I>list</I> as a Tcl list and returns the
+<I>index</I>'th element from it (0 refers to the first element of the list).
+In extracting the element, <I>lindex</I> observes the same rules
+concerning braces and quotes and backslashes as the Tcl command
+interpreter; however, variable
+substitution and command substitution do not occur.
+If <I>index</I> is negative or greater than or equal to the number
+of elements in <I>value</I>, then an empty
+string is returned.
+If <I>index</I> has the value <B>end</B>, it refers to the last element
+in the list.
+
+<H3><A NAME="M5">KEYWORDS</A></H3>
+<A href="../Keywords/E.htm#element">element</A>, <A href="../Keywords/I.htm#index">index</A>, <A href="../Keywords/L.htm#list">list</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1993 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

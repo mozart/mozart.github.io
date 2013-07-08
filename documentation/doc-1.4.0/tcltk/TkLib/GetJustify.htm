@@ -1,0 +1,75 @@
+<HTML><HEAD><TITLE>Tk Library Procedures - Tk_GetJustify manual page</TITLE></HEAD><BODY>
+<DL>
+<DD><A HREF="GetJustify.htm#M2" NAME="L285">NAME</A>
+<DL><DD>Tk_GetJustify, Tk_NameOfJustify - translate between strings and justification styles</DL>
+<DD><A HREF="GetJustify.htm#M3" NAME="L286">SYNOPSIS</A>
+<DL>
+</DL>
+<DD><A HREF="GetJustify.htm#M4" NAME="L287">ARGUMENTS</A>
+<DL>
+</DL>
+<DD><A HREF="GetJustify.htm#M5" NAME="L288">DESCRIPTION</A>
+<DL>
+<DD><A HREF="GetJustify.htm#M6" NAME="L289"><B>TK_JUSTIFY_LEFT</B></A>
+<DD><A HREF="GetJustify.htm#M7" NAME="L290"><B>TK_JUSTIFY_RIGHT</B></A>
+<DD><A HREF="GetJustify.htm#M8" NAME="L291"><B>TK_JUSTIFY_CENTER</B></A>
+</DL>
+<DD><A HREF="GetJustify.htm#M9" NAME="L292">KEYWORDS</A>
+</DL><HR>
+<H3><A NAME="M2">NAME</A></H3>
+Tk_GetJustify, Tk_NameOfJustify - translate between strings and justification styles
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tk.h&gt;</B><BR>
+Tk_Justify<BR>
+<B>Tk_GetJustify(</B><I>interp, string, justifyPtr</I><B>)</B><BR>
+char *<BR>
+<B>Tk_NameOfJustify(</B><I>justify</I><B>)</B><BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT><A HREF="../TclLib/Interp.htm">Tcl_Interp</A> <B>*interp</B> (in)<DD>
+Interpreter to use for error reporting.
+<P><DT>char <B>*string</B> (in)<DD>
+String containing name of justification style (``left'', ``right'', or
+``center'').
+<P><DT>int <B>*justifyPtr</B> (out)<DD>
+Pointer to location in which to store justify value corresponding to
+<I>string</I>.
+<P><DT>Tk_Justify <B>justify</B> (in)<DD>
+Justification style (one of the values listed below).
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+<B>Tk_GetJustify</B> places in <I>*justifyPtr</I> the justify value
+corresponding to <I>string</I>.  This value will be one of the following:
+<P>
+<DL>
+<P><DT><A NAME="M6"><B>TK_JUSTIFY_LEFT</B></A><DD>
+Means that the text on each line should start at the left edge of
+the line;  as a result, the right edges of lines may be ragged.
+<P><DT><A NAME="M7"><B>TK_JUSTIFY_RIGHT</B></A><DD>
+Means that the text on each line should end at the right edge of
+the line;  as a result, the left edges of lines may be ragged.
+<P><DT><A NAME="M8"><B>TK_JUSTIFY_CENTER</B></A><DD>
+Means that the text on each line should be centered;  as a result,
+both the left and right edges of lines may be ragged.
+<P></DL>
+<P>
+Under normal circumstances the return value is <B>TCL_OK</B> and
+<I>interp</I> is unused.
+If <I>string</I> doesn't contain a valid justification style
+or an abbreviation of one of these names, then an error message is
+stored in <I>interp-&gt;result</I>, <B>TCL_ERROR</B> is returned, and
+<I>*justifyPtr</I> is unmodified.
+<P>
+<B>Tk_NameOfJustify</B> is the logical inverse of <B>Tk_GetJustify</B>.
+Given a justify value it returns a statically-allocated string
+corresponding to <I>justify</I>.
+If <I>justify</I> isn't a legal justify value, then
+``unknown justification style'' is returned.
+
+<H3><A NAME="M9">KEYWORDS</A></H3>
+<A href="../Keywords/C.htm#center">center</A>, <A href="../Keywords/F.htm#fill">fill</A>, <A href="../Keywords/J.htm#justification">justification</A>, <A href="../Keywords/S.htm#string">string</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1990-1994 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

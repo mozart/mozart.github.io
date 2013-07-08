@@ -1,0 +1,38 @@
+<HTML><HEAD><TITLE>Tcl Built-In Commands - read manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+read - Read from a channel
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>read </B>?<B>-nonewline</B>? <I>channelId</I><BR>
+<B>read </B><I>channelId numBytes</I><BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+In the first form, the <B>read</B> command reads all of the data from
+<I>channelId</I> up to the end of the file.
+If the <B>-nonewline</B> switch is specified then the last character
+of the file is discarded if it is a newline.
+In the second form, the extra argument specifies how many bytes to
+read.  Exactly that many bytes will be read and returned, unless
+there are fewer than <I>numBytes</I> left in the file;  in this case
+all the remaining bytes are returned.
+<P>
+If <I>channelId</I> is in nonblocking mode, the command may not read
+as many bytes as requested:  once all available input has been read,
+the command will return the data that is available rather than blocking
+for more input.
+The <B>-nonewline</B> switch is ignored if the command returns
+before reaching the end of the file.
+<P>
+<B>Read</B> translates end-of-line sequences in the input into
+newline characters according to the <B>-translation</B> option
+for the channel.
+See the manual entry for <B><A HREF="../TclCmd/fconfigure.htm">fconfigure</A></B> for details on the
+<B>-translation</B> option.
+
+<H3><A NAME="M5">SEE ALSO</A></H3>
+<B><A HREF="../TclCmd/eof.htm">eof</A></B>, <B><A HREF="../TclCmd/fblocked.htm">fblocked</A></B>, <B><A HREF="../TclCmd/fconfigure.htm">fconfigure</A></B>
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/B.htm#blocking">blocking</A>, <A href="../Keywords/C.htm#channel">channel</A>, <A href="../Keywords/E.htm#end of line">end of line</A>, <A href="../Keywords/E.htm#end of file">end of file</A>, <A href="../Keywords/N.htm#nonblocking">nonblocking</A>, <A href="../Keywords/R.htm#read">read</A>, <A href="../Keywords/T.htm#translation">translation</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1993 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

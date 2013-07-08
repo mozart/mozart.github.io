@@ -1,0 +1,30 @@
+<HTML><HEAD><TITLE>Tk Library Procedures - Tk_DrawFocusHighlight manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tk_DrawFocusHighlight - draw the traversal highlight ring for a widget
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tk.h&gt;</B><BR>
+<B>Tk_GetPixels(</B><I>tkwin, gc, width, drawable</I><B>)</B><BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>Tk_Window <B>tkwin</B> (in)<DD>
+Window for which the highlight is being drawn.  Used to retrieve
+the window's dimensions, among other things.
+<P><DT>GC <B>gc</B> (in)<DD>
+Graphics context to use for drawing the highlight.
+<P><DT>int <B>width</B> (in)<DD>
+Width of the highlight ring, in pixels.
+<P><DT>Drawable <B>drawable</B> (in)<DD>
+Drawable in which to draw the highlight;  usually an offscreen
+pixmap for double buffering.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+<B>Tk_DrawFocusHighlight</B> is a utility procedure that draws the
+traversal highlight ring for a widget.
+It is typically invoked by widgets during redisplay.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/F.htm#focus">focus</A>, <A href="../Keywords/T.htm#traversal highlight">traversal highlight</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

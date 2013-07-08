@@ -1,0 +1,49 @@
+<HTML><HEAD><TITLE>Tk Library Procedures - Tk_Main manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tk_Main - main program for Tk-based applications
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tk.h&gt;</B><BR>
+<B>Tk_Main</B>(<I>argc, argv, appInitProc</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>int <B>argc</B> (in)<DD>
+Number of elements in <I>argv</I>.
+<P><DT>char <B>*argv[]</B> (in)<DD>
+Array of strings containing command-line arguments.
+<P><DT>Tcl_AppInitProc <B>*appInitProc</B> (in)<DD>
+Address of an application-specific initialization procedure.
+The value for this argument is usually <B><A HREF="../TclLib/AppInit.htm">Tcl_AppInit</A></B>.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+<B>Tk_Main</B> acts as the main program for most Tk-based applications.
+Starting with Tk 4.0 it is not called <B>main</B> anymore because it 
+is part of the Tk library and having a function <B>main</B>
+in a library (particularly a shared library) causes problems on many
+systems.
+Having <B>main</B> in the Tk library would also make it hard to use
+Tk in C++ programs, since C++ programs must have special C++
+<B>main</B> functions.
+<P>
+Normally each application contains a small <B>main</B> function that does
+nothing but invoke <B>Tk_Main</B>.
+<B>Tk_Main</B> then does all the work of creating and running a
+<B><A HREF="../UserCmd/wish.htm">wish</A></B>-like application.
+<P>
+When it is has finished its own initialization, but before
+it processes commands, <B>Tk_Main</B> calls the procedure given by
+the <I>appInitProc</I> argument.  This procedure provides a ``hook''
+for the application to perform its own initialization, such as defining
+application-specific commands.  The procedure must have an interface
+that matches the type <B>Tcl_AppInitProc</B>:
+<PRE>typedef int Tcl_AppInitProc(<A HREF="../TclLib/Interp.htm">Tcl_Interp</A> *<I>interp</I>);</PRE>
+<I>AppInitProc</I> is almost always a pointer to <B><A HREF="../TclLib/AppInit.htm">Tcl_AppInit</A></B>;
+for more details on this procedure, see the documentation
+for <B><A HREF="../TclLib/AppInit.htm">Tcl_AppInit</A></B>.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/A.htm#application-specific initialization">application-specific initialization</A>, <A href="../Keywords/C.htm#command-line arguments">command-line arguments</A>, <A href="../Keywords/M.htm#main program">main program</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

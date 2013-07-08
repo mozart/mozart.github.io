@@ -1,0 +1,53 @@
+<HTML><HEAD><TITLE>Tk Library Procedures - Tk_GetScrollInfo manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tk_GetScrollInfo - parse arguments for scrolling commands
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tk.h&gt;</B><BR>
+int<BR>
+<B>Tk_GetScrollInfo(</B><I>interp, argc, argv, dblPtr, intPtr</I><B>)</B><BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT><A HREF="../TclLib/Interp.htm">Tcl_Interp</A> <B>*interp</B> (in)<DD>
+Interpreter to use for error reporting.
+<P><DT>int <B>argc</B> (in)<DD>
+Number of strings in <I>argv</I> array.
+<P><DT>char <B>*argv[]</B> (in)<DD>
+Argument strings.  These represent the entire widget command, of
+which the first word is typically the widget name and the second
+word is typically <B>xview</B> or <B>yview</B>.  This procedure parses
+arguments starting with <I>argv</I>[2].
+<P><DT>double <B>*dblPtr</B> (out)<DD>
+Filled in with fraction from <B>moveto</B> option, if any.
+<P><DT>int <B>*intPtr</B> (out)<DD>
+Filled in with line or page count from <B>scroll</B> option, if any.
+The value may be negative.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+<B>Tk_GetScrollInfo</B> parses the arguments expected by widget
+scrolling commands such as <B>xview</B> and <B>yview</B>.
+It receives the entire list of words that make up a widget command
+and parses the words starting with <I>argv</I>[2].
+The words starting with <I>argv</I>[2] must have one of the following forms:
+<PRE><B>moveto </B><I>fraction</I>
+<B>scroll </B><I>number</I><B> units</B>
+<B>scroll </B><I>number</I><B> pages</B></PRE>
+<P>
+Any of the <B>moveto</B>, <B>scroll</B>, <B>units</B>, and <B>pages</B>
+keywords may be abbreviated.
+If <I>argv</I> has the <B>moveto</B> form, <B>TK_SCROLL_MOVETO</B>
+is returned as result and <I>*dblPtr</I> is filled in with the
+<I>fraction</I> argument to the command, which must be a proper real
+value.
+If <I>argv</I> has the <B>scroll</B> form, <B>TK_SCROLL_UNITS</B>
+or <B>TK_SCROLL_PAGES</B> is returned and <I>*intPtr</I> is filled
+in with the <I>number</I> value, which must be a proper integer.
+If an error occurs in parsing the arguments, <B>TK_SCROLL_ERROR</B>
+is returned and an error message is left in <I>interp-&gt;result</I>.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/P.htm#parse">parse</A>, <A href="../Keywords/S.htm#scrollbar">scrollbar</A>, <A href="../Keywords/S.htm#scrolling command">scrolling command</A>, <A href="../Keywords/X.htm#xview">xview</A>, <A href="../Keywords/Y.htm#yview">yview</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

@@ -1,0 +1,272 @@
+<HTML><HEAD><TITLE>Tk Library Procedures - Tk_GetBitmap manual page</TITLE></HEAD><BODY>
+<DL>
+<DD><A HREF="GetBitmap.htm#M2" NAME="L201">NAME</A>
+<DL><DD>Tk_GetBitmap, Tk_DefineBitmap, Tk_NameOfBitmap, Tk_SizeOfBitmap, Tk_FreeBitmap, Tk_GetBitmapFromData - maintain database of single-plane pixmaps</DL>
+<DD><A HREF="GetBitmap.htm#M3" NAME="L202">SYNOPSIS</A>
+<DL>
+</DL>
+<DD><A HREF="GetBitmap.htm#M4" NAME="L203">ARGUMENTS</A>
+<DL>
+</DL>
+<DD><A HREF="GetBitmap.htm#M5" NAME="L204">DESCRIPTION</A>
+<DL>
+<DD><A HREF="GetBitmap.htm#M6" NAME="L205"><B>@</B><I>fileName</I></A>
+<DD><A HREF="GetBitmap.htm#M7" NAME="L206"><I>name</I></A>
+<DL>
+<DD><A HREF="GetBitmap.htm#M8" NAME="L207"><B>error</B></A>
+<DD><A HREF="GetBitmap.htm#M9" NAME="L208"><B>gray75</B></A>
+<DD><A HREF="GetBitmap.htm#M10" NAME="L209"><B>gray50</B></A>
+<DD><A HREF="GetBitmap.htm#M11" NAME="L210"><B>gray25</B></A>
+<DD><A HREF="GetBitmap.htm#M12" NAME="L211"><B>gray12</B></A>
+<DD><A HREF="GetBitmap.htm#M13" NAME="L212"><B>hourglass</B></A>
+<DD><A HREF="GetBitmap.htm#M14" NAME="L213"><B>info</B></A>
+<DD><A HREF="GetBitmap.htm#M15" NAME="L214"><B>questhead</B></A>
+<DD><A HREF="GetBitmap.htm#M16" NAME="L215"><B>question</B></A>
+<DD><A HREF="GetBitmap.htm#M17" NAME="L216"><B>warning</B></A>
+</DL>
+<DL>
+<DD><A HREF="GetBitmap.htm#M18" NAME="L217"><B>document</B></A>
+<DD><A HREF="GetBitmap.htm#M19" NAME="L218"><B>stationery</B></A>
+<DD><A HREF="GetBitmap.htm#M20" NAME="L219"><B>edition</B></A>
+<DD><A HREF="GetBitmap.htm#M21" NAME="L220"><B>application</B></A>
+<DD><A HREF="GetBitmap.htm#M22" NAME="L221"><B>accessory</B></A>
+<DD><A HREF="GetBitmap.htm#M23" NAME="L222"><B>folder</B></A>
+<DD><A HREF="GetBitmap.htm#M24" NAME="L223"><B>pfolder</B></A>
+<DD><A HREF="GetBitmap.htm#M25" NAME="L224"><B>trash</B></A>
+<DD><A HREF="GetBitmap.htm#M26" NAME="L225"><B>floppy</B></A>
+<DD><A HREF="GetBitmap.htm#M27" NAME="L226"><B>ramdisk</B></A>
+<DD><A HREF="GetBitmap.htm#M28" NAME="L227"><B>cdrom</B></A>
+<DD><A HREF="GetBitmap.htm#M29" NAME="L228"><B>preferences</B></A>
+<DD><A HREF="GetBitmap.htm#M30" NAME="L229"><B>querydoc</B></A>
+<DD><A HREF="GetBitmap.htm#M31" NAME="L230"><B>stop</B></A>
+<DD><A HREF="GetBitmap.htm#M32" NAME="L231"><B>note</B></A>
+<DD><A HREF="GetBitmap.htm#M33" NAME="L232"><B>caution</B></A>
+</DL>
+</DL>
+<DD><A HREF="GetBitmap.htm#M34" NAME="L233">BUGS</A>
+<DD><A HREF="GetBitmap.htm#M35" NAME="L234">KEYWORDS</A>
+</DL><HR>
+<H3><A NAME="M2">NAME</A></H3>
+Tk_GetBitmap, Tk_DefineBitmap, Tk_NameOfBitmap, Tk_SizeOfBitmap, Tk_FreeBitmap, Tk_GetBitmapFromData - maintain database of single-plane pixmaps
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tk.h&gt;</B><BR>
+Pixmap<BR>
+<B>Tk_GetBitmap(</B><I>interp, tkwin, id</I><B>)</B><BR>
+int<BR>
+<B>Tk_DefineBitmap(</B><I>interp, nameId, source, width, height</I><B>)</B><BR>
+<A HREF="../TkLib/GetUid.htm">Tk_Uid</A><BR>
+<B>Tk_NameOfBitmap(</B><I>display, bitmap</I><B>)</B><BR>
+<B>Tk_SizeOfBitmap(</B><I>display, bitmap, widthPtr, heightPtr</I><B>)</B><BR>
+<B>Tk_FreeBitmap(</B><I>display, bitmap</I><B>)</B><BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT><A HREF="../TclLib/Interp.htm">Tcl_Interp</A> <B>*interp</B> (in)<DD>
+Interpreter to use for error reporting.
+<P><DT>Tk_Window <B>tkwin</B> (in)<DD>
+Token for window in which the bitmap will be used.
+<P><DT><A HREF="../TkLib/GetUid.htm">Tk_Uid</A> <B>id</B> (in)<DD>
+Description of bitmap;  see below for possible values.
+<P><DT><A HREF="../TkLib/GetUid.htm">Tk_Uid</A> <B>nameId</B> (in)<DD>
+Name for new bitmap to be defined.
+<P><DT>char <B>*source</B> (in)<DD>
+Data for bitmap, in standard bitmap format.
+Must be stored in static memory whose value will never change.
+<P><DT>int <B>width</B> (in)<DD>
+Width of bitmap.
+<P><DT>int <B>height</B> (in)<DD>
+Height of bitmap.
+<P><DT>int <B>*widthPtr</B> (out)<DD>
+Pointer to word to fill in with <I>bitmap</I>'s width.
+<P><DT>int <B>*heightPtr</B> (out)<DD>
+Pointer to word to fill in with <I>bitmap</I>'s height.
+<P><DT>Display <B>*display</B> (in)<DD>
+Display for which <I>bitmap</I> was allocated.
+<P><DT>Pixmap <B><A HREF="../TkCmd/bitmap.htm">bitmap</A></B> (in)<DD>
+Identifier for a bitmap allocated by <B>Tk_GetBitmap</B>.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+These procedures manage a collection of bitmaps (one-plane pixmaps)
+being used by an application.  The procedures allow bitmaps to be
+re-used efficiently, thereby avoiding server overhead, and also
+allow bitmaps to be named with character strings.
+<P>
+<B>Tk_GetBitmap</B> takes as argument a <A HREF="../TkLib/GetUid.htm">Tk_Uid</A> describing a bitmap.
+It returns a Pixmap identifier for a bitmap corresponding to the
+description.  It re-uses an existing bitmap, if possible, and
+creates a new one otherwise.  At present, <I>id</I> must have
+one of the following forms:
+<P>
+<DL>
+<P><DT><A NAME="M6"><B>@</B><I>fileName</I></A><DD>
+<I>FileName</I> must be the name of a file containing a bitmap
+description in the standard X11 or X10 format.
+<P><DT><A NAME="M7"><I>name</I></A><DD>
+<I>Name</I> must be the name of a bitmap defined previously with
+a call to <B>Tk_DefineBitmap</B>.  The following names are pre-defined
+by Tk:
+<P>
+<DL>
+<P><DT><A NAME="M8"><B>error</B></A><DD>
+The international &quot;don't&quot; symbol:  a circle with a diagonal line
+across it.
+<P><DT><A NAME="M9"><B>gray75</B></A><DD>
+75% gray: a checkerboard pattern where three out of four bits are on.
+<P><DT><A NAME="M10"><B>gray50</B></A><DD>
+50% gray: a checkerboard pattern where every other bit is on.
+<P><DT><A NAME="M11"><B>gray25</B></A><DD>
+25% gray: a checkerboard pattern where one out of every four bits is on.
+<P><DT><A NAME="M12"><B>gray12</B></A><DD>
+12.5% gray: a pattern where one-eighth of the bits are on, consisting of
+every fourth pixel in every other row.
+<P><DT><A NAME="M13"><B>hourglass</B></A><DD>
+An hourglass symbol.
+<P><DT><A NAME="M14"><B>info</B></A><DD>
+A large letter ``i''.
+<P><DT><A NAME="M15"><B>questhead</B></A><DD>
+The silhouette of a human head, with a question mark in it.
+<P><DT><A NAME="M16"><B>question</B></A><DD>
+A large question-mark.
+<P><DT><A NAME="M17"><B>warning</B></A><DD>
+A large exclamation point.
+<P></DL>
+<DL><P><DD>
+<P>
+In addition, the following pre-defined names are available only on the
+<B>Macintosh</B> platform:
+<P>
+<DL>
+<P><DT><A NAME="M18"><B>document</B></A><DD>
+A generic document.
+<P><DT><A NAME="M19"><B>stationery</B></A><DD>
+Document stationery.
+<P><DT><A NAME="M20"><B>edition</B></A><DD>
+The <I>edition</I> symbol.
+<P><DT><A NAME="M21"><B>application</B></A><DD>
+Generic application icon.
+<P><DT><A NAME="M22"><B>accessory</B></A><DD>
+A desk accessory.
+<P><DT><A NAME="M23"><B>folder</B></A><DD>
+Generic folder icon.
+<P><DT><A NAME="M24"><B>pfolder</B></A><DD>
+A locked folder.
+<P><DT><A NAME="M25"><B>trash</B></A><DD>
+A trash can.
+<P><DT><A NAME="M26"><B>floppy</B></A><DD>
+A floppy disk.
+<P><DT><A NAME="M27"><B>ramdisk</B></A><DD>
+A floppy disk with chip.
+<P><DT><A NAME="M28"><B>cdrom</B></A><DD>
+A cd disk icon.
+<P><DT><A NAME="M29"><B>preferences</B></A><DD>
+A folder with prefs symbol.
+<P><DT><A NAME="M30"><B>querydoc</B></A><DD>
+A database document icon.
+<P><DT><A NAME="M31"><B>stop</B></A><DD>
+A stop sign.
+<P><DT><A NAME="M32"><B>note</B></A><DD>
+A face with ballon words.
+<P><DT><A NAME="M33"><B>caution</B></A><DD>
+A triangle with an exclamation point.
+<P></DL>
+</DL>
+<P></DL>
+<P>
+Under normal conditions, <B>Tk_GetBitmap</B>
+returns an identifier for the requested bitmap.  If an error
+occurs in creating the bitmap, such as when <I>id</I> refers
+to a non-existent file, then <B>None</B> is returned and an error
+message is left in <I>interp-&gt;result</I>.
+<P>
+<B>Tk_DefineBitmap</B> associates a name with
+in-memory bitmap data so that the name can be used in later
+calls to <B>Tk_GetBitmap</B>.  The <I>nameId</I>
+argument gives a name for the bitmap;  it must not previously
+have been used in a call to <B>Tk_DefineBitmap</B>.
+The arguments <I>source</I>, <I>width</I>, and <I>height</I>
+describe the bitmap.
+<B>Tk_DefineBitmap</B> normally returns TCL_OK;  if an error occurs
+(e.g. a bitmap named <I>nameId</I> has already been defined) then
+TCL_ERROR is returned and an error message is left in
+<I>interp-&gt;result</I>.
+Note:  <B>Tk_DefineBitmap</B> expects the memory pointed to by
+<I>source</I> to be static:  <B>Tk_DefineBitmap</B> doesn't make
+a private copy of this memory, but uses the bytes pointed to
+by <I>source</I> later in calls to <B>Tk_GetBitmap</B>.
+<P>
+Typically <B>Tk_DefineBitmap</B> is used by <B>#include</B>-ing a
+bitmap file directly into a C program and then referencing
+the variables defined by the file.
+For example, suppose there exists a file <B>stip.bitmap</B>,
+which was created by the <B><A HREF="../TkCmd/bitmap.htm">bitmap</A></B> program and contains
+a stipple pattern.
+The following code uses <B>Tk_DefineBitmap</B> to define a
+new bitmap named <B>foo</B>:
+<PRE>Pixmap bitmap;
+#include &quot;stip.bitmap&quot;
+Tk_DefineBitmap(interp, <A HREF="../TkLib/GetUid.htm">Tk_GetUid</A>(&quot;foo&quot;), stip_bits,
+	stip_width, stip_height);
+	...
+bitmap = Tk_GetBitmap(interp, tkwin, <A HREF="../TkLib/GetUid.htm">Tk_GetUid</A>(&quot;foo&quot;));</PRE>
+This code causes the bitmap file to be read
+at compile-time and incorporates the bitmap information into
+the program's executable image.  The same bitmap file could be
+read at run-time using <B>Tk_GetBitmap</B>:
+<PRE>Pixmap bitmap;
+bitmap = Tk_GetBitmap(interp, tkwin, <A HREF="../TkLib/GetUid.htm">Tk_GetUid</A>(&quot;@stip.bitmap&quot;));</PRE>
+The second form is a bit more flexible (the file could be modified
+after the program has been compiled, or a different string could be
+provided to read a different file), but it is a little slower and
+requires the bitmap file to exist separately from the program.
+<P>
+<B>Tk_GetBitmap</B> maintains a
+database of all the bitmaps that are currently in use.
+Whenever possible, it will return an existing bitmap rather
+than creating a new one.
+This approach can substantially reduce server overhead, so
+<B>Tk_GetBitmap</B> should generally be used in preference to Xlib
+procedures like <B>XReadBitmapFile</B>.
+<P>
+The bitmaps returned by <B>Tk_GetBitmap</B>
+are shared, so callers should never modify them.
+If a bitmap must be modified dynamically, then it should be
+created by calling Xlib procedures such as <B>XReadBitmapFile</B>
+or <B>XCreatePixmap</B> directly.
+<P>
+The procedure <B>Tk_NameOfBitmap</B> is roughly the inverse of
+<B>Tk_GetBitmap</B>.
+Given an X Pixmap argument, it returns the <I>id</I> that was
+passed to <B>Tk_GetBitmap</B> when the bitmap was created.
+<I>Bitmap</I> must have been the return value from a previous
+call to <B>Tk_GetBitmap</B>.
+<P>
+<B>Tk_SizeOfBitmap</B> returns the dimensions of its <I>bitmap</I>
+argument in the words pointed to by the <I>widthPtr</I> and
+<I>heightPtr</I> arguments.  As with <B>Tk_NameOfBitmap</B>,
+<I>bitmap</I> must have been created by <B>Tk_GetBitmap</B>.
+<P>
+When a bitmap returned by <B>Tk_GetBitmap</B>
+is no longer needed, <B>Tk_FreeBitmap</B> should be called to release it.
+There should be exactly one call to <B>Tk_FreeBitmap</B> for
+each call to <B>Tk_GetBitmap</B>.
+When a bitmap is no longer in use anywhere (i.e. it has been freed as
+many times as it has been gotten) <B>Tk_FreeBitmap</B> will release
+it to the X server and delete it from the database.
+
+<H3><A NAME="M34">BUGS</A></H3>
+In determining whether an existing bitmap can be used to satisfy
+a new request, <B>Tk_GetBitmap</B>
+considers only the immediate value of its <I>id</I> argument.  For
+example, when a file name is passed to <B>Tk_GetBitmap</B>,
+<B>Tk_GetBitmap</B> will assume it is safe to re-use an existing
+bitmap created from the same file name:  it will not check to
+see whether the file itself has changed, or whether the current
+directory has changed, thereby causing the name to refer to
+a different file.
+
+<H3><A NAME="M35">KEYWORDS</A></H3>
+<A href="../Keywords/B.htm#bitmap">bitmap</A>, <A href="../Keywords/P.htm#pixmap">pixmap</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1990 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

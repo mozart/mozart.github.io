@@ -1,0 +1,208 @@
+<HTML><HEAD><TITLE>Library Procedures - Tcl_Hash manual page</TITLE></HEAD><BODY>
+<DL>
+<DD><A HREF="Hash.htm#M2" NAME="L233">NAME</A>
+<DL><DD>Tcl_InitHashTable, Tcl_DeleteHashTable, Tcl_CreateHashEntry, Tcl_DeleteHashEntry, Tcl_FindHashEntry, Tcl_GetHashValue, Tcl_SetHashValue, Tcl_GetHashKey, Tcl_FirstHashEntry, Tcl_NextHashEntry, Tcl_HashStats - procedures to manage hash tables</DL>
+<DD><A HREF="Hash.htm#M3" NAME="L234">SYNOPSIS</A>
+<DL>
+</DL>
+<DD><A HREF="Hash.htm#M4" NAME="L235">ARGUMENTS</A>
+<DL>
+</DL>
+<DD><A HREF="Hash.htm#M5" NAME="L236">DESCRIPTION</A>
+<DL>
+<DD><A HREF="Hash.htm#M6" NAME="L237"><B>TCL_STRING_KEYS</B></A>
+<DD><A HREF="Hash.htm#M7" NAME="L238"><B>TCL_ONE_WORD_KEYS</B></A>
+<DD><A HREF="Hash.htm#M8" NAME="L239"><I>other</I></A>
+</DL>
+<DD><A HREF="Hash.htm#M9" NAME="L240">KEYWORDS</A>
+</DL><HR>
+<H3><A NAME="M2">NAME</A></H3>
+Tcl_InitHashTable, Tcl_DeleteHashTable, Tcl_CreateHashEntry, Tcl_DeleteHashEntry, Tcl_FindHashEntry, Tcl_GetHashValue, Tcl_SetHashValue, Tcl_GetHashKey, Tcl_FirstHashEntry, Tcl_NextHashEntry, Tcl_HashStats - procedures to manage hash tables
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tcl.h&gt;</B><BR>
+<B>Tcl_InitHashTable</B>(<I>tablePtr, keyType</I>)<BR>
+<B>Tcl_DeleteHashTable</B>(<I>tablePtr</I>)<BR>
+Tcl_HashEntry *<BR>
+<B>Tcl_CreateHashEntry</B>(<I>tablePtr, key, newPtr</I>)<BR>
+<B>Tcl_DeleteHashEntry</B>(<I>entryPtr</I>)<BR>
+Tcl_HashEntry *<BR>
+<B>Tcl_FindHashEntry</B>(<I>tablePtr, key</I>)<BR>
+ClientData<BR>
+<B>Tcl_GetHashValue</B>(<I>entryPtr</I>)<BR>
+<B>Tcl_SetHashValue</B>(<I>entryPtr, value</I>)<BR>
+char *<BR>
+<B>Tcl_GetHashKey</B>(<I>tablePtr, entryPtr</I>)<BR>
+Tcl_HashEntry *<BR>
+<B>Tcl_FirstHashEntry</B>(<I>tablePtr, searchPtr</I>)<BR>
+Tcl_HashEntry *<BR>
+<B>Tcl_NextHashEntry</B>(<I>searchPtr</I>)<BR>
+char *<BR>
+<B>Tcl_HashStats</B>(<I>tablePtr</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>Tcl_HashTable <B>*tablePtr</B> (in)<DD>
+Address of hash table structure (for all procedures but
+<B>Tcl_InitHashTable</B>, this must have been initialized by
+previous call to <B>Tcl_InitHashTable</B>).
+<P><DT>int <B>keyType</B> (in)<DD>
+Kind of keys to use for new hash table.  Must be either
+TCL_STRING_KEYS, TCL_ONE_WORD_KEYS, or an integer value
+greater than 1.
+<P><DT>char <B>*key</B> (in)<DD>
+Key to use for probe into table.  Exact form depends on
+<I>keyType</I> used to create table.
+<P><DT>int <B>*newPtr</B> (out)<DD>
+The word at <I>*newPtr</I> is set to 1 if a new entry was created
+and 0 if there was already an entry for <I>key</I>.
+<P><DT>Tcl_HashEntry <B>*entryPtr</B> (in)<DD>
+Pointer to hash table entry.
+<P><DT>ClientData <B>value</B> (in)<DD>
+New value to assign to hash table entry.  Need not have type
+ClientData, but must fit in same space as ClientData.
+<P><DT>Tcl_HashSearch <B>*searchPtr</B> (in)<DD>
+Pointer to record to use to keep track of progress in enumerating
+all the entries in a hash table.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+A hash table consists of zero or more entries, each consisting of
+a key and a value.
+Given the key for an entry, the hashing routines can very quickly
+locate the entry, and hence its value.
+There may be at most one entry in a hash table with a
+particular key, but many entries may have the same value.
+Keys can take one of three forms:  strings,
+one-word values, or integer arrays.
+All of the keys in a given table have the same form, which is
+specified when the table is initialized.
+<P>
+The value of a hash table entry can be anything that fits in
+the same space as a ``char *'' pointer.
+Values for hash table entries are managed entirely by clients,
+not by the hash module itself.
+Typically each entry's value is a pointer to a data structure
+managed by client code.
+<P>
+Hash tables grow gracefully as the number of entries increases,
+so that there are always less than three entries per hash bucket,
+on average.
+This allows for fast lookups regardless of the number of entries
+in a table.
+<P>
+<B>Tcl_InitHashTable</B> initializes a structure that describes
+a new hash table.
+The space for the structure is provided by the caller, not by
+the hash module.
+The value of <I>keyType</I> indicates what kinds of keys will
+be used for all entries in the table.  <I>KeyType</I> must have
+one of the following values:
+<P>
+<DL>
+<P><DT><A NAME="M6"><B>TCL_STRING_KEYS</B></A><DD>
+Keys are null-terminated ASCII strings.
+They are passed to hashing routines using the address of the
+first character of the string.
+<P><DT><A NAME="M7"><B>TCL_ONE_WORD_KEYS</B></A><DD>
+Keys are single-word values;  they are passed to hashing routines
+and stored in hash table entries as ``char *'' values.
+The pointer value is the key;  it need not (and usually doesn't)
+actually point to a string.
+<P><DT><A NAME="M8"><I>other</I></A><DD>
+If <I>keyType</I> is not TCL_STRING_KEYS or TCL_ONE_WORD_KEYS,
+then it must be an integer value greater than 1.
+In this case the keys will be arrays of ``int'' values, where
+<I>keyType</I> gives the number of ints in each key.
+This allows structures to be used as keys.
+All keys must have the same size.
+Array keys are passed into hashing functions using the address
+of the first int in the array.
+<P></DL>
+<P>
+<B>Tcl_DeleteHashTable</B> deletes all of the entries in a hash
+table and frees up the memory associated with the table's
+bucket array and entries.
+It does not free the actual table structure (pointed to
+by <I>tablePtr</I>), since that memory is assumed to be managed
+by the client.
+<B>Tcl_DeleteHashTable</B> also does not free or otherwise
+manipulate the values of the hash table entries.
+If the entry values point to dynamically-allocated memory, then
+it is the client's responsibility to free these structures
+before deleting the table.
+<P>
+<B>Tcl_CreateHashEntry</B> locates the entry corresponding to a
+particular key, creating a new entry in the table if there
+wasn't already one with the given key.
+If an entry already existed with the given key then <I>*newPtr</I>
+is set to zero.
+If a new entry was created, then <I>*newPtr</I> is set to a non-zero
+value and the value of the new entry will be set to zero.
+The return value from <B>Tcl_CreateHashEntry</B> is a pointer to
+the entry, which may be used to retrieve and modify the entry's
+value or to delete the entry from the table.
+<P>
+<B>Tcl_DeleteHashEntry</B> will remove an existing entry from a
+table.
+The memory associated with the entry itself will be freed, but
+the client is responsible for any cleanup associated with the
+entry's value, such as freeing a structure that it points to.
+<P>
+<B>Tcl_FindHashEntry</B> is similar to <B>Tcl_CreateHashEntry</B>
+except that it doesn't create a new entry if the key doesn't exist;
+instead, it returns NULL as result.
+<P>
+<B>Tcl_GetHashValue</B> and <B>Tcl_SetHashValue</B> are used to
+read and write an entry's value, respectively.
+Values are stored and retrieved as type ``ClientData'', which is
+large enough to hold a pointer value.  On almost all machines this is
+large enough to hold an integer value too.
+<P>
+<B>Tcl_GetHashKey</B> returns the key for a given hash table entry,
+either as a pointer to a string, a one-word (``char *'') key, or
+as a pointer to the first word of an array of integers, depending
+on the <I>keyType</I> used to create a hash table.
+In all cases <B>Tcl_GetHashKey</B> returns a result with type
+``char *''.
+When the key is a string or array, the result of <B>Tcl_GetHashKey</B>
+points to information in the table entry;  this information will
+remain valid until the entry is deleted or its table is deleted.
+<P>
+<B>Tcl_FirstHashEntry</B> and <B>Tcl_NextHashEntry</B> may be used
+to scan all of the entries in a hash table.
+A structure of type ``Tcl_HashSearch'', provided by the client,
+is used to keep track of progress through the table.
+<B>Tcl_FirstHashEntry</B> initializes the search record and
+returns the first entry in the table (or NULL if the table is
+empty).
+Each subsequent call to <B>Tcl_NextHashEntry</B> returns the
+next entry in the table or
+NULL if the end of the table has been reached.
+A call to <B>Tcl_FirstHashEntry</B> followed by calls to
+<B>Tcl_NextHashEntry</B> will return each of the entries in
+the table exactly once, in an arbitrary order.
+It is unadvisable to modify the structure of the table, e.g.
+by creating or deleting entries, while the search is in
+progress.
+<P>
+<B>Tcl_HashStats</B> returns a dynamically-allocated string with
+overall information about a hash table, such as the number of
+entries it contains, the number of buckets in its hash array,
+and the utilization of the buckets.
+It is the caller's responsibility to free the result string
+by passing it to <B>free</B>.
+<P>
+The header file <B>tcl.h</B> defines the actual data structures
+used to implement hash tables.
+This is necessary so that clients can allocate Tcl_HashTable
+structures and so that macros can be used to read and write
+the values of entries.
+However, users of the hashing routines should never refer directly
+to any of the fields of any of the hash-related data structures;
+use the procedures and macros defined here.
+
+<H3><A NAME="M9">KEYWORDS</A></H3>
+<A href="../Keywords/H.htm#hash table">hash table</A>, <A href="../Keywords/K.htm#key">key</A>, <A href="../Keywords/L.htm#lookup">lookup</A>, <A href="../Keywords/S.htm#search">search</A>, <A href="../Keywords/V.htm#value">value</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1989-1993 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

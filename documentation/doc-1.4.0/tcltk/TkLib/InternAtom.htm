@@ -1,0 +1,47 @@
+<HTML><HEAD><TITLE>Library Procedures - Tk_InternAtom manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tk_InternAtom, Tk_GetAtomName - manage cache of X atoms
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tk.h&gt;</B><BR>
+Atom<BR>
+<B>Tk_InternAtom(</B><I>tkwin, name</I>)<BR>
+char *<BR>
+<B>Tk_GetAtomName(</B><I>tkwin, atom</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>Tk_Window <B>tkwin</B> (in)<DD>
+Token for window.  Used to map atom or name relative to a particular display.
+<P><DT>char <B>*name</B> (in)<DD>
+String name for which atom is desired.
+<P><DT>Atom <B>atom</B> (in)<DD>
+Atom for which corresponding string name is desired.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+These procedures are similar to the Xlib procedures
+<B>XInternAtom</B> and <B>XGetAtomName</B>.  <B>Tk_InternAtom</B>
+returns the atom identifier associated with string given by
+<I>name</I>;  the atom identifier is only valid for the display
+associated with <I>tkwin</I>.
+<B>Tk_GetAtomName</B> returns the string associated
+with <I>atom</I> on <I>tkwin</I>'s display.  The string returned
+by <B>Tk_GetAtomName</B> is in Tk's storage:  the caller need
+not free this space when finished with the string, and the caller
+should not modify the contents of the returned string.
+If there is no atom <I>atom</I> on <I>tkwin</I>'s display,
+then <B>Tk_GetAtomName</B> returns the string ``?bad atom?''.
+<P>
+Tk caches
+the information returned by <B>Tk_InternAtom</B> and <B>Tk_GetAtomName</B>
+so that future calls
+for the same information can be serviced from the cache without
+contacting the server.  Thus <B>Tk_InternAtom</B> and <B>Tk_GetAtomName</B>
+are generally much faster than their Xlib counterparts, and they
+should be used in place of the Xlib procedures.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/A.htm#atom">atom</A>, <A href="../Keywords/C.htm#cache">cache</A>, <A href="../Keywords/D.htm#display">display</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1990 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

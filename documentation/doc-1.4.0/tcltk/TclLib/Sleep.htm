@@ -1,0 +1,28 @@
+<HTML><HEAD><TITLE>Tcl Library Procedures - Tcl_Sleep manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tcl_Sleep - delay execution for a given number of milliseconds
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tcl.h&gt;</B><BR>
+<B>Tcl_Sleep</B>(<I>ms</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>int <B>ms</B> (in)<DD>
+Number of milliseconds to sleep.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+This procedure delays the calling process by the number of
+milliseconds given by the <I>ms</I> parameter and returns
+after that time has elapsed.  It is typically used for things
+like flashing a button, where the delay is short and the
+application needn't do anything while it waits.  For longer
+delays where the application needs to respond to other events
+during the delay, the procedure <B><A HREF="../TclLib/CrtTimerHdlr.htm">Tcl_CreateTimerHandler</A></B>
+should be used instead of <B>Tcl_Sleep</B>.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/S.htm#sleep">sleep</A>, <A href="../Keywords/T.htm#time">time</A>, <A href="../Keywords/W.htm#wait">wait</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1990 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

@@ -1,0 +1,474 @@
+<HTML><HEAD><TITLE>Tcl Library Procedures - Tcl_OpenFileChannel manual page</TITLE></HEAD><BODY>
+<DL>
+<DD><A HREF="OpenFileChnl.htm#M2" NAME="L306">NAME</A>
+<DL><DD>Tcl_OpenFileChannel, Tcl_OpenCommandChannel, Tcl_MakeFileChannel, Tcl_GetChannel, Tcl_RegisterChannel, Tcl_UnregisterChannel, Tcl_Close, Tcl_Read, Tcl_Gets, Tcl_Write, Tcl_Flush, Tcl_Seek, Tcl_Tell, Tcl_Eof, Tcl_InputBlocked, Tcl_InputBuffered, Tcl_GetChannelOption, Tcl_SetChannelOption - buffered I/O facilities using channels</DL>
+<DD><A HREF="OpenFileChnl.htm#M3" NAME="L307">SYNOPSIS</A>
+<DL>
+</DL>
+<DD><A HREF="OpenFileChnl.htm#M4" NAME="L308">ARGUMENTS</A>
+<DL>
+</DL>
+<DD><A HREF="OpenFileChnl.htm#M5" NAME="L309">DESCRIPTION</A>
+<DD><A HREF="OpenFileChnl.htm#M6" NAME="L310">TCL_OPENFILECHANNEL</A>
+<DD><A HREF="OpenFileChnl.htm#M7" NAME="L311">TCL_OPENCOMMANDCHANNEL</A>
+<DD><A HREF="OpenFileChnl.htm#M8" NAME="L312">TCL_MAKEFILECHANNEL</A>
+<DD><A HREF="OpenFileChnl.htm#M9" NAME="L313">TCL_GETCHANNEL</A>
+<DD><A HREF="OpenFileChnl.htm#M10" NAME="L314">TCL_REGISTERCHANNEL</A>
+<DD><A HREF="OpenFileChnl.htm#M11" NAME="L315">TCL_UNREGISTERCHANNEL</A>
+<DD><A HREF="OpenFileChnl.htm#M12" NAME="L316">TCL_CLOSE</A>
+<DD><A HREF="OpenFileChnl.htm#M13" NAME="L317">TCL_READ</A>
+<DD><A HREF="OpenFileChnl.htm#M14" NAME="L318">TCL_GETS AND TCL_GETSOBJ</A>
+<DD><A HREF="OpenFileChnl.htm#M15" NAME="L319">TCL_WRITE</A>
+<DD><A HREF="OpenFileChnl.htm#M16" NAME="L320">TCL_FLUSH</A>
+<DD><A HREF="OpenFileChnl.htm#M17" NAME="L321">TCL_SEEK</A>
+<DD><A HREF="OpenFileChnl.htm#M18" NAME="L322">TCL_TELL</A>
+<DD><A HREF="OpenFileChnl.htm#M19" NAME="L323">TCL_GETCHANNELOPTION</A>
+<DD><A HREF="OpenFileChnl.htm#M20" NAME="L324">TCL_SETCHANNELOPTION</A>
+<DD><A HREF="OpenFileChnl.htm#M21" NAME="L325">TCL_EOF</A>
+<DD><A HREF="OpenFileChnl.htm#M22" NAME="L326">TCL_INPUTBLOCKED</A>
+<DD><A HREF="OpenFileChnl.htm#M23" NAME="L327">TCL_INPUTBUFFERED</A>
+<DD><A HREF="OpenFileChnl.htm#M24" NAME="L328">PLATFORM ISSUES</A>
+<DD><A HREF="OpenFileChnl.htm#M25" NAME="L329">SEE ALSO</A>
+<DD><A HREF="OpenFileChnl.htm#M26" NAME="L330">KEYWORDS</A>
+</DL><HR>
+<H3><A NAME="M2">NAME</A></H3>
+Tcl_OpenFileChannel, Tcl_OpenCommandChannel, Tcl_MakeFileChannel, Tcl_GetChannel, Tcl_RegisterChannel, Tcl_UnregisterChannel, Tcl_Close, Tcl_Read, Tcl_Gets, Tcl_Write, Tcl_Flush, Tcl_Seek, Tcl_Tell, Tcl_Eof, Tcl_InputBlocked, Tcl_InputBuffered, Tcl_GetChannelOption, Tcl_SetChannelOption - buffered I/O facilities using channels
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tcl.h&gt;</B><BR>
+typedef ... Tcl_Channel;<BR>
+Tcl_Channel<BR>
+<B>Tcl_OpenFileChannel</B>(<I>interp, fileName, mode, permissions</I>)<BR>
+Tcl_Channel<BR>
+<B>Tcl_OpenCommandChannel</B>(<I>interp, argc, argv, flags</I>)<BR>
+Tcl_Channel<BR>
+<B>Tcl_MakeFileChannel</B>(<I>handle, readOrWrite</I>)<BR>
+Tcl_Channel<BR>
+<B>Tcl_GetChannel</B>(<I>interp, channelName, modePtr</I>)<BR>
+void<BR>
+<B>Tcl_RegisterChannel</B>(<I>interp, channel</I>)<BR>
+int<BR>
+<B>Tcl_UnregisterChannel</B>(<I>interp, channel</I>)<BR>
+int<BR>
+<B>Tcl_Close</B>(<I>interp, channel</I>)<BR>
+int<BR>
+<B>Tcl_Read</B>(<I>channel, buf, toRead</I>)<BR>
+int<BR>
+<B>Tcl_Gets</B>(<I>channel, lineRead</I>)<BR>
+int<BR>
+<B>Tcl_GetsObj</B>(<I>channel, lineObjPtr</I>)<BR>
+int<BR>
+<B>Tcl_Write</B>(<I>channel, buf, toWrite</I>)<BR>
+int<BR>
+<B>Tcl_Flush</B>(<I>channel</I>)<BR>
+int<BR>
+<B>Tcl_Seek</B>(<I>channel, offset, seekMode</I>)<BR>
+int<BR>
+<B>Tcl_Tell</B>(<I>channel</I>)<BR>
+int<BR>
+<B>Tcl_GetChannelOption</B>(<I>channel, optionName, optionValue</I>)<BR>
+int<BR>
+<B>Tcl_SetChannelOption</B>(<I>interp, channel, optionName, newValue</I>)<BR>
+int<BR>
+<B>Tcl_Eof</B>(<I>channel</I>)<BR>
+int<BR>
+<B>Tcl_InputBlocked</B>(<I>channel</I>)<BR>
+int<BR>
+<B>Tcl_InputBuffered</B>(<I>channel</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT><A HREF="../TclLib/Interp.htm">Tcl_Interp</A> <B>*interp</B> (in)<DD>
+Used for error reporting and to look up a channel registered in it.
+<P><DT>char <B>*fileName</B> (in)<DD>
+The name of a local or network file.
+<P><DT>char <B>*mode</B> (in)<DD>
+Specifies how the file is to be accessed.  May have any of the
+values allowed for the <I>mode</I> argument to the Tcl
+<B><A HREF="../TclCmd/open.htm">open</A></B> command.
+For <B>Tcl_OpenCommandChannel</B>, may be NULL.
+<P><DT>int <B>permissions</B> (in)<DD>
+POSIX-style permission flags such as 0644.
+If a new file is created, these permissions will be set on the
+created file.
+<P><DT>int <B>argc</B> (in)<DD>
+The number of elements in <I>argv</I>.
+<P><DT>char <B>**argv</B> (in)<DD>
+Arguments for constructing a command pipeline.
+These values have the same meaning as the non-switch arguments
+to the Tcl <B><A HREF="../TclCmd/exec.htm">exec</A></B> command.
+<P><DT>int <B>flags</B> (in)<DD>
+Specifies the disposition of the stdio handles in pipeline: OR-ed
+combination of <B>TCL_STDIN</B>, <B>TCL_STDOUT</B>, <B>TCL_STDERR</B>,
+and <B>TCL_ENFORCE_MODE</B>. If <B>TCL_STDIN</B> is set, stdin for
+the first child in the pipe is the pipe channel, otherwise it is the same
+as the standard input of the invoking process; likewise for
+<B>TCL_STDOUT</B> and <B>TCL_STDERR</B>. If <B>TCL_ENFORCE_MODE</B> is not set,
+then the pipe can redirect stdio handles to override the stdio handles for
+which <B>TCL_STDIN</B>, <B>TCL_STDOUT</B> and <B>TCL_STDERR</B> have been set.
+If it is set, then such redirections cause an error.
+<P><DT>ClientData <B>handle</B> (in)<DD>
+Operating system specific handle for I/O to a file. For Unix this is a
+file descriptor, for Windows it is a HANDLE.
+<P><DT>int <B>readOrWrite</B> (in)<DD>
+OR-ed combination of <B>TCL_READABLE</B> and <B>TCL_WRITABLE</B> to indicate
+what operations are valid on <I>handle</I>.
+<P><DT>int <B>*modePtr</B> (out)<DD>
+Points at an integer variable that will receive an OR-ed combination of
+<B>TCL_READABLE</B> and <B>TCL_WRITABLE</B> denoting whether the channel is
+open for reading and writing.
+<P><DT>Tcl_Channel <B>channel</B> (in)<DD>
+A Tcl channel for input or output.  Must have been the return value
+from a procedure such as <B>Tcl_OpenFileChannel</B>.
+<P><DT>char <B>*buf</B> (in)<DD>
+An array of bytes in which to store channel input, or from which
+to read channel output.
+<P><DT>int <B>len</B> (in)<DD>
+The length of the input or output.
+<P><DT>int <B>atEnd</B> (in)<DD>
+If nonzero, store the input at the end of the input queue, otherwise store
+it at the head of the input queue.
+<P><DT>int <B>toRead</B> (in)<DD>
+The number of bytes to read from the channel.
+<P><DT>Tcl_DString <B>*lineRead</B> (in)<DD>
+A pointer to a Tcl dynamic string in which to store the line read from the
+channel.  Must have been initialized by the caller.  The line read
+will be appended to any data already in the dynamic string.
+<P><DT>Tcl_Obj <B>*linePtrObj</B> (in)<DD>
+A pointer to a Tcl object in which to store the line read from the
+channel.  The line read will be appended to the current value of the
+object. 
+<P><DT>int <B>toWrite</B> (in)<DD>
+The number of bytes to read from <I>buf</I> and output to the channel.
+<P><DT>int <B>offset</B> (in)<DD>
+How far to move the access point in the channel at which the next input or
+output operation will be applied, measured in bytes from the position
+given by <I>seekMode</I>.  May be either positive or negative.
+<P><DT>int <B>seekMode</B> (in)<DD>
+Relative to which point to seek; used with <I>offset</I> to calculate the new
+access point for the channel. Legal values are <B>SEEK_SET</B>,
+<B>SEEK_CUR</B>, and <B>SEEK_END</B>.
+<P><DT>char <B>*optionName</B> (in)<DD>
+The name of an option applicable to this channel, such as <B>-blocking</B>.
+May have any of the values accepted by the <B><A HREF="../TclCmd/fconfigure.htm">fconfigure</A></B> command.
+<P><DT>Tcl_DString <B>*optionValue</B> (in)<DD>
+Where to store the value of an option or a list of all options and their
+values. Must have been initialized by the caller.
+<P><DT>char <B>*newValue</B> (in)<DD>
+New value for the option given by <I>optionName</I>.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+The Tcl channel mechanism provides a device-independent and
+platform-independent mechanism for performing buffered input
+and output operations on a variety of file, socket, and device
+types.
+The channel mechanism is extensible to new channel types, by
+providing a low level channel driver for the new type; the channel driver
+interface is described in the manual entry for <B><A HREF="../TclLib/CrtChannel.htm">Tcl_CreateChannel</A></B>. The
+channel mechanism provides a buffering scheme modelled after
+Unix's standard I/O, and it also allows for nonblocking I/O on
+channels.
+<P>
+The procedures described in this manual entry comprise the C APIs of the
+generic layer of the channel architecture. For a description of the channel
+driver architecture and how to implement channel drivers for new types of
+channels, see the manual entry for <B><A HREF="../TclLib/CrtChannel.htm">Tcl_CreateChannel</A></B>.
+
+<H3><A NAME="M6">TCL_OPENFILECHANNEL</A></H3>
+<B>Tcl_OpenFileChannel</B> opens a file specified by <I>fileName</I> and
+returns a channel handle that can be used to perform input and output on
+the file. This API is modelled after the <B>fopen</B> procedure of
+the Unix standard I/O library.
+The syntax and meaning of all arguments is similar to those
+given in the Tcl <B><A HREF="../TclCmd/open.htm">open</A></B> command when opening a file.
+If an error occurs while opening the channel, <B>Tcl_OpenFileChannel</B>
+returns NULL and records a POSIX error code that can be
+retrieved with <B><A HREF="../TclLib/SetErrno.htm">Tcl_GetErrno</A></B>.
+In addition, if <I>interp</I> is non-NULL, <B>Tcl_OpenFileChannel</B>
+leaves an error message in <I>interp-&gt;result</I> after any error.
+<P>
+The newly created channel is not registered in the supplied interpreter; to
+register it, use <B>Tcl_RegisterChannel</B>, described below.
+If one of the standard channels, <B>stdin, stdout</B> or <B>stderr</B> was
+previously closed, the act of creating the new channel also assigns it as a
+replacement for the standard channel.
+
+<H3><A NAME="M7">TCL_OPENCOMMANDCHANNEL</A></H3>
+<B>Tcl_OpenCommandChannel</B> provides a C-level interface to the
+functions of the <B><A HREF="../TclCmd/exec.htm">exec</A></B> and <B><A HREF="../TclCmd/open.htm">open</A></B> commands.
+It creates a sequence of subprocesses specified
+by the <I>argv</I> and <I>argc</I> arguments and returns a channel that can
+be used to communicate with these subprocesses.
+The <I>flags</I> argument indicates what sort of communication will
+exist with the command pipeline.
+<P>
+If the <B>TCL_STDIN</B> flag is set then the standard input for the
+first subprocess will be tied to the channel: writing to the channel
+will provide input to the subprocess.  If <B>TCL_STDIN</B> is not set,
+then standard input for the first subprocess will be the same as this
+application's standard input.  If <B>TCL_STDOUT</B> is set then
+standard output from the last subprocess can be read from the channel;
+otherwise it goes to this application's standard output.  If
+<B>TCL_STDERR</B> is set, standard error output for all subprocesses is
+returned to the channel and results in an error when the channel is
+closed; otherwise it goes to this application's standard error.  If
+<B>TCL_ENFORCE_MODE</B> is not set, then <I>argc</I> and <I>argv</I> can
+redirect the stdio handles to override <B>TCL_STDIN</B>,
+<B>TCL_STDOUT</B>, and <B>TCL_STDERR</B>; if it is set, then it is an
+error for argc and argv to override stdio channels for which
+<B>TCL_STDIN</B>, <B>TCL_STDOUT</B>, and <B>TCL_STDERR</B> have been set.
+<P>
+If an error occurs while opening the channel, <B>Tcl_OpenCommandChannel</B>
+returns NULL and records a POSIX error code that can be retrieved with
+<B><A HREF="../TclLib/SetErrno.htm">Tcl_GetErrno</A></B>.
+In addition, <B>Tcl_OpenCommandChannel</B> leaves an error message in
+<I>interp-&gt;result</I> if <I>interp</I> is not NULL.
+<P>
+The newly created channel is not registered in the supplied interpreter; to
+register it, use <B>Tcl_RegisterChannel</B>, described below.
+If one of the standard channels, <B>stdin, stdout</B> or <B>stderr</B> was
+previously closed, the act of creating the new channel also assigns it as a
+replacement for the standard channel.
+
+<H3><A NAME="M8">TCL_MAKEFILECHANNEL</A></H3>
+<B>Tcl_MakeFileChannel</B> makes a <B>Tcl_Channel</B> from an existing,
+platform-specific, file handle.
+The newly created channel is not registered in the supplied interpreter; to
+register it, use <B>Tcl_RegisterChannel</B>, described below.
+If one of the standard channels, <B>stdin, stdout</B> or <B>stderr</B> was
+previously closed, the act of creating the new channel also assigns it as a
+replacement for the standard channel.
+
+<H3><A NAME="M9">TCL_GETCHANNEL</A></H3>
+<B>Tcl_GetChannel</B> returns a channel given the <I>channelName</I> used to
+create it with <B><A HREF="../TclLib/CrtChannel.htm">Tcl_CreateChannel</A></B> and a pointer to a Tcl interpreter in
+<I>interp</I>. If a channel by that name is not registered in that interpreter,
+the procedure returns NULL. If the <I>mode</I> argument is not NULL, it
+points at an integer variable that will receive an OR-ed combination of
+<B>TCL_READABLE</B> and <B>TCL_WRITABLE</B> describing whether the channel is
+open for reading and writing.
+
+<H3><A NAME="M10">TCL_REGISTERCHANNEL</A></H3>
+<B>Tcl_RegisterChannel</B> adds a channel to the set of channels accessible
+in <I>interp</I>. After this call, Tcl programs executing in that
+interpreter can refer to the channel in input or output operations using
+the name given in the call to <B><A HREF="../TclLib/CrtChannel.htm">Tcl_CreateChannel</A></B>.  After this call,
+the channel becomes the property of the interpreter, and the caller should
+not call <B>Tcl_Close</B> for the channel; the channel will be closed
+automatically when it is unregistered from the interpreter.
+<P>
+Code executing outside of any Tcl interpreter can call
+<B>Tcl_RegisterChannel</B> with <I>interp</I> as NULL, to indicate that it
+wishes to hold a reference to this channel. Subsequently, the channel can
+be registered in a Tcl interpreter and it will only be closed when the
+matching number of calls to <B>Tcl_UnregisterChannel</B> have been made.
+This allows code executing outside of any interpreter to safely hold a
+reference to a channel that is also registered in a Tcl interpreter.
+
+<H3><A NAME="M11">TCL_UNREGISTERCHANNEL</A></H3>
+<B>Tcl_UnregisterChannel</B> removes a channel from the set of channels
+accessible in <I>interp</I>. After this call, Tcl programs will no longer be
+able to use the channel's name to refer to the channel in that interpreter.
+If this operation removed the last registration of the channel in any
+interpreter, the channel is also closed and destroyed.
+<P>
+Code not associated with a Tcl interpreter can call
+<B>Tcl_UnregisterChannel</B> with <I>interp</I> as NULL, to indicate to Tcl
+that it no longer holds a reference to that channel. If this is the last
+reference to the channel, it will now be closed.
+
+<H3><A NAME="M12">TCL_CLOSE</A></H3>
+<B>Tcl_Close</B> destroys the channel <I>channel</I>, which must denote a
+currently open channel. The channel should not be registered in any
+interpreter when <B>Tcl_Close</B> is called. Buffered output is flushed to
+the channel's output device prior to destroying the channel, and any
+buffered input is discarded.  If this is a blocking channel, the call does
+not return until all buffered data is successfully sent to the channel's
+output device.  If this is a nonblocking channel and there is buffered
+output that cannot be written without blocking, the call returns
+immediately; output is flushed in the background and the channel will be
+closed once all of the buffered data has been output.  In this case errors
+during flushing are not reported.
+<P>
+If the channel was closed successfully, <B>Tcl_Close</B> returns <B>TCL_OK</B>.
+If an error occurs, <B>Tcl_Close</B> returns <B>TCL_ERROR</B> and records a
+POSIX error code that can be retrieved with <B><A HREF="../TclLib/SetErrno.htm">Tcl_GetErrno</A></B>.
+If the channel is being closed synchronously and an error occurs during
+closing of the channel and <I>interp</I> is not NULL, an error message is
+left in <I>interp-&gt;result</I>.
+<P>
+Note: it is not safe to call <B>Tcl_Close</B> on a channel that has been
+registered using <B>Tcl_RegisterChannel</B>; see the documentation for
+<B>Tcl_RegisterChannel</B>, above, for details. If the channel has ever been
+given as the <B>chan</B> argument in a call to <B>Tcl_RegisterChannel</B>,
+you should instead use <B>Tcl_UnregisterChannel</B>, which will internally
+call <B>Tcl_Close</B> when all calls to <B>Tcl_RegisterChannel</B> have been
+matched by corresponding calls to <B>Tcl_UnregisterChannel</B>.
+
+<H3><A NAME="M13">TCL_READ</A></H3>
+<B>Tcl_Read</B> consumes up to <I>toRead</I> bytes of data from
+<I>channel</I> and stores it at <I>buf</I>.
+The return value of <B>Tcl_Read</B> is the number of characters written
+at <I>buf</I>.
+The buffer produced by <B>Tcl_Read</B> is not NULL terminated. Its contents
+are valid from the zeroth position up to and excluding the position
+indicated by the return value.
+If an error occurs, the return value is -1 and <B>Tcl_Read</B> records
+a POSIX error code that can be retrieved with <B><A HREF="../TclLib/SetErrno.htm">Tcl_GetErrno</A></B>.
+<P>
+The return value may be smaller than the value of <I>toRead</I>, indicating
+that less data than requested was available, also called a <I>short
+read</I>.
+In blocking mode, this can only happen on an end-of-file.
+In nonblocking mode, a short read can also occur if there is not
+enough input currently available:  <B>Tcl_Read</B> returns a short
+count rather than waiting for more data.
+<P>
+If the channel is in blocking mode, a return value of zero indicates an end
+of file condition. If the channel is in nonblocking mode, a return value of
+zero indicates either that no input is currently available or an end of
+file condition. Use <B>Tcl_Eof</B> and <B>Tcl_InputBlocked</B>
+to tell which of these conditions actually occurred.
+<P>
+<B>Tcl_Read</B> translates platform-specific end-of-line representations
+into the canonical <B>&#92;n</B> internal representation according to the
+current end-of-line recognition mode. End-of-line recognition and the
+various platform-specific modes are described in the manual entry for the
+Tcl <B><A HREF="../TclCmd/fconfigure.htm">fconfigure</A></B> command.
+
+<H3><A NAME="M14">TCL_GETS AND TCL_GETSOBJ</A></H3>
+<B>Tcl_Gets</B> reads a line of input from a channel and appends all of
+the characters of the line except for the terminating end-of-line character(s)
+to the dynamic string given by <I>dsPtr</I>.
+The end-of-line character(s) are read and discarded.
+<P>
+If a line was successfully read, the return value is greater than or
+equal to zero, and it indicates the number of characters stored
+in the dynamic string.
+If an error occurs, <B>Tcl_Gets</B> returns -1 and records a POSIX error
+code that can be retrieved with <B><A HREF="../TclLib/SetErrno.htm">Tcl_GetErrno</A></B>.
+<B>Tcl_Gets</B> also returns -1 if the end of the file is reached;
+the <B>Tcl_Eof</B> procedure can be used to distinguish an error
+from an end-of-file condition.
+<P>
+If the channel is in nonblocking mode, the return value can also
+be -1 if no data was available or the data that was available
+did not contain an end-of-line character.
+When -1 is returned, the <B>Tcl_InputBlocked</B> procedure may be
+invoked to determine if the channel is blocked because of input
+unavailability.
+<P>
+<B>Tcl_GetsObj</B> is the same as <B>Tcl_Gets</B> except the resulting
+characters are appended to a Tcl object <B>lineObjPtr</B> rather than a
+dynamic string.
+<H3><A NAME="M15">TCL_WRITE</A></H3>
+<B>Tcl_Write</B> accepts <I>toWrite</I> bytes of data at <I>buf</I> for output
+on <I>channel</I>. This data may not appear on the output device
+immediately. If the data should appear immediately, call <B>Tcl_Flush</B>
+after the call to <B>Tcl_Write</B>, or set the <B>-buffering</B> option on
+the channel to <B>none</B>. If you wish the data to appear as soon as an end
+of line is accepted for output, set the <B>-buffering</B> option on the
+channel to <B>line</B> mode.
+<P>
+The <I>toWrite</I> argument specifies how many bytes of data are provided in
+the <I>buf</I> argument. If it is negative, <B>Tcl_Write</B> expects the data
+to be NULL terminated and it outputs everything up to the NULL.
+<P>
+The return value of <B>Tcl_Write</B> is a count of how many
+characters were accepted for output to the channel. This is either equal to
+<I>toWrite</I> or -1 to indicate that an error occurred.
+If an error occurs, <B>Tcl_Write</B> also records a POSIX error code
+that may be retrieved with <B><A HREF="../TclLib/SetErrno.htm">Tcl_GetErrno</A></B>.
+<P>
+Newline characters in the output data are translated to platform-specific
+end-of-line sequences according to the <B>-translation</B> option for
+the channel.
+
+<H3><A NAME="M16">TCL_FLUSH</A></H3>
+<B>Tcl_Flush</B> causes all of the buffered output data for <I>channel</I>
+to be written to its underlying file or device as soon as possible.
+If the channel is in blocking mode, the call does not return until
+all the buffered data has been sent to the channel or some error occurred.
+The call returns immediately if the channel is nonblocking; it starts
+a background flush that will write the buffered data to the channel
+eventually, as fast as the channel is able to absorb it.
+<P>
+The return value is normally <B>TCL_OK</B>.
+If an error occurs, <B>Tcl_Flush</B> returns <B>TCL_ERROR</B> and
+records a POSIX error code that can be retrieved with <B><A HREF="../TclLib/SetErrno.htm">Tcl_GetErrno</A></B>.
+
+<H3><A NAME="M17">TCL_SEEK</A></H3>
+<B>Tcl_Seek</B> moves the access point in <I>channel</I> where subsequent
+data will be read or written. Buffered output is flushed to the channel and
+buffered input is discarded, prior to the seek operation.
+<P>
+<B>Tcl_Seek</B> normally returns the new access point.
+If an error occurs, <B>Tcl_Seek</B> returns -1 and records a POSIX error
+code that can be retrieved with <B><A HREF="../TclLib/SetErrno.htm">Tcl_GetErrno</A></B>.
+After an error, the access point may or may not have been moved.
+
+<H3><A NAME="M18">TCL_TELL</A></H3>
+<B>Tcl_Tell</B> returns the current access point for a channel. The returned
+value is -1 if the channel does not support seeking.
+
+<H3><A NAME="M19">TCL_GETCHANNELOPTION</A></H3>
+<B>Tcl_GetChannelOption</B> retrieves, in <I>dsPtr</I>, the value of one of
+the options currently in effect for a channel, or a list of all options and
+their values.  The <I>channel</I> argument identifies the channel for which
+to query an option or retrieve all options and their values.
+If <I>optionName</I> is not NULL, it is the name of the
+option to query; the option's value is copied to the Tcl dynamic string
+denoted by <I>optionValue</I>. If
+<I>optionName</I> is NULL, the function stores an alternating list of option
+names and their values in <I>optionValue</I>, using a series of calls to
+<B><A HREF="../TclLib/DString.htm">Tcl_DStringAppendElement</A></B>. The various preexisting options and
+their possible values are described in the manual entry for the Tcl
+<B><A HREF="../TclCmd/fconfigure.htm">fconfigure</A></B> command. Other options can be added by each channel type.
+These channel type specific options are described in the manual entry for
+the Tcl command that creates a channel of that type; for example, the
+additional options for TCP based channels are described in the manual entry
+for the Tcl <B><A HREF="../TclCmd/socket.htm">socket</A></B> command.
+The procedure normally returns <B>TCL_OK</B>. If an error occurs, it returns
+<B>TCL_ERROR</B> and calls <B><A HREF="../TclLib/SetErrno.htm">Tcl_SetErrno</A></B> to store an appropriate POSIX
+error code.
+
+<H3><A NAME="M20">TCL_SETCHANNELOPTION</A></H3>
+<B>Tcl_SetChannelOption</B> sets a new value for an option on <I>channel</I>.
+<I>OptionName</I> is the option to set and <I>newValue</I> is the value to
+set.
+The procedure normally returns <B>TCL_OK</B>.  If an error occurs,
+it returns <B>TCL_ERROR</B>;  in addition, if <I>interp</I> is non-NULL,
+<B>Tcl_SetChannelOption</B> leaves an error message in <I>interp-&gt;result</I>.
+
+<H3><A NAME="M21">TCL_EOF</A></H3>
+<B>Tcl_Eof</B> returns a nonzero value if <I>channel</I> encountered
+an end of file during the last input operation.
+
+<H3><A NAME="M22">TCL_INPUTBLOCKED</A></H3>
+<B>Tcl_InputBlocked</B> returns a nonzero value if <I>channel</I> is in
+nonblocking mode and the last input operation returned less data than
+requested because there was insufficient data available.
+The call always returns zero if the channel is in blocking mode.
+
+<H3><A NAME="M23">TCL_INPUTBUFFERED</A></H3>
+<B>Tcl_InputBuffered</B> returns the number of bytes of input currently
+buffered in the internal buffers for a channel. If the channel is not open
+for reading, this function always returns zero.
+
+<H3><A NAME="M24">PLATFORM ISSUES</A></H3>
+The handles returned from <B><A HREF="../TclLib/CrtChannel.htm">Tcl_GetChannelHandle</A></B> depend on the
+platform and the channel type.  On Unix platforms, the handle is
+always a Unix file descriptor as returned from the <B><A HREF="../TclCmd/open.htm">open</A></B> system
+call.  On Windows platforms, the handle is a file <B>HANDLE</B> when
+the channel was created with <B>Tcl_OpenFileChannel</B>,
+<B>Tcl_OpenCommandChannel</B>, or <B>Tcl_MakeFileChannel</B>.  Other
+channel types may return a different type of handle on Windows
+platforms.  On the Macintosh platform, the handle is a file reference
+number as returned from <B>HOpenDF</B>.
+
+<H3><A NAME="M25">SEE ALSO</A></H3>
+<B>DString</B>, <B><A HREF="../TclCmd/fconfigure.htm">fconfigure</A></B>, <B><A HREF="../TclCmd/filename.htm">filename</A></B>, <B>fopen(2)</B>, <B><A HREF="../TclLib/CrtChannel.htm">Tcl_CreateChannel</A></B>
+<H3><A NAME="M26">KEYWORDS</A></H3>
+<A href="../Keywords/A.htm#access point">access point</A>, <A href="../Keywords/B.htm#blocking">blocking</A>, <A href="../Keywords/B.htm#buffered I/O">buffered I/O</A>, <A href="../Keywords/C.htm#channel">channel</A>, <A href="../Keywords/C.htm#channel driver">channel driver</A>, <A href="../Keywords/E.htm#end of file">end of file</A>, <A href="../Keywords/F.htm#flush">flush</A>, <A href="../Keywords/I.htm#input">input</A>, <A href="../Keywords/N.htm#nonblocking">nonblocking</A>, <A href="../Keywords/O.htm#output">output</A>, <A href="../Keywords/R.htm#read">read</A>, <A href="../Keywords/S.htm#seek">seek</A>, <A href="../Keywords/W.htm#write">write</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1996-1997 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

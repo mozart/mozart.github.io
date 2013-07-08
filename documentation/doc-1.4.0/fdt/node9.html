@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>2.7 An Example</TITLE><LINK href="ozdoc.css" rel="stylesheet" type="text/css"></HEAD><BODY><TABLE align="center" border="0" cellpadding="6" cellspacing="6" class="nav"><TR bgcolor="#DDDDDD"><TD><A href="node8.html#section.constraints.dast">&lt;&lt; Prev</A></TD><TD><A href="node2.html">- Up -</A></TD><TD><A href="node10.html#section.constraints.distribution">Next &gt;&gt;</A></TD></TR></TABLE><DIV id="section.constraints.example"><H2><A name="section.constraints.example">2.7 An Example</A></H2><P>To see the outlined propagate and distribute method at a concrete example, consider the problem specified by the following constraints: </P><BLOCKQUOTE><P><IMG alt="\begin{array}{c}
+X\neq7
+\qquad
+Z\neq2
+\qquad
+X-Z = {3\cdot Y}
+\\
+X\in1\#8
+\qquad
+Y\in1\#10
+\qquad
+Z\in1\#10
+\end{array}" src="latex65.png"></P></BLOCKQUOTE><P> To solve the problem, we start with a space whose store constrains the variables <IMG alt="x" src="latex42.png">, <IMG alt="Y" src="latex8.png">, and <I>Z</I> to the given domains. We also create three propagators imposing the constraints <IMG alt="X\neq7" src="latex66.png">, <IMG alt="Z\neq2" src="latex67.png">, and <IMG alt="X-Z={3\cdot Y}" src="latex68.png">. We assume that the propagator for <IMG alt="X-Z={3\cdot Y}" src="latex68.png"> realizes interval propagation, and that the propagators for the disequations <IMG alt="X\neq7" src="latex66.png"> and <IMG alt="Z\neq2" src="latex67.png"> realize domain propagation. </P><P>The propagators for the disequations immediately write all their information into the store and disappear. The store then knows the domains </P><BLOCKQUOTE><P><IMG alt="X\in[1\#6\;\;8]
+\qquad
+Y\in1\#10
+\qquad
+Z\in[1\;\;3\#10]" src="latex69.png"></P></BLOCKQUOTE><P> where <IMG alt="[1\;\;3\#10]" src="latex70.png"> denotes the finite domain <IMG alt="\{1\}\cup\{3,\ldots,10\}" src="latex71.png">. The interval propagator for <IMG alt="X-Z = {3\cdot Y}" src="latex72.png"> can now further narrow the domains to </P><BLOCKQUOTE><P><IMG alt="X\in[4\#6\;\;8]
+\qquad
+Y\in1\#2
+\qquad
+Z\in[1\;\;3\#5]." src="latex73.png"></P></BLOCKQUOTE><P> </P><P>Now the space is stable but neither failed nor solved. Thus, we continue with a first distribution step. We choose to distribute with the constraint <IMG alt="X=4" src="latex57.png">. <A href="node9.html#figfd2">Figure&nbsp;2.2</A> shows the resulting search tree. </P><DIV id="figfd2"><HR><P><A name="figfd2"></A></P><DIV align="center"><IMG alt="" src="latex74.png"></DIV><P class="caption"><STRONG>Figure&nbsp;2.2:</STRONG> A search tree containing 3 choice nodes, 1 failure node, and 3 solution nodes.</P><HR></DIV><P> </P><P>The space obtained by adding a propagator for <IMG alt="X=4" src="latex57.png"> can be solved by propagation and yields the solution </P><BLOCKQUOTE><P><IMG alt="X=4
+\qquad
+Y=1
+\qquad
+Z=1" src="latex75.png"></P></BLOCKQUOTE><P> </P><P>The space obtained by adding a propagator for <IMG alt="X\neq4" src="latex76.png"> becomes stable immediately after this propagator has written its information into the constraint store, which then looks as follows: </P><BLOCKQUOTE><P><IMG alt="X\in[5\#6\;\;8]
+\qquad
+Y\in1\#2
+\qquad
+Z\in[1\;\;3\#5]" src="latex77.png"></P></BLOCKQUOTE><P> </P><P>This time we distribute with respect to the constraint <IMG alt="X=5" src="latex78.png">. </P><P>The space obtained by adding a propagator for <IMG alt="X=5" src="latex78.png"> fails since <IMG alt="X-Z={3\cdot Y}" src="latex68.png"> is inconsistent with the store obtained by adding <IMG alt="X=5" src="latex78.png">. </P><P>The space obtained by adding a propagator for <IMG alt="X\neq5" src="latex79.png"> becomes stable immediately after this propagator has written its information into the constraint store, which then looks as follows: </P><BLOCKQUOTE><P><IMG alt="X\in[6\;\;8]
+\qquad
+Y\in1\#2
+\qquad
+Z\in[1\;\;3\#5]" src="latex80.png"></P></BLOCKQUOTE><P> </P><P>Now we distribute with respect to the constraint <IMG alt="X=6" src="latex81.png">.</P><P>The space obtained by adding a propagator for <IMG alt="X=6" src="latex81.png"> can be solved by propagation and yields the solution </P><BLOCKQUOTE><P><IMG alt="X=6
+\qquad
+Y=1
+\qquad
+Z=3" src="latex82.png"></P></BLOCKQUOTE><P></P><P>Finally, the space obtained by adding a propagator for <IMG alt="X\neq6" src="latex83.png"> can also be solved by propagation, yielding the third and final solution </P><BLOCKQUOTE><P><IMG alt="X=8
+\qquad
+Y=1
+\qquad
+Z=5" src="latex84.png"></P></BLOCKQUOTE><P> </P><P>An alternative to the propagate and distribute method is a naive enumerate and test method, which would enumerate all triples <IMG alt="(X,Y,Z)" src="latex85.png"> admitted by the initial domain constraints and test the constraints <IMG alt="X\neq7" src="latex66.png">, <IMG alt="Z\neq2" src="latex67.png">, and <IMG alt="X-Z={3\cdot Y}" src="latex68.png"> for each triple. There are <IMG alt="8*10*10=800" src="latex86.png"> candidates. This shows that constraint propagation can reduce the size of the search tree considerably.</P></DIV><TABLE align="center" border="0" cellpadding="6" cellspacing="6" class="nav"><TR bgcolor="#DDDDDD"><TD><A href="node8.html#section.constraints.dast">&lt;&lt; Prev</A></TD><TD><A href="node2.html">- Up -</A></TD><TD><A href="node10.html#section.constraints.distribution">Next &gt;&gt;</A></TD></TR></TABLE><HR><ADDRESS><A href="http://www.ps.uni-sb.de/~schulte/">Christian&nbsp;Schulte</A> and&nbsp;<A href="http://www.ps.uni-sb.de/~smolka/">Gert&nbsp;Smolka</A><BR><SPAN class="version">Version 1.4.0 (20080702)</SPAN></ADDRESS></BODY></HTML>

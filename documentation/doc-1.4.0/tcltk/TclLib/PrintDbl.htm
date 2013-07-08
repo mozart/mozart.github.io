@@ -1,0 +1,34 @@
+<HTML><HEAD><TITLE>Tcl Library Procedures - Tcl_PrintDouble manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tcl_PrintDouble - Convert floating value to string
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tcl.h&gt;</B><BR>
+<B>Tcl_PrintDouble</B>(<I>interp, value, dst</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT><A HREF="../TclLib/Interp.htm">Tcl_Interp</A> <B>*interp</B> (in)<DD>
+Before Tcl 8.0, the <B>tcl_precision</B> variable in this interpreter
+controlled the conversion.  As of Tcl 8.0, this argument is ignored and
+17 digits of precision are always used for conversion.
+<P><DT>double <B>value</B> (in)<DD>
+Floating-point value to be converted.
+<P><DT>char <B>*dst</B> (out)<DD>
+Where to store string representing <I>value</I>.  Must have at
+least TCL_DOUBLE_SPACE characters of storage.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+<B>Tcl_PrintDouble</B> generates a string that represents the value
+of <I>value</I> and stores it in memory at the location given by
+<I>dst</I>.  It uses <B>%g</B> format to generate the string, with one
+special twist: the string is guaranteed to contain either
+a ``.'' or an ``e'' so that it doesn't look like an integer.  Where
+<B>%g</B> would generate an integer with no decimal point, <B>Tcl_PrintDouble</B>
+adds ``.0''.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/C.htm#conversion">conversion</A>, <A href="../Keywords/D.htm#double-precision">double-precision</A>, <A href="../Keywords/F.htm#floating-point">floating-point</A>, <A href="../Keywords/S.htm#string">string</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1989-1993 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1997 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

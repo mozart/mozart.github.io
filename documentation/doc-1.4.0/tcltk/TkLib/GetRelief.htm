@@ -1,0 +1,48 @@
+<HTML><HEAD><TITLE>Library Procedures - Tk_GetRelief manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tk_GetRelief, Tk_NameOfRelief - translate between strings and relief values
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tk.h&gt;</B><BR>
+int<BR>
+<B>Tk_GetRelief(</B><I>interp, name, reliefPtr</I><B>)</B><BR>
+char *<BR>
+<B>Tk_NameOfRelief(</B><I>relief</I><B>)</B><BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT><A HREF="../TclLib/Interp.htm">Tcl_Interp</A> <B>*interp</B> (in)<DD>
+Interpreter to use for error reporting.
+<P><DT>char <B>*name</B> (in)<DD>
+String containing relief name (one of ``flat'', ``groove'',
+``raised'', ``ridge'', ``solid'', or ``sunken'').
+<P><DT>int <B>*reliefPtr</B> (out)<DD>
+Pointer to location in which to store relief value corresponding to
+<I>name</I>.
+<P><DT>int <B>relief</B> (in)<DD>
+Relief value (one of TK_RELIEF_FLAT, TK_RELIEF_RAISED, TK_RELIEF_SUNKEN,
+TK_RELIEF_GROOVE, TK_RELIEF_SOLID, or TK_RELIEF_RIDGE).
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+<B>Tk_GetRelief</B> places in <I>*reliefPtr</I> the relief value
+corresponding to <I>name</I>.  This value will be one of
+TK_RELIEF_FLAT, TK_RELIEF_RAISED, TK_RELIEF_SUNKEN,
+TK_RELIEF_GROOVE, TK_RELIEF_SOLID, or TK_RELIEF_RIDGE.
+Under normal circumstances the return value is TCL_OK and
+<I>interp</I> is unused.
+If <I>name</I> doesn't contain one of the valid relief names
+or an abbreviation of one of them, then an error message
+is stored in <I>interp-&gt;result</I>,
+TCL_ERROR is returned, and <I>*reliefPtr</I> is unmodified.
+<P>
+<B>Tk_NameOfRelief</B> is the logical inverse of <B>Tk_GetRelief</B>.
+Given a relief value it returns the corresponding string (``flat'',
+``raised'', ``sunken'', ``groove'', ``solid'', or ``ridge'').
+If <I>relief</I> isn't a legal relief value, then ``unknown relief''
+is returned.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/N.htm#name">name</A>, <A href="../Keywords/R.htm#relief">relief</A>, <A href="../Keywords/S.htm#string">string</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1990 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

@@ -1,0 +1,48 @@
+<HTML><HEAD><TITLE>Tcl Library Procedures - Tcl_PkgRequire manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tcl_PkgRequire, Tcl_PkgProvide - package version control
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tcl.h&gt;</B><BR>
+char *<BR>
+<B>Tcl_PkgRequire</B>(<I>interp, name, version, exact</I>)<BR>
+int<BR>
+<B>Tcl_PkgProvide</B>(<I>interp, name, version</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT><A HREF="../TclLib/Interp.htm">Tcl_Interp</A> <B>*interp</B> (in)<DD>
+Interpreter where package is needed or available.
+<P><DT>char <B>*name</B> (in)<DD>
+Name of package.
+<P><DT>char <B>*version</B> (in)<DD>
+A version string consisting of one or more decimal numbers
+separated by dots.
+<P><DT>int <B>exact</B> (in)<DD>
+Non-zero means that only the particular version specified by
+<I>version</I> is acceptable.
+Zero means that newer versions than <I>version</I> are also
+acceptable as long as they have the same major version number
+as <I>version</I>.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+These procedures provide C-level interfaces to Tcl's package and
+version management facilities.
+<B>Tcl_PkgRequire</B> is equivalent to the <B>package require</B>
+command, and <B>Tcl_PkgProvide</B> is equivalent to the
+<B>package provide</B> command.
+See the documentation for the Tcl commands for details on what these
+procedures do.
+If <B>Tcl_PkgRequire</B> completes successfully it returns a pointer
+to the version string for the version of the package that is provided
+in the interpreter (which may be different than <I>version</I>); if
+an error occurs it returns NULL and leaves an error message in
+<I>interp-&gt;result</I>.
+<B>Tcl_PkgProvide</B> returns TCL_OK if it completes successfully;
+if an error occurs it returns TCL_ERROR and leaves an error message
+in <I>interp-&gt;result</I>.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/P.htm#package">package</A>, <A href="../Keywords/P.htm#provide">provide</A>, <A href="../Keywords/R.htm#require">require</A>, <A href="../Keywords/V.htm#version">version</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

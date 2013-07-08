@@ -1,0 +1,63 @@
+<HTML><HEAD><TITLE>Library Procedures - Tk_GetFont manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tk_GetFont, Tk_NameOfFont, Tk_FreeFont - maintain database of fonts
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tk.h&gt;</B><BR>
+Tk_Font <BR>
+<B>Tk_GetFont(</B><I>interp, tkwin, string</I><B>)</B><BR>
+char *<BR>
+<B>Tk_NameOfFont(</B><I>tkfont</I><B>)</B><BR>
+void<BR>
+<B>Tk_FreeFont(</B><I>tkfont</I><B>)</B><BR>
+<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT><A HREF="../TclLib/Interp.htm">Tcl_Interp</A> <B>*interp</B> (in)<DD>
+Interpreter to use for error reporting.
+<P><DT>Tk_Window <B>tkwin</B> (in)<DD>
+Token for window on the display in which font will be used.
+<P><DT>const char <B>*string</B> (in)<DD>
+Name or description of desired font.  See documentation for the <B><A HREF="../TkCmd/font.htm">font</A></B> 
+command for details on acceptable formats.
+<P><DT>Tk_Font <B>tkfont</B> (in)<DD>
+Opaque font token.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+<B>Tk_GetFont</B> finds the font indicated by <I>string</I> and returns a
+token that represents the font.  The return value can be used in subsequent
+calls to procedures such as <B><A HREF="../TkLib/FontId.htm">Tk_FontMetrics</A></B>, <B><A HREF="../TkLib/MeasureChar.htm">Tk_MeasureChars</A></B>, and
+<B>Tk_FreeFont</B>.  The token returned by <B>Tk_GetFont</B> will remain
+valid until <B>Tk_FreeFont</B> is called to release it.  <I>String</I> can
+be either a symbolic name or a font description; see the documentation for
+the <B><A HREF="../TkCmd/font.htm">font</A></B> command for a description of the valid formats.  If
+<B>Tk_GetFont</B> is unsuccessful (because, for example, <I>string</I> was
+not a valid font specification) then it returns <B>NULL</B> and stores an
+error message in <I>interp-&gt;result</I>.
+<P>
+<B>Tk_GetFont</B> maintains a database of all fonts it has allocated.  If
+the same <I>string</I> is requested multiple times (e.g. by different
+windows or for different purposes), then additional calls for the same
+<I>string</I> will be handled without involving the platform-specific
+graphics server.
+<P>
+The procedure <B>Tk_NameOfFont</B> is roughly the inverse of
+<B>Tk_GetFont</B>.  Given a <I>tkfont</I> that was created by
+<B>Tk_GetFont</B>, the return value is the <I>string</I> argument that was
+passed to <B>Tk_GetFont</B> to create the font.  The string returned by
+<B>Tk_NameOfFont</B> is only guaranteed to persist until the <I>tkfont</I>
+is deleted.  The caller must not modify this string.
+<P>
+When a font returned by <B>Tk_GetFont</B> is no longer needed,
+<B>Tk_FreeFont</B> should be called to release it.  There should be
+exactly one call to <B>Tk_FreeFont</B> for each call to <B>Tk_GetFont</B>.
+When a font is no longer in use anywhere (i.e. it has been freed as many
+times as it has been gotten) <B>Tk_FreeFont</B> will release any
+platform-specific storage and delete it from the database.  
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/F.htm#font">font</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1990-1992 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

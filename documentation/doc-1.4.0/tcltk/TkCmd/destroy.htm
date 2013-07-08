@@ -1,0 +1,22 @@
+<HTML><HEAD><TITLE>Built-In Commands - destroy manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+destroy - Destroy one or more windows
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>destroy </B>?<I>window window ...</I>?<BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+This command deletes the windows given by the
+<I>window</I> arguments, plus all of their descendants.
+If a <I>window</I> ``.'' is deleted then the entire application
+will be destroyed.
+The <I>window</I>s are destroyed in order, and if an error occurs
+in destroying a window the command aborts without destroying the
+remaining windows.
+No error is returned if <I>window</I> does not exist.
+
+<H3><A NAME="M5">KEYWORDS</A></H3>
+<A href="../Keywords/A.htm#application">application</A>, <A href="../Keywords/D.htm#destroy">destroy</A>, <A href="../Keywords/W.htm#window">window</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1990 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

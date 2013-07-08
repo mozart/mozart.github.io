@@ -1,0 +1,151 @@
+<HTML><HEAD><TITLE>Built-In Commands - regexp manual page</TITLE></HEAD><BODY>
+<DL>
+<DD><A HREF="regexp.htm#M2" NAME="L695">NAME</A>
+<DL><DD>regexp - Match a regular expression against a string</DL>
+<DD><A HREF="regexp.htm#M3" NAME="L696">SYNOPSIS</A>
+<DL>
+<DD><B>regexp </B>?<I>switches</I>? <I>exp string </I>?<I>matchVar</I>? ?<I>subMatchVar subMatchVar ...</I>?
+</DL>
+<DD><A HREF="regexp.htm#M4" NAME="L697">DESCRIPTION</A>
+<DL>
+<DD><A HREF="regexp.htm#M5" NAME="L698"><B>-nocase</B></A>
+<DD><A HREF="regexp.htm#M6" NAME="L699"><B>-indices</B></A>
+<DD><A HREF="regexp.htm#M7" NAME="L700"><B>--</B></A>
+</DL>
+<DD><A HREF="regexp.htm#M8" NAME="L701">REGULAR EXPRESSIONS</A>
+<DD><A HREF="regexp.htm#M9" NAME="L702">CHOOSING AMONG ALTERNATIVE MATCHES</A>
+<DL>
+</DL>
+<DD><A HREF="regexp.htm#M10" NAME="L703">KEYWORDS</A>
+</DL><HR>
+<H3><A NAME="M2">NAME</A></H3>
+regexp - Match a regular expression against a string
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>regexp </B>?<I>switches</I>? <I>exp string </I>?<I>matchVar</I>? ?<I>subMatchVar subMatchVar ...</I>?<BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+Determines whether the regular expression <I>exp</I> matches part or
+all of <I>string</I> and returns 1 if it does, 0 if it doesn't.
+<P>
+If additional arguments are specified after <I>string</I> then they
+are treated as the names of variables in which to return
+information about which part(s) of <I>string</I> matched <I>exp</I>.
+<I>MatchVar</I> will be set to the range of <I>string</I> that
+matched all of <I>exp</I>.  The first <I>subMatchVar</I> will contain
+the characters in <I>string</I> that matched the leftmost parenthesized
+subexpression within <I>exp</I>, the next <I>subMatchVar</I> will
+contain the characters that matched the next parenthesized
+subexpression to the right in <I>exp</I>, and so on.
+<P>
+If the initial arguments to <B>regexp</B> start with <B>-</B> then
+they are treated as switches.  The following switches are
+currently supported:
+<P>
+<DL>
+<P><DT><A NAME="M5"><B>-nocase</B></A><DD>
+Causes upper-case characters in <I>string</I> to be treated as
+lower case during the matching process.
+<P><DT><A NAME="M6"><B>-indices</B></A><DD>
+Changes what is stored in the <I>subMatchVar</I>s. 
+Instead of storing the matching characters from <B>string</B>,
+each variable
+will contain a list of two decimal strings giving the indices
+in <I>string</I> of the first and last characters in the matching
+range of characters.
+<P><DT><A NAME="M7"><B>--</B></A><DD>
+Marks the end of switches.  The argument following this one will
+be treated as <I>exp</I> even if it starts with a <B>-</B>.
+<P></DL>
+<P>
+If there are more <I>subMatchVar</I>'s than parenthesized
+subexpressions within <I>exp</I>, or if a particular subexpression
+in <I>exp</I> doesn't match the string (e.g. because it was in a
+portion of the expression that wasn't matched), then the corresponding
+<I>subMatchVar</I> will be set to ``<B>-1 -1</B>'' if <B>-indices</B>
+has been specified or to an empty string otherwise.
+
+<H3><A NAME="M8">REGULAR EXPRESSIONS</A></H3>
+Regular expressions are implemented using Henry Spencer's package
+(thanks, Henry!),
+and much of the description of regular expressions below is copied verbatim
+from his manual entry.
+<P>
+A regular expression is zero or more <I>branches</I>, separated by ``|''.
+It matches anything that matches one of the branches.
+<P>
+A branch is zero or more <I>pieces</I>, concatenated.
+It matches a match for the first, followed by a match for the second, etc.
+<P>
+A piece is an <I>atom</I> possibly followed by ``*'', ``+'', or ``?''.
+An atom followed by ``*'' matches a sequence of 0 or more matches of the atom.
+An atom followed by ``+'' matches a sequence of 1 or more matches of the atom.
+An atom followed by ``?'' matches a match of the atom, or the null string.
+<P>
+An atom is a regular expression in parentheses (matching a match for the
+regular expression), a <I>range</I> (see below), ``.''
+(matching any single character), ``^'' (matching the null string at the
+beginning of the input string), ``$'' (matching the null string at the
+end of the input string), a ``&#92;'' followed by a single character (matching
+that character), or a single character with no other significance
+(matching that character).
+<P>
+A <I>range</I> is a sequence of characters enclosed in ``[]''.
+It normally matches any single character from the sequence.
+If the sequence begins with ``^'',
+it matches any single character <I>not</I> from the rest of the sequence.
+If two characters in the sequence are separated by ``-'', this is shorthand
+for the full list of ASCII characters between them
+(e.g. ``[0-9]'' matches any decimal digit).
+To include a literal ``]'' in the sequence, make it the first character
+(following a possible ``^'').
+To include a literal ``-'', make it the first or last character.
+
+<H3><A NAME="M9">CHOOSING AMONG ALTERNATIVE MATCHES</A></H3>
+In general there may be more than one way to match a regular expression
+to an input string.  For example, consider the command
+<PRE><B>regexp  (a*)b*  aabaaabb  x  y</B></PRE>
+Considering only the rules given so far, <B>x</B> and <B>y</B> could
+end up with the values <B>aabb</B> and <B>aa</B>, <B>aaab</B> and <B>aaa</B>,
+<B>ab</B> and <B>a</B>, or any of several other combinations.
+To resolve this potential ambiguity <B>regexp</B> chooses among
+alternatives using the rule ``first then longest''.
+In other words, it considers the possible matches in order working
+from left to right across the input string and the pattern, and it
+attempts to match longer pieces of the input string before shorter
+ones.  More specifically, the following rules apply in decreasing
+order of priority:
+<P>
+<DL>
+<P><DT>[1]<DD>
+If a regular expression could match two different parts of an input string
+then it will match the one that begins earliest.
+<P><DT>[2]<DD>
+If a regular expression contains <B>|</B> operators then the leftmost
+matching sub-expression is chosen.
+<P><DT>[3]<DD>
+In <B>*</B>, <B>+</B>, and <B>?</B> constructs, longer matches are chosen
+in preference to shorter ones.
+<P><DT>[4]<DD>
+In sequences of expression components the components are considered
+from left to right.
+<P></DL>
+<P>
+In the example from above, <B>(a*)b*</B> matches <B>aab</B>:  the <B>(a*)</B>
+portion of the pattern is matched first and it consumes the leading
+<B>aa</B>; then the <B>b*</B> portion of the pattern consumes the
+next <B>b</B>.  Or, consider the following example:
+<PRE><B>regexp  (ab|a)(b*)c  abc  x  y  z</B></PRE>
+After this command <B>x</B> will be <B>abc</B>, <B>y</B> will be
+<B>ab</B>, and <B>z</B> will be an empty string.
+Rule 4 specifies that <B>(ab|a)</B> gets first shot at the input
+string and Rule 2 specifies that the <B>ab</B> sub-expression
+is checked before the <B>a</B> sub-expression.
+Thus the <B>b</B> has already been claimed before the <B>(b*)</B>
+component is checked and <B>(b*)</B> must match an empty string.
+
+<H3><A NAME="M10">KEYWORDS</A></H3>
+<A href="../Keywords/M.htm#match">match</A>, <A href="../Keywords/R.htm#regular expression">regular expression</A>, <A href="../Keywords/S.htm#string">string</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1993 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

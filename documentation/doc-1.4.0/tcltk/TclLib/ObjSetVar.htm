@@ -1,0 +1,168 @@
+<HTML><HEAD><TITLE>Tcl Library Procedures - Tcl_ObjSetVar2 manual page</TITLE></HEAD><BODY>
+<DL>
+<DD><A HREF="ObjSetVar.htm#M2" NAME="L278">NAME</A>
+<DL><DD>Tcl_ObjSetVar2, Tcl_ObjGetVar2 - manipulate Tcl variables</DL>
+<DD><A HREF="ObjSetVar.htm#M3" NAME="L279">SYNOPSIS</A>
+<DL>
+</DL>
+<DD><A HREF="ObjSetVar.htm#M4" NAME="L280">ARGUMENTS</A>
+<DL>
+</DL>
+<DD><A HREF="ObjSetVar.htm#M5" NAME="L281">DESCRIPTION</A>
+<DL>
+<DD><A HREF="ObjSetVar.htm#M6" NAME="L282"><B>TCL_GLOBAL_ONLY</B></A>
+<DD><A HREF="ObjSetVar.htm#M7" NAME="L283"><B>TCL_NAMESPACE_ONLY</B></A>
+<DD><A HREF="ObjSetVar.htm#M8" NAME="L284"><B>TCL_LEAVE_ERR_MSG</B></A>
+<DD><A HREF="ObjSetVar.htm#M9" NAME="L285"><B>TCL_APPEND_VALUE</B></A>
+<DD><A HREF="ObjSetVar.htm#M10" NAME="L286"><B>TCL_LIST_ELEMENT</B></A>
+<DD><A HREF="ObjSetVar.htm#M11" NAME="L287"><B>TCL_PARSE_PART1</B></A>
+</DL>
+<DD><A HREF="ObjSetVar.htm#M12" NAME="L288">SEE ALSO</A>
+<DD><A HREF="ObjSetVar.htm#M13" NAME="L289">KEYWORDS</A>
+</DL><HR>
+<H3><A NAME="M2">NAME</A></H3>
+Tcl_ObjSetVar2, Tcl_ObjGetVar2 - manipulate Tcl variables
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tcl.h&gt;</B><BR>
+Tcl_Obj *<BR>
+<B>Tcl_ObjSetVar2</B>(<I>interp, part1Ptr, part2Ptr, newValuePtr, flags</I>)<BR>
+Tcl_Obj *<BR>
+<B>Tcl_ObjGetVar2</B>(<I>interp, part1Ptr, part2Ptr, flags</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT><A HREF="../TclLib/Interp.htm">Tcl_Interp</A> <B>*interp</B> (in)<DD>
+Interpreter containing variable.
+<P><DT>Tcl_Obj <B>*part1Ptr</B> (in)<DD>
+Points to a Tcl object containing the variable's name.
+The name may include a series of <B>::</B> namespace qualifiers
+to specify a variable in a particular namespace.
+May refer to a scalar variable or an element of an array variable.
+<P><DT>Tcl_Obj <B>*part2Ptr</B> (in)<DD>
+If non-NULL, points to an object containing the name of an element
+within an array and <I>part1Ptr</I> must refer to an array variable.
+<P><DT>Tcl_Obj <B>*newValuePtr</B> (in)<DD>
+Points to a Tcl object containing the new value for the variable.
+<P><DT>int <B>flags</B> (in)<DD>
+OR-ed combination of bits providing additional information for
+operation. See below for valid values.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+These two procedures may be used to read and modify
+Tcl variables from C code.
+<B>Tcl_ObjSetVar2</B> will create a new variable or modify an existing one.
+It sets the specified variable to
+the object referenced by <I>newValuePtr</I>
+and returns a pointer to the object which is the variable's new value.
+The returned object may not be the same one
+referenced by <I>newValuePtr</I>;
+this might happen because variable traces may modify the variable's value.
+The reference count for the variable's old value is decremented
+and the reference count for its new value is incremented.
+If the new value for the variable
+is not the same one referenced by <I>newValuePtr</I>
+(perhaps as a result of a variable trace),
+then <I>newValuePtr</I>'s reference count is left unchanged.
+The reference count for the returned object is not incremented
+to reflect the returned reference.
+If the caller needs to keep a reference to the object,
+say in a data structure,
+it must increment its reference count using <B><A HREF="../TclLib/Object.htm">Tcl_IncrRefCount</A></B>.
+If an error occurs in setting the variable
+(e.g. an array variable is referenced
+without giving an index into the array),
+then NULL is returned.
+<P>
+The variable name specified to <B>Tcl_ObjSetVar2</B> consists of two parts.
+<I>part1Ptr</I> contains the name of a scalar or array variable.
+If <I>part2Ptr</I> is NULL, the variable must be a scalar.
+If <I>part2Ptr</I> is not NULL,
+it contains the name of an element in the array named by <I>part2Ptr</I>.
+As a special case, if the flag TCL_PARSE_PART1 is specified,
+<I>part1Ptr</I> may contain both an array and an element name:
+if the name contains an open parenthesis and ends with a
+close parenthesis, then the value between the parentheses is
+treated as an element name (which can have any string value) and
+the characters before the first open
+parenthesis are treated as the name of an array variable.
+If the flag TCL_PARSE_PART1 is given,
+<I>part2Ptr</I> should be NULL since the array and element names
+are taken from <I>part2Ptr</I>.
+<P>
+The <I>flags</I> argument may be used to specify any of several
+options to the procedures.
+It consists of an OR-ed combination of any of the following
+bits:
+<P>
+<DL>
+<P><DT><A NAME="M6"><B>TCL_GLOBAL_ONLY</B></A><DD>
+Under normal circumstances the procedures look up variables as follows:
+If a procedure call is active in <I>interp</I>,
+a variable is looked up at the current level of procedure call.
+Otherwise, a variable is looked up first in the current namespace,
+then in the global namespace.
+However, if this bit is set in <I>flags</I> then the variable
+is looked up only in the global namespace
+even if there is a procedure call active.
+If both <B>TCL_GLOBAL_ONLY</B> and <B>TCL_NAMESPACE_ONLY</B> are given,
+<B>TCL_GLOBAL_ONLY</B> is ignored.
+<P><DT><A NAME="M7"><B>TCL_NAMESPACE_ONLY</B></A><DD>
+Under normal circumstances the procedures look up variables as follows:
+If a procedure call is active in <I>interp</I>,
+a variable is looked up at the current level of procedure call.
+Otherwise, a variable is looked up first in the current namespace,
+then in the global namespace.
+However, if this bit is set in <I>flags</I> then the variable
+is looked up only in the current namespace
+even if there is a procedure call active.
+<P><DT><A NAME="M8"><B>TCL_LEAVE_ERR_MSG</B></A><DD>
+If an error is returned and this bit is set in <I>flags</I>, then
+an error message will be left in the interpreter's result,
+where it can be retrieved with <B><A HREF="../TclLib/SetResult.htm">Tcl_GetObjResult</A></B>
+or <B><A HREF="../TclLib/SetResult.htm">Tcl_GetStringResult</A></B>.
+If this flag bit isn't set then no error message is left
+and the interpreter's result will not be modified.
+<P><DT><A NAME="M9"><B>TCL_APPEND_VALUE</B></A><DD>
+If this bit is set then <I>newValuePtr</I> is appended to the current
+value, instead of replacing it.
+If the variable is currently undefined, then this bit is ignored.
+<P><DT><A NAME="M10"><B>TCL_LIST_ELEMENT</B></A><DD>
+If this bit is set, then <I>newValuePtr</I> is converted to a valid
+Tcl list element before setting (or appending to) the variable.
+A separator space is appended before the new list element unless
+the list element is going to be the first element in a list or
+sublist (i.e. the variable's current value is empty, or contains
+the single character ``{'', or ends in `` }'').
+<P><DT><A NAME="M11"><B>TCL_PARSE_PART1</B></A><DD>
+If this bit is set,
+then <B>Tcl_ObjGetVar2</B> and <B>Tcl_ObjSetVar2</B>
+will parse <I>part1Ptr</I>
+to obtain both an array name and an element name.
+If the name in <I>part1Ptr</I> contains an open parenthesis
+and ends with a close parenthesis,
+the name is treated as the name of an element of an array;
+otherwise, the name in <I>part1Ptr</I>
+is interpreted as the name of a scalar variable.
+When this bit is set,
+<I>part2Ptr</I> is ignored.
+<P></DL>
+<P>
+<B>Tcl_ObjGetVar2</B> returns the value of the specified variable.
+Its arguments are treated the same way as those for <B>Tcl_ObjSetVar2</B>.
+It returns a pointer to the object which is the variable's value.
+The reference count for the returned object is not incremented.
+If the caller needs to keep a reference to the object,
+say in a data structure,
+it must increment the reference count using <B><A HREF="../TclLib/Object.htm">Tcl_IncrRefCount</A></B>.
+If an error occurs in setting the variable
+(e.g. an array variable is referenced
+without giving an index into the array),
+then NULL is returned.
+
+<H3><A NAME="M12">SEE ALSO</A></H3>
+<B><A HREF="../TclLib/SetResult.htm">Tcl_GetObjResult</A></B>, <B><A HREF="../TclLib/SetResult.htm">Tcl_GetStringResult</A></B>, <B><A HREF="../TclLib/SetVar.htm">Tcl_GetVar</A></B>, <B><A HREF="../TclLib/SetVar.htm">Tcl_GetVar2</A></B>, <B><A HREF="../TclLib/SetVar.htm">Tcl_SetVar</A></B>, <B><A HREF="../TclLib/SetVar.htm">Tcl_SetVar2</A></B>, <B><A HREF="../TclLib/TraceVar.htm">Tcl_TraceVar</A></B>, <B><A HREF="../TclLib/SetVar.htm">Tcl_UnsetVar</A></B>, <B><A HREF="../TclLib/SetVar.htm">Tcl_UnsetVar2</A></B>
+<H3><A NAME="M13">KEYWORDS</A></H3>
+<A href="../Keywords/A.htm#array">array</A>, <A href="../Keywords/I.htm#interpreter">interpreter</A>, <A href="../Keywords/O.htm#object">object</A>, <A href="../Keywords/S.htm#scalar">scalar</A>, <A href="../Keywords/S.htm#set">set</A>, <A href="../Keywords/U.htm#unset">unset</A>, <A href="../Keywords/V.htm#variable">variable</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1996-1997 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

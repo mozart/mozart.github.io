@@ -1,0 +1,62 @@
+<HTML><HEAD><TITLE>Tcl Built-In Commands - regsub manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+regsub - Perform substitutions based on regular expression pattern matching
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>regsub </B>?<I>switches</I>? <I>exp string subSpec varName</I><BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+This command matches the regular expression <I>exp</I> against
+<I>string</I>,
+and it copies <I>string</I> to the variable whose name is
+given by <I>varName</I>.
+If there is a match, then while copying <I>string</I> to <I>varName</I>
+the portion of <I>string</I> that
+matched <I>exp</I> is replaced with <I>subSpec</I>.
+If <I>subSpec</I> contains a ``&amp;'' or ``&#92;0'', then it is replaced
+in the substitution with the portion of <I>string</I> that
+matched <I>exp</I>.
+If <I>subSpec</I> contains a ``&#92;<I>n</I>'', where <I>n</I> is a digit
+between 1 and 9, then it is replaced in the substitution with
+the portion of <I>string</I> that matched the <I>n</I>-th
+parenthesized subexpression of <I>exp</I>.
+Additional backslashes may be used in <I>subSpec</I> to prevent special
+interpretation of ``&amp;'' or ``&#92;0'' or ``&#92;<I>n</I>'' or
+backslash.
+The use of backslashes in <I>subSpec</I> tends to interact badly
+with the Tcl parser's use of backslashes, so it's generally
+safest to enclose <I>subSpec</I> in braces if it includes
+backslashes.
+<P>
+If the initial arguments to <B><A HREF="../TclCmd/regexp.htm">regexp</A></B> start with <B>-</B> then
+they are treated as switches.  The following switches are
+currently supported:
+<P>
+<DL>
+<P><DT><A NAME="M5"><B>-all</B></A><DD>
+All ranges in <I>string</I> that match <I>exp</I> are found and
+substitution is performed for each of these ranges.
+Without this switch only the first
+matching range is found and substituted.
+If <B>-all</B> is specified, then ``&amp;'' and ``&#92;<I>n</I>''
+sequences are handled for each substitution using the information
+from the corresponding match.
+<P><DT><A NAME="M6"><B>-nocase</B></A><DD>
+Upper-case characters in <I>string</I> will be converted to lower-case
+before matching against <I>exp</I>;  however, substitutions specified
+by <I>subSpec</I> use the original unconverted form of <I>string</I>.
+<P><DT><A NAME="M7"><B>--</B></A><DD>
+Marks the end of switches.  The argument following this one will
+be treated as <I>exp</I> even if it starts with a <B>-</B>.
+<P></DL>
+<P>
+The command returns a count of the number of matching ranges that
+were found and replaced.
+See the manual entry for <B><A HREF="../TclCmd/regexp.htm">regexp</A></B> for details on the interpretation
+of regular expressions.
+
+<H3><A NAME="M8">KEYWORDS</A></H3>
+<A href="../Keywords/M.htm#match">match</A>, <A href="../Keywords/P.htm#pattern">pattern</A>, <A href="../Keywords/R.htm#regular expression">regular expression</A>, <A href="../Keywords/S.htm#substitute">substitute</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1993 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

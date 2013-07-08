@@ -1,0 +1,310 @@
+<HTML><HEAD><TITLE>Tcl Tcl Built-In Commands - Safe manual page</TITLE></HEAD><BODY>
+<DL>
+<DD><A HREF="safe.htm#M2" NAME="L764">NAME</A>
+<DL><DD>Safe Base - A mechanism for creating and manipulating safe interpreters.</DL>
+<DD><A HREF="safe.htm#M3" NAME="L765">SYNOPSIS</A>
+<DL>
+</DL>
+<DD><A HREF="safe.htm#M4" NAME="L766">OPTIONS</A>
+<DD><A HREF="safe.htm#M5" NAME="L767">DESCRIPTION</A>
+<DD><A HREF="safe.htm#M6" NAME="L768">ALIASES</A>
+<DL>
+<DD><A HREF="safe.htm#M7" NAME="L769"><B>source</B> <I>fileName</I></A>
+<DD><A HREF="safe.htm#M8" NAME="L770"><B>load</B> <I>fileName</I></A>
+<DD><A HREF="safe.htm#M9" NAME="L771"><B>file</B> ?<I>options</I>?</A>
+<DD><A HREF="safe.htm#M10" NAME="L772"><B>exit</B></A>
+</DL>
+<DD><A HREF="safe.htm#M11" NAME="L773">COMMANDS</A>
+<DL>
+<DD><A HREF="safe.htm#M12" NAME="L774"><B>::safe::interpCreate</B> ?<I>slave</I>? ?<I>options...</I>?</A>
+<DD><A HREF="safe.htm#M13" NAME="L775"><B>::safe::interpInit</B> <I>slave</I> ?<I>options...</I>?</A>
+<DD><A HREF="safe.htm#M14" NAME="L776"><B>::safe::interpConfigure</B> <I>slave</I> ?<I>options...</I>?</A>
+<DD><A HREF="safe.htm#M15" NAME="L777"><B>::safe::interpDelete</B> <I>slave</I></A>
+<DD><A HREF="safe.htm#M16" NAME="L778"><B>::safe::interpFindInAccessPath</B> <I>slave</I> <I>directory</I></A>
+<DD><A HREF="safe.htm#M17" NAME="L779"><B>::safe::interpAddToAccessPath</B> <I>slave</I> <I>directory</I></A>
+<DD><A HREF="safe.htm#M18" NAME="L780"><B>::safe::setLogCmd</B> ?<I>cmd arg...</I>?</A>
+</DL>
+<DD><A HREF="safe.htm#M19" NAME="L781">OPTIONS</A>
+<DL>
+<DD><A HREF="safe.htm#M20" NAME="L782"><B>-accessPath</B> ?<I>directoryList</I>?</A>
+<DD><A HREF="safe.htm#M21" NAME="L783"><B>-noStatics</B></A>
+<DD><A HREF="safe.htm#M22" NAME="L784"><B>-nestedLoadOk</B></A>
+<DD><A HREF="safe.htm#M23" NAME="L785"><B>-deleteHook</B> ?<I>script</I>?</A>
+</DL>
+<DD><A HREF="safe.htm#M24" NAME="L786">SECURITY</A>
+<DD><A HREF="safe.htm#M25" NAME="L787">SEE ALSO</A>
+<DD><A HREF="safe.htm#M26" NAME="L788">KEYWORDS</A>
+</DL><HR>
+<H3><A NAME="M2">NAME</A></H3>
+Safe Base - A mechanism for creating and manipulating safe interpreters.
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<P>
+<B>::safe::interpCreate</B> ?<I>slave</I>? ?<I>options...</I>?
+<P>
+<B>::safe::interpInit</B> <I>slave</I> ?<I>options...</I>?
+<P>
+<B>::safe::interpConfigure</B> <I>slave</I> ?<I>options...</I>?
+<P>
+<B>::safe::interpDelete</B> <I>slave</I>
+<P>
+<B>::safe::interpAddToAccessPath</B> <I>slave</I> <I>directory</I>
+<P>
+<B>::safe::interpFindInAccessPath</B> <I>slave</I> <I>directory</I>
+<P>
+<B>::safe::setLogCmd</B> ?<I>cmd arg...</I>?
+<H3><A NAME="M4">OPTIONS</A></H3>
+?<B>-accessPath</B> <I>pathList</I>? ?<B>-noStatics</B>? ?<B>-nestedLoadOk</B>? ?<B>-deleteHook</B> <I>script</I>?
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+Safe Tcl is a mechanism for executing untrusted Tcl scripts
+safely and for providing mediated access by such scripts to
+potentially dangerous functionality.
+<P>
+The Safe Base ensures that untrusted Tcl scripts cannot harm the
+hosting application.
+The Safe Base prevents integrity and privacy attacks. Untrusted Tcl
+scripts are prevented from corrupting the state of the hosting
+application or computer. Untrusted scripts are also prevented from
+disclosing information stored on the hosting computer or in the
+hosting application to any party.
+<P>
+The Safe Base allows a master interpreter to create safe, restricted
+interpreters that contain a set of predefined aliases for the <B><A HREF="../TclCmd/source.htm">source</A></B>,
+<B><A HREF="../TclCmd/load.htm">load</A></B>, <B><A HREF="../TclCmd/file.htm">file</A></B> and <B><A HREF="../TclCmd/exit.htm">exit</A></B> commands and
+are able to use the auto-loading and package mechanisms.
+<P>
+No knowledge of the file system structure is leaked to the
+safe interpreter, because it has access only to a virtualized path
+containing tokens. When the safe interpreter requests to source a file, it
+uses the token in the virtual path as part of the file name to source; the
+master interpreter translates the token into a real directory name and
+executes the requested operation.
+Different levels of security can be selected by using the optional flags
+of the commands described below.
+<P>
+All commands provided in the master interpreter by the Safe Base reside in
+the <B>safe</B> namespace.
+<B>::safe::interpCreate</B> creates a new safe interpreter with options,
+described in the section <B><A HREF="../TkCmd/options.htm">OPTIONS</A></B>.
+The return value is the name of the new safe interpreter created.
+<B>::safe::interpInit</B> is similar to <B>::safe::interpCreate</B> except that
+it requires as its first argument the name of a safe interpreter that was
+previously created directly using the <B><A HREF="../TclCmd/interp.htm">interp</A></B> command.
+<B>::safe::interpDelete</B> deletes the interpreter named by its argument.
+<B>::safe::interpConfigure</B> can be used to set or get options for the named
+safe interpreters; the options are described in the section <B><A HREF="../TkCmd/options.htm">OPTIONS</A></B>.
+<P>
+A virtual path is maintained in the master interpreter for each safe
+interpreter created by <B>::safe::interpCreate</B> or initialized by
+<B>::safe::interpInit</B>.
+The path maps tokens accessible in the safe interpreter into real path
+names on the local file system.
+This prevents safe interpreters from gaining knowledge about the
+structure of the file system of the host on which the interpeter is
+executing.
+When a token is used in a safe interpreter in a request to source or
+load a file, the token is translated to a real path name and the file to be
+sourced or loaded is located on the file system.
+The safe interpreter never gains knowledge of the actual path name under
+which the file is stored on the file system.
+Commands are provided in the master interpreter to manipulate the virtual
+path for a safe interpreter.
+<B>::safe::interpConfigure</B> can be used to set a new path for a safe
+interpreter.
+<B>::safe::interpAddToAccessPath</B> adds a directory to the virtual path for
+the named safe interpreter and returns the token by which that directory
+will be accessible in the safe interpreter.
+<B>::safe::interpFindInAccessPath</B> finds the
+requested directory in the virtual path for the named safe interpreter and
+returns the token by which that directory can be accessed in the safe
+interpreter.
+If the path is not found, an error is raised.
+<P>
+<B>::safe::setLogCommand</B> installs a script to be called when interesting
+life cycle events happen.
+This script will be called with one argument, a string describing the event.
+<H3><A NAME="M6">ALIASES</A></H3>
+The following aliases are provided in a safe interpreter:
+<P>
+<DL>
+<P><DT><A NAME="M7"><B>source</B> <I>fileName</I></A><DD>
+The requested file, a Tcl source file, is sourced into the safe interpreter
+if it is found.
+The <B><A HREF="../TclCmd/source.htm">source</A></B> alias can only source files from directories in
+the virtual path for the safe interpreter. The <B><A HREF="../TclCmd/source.htm">source</A></B> alias requires
+the safe interpreter to
+use one of the token names in its virtual path to denote the directory in
+which the file to be sourced can be found.
+See the section on <B>SECURITY</B> for more discussion of restrictions on
+valid filenames.
+<P><DT><A NAME="M8"><B>load</B> <I>fileName</I></A><DD>
+The requested file, a shared object file, in dynamically loaded into the
+safe interpreter if it is found.
+The filename must contain a token name mentioned in the virtual path for
+the safe interpreter for it to be found successfully.
+Additionally, the shared object file must contain a safe entry point; see
+the manual page for the <B><A HREF="../TclCmd/load.htm">load</A></B> command for more details.
+<P><DT><A NAME="M9"><B>file</B> ?<I>options</I>?</A><DD>
+The <B><A HREF="../TclCmd/file.htm">file</A></B> alias provides access to a safe subset of the subcommands of
+the <B><A HREF="../TclCmd/file.htm">file</A></B> command; it allows only <B>dirname</B>, <B><A HREF="../TclCmd/join.htm">join</A></B>,
+<B>extension</B>, <B>root</B>, <B>tail</B>, <B>pathname</B> and <B><A HREF="../TclCmd/split.htm">split</A></B>
+subcommands. For more details on what these subcommands do see the manual
+page for the <B><A HREF="../TclCmd/file.htm">file</A></B> command.
+<P><DT><A NAME="M10"><B>exit</B></A><DD>
+The calling interpreter is deleted and its computation is stopped, but the
+Tcl process in which this interpreter exists is not terminated.
+<P></DL>
+<P>
+<H3><A NAME="M11">COMMANDS</A></H3>
+The following commands are provided in the master interpreter:
+<P>
+<DL>
+<P><DT><A NAME="M12"><B>::safe::interpCreate</B> ?<I>slave</I>? ?<I>options...</I>?</A><DD>
+Creates a safe interpreter, installs the aliases described in the section
+<B>ALIASES</B> and initializes the auto-loading and package mechanism as
+specified by the supplied <B><A HREF="../TkCmd/options.htm">options</A></B>.
+See the <B><A HREF="../TkCmd/options.htm">OPTIONS</A></B> section below for a description of the common
+optional arguments.
+If the <I>slave</I> argument is omitted, a name will be generated.
+<B>::safe::interpCreate</B> always returns the interpreter name.
+<P><DT><A NAME="M13"><B>::safe::interpInit</B> <I>slave</I> ?<I>options...</I>?</A><DD>
+This command is similar to <B>interpCreate</B> except it that does not
+create the safe interpreter. <I>slave</I> must have been created by some
+other means, like <B>::interp create -safe</B>.
+<P><DT><A NAME="M14"><B>::safe::interpConfigure</B> <I>slave</I> ?<I>options...</I>?</A><DD>
+If no <I>options</I> are given, returns the settings for all options for the
+named safe interpreter.
+If <I>options</I> are supplied, sets the options for the named safe
+interpreter. See the section on <B><A HREF="../TkCmd/options.htm">OPTIONS</A></B> below.
+<P><DT><A NAME="M15"><B>::safe::interpDelete</B> <I>slave</I></A><DD>
+Deletes the safe interpreter and cleans up the corresponding  
+master interpreter data structures.
+If a <I>deletehook</I> script was specified for this interpreter it is
+evaluated before the interpreter is deleted, with the name of the
+interpreter as an additional argument.
+<P><DT><A NAME="M16"><B>::safe::interpFindInAccessPath</B> <I>slave</I> <I>directory</I></A><DD>
+This command finds and returns the token for the real directory
+<I>directory</I> in the safe interpreter's current virtual access path.
+It generates an error if the directory is not found.
+Example of use:
+<PRE>$slave eval [list set tk_library [::safe::interpFindInAccessPath $name $tk_library]]</PRE>
+<P><DT><A NAME="M17"><B>::safe::interpAddToAccessPath</B> <I>slave</I> <I>directory</I></A><DD>
+This command adds <I>directory</I> to the virtual path maintained for the
+safe interpreter in the master, and returns the token that can be used in
+the safe interpreter to obtain access to files in that directory.
+If the directory is already in the virtual path, it only returns the token
+without adding the directory to the virtual path again.
+Example of use:
+<PRE>$slave eval [list set tk_library [::safe::interpAddToAccessPath $name $tk_library]]</PRE>
+<P><DT><A NAME="M18"><B>::safe::setLogCmd</B> ?<I>cmd arg...</I>?</A><DD>
+This command installs a script that will be called when interesting
+lifecycle events occur for a safe interpreter.
+When called with no arguments, it returns the currently installed script.
+When called with one argument, an empty string, the currently installed
+script is removed and logging is turned off.
+The script will be invoked with one additional argument, a string
+describing the event of interest.
+The main purpose is to help in debugging safe interpreters.
+Using this facility you can get complete error messages while the safe
+interpreter gets only generic error messages.
+This prevents a safe interpreter from seeing messages about failures
+and other events that might contain sensitive information such as real
+directory names.
+<DL><P><DD>
+Example of use:
+<PRE>::safe::setLogCmd puts stderr</PRE>
+Below is the output of a sample session in which a safe interpreter
+attempted to source a file not found in its virtual access path.
+Note that the safe interpreter only received an error message saying that
+the file was not found:
+<PRE>NOTICE for slave interp10 : Created
+NOTICE for slave interp10 : Setting accessPath=(/foo/bar) staticsok=1 nestedok=0 deletehook=()
+NOTICE for slave interp10 : auto_path in interp10 has been set to {$p(:0:)}
+ERROR for slave interp10 : /foo/bar/init.tcl: no such file or directory</PRE>
+</DL>
+<P></DL>
+<H3><A NAME="M19">OPTIONS</A></H3>
+The following options are common to 
+<B>::safe::interpCreate</B>, <B>::safe::interpInit</B>, 
+and <B>::safe::interpConfigure</B>.
+Any option name can be abbreviated to its minimal 
+non-ambiguous name.
+Option names are not case sensitive.
+<P>
+<DL>
+<P><DT><A NAME="M20"><B>-accessPath</B> ?<I>directoryList</I>?</A><DD>
+This option sets the list of directories from which the safe interpreter
+can <B><A HREF="../TclCmd/source.htm">source</A></B> and <B><A HREF="../TclCmd/load.htm">load</A></B> files, and returns a list of tokens that
+will allow the safe interpreter access to these directories.
+If a value for <B>directoryList</B> is not given, or if it is given as the
+empty list, the safe interpreter will use the same directories than its
+master for auto-loading.
+See the section <B>SECURITY</B> below for more detail about virtual paths, 
+tokens and access control.
+<P><DT><A NAME="M21"><B>-noStatics</B></A><DD>
+This option specifies that the safe interpreter will not be allowed
+to load statically linked packages (like <B>load {} Tk</B>).
+The default is that safe interpreters are allowed to load statically linked
+packages.
+<P><DT><A NAME="M22"><B>-nestedLoadOk</B></A><DD>
+This option specifies that the safe interpreter will be allowed
+to load packages into its own subinterpreters.
+The default is that safe interpreters are not allowed to load packages into
+their own subinterpreters.
+<P><DT><A NAME="M23"><B>-deleteHook</B> ?<I>script</I>?</A><DD>
+If <I>script</I> is given, it is evaluated in the master with the name of
+the safe interpreter as an additional argument just before deleting the
+safe interpreter.
+If no value is given for <I>script</I> any currently installed deletion hook
+script for that safe interpreter is removed; it will no longer be called
+when the interpreter is deleted.
+There is no deletion hook script installed by default.
+
+<P></DL>
+<H3><A NAME="M24">SECURITY</A></H3>
+The Safe Base does not attempt to completely prevent annoyance and
+denial of service attacks. These forms of attack prevent the
+application or user from temporarily using the computer to perform
+useful work, for example by consuming all available CPU time or
+all available screen real estate.
+These attacks, while agravating, are deemed to be of lesser importance
+in general than integrity and privacy attacks that the Safe Base
+is to prevent.
+
+The commands available in a safe interpreter, in addition to
+the safe set as defined in <B><A HREF="../TclCmd/interp.htm">interp</A></B> manual page, are mediated aliases
+for <B><A HREF="../TclCmd/source.htm">source</A></B>, <B><A HREF="../TclCmd/load.htm">load</A></B>, <B><A HREF="../TclCmd/exit.htm">exit</A></B>, and a safe subset of <B><A HREF="../TclCmd/file.htm">file</A></B>.
+The safe interpreter can also auto-load code and it can request to load
+packages.
+Because some of these commands access the local file system, there is a
+potential for information leakage about its directory structure.
+To prevent this, commands which take file names as arguments in a safe
+interpreter use tokens instead of the real directory names.
+These tokens are translated to the real directory name while a request to,
+e.g., source a file is mediated by the master interpreter.
+<P>
+To further prevent potential information leakage from sensitive files that
+are accidentally included in the set of files that can be sourced by a safe
+interpreter, the <B><A HREF="../TclCmd/source.htm">source</A></B> alias is restricted so that it can only
+source files with names that have the extension <B>.tcl</B>, that contain
+only one dot and that are forteen characters long or shorter.
+<P>
+The default value of the Tcl variable <B>auto_path</B> in a safe interpreter
+is a virtualized token list for the directories in the value of its
+master's <B>auto_path</B> variable and their immediate subdirectories.
+The first token in this list is also assigned to the Tcl varibale
+<B>tcl_library</B> in the safe interpreter.
+You can always specify a more
+restrictive path for which sub directories will never be searched by 
+explicitly specifying your directory list with the <B>-accessPath</B> flag
+instead of relying on this default mechanism.
+
+<H3><A NAME="M25">SEE ALSO</A></H3>
+<B><A HREF="../TclCmd/interp.htm">interp</A></B>, <B><A HREF="../TclCmd/library.htm">library</A></B>, <B><A HREF="../TclCmd/load.htm">load</A></B>, <B><A HREF="../TclCmd/package.htm">package</A></B>, <B><A HREF="../TclCmd/source.htm">source</A></B>, <B><A HREF="../TclCmd/unknown.htm">unknown</A></B>
+<H3><A NAME="M26">KEYWORDS</A></H3>
+<A href="../Keywords/A.htm#alias">alias</A>, <A href="../Keywords/A.htm#auto-loading">auto-loading</A>, <A href="../Keywords/A.htm#auto_mkindex">auto_mkindex</A>, <A href="../Keywords/L.htm#load">load</A>, <A href="../Keywords/M.htm#master interpreter">master interpreter</A>, <A href="../Keywords/S.htm#safe
+interpreter">safe
+interpreter</A>, <A href="../Keywords/S.htm#slave interpreter">slave interpreter</A>, <A href="../Keywords/S.htm#source">source</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

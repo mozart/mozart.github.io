@@ -1,0 +1,26 @@
+<HTML><HEAD><TITLE>Tk Library Procedures - Tk_IdToWindow manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tk_IdToWindow - Find Tk's window information for an X window
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tk.h&gt;</B><BR>
+Tk_Window<BR>
+<B>Tk_IdToWindow</B>(<I>display, window</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>Display <B>*display</B> (in)<DD>
+X display containing the window.
+<P><DT>Window <B>window</B> (in)<DD>
+X id for window.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+Given an X window identifier and the X display it corresponds to,
+this procedure returns the corresponding Tk_Window handle.
+If there is no Tk_Window corresponding to <I>window</I> then
+NULL is returned.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/X.htm#X window id">X window id</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

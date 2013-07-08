@@ -1,0 +1,35 @@
+<HTML><HEAD><TITLE>Library Procedures - Tcl_Backslash manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tcl_Backslash - parse a backslash sequence
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tcl.h&gt;</B><BR>
+char<BR>
+<B>Tcl_Backslash</B>(<I>src, countPtr</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>char <B>*src</B> (in)<DD>
+Pointer to a string starting with a backslash.
+<P><DT>int <B>*countPtr</B> (out)<DD>
+If <I>countPtr</I> isn't NULL, <I>*countPtr</I> gets filled
+in with number of characters in the backslash sequence, including
+the backslash character.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+This is a utility procedure used by several of the Tcl
+commands.  It parses a backslash sequence and returns
+the single character corresponding to the sequence.
+<B>Tcl_Backslash</B> modifies <I>*countPtr</I> to contain the number
+of characters in the backslash sequence.
+<P>
+See the <A HREF="../TclCmd/Tcl.htm">Tcl</A> manual entry for information on the valid
+backslash sequences.
+All of the sequences described in the Tcl
+manual entry are supported by <B>Tcl_Backslash</B>.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/B.htm#backslash">backslash</A>, <A href="../Keywords/P.htm#parse">parse</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1989-1993 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

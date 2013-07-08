@@ -1,0 +1,119 @@
+<HTML><HEAD><TITLE>Applications - tclsh manual page</TITLE></HEAD><BODY>
+<DL>
+<DD><A HREF="tclsh.htm#M2" NAME="L2">NAME</A>
+<DL><DD>tclsh - Simple shell containing Tcl interpreter</DL>
+<DD><A HREF="tclsh.htm#M3" NAME="L3">SYNOPSIS</A>
+<DL>
+<DD><B>tclsh</B> ?<I>fileName arg arg ...</I>?
+</DL>
+<DD><A HREF="tclsh.htm#M4" NAME="L4">DESCRIPTION</A>
+<DD><A HREF="tclsh.htm#M5" NAME="L5">SCRIPT FILES</A>
+<DD><A HREF="tclsh.htm#M6" NAME="L6">VARIABLES</A>
+<DL>
+<DD><A HREF="tclsh.htm#M7" NAME="L7"><B>argc</B></A>
+<DD><A HREF="tclsh.htm#M8" NAME="L8"><B>argv</B></A>
+<DD><A HREF="tclsh.htm#M9" NAME="L9"><B>argv0</B></A>
+<DD><A HREF="tclsh.htm#M10" NAME="L10"><B>tcl_interactive</B></A>
+</DL>
+<DD><A HREF="tclsh.htm#M11" NAME="L11">PROMPTS</A>
+<DD><A HREF="tclsh.htm#M12" NAME="L12">KEYWORDS</A>
+</DL><HR>
+<H3><A NAME="M2">NAME</A></H3>
+tclsh - Simple shell containing Tcl interpreter
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>tclsh</B> ?<I>fileName arg arg ...</I>?<BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+<B>Tclsh</B> is a shell-like application that reads Tcl commands
+from its standard input or from a file and evaluates them.
+If invoked with no arguments then it runs interactively, reading
+Tcl commands from standard input and printing command results and
+error messages to standard output.
+It runs until the <B><A HREF="../TclCmd/exit.htm">exit</A></B> command is invoked or until it
+reaches end-of-file on its standard input.
+If there exists a file <B>.tclshrc</B> in the home directory of
+the user, <B>tclsh</B> evaluates the file as a Tcl script
+just before reading the first command from standard input.
+
+<H3><A NAME="M5">SCRIPT FILES</A></H3>
+If <B>tclsh</B> is invoked with arguments then the first argument
+is the name of a script file and any additional arguments
+are made available to the script as variables (see below).
+Instead of reading commands from standard input <B>tclsh</B> will
+read Tcl commands from the named file;  <B>tclsh</B> will exit
+when it reaches the end of the file.
+There is no automatic evaluation of <B>.tclshrc</B> in this
+case, but the script file can always <B><A HREF="../TclCmd/source.htm">source</A></B> it if desired.
+<P>
+If you create a Tcl script in a file whose first line is
+<PRE><B>#!/usr/local/bin/tclsh</B></PRE>
+then you can invoke the script file directly from your shell if
+you mark the file as executable.
+This assumes that <B>tclsh</B> has been installed in the default
+location in /usr/local/bin;  if it's installed somewhere else
+then you'll have to modify the above line to match.
+Many UNIX systems do not allow the <B>#!</B> line to exceed about
+30 characters in length, so be sure that the <B>tclsh</B>
+executable can be accessed with a short file name.
+<P>
+An even better approach is to start your script files with the
+following three lines:
+<PRE><B>#!/bin/sh
+# the next line restarts using tclsh &#92;
+exec tclsh &quot;$0&quot; &quot;$@&quot;</B></PRE>
+This approach has three advantages over the approach in the previous
+paragraph.  First, the location of the <B>tclsh</B> binary doesn't have
+to be hard-wired into the script:  it can be anywhere in your shell
+search path.  Second, it gets around the 30-character file name limit
+in the previous approach.
+Third, this approach will work even if <B>tclsh</B> is
+itself a shell script (this is done on some systems in order to
+handle multiple architectures or operating systems:  the <B>tclsh</B>
+script selects one of several binaries to run).  The three lines
+cause both <B>sh</B> and <B>tclsh</B> to process the script, but the
+<B><A HREF="../TclCmd/exec.htm">exec</A></B> is only executed by <B>sh</B>.
+<B>sh</B> processes the script first;  it treats the second
+line as a comment and executes the third line.
+The <B><A HREF="../TclCmd/exec.htm">exec</A></B> statement cause the shell to stop processing and
+instead to start up <B>tclsh</B> to reprocess the entire script.
+When <B>tclsh</B> starts up, it treats all three lines as comments,
+since the backslash at the end of the second line causes the third
+line to be treated as part of the comment on the second line.
+
+<H3><A NAME="M6">VARIABLES</A></H3>
+<B>Tclsh</B> sets the following Tcl variables:
+<P>
+<DL>
+<P><DT><A NAME="M7"><B>argc</B></A><DD>
+Contains a count of the number of <I>arg</I> arguments (0 if none),
+not including the name of the script file.
+<P><DT><A NAME="M8"><B>argv</B></A><DD>
+Contains a Tcl list whose elements are the <I>arg</I> arguments,
+in order, or an empty string if there are no <I>arg</I> arguments.
+<P><DT><A NAME="M9"><B>argv0</B></A><DD>
+Contains <I>fileName</I> if it was specified.
+Otherwise, contains the name by which <B>tclsh</B> was invoked.
+<P><DT><A NAME="M10"><B>tcl_interactive</B></A><DD>
+Contains 1 if <B>tclsh</B> is running interactively (no
+<I>fileName</I> was specified and standard input is a terminal-like
+device), 0 otherwise.
+
+<P></DL>
+<H3><A NAME="M11">PROMPTS</A></H3>
+When <B>tclsh</B> is invoked interactively it normally prompts for each
+command with ``<B>% </B>''.  You can change the prompt by setting the
+variables <B>tcl_prompt1</B> and <B>tcl_prompt2</B>.  If variable
+<B>tcl_prompt1</B> exists then it must consist of a Tcl script
+to output a prompt;  instead of outputting a prompt <B>tclsh</B>
+will evaluate the script in <B>tcl_prompt1</B>.
+The variable <B>tcl_prompt2</B> is used in a similar way when
+a newline is typed but the current command isn't yet complete;
+if <B>tcl_prompt2</B> isn't set then no prompt is output for
+incomplete commands.
+
+<H3><A NAME="M12">KEYWORDS</A></H3>
+<A href="../Keywords/A.htm#argument">argument</A>, <A href="../Keywords/I.htm#interpreter">interpreter</A>, <A href="../Keywords/P.htm#prompt">prompt</A>, <A href="../Keywords/S.htm#script file">script file</A>, <A href="../Keywords/S.htm#shell">shell</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1993 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

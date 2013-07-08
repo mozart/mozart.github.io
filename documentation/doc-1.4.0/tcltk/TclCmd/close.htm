@@ -1,0 +1,45 @@
+<HTML><HEAD><TITLE>Tcl Built-In Commands - close manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+close - Close an open channel.
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>close </B><I>channelId</I><BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+Closes the channel given by <I>channelId</I>.  <I>ChannelId</I> must be a
+channel identifier such as the return value from a previous <B><A HREF="../TclCmd/open.htm">open</A></B>
+or <B><A HREF="../TclCmd/socket.htm">socket</A></B> command.
+All buffered output is flushed to the channel's output device,
+any buffered input is discarded, the underlying file or device is closed,
+and <I>channelId</I> becomes unavailable for use.
+<P>
+If the channel is blocking, the command does not return until all output
+is flushed.
+If the channel is nonblocking and there is unflushed output, the
+channel remains open and the command
+returns immediately; output will be flushed in the background and the
+channel will be closed when all the flushing is complete.
+<P>
+If <I>channelId</I> is a blocking channel for a command pipeline then
+<B>close</B> waits for the child processes to complete.
+<P>
+If the channel is shared between interpreters, then <B>close</B>
+makes <I>channelId</I> unavailable in the invoking interpreter but has no
+other effect until all of the sharing interpreters have closed the
+channel.
+When the last interpreter in which the channel is registered invokes
+<B>close</B>, the cleanup actions described above occur. See the
+<B><A HREF="../TclCmd/interp.htm">interp</A></B> command for a description of channel sharing.
+<P>
+Channels are automatically closed when an interpreter is destroyed and
+when the process exits.  Channels are switched to blocking mode, to ensure
+that all output is correctly flushed before the process exits.
+<P>
+The command returns an empty string, and may generate an error if
+an error occurs while flushing output.
+
+<H3><A NAME="M5">KEYWORDS</A></H3>
+<A href="../Keywords/B.htm#blocking">blocking</A>, <A href="../Keywords/C.htm#channel">channel</A>, <A href="../Keywords/C.htm#close">close</A>, <A href="../Keywords/N.htm#nonblocking">nonblocking</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1993 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

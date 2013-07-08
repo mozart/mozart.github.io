@@ -1,0 +1,118 @@
+<HTML><HEAD><TITLE>Tcl Built-In Commands - array manual page</TITLE></HEAD><BODY>
+<DL>
+<DD><A HREF="array.htm#M2" NAME="L33">NAME</A>
+<DL><DD>array - Manipulate array variables</DL>
+<DD><A HREF="array.htm#M3" NAME="L34">SYNOPSIS</A>
+<DL>
+<DD><B>array </B><I>option arrayName</I> ?<I>arg arg ...</I>?
+</DL>
+<DD><A HREF="array.htm#M4" NAME="L35">DESCRIPTION</A>
+<DL>
+<DD><A HREF="array.htm#M5" NAME="L36"><B>array anymore </B><I>arrayName searchId</I></A>
+<DD><A HREF="array.htm#M6" NAME="L37"><B>array donesearch </B><I>arrayName searchId</I></A>
+<DD><A HREF="array.htm#M7" NAME="L38"><B>array exists </B><I>arrayName</I></A>
+<DD><A HREF="array.htm#M8" NAME="L39"><B>array get </B><I>arrayName</I> ?<I>pattern</I>?</A>
+<DD><A HREF="array.htm#M9" NAME="L40"><B>array names </B><I>arrayName</I> ?<I>pattern</I>?</A>
+<DD><A HREF="array.htm#M10" NAME="L41"><B>array nextelement </B><I>arrayName searchId</I></A>
+<DD><A HREF="array.htm#M11" NAME="L42"><B>array set </B><I>arrayName list</I></A>
+<DD><A HREF="array.htm#M12" NAME="L43"><B>array size </B><I>arrayName</I></A>
+<DD><A HREF="array.htm#M13" NAME="L44"><B>array startsearch </B><I>arrayName</I></A>
+</DL>
+<DD><A HREF="array.htm#M14" NAME="L45">KEYWORDS</A>
+</DL><HR>
+<H3><A NAME="M2">NAME</A></H3>
+array - Manipulate array variables
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>array </B><I>option arrayName</I> ?<I>arg arg ...</I>?<BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+This command performs one of several operations on the
+variable given by <I>arrayName</I>.
+Unless otherwise specified for individual commands below,
+<I>arrayName</I> must be the name of an existing array variable.
+The <I>option</I> argument determines what action is carried
+out by the command.
+The legal <I>options</I> (which may be abbreviated) are:
+<P>
+<DL>
+<P><DT><A NAME="M5"><B>array anymore </B><I>arrayName searchId</I></A><DD>
+Returns 1 if there are any more elements left to be processed
+in an array search, 0 if all elements have already been
+returned.
+<I>SearchId</I> indicates which search on <I>arrayName</I> to
+check, and must have been the return value from a previous
+invocation of <B>array startsearch</B>.
+This option is particularly useful if an array has an element
+with an empty name, since the return value from
+<B>array nextelement</B> won't indicate whether the search
+has been completed.
+<P><DT><A NAME="M6"><B>array donesearch </B><I>arrayName searchId</I></A><DD>
+This command terminates an array search and destroys all the
+state associated with that search.  <I>SearchId</I> indicates
+which search on <I>arrayName</I> to destroy, and must have
+been the return value from a previous invocation of
+<B>array startsearch</B>.  Returns an empty string.
+<P><DT><A NAME="M7"><B>array exists </B><I>arrayName</I></A><DD>
+Returns 1 if <I>arrayName</I> is an array variable, 0 if there
+is no variable by that name or if it is a scalar variable.
+<P><DT><A NAME="M8"><B>array get </B><I>arrayName</I> ?<I>pattern</I>?</A><DD>
+Returns a list containing pairs of elements.  The first
+element in each pair is the name of an element in <I>arrayName</I>
+and the second element of each pair is the value of the
+array element.  The order of the pairs is undefined.
+If <I>pattern</I> is not specified, then all of the elements of the
+array are included in the result.
+If <I>pattern</I> is specified, then only those elements whose names
+match <I>pattern</I> (using the glob-style matching rules of
+<B><A HREF="../TclCmd/string.htm">string match</A></B>) are included.
+If <I>arrayName</I> isn't the name of an array variable, or if
+the array contains no elements, then an empty list is returned.
+<P><DT><A NAME="M9"><B>array names </B><I>arrayName</I> ?<I>pattern</I>?</A><DD>
+Returns a list containing the names of all of the elements in
+the array that match <I>pattern</I> (using the glob-style matching
+rules of <B><A HREF="../TclCmd/string.htm">string match</A></B>).
+If <I>pattern</I> is omitted then the command returns all of
+the element names in the array.
+If there are no (matching) elements in the array, or if <I>arrayName</I>
+isn't the name of an array variable, then an empty string is
+returned.
+<P><DT><A NAME="M10"><B>array nextelement </B><I>arrayName searchId</I></A><DD>
+Returns the name of the next element in <I>arrayName</I>, or
+an empty string if all elements of <I>arrayName</I> have
+already been returned in this search.  The <I>searchId</I>
+argument identifies the search, and must have
+been the return value of an <B>array startsearch</B> command.
+Warning:  if elements are added to or deleted from the array,
+then all searches are automatically terminated just as if
+<B>array donesearch</B> had been invoked; this will cause
+<B>array nextelement</B> operations to fail for those searches.
+<P><DT><A NAME="M11"><B>array set </B><I>arrayName list</I></A><DD>
+Sets the values of one or more elements in <I>arrayName</I>.
+<I>list</I> must have a form like that returned by <B>array get</B>,
+consisting of an even number of elements.
+Each odd-numbered element in <I>list</I> is treated as an element
+name within <I>arrayName</I>, and the following element in <I>list</I>
+is used as a new value for that array element.
+<P><DT><A NAME="M12"><B>array size </B><I>arrayName</I></A><DD>
+Returns a decimal string giving the number of elements in the
+array.
+If <I>arrayName</I> isn't the name of an array then 0 is returned.
+<P><DT><A NAME="M13"><B>array startsearch </B><I>arrayName</I></A><DD>
+This command initializes an element-by-element search through the
+array given by <I>arrayName</I>, such that invocations of the
+<B>array nextelement</B> command will return the names of the
+individual elements in the array.
+When the search has been completed, the <B>array donesearch</B>
+command should be invoked.
+The return value is a
+search identifier that must be used in <B>array nextelement</B>
+and <B>array donesearch</B> commands; it allows multiple
+searches to be underway simultaneously for the same array.
+
+<P></DL>
+<H3><A NAME="M14">KEYWORDS</A></H3>
+<A href="../Keywords/A.htm#array">array</A>, <A href="../Keywords/E.htm#element names">element names</A>, <A href="../Keywords/S.htm#search">search</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1993-1994 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

@@ -1,0 +1,31 @@
+<HTML><HEAD><TITLE>Tk Library Procedures - Tk_StrictMotif manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tk_StrictMotif - Return value of tk_strictMotif variable
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tk.h&gt;</B><BR>
+int<BR>
+<B>Tk_StrictMotif</B>(<I>tkwin</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>Tk_Window <B>tkwin</B> (in)<DD>
+Token for window.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+This procedure returns the current value of the <B>tk_strictMotif</B>
+variable in the interpreter associated with <I>tkwin</I>'s application.
+The value is returned as an integer that is either 0 or 1.
+1 means that strict Motif compliance has been requested, so anything
+that is not part of the Motif specification should be avoided.
+0 means that ``Motif-like'' is good enough, and extra features
+are welcome.
+<P>
+This procedure uses a link to the Tcl variable to provide much
+faster access to the variable's value than could be had by calling
+<B><A HREF="../TclLib/SetVar.htm">Tcl_GetVar</A></B>.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/M.htm#Motif compliance">Motif compliance</A>, <A href="../Keywords/T.htm#tk_strictMotif variable">tk_strictMotif variable</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

@@ -1,0 +1,22 @@
+<HTML><HEAD><TITLE>Tcl Built-In Commands - fblocked manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+fblocked - Test whether the last input operation exhausted all available input
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>fblocked </B><I>channelId</I><BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+The <B>fblocked</B> command returns 1 if the most recent input operation
+on <I>channelId</I> returned less information than requested because all
+available input was exhausted.
+For example, if <B><A HREF="../TclCmd/gets.htm">gets</A></B> is invoked when there are only three
+characters available for input and no end-of-line sequence, <B><A HREF="../TclCmd/gets.htm">gets</A></B>
+returns an empty string and a subsequent call to <B>fblocked</B> will
+return 1.
+<P>
+<H3><A NAME="M5">SEE ALSO</A></H3>
+<B><A HREF="../TclCmd/gets.htm">gets</A></B>, <B><A HREF="../TclCmd/read.htm">read</A></B>
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/B.htm#blocking">blocking</A>, <A href="../Keywords/N.htm#nonblocking">nonblocking</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

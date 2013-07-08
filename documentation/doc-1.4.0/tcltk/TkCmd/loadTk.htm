@@ -1,0 +1,69 @@
+<HTML><HEAD><TITLE>Tk Tk Built-In Commands - Safe manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+loadTk - Loads Tk into a safe interpreter.
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>::safe::loadTk </B><I>slave</I> ?<B>-use</B> <I>windowId</I>?<BR>
+Safe Tk is based on Safe Tcl which provides a mechanism 
+that allows restricted and mediated
+access to auto-loading and packages for safe interpreters.
+Safe Tk adds the ability to configure the interpreter
+for safe Tk operations and load Tk into safe 
+interpreters.
+
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+The <B>::safe::loadTk</B> command initializes the required data structures
+in the named safe interpreter and then loads Tk into it.
+The command returns the name of the safe interpreter.
+If <B>-use</B> is specified, the window identified by the specified system
+dependent identifier <I>windowId</I> is used to contain the <B>``.''</B>
+window of the safe interpreter.
+Otherwise, a new toplevel window is created for the <B>``.''</B> window of
+the safe interpreter.
+See the <B>SECURITY ISSUES</B> section below for implementation details.
+
+<H3><A NAME="M5">SECURITY ISSUES</A></H3>
+Please read the <B>safe</B> manual page for Tcl to learn about the basic
+security considerations for Safe Tcl.
+<P>
+Information in the safe interpreter should never be trusted for security
+purposes.
+However, because Tk initialization in the safe interpreter uses local
+information, it is unsafe if the safe interpreter could have gained control
+before Tk is loaded.
+This will be fixed in an upcoming release, by making Tk initialization in a
+safe interpreter use only information found in the interpreter's master.
+<P>
+You should therefore use <B>safe::loadTk $slave</B> as soon as possible
+after <B>safe::interpCreate</B> and before any code is evaluated in the safe
+interpreter.
+The preferred sequence is:
+<PRE>set slave [::safe::loadTk [::safe::interpCreate]]</PRE>
+If you want to prevent safe interpreters from loading Tk entirely, you
+should create the interpreter as follows:
+<PRE>::safe::interpCreate -nostatics -accesspath <I>{directories...}</I></PRE>
+and you must also insure that the virtual access path <I>directories</I> for
+the interpreter does not contain a dynamically loadable version of Tk.
+<P>
+<B>::safe::loadTk</B> adds the value of <B>tk_library</B> taken from the master
+interpreter to the virtual access path of the safe interpreter so that
+auto-loading will work in the safe interpreter.
+It also sets <B>env(DISPLAY)</B> in the safe interpreter to the value of
+<B>env(DISPLAY)</B> in the master interpreter, if it exists.
+Finally, it sets the slave's Tcl variable <B>argv</B> to <B>-use</B> 
+<I>windowId</I> in the safe interpreter.
+
+When <B>-use</B> is not used, the new toplevel created is specially
+decorated so the user is always aware that the user interface presented comes
+from a potentially unsafe code and can easilly delete the corresponding
+interpreter.
+
+<H3><A NAME="M6">SEE ALSO</A></H3>
+<B>safe</B>, <B><A HREF="../TclCmd/interp.htm">interp</A></B>, <B><A HREF="../TclCmd/library.htm">library</A></B>, <B><A HREF="../TclCmd/load.htm">load</A></B>, <B><A HREF="../TclCmd/package.htm">package</A></B>, <B><A HREF="../TclCmd/source.htm">source</A></B>, <B><A HREF="../TclCmd/unknown.htm">unknown</A></B>
+<H3><A NAME="M7">KEYWORDS</A></H3>
+<A href="../Keywords/A.htm#alias">alias</A>, <A href="../Keywords/A.htm#auto-loading">auto-loading</A>, <A href="../Keywords/A.htm#auto_mkindex">auto_mkindex</A>, <A href="../Keywords/L.htm#load">load</A>, <A href="../Keywords/M.htm#master interpreter">master interpreter</A>, <A href="../Keywords/S.htm#safe
+interpreter">safe
+interpreter</A>, <A href="../Keywords/S.htm#slave interpreter">slave interpreter</A>, <A href="../Keywords/S.htm#source">source</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

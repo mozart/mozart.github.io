@@ -1,0 +1,143 @@
+<HTML><HEAD><TITLE>Tcl Built-In Commands - string manual page</TITLE></HEAD><BODY>
+<DL>
+<DD><A HREF="string.htm#M2" NAME="L836">NAME</A>
+<DL><DD>string - Manipulate strings</DL>
+<DD><A HREF="string.htm#M3" NAME="L837">SYNOPSIS</A>
+<DL>
+<DD><B>string </B><I>option arg </I>?<I>arg ...?</I>
+</DL>
+<DD><A HREF="string.htm#M4" NAME="L838">DESCRIPTION</A>
+<DL>
+<DD><A HREF="string.htm#M5" NAME="L839"><B>string compare </B><I>string1 string2</I></A>
+<DD><A HREF="string.htm#M6" NAME="L840"><B>string first </B><I>string1 string2</I></A>
+<DD><A HREF="string.htm#M7" NAME="L841"><B>string index </B><I>string charIndex</I></A>
+<DD><A HREF="string.htm#M8" NAME="L842"><B>string last </B><I>string1 string2</I></A>
+<DD><A HREF="string.htm#M9" NAME="L843"><B>string length </B><I>string</I></A>
+<DD><A HREF="string.htm#M10" NAME="L844"><B>string match </B><I>pattern</I> <I>string</I></A>
+<DL>
+<DD><A HREF="string.htm#M11" NAME="L845"><B>*</B></A>
+<DD><A HREF="string.htm#M12" NAME="L846"><B>?</B></A>
+<DD><A HREF="string.htm#M13" NAME="L847"><B>[</B><I>chars</I><B>]</B></A>
+<DD><A HREF="string.htm#M14" NAME="L848"><B>&#92;</B><I>x</I></A>
+</DL>
+<DD><A HREF="string.htm#M15" NAME="L849"><B>string range </B><I>string first last</I></A>
+<DD><A HREF="string.htm#M16" NAME="L850"><B>string tolower </B><I>string</I></A>
+<DD><A HREF="string.htm#M17" NAME="L851"><B>string toupper </B><I>string</I></A>
+<DD><A HREF="string.htm#M18" NAME="L852"><B>string trim </B><I>string</I> ?<I>chars</I>?</A>
+<DD><A HREF="string.htm#M19" NAME="L853"><B>string trimleft </B><I>string</I> ?<I>chars</I>?</A>
+<DD><A HREF="string.htm#M20" NAME="L854"><B>string trimright </B><I>string</I> ?<I>chars</I>?</A>
+<DD><A HREF="string.htm#M21" NAME="L855"><B>string wordend </B><I>string index</I></A>
+<DD><A HREF="string.htm#M22" NAME="L856"><B>string wordstart </B><I>string index</I></A>
+</DL>
+<DD><A HREF="string.htm#M23" NAME="L857">KEYWORDS</A>
+</DL><HR>
+<H3><A NAME="M2">NAME</A></H3>
+string - Manipulate strings
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>string </B><I>option arg </I>?<I>arg ...?</I><BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+Performs one of several string operations, depending on <I>option</I>.
+The legal <I>option</I>s (which may be abbreviated) are:
+<P>
+<DL>
+<P><DT><A NAME="M5"><B>string compare </B><I>string1 string2</I></A><DD>
+Perform a character-by-character comparison of strings <I>string1</I> and
+<I>string2</I> in the same way as the C <B>strcmp</B> procedure.  Return
+-1, 0, or 1, depending on whether <I>string1</I> is lexicographically
+less than, equal to, or greater than <I>string2</I>.
+<P><DT><A NAME="M6"><B>string first </B><I>string1 string2</I></A><DD>
+Search <I>string2</I> for a sequence of characters that exactly match
+the characters in <I>string1</I>.  If found, return the index of the
+first character in the first such match within <I>string2</I>.  If not
+found, return -1.
+<P><DT><A NAME="M7"><B>string index </B><I>string charIndex</I></A><DD>
+Returns the <I>charIndex</I>'th character of the <I>string</I>
+argument.  A <I>charIndex</I> of 0 corresponds to the first
+character of the string.
+If <I>charIndex</I> is less than 0 or greater than
+or equal to the length of the string then an empty string is
+returned.
+<P><DT><A NAME="M8"><B>string last </B><I>string1 string2</I></A><DD>
+Search <I>string2</I> for a sequence of characters that exactly match
+the characters in <I>string1</I>.  If found, return the index of the
+first character in the last such match within <I>string2</I>.  If there
+is no match, then return -1.
+<P><DT><A NAME="M9"><B>string length </B><I>string</I></A><DD>
+Returns a decimal string giving the number of characters in <I>string</I>.
+<P><DT><A NAME="M10"><B>string match </B><I>pattern</I> <I>string</I></A><DD>
+See if <I>pattern</I> matches <I>string</I>; return 1 if it does, 0
+if it doesn't.  Matching is done in a fashion similar to that
+used by the C-shell.  For the two strings to match, their contents
+must be identical except that the following special sequences
+may appear in <I>pattern</I>:
+<P>
+<DL>
+<P><DT><A NAME="M11"><B>*</B></A><DD>
+Matches any sequence of characters in <I>string</I>,
+including a null string.
+<P><DT><A NAME="M12"><B>?</B></A><DD>
+Matches any single character in <I>string</I>.
+<P><DT><A NAME="M13"><B>[</B><I>chars</I><B>]</B></A><DD>
+Matches any character in the set given by <I>chars</I>.  If a sequence
+of the form
+<I>x</I><B>-</B><I>y</I> appears in <I>chars</I>, then any character
+between <I>x</I> and <I>y</I>, inclusive, will match.
+<P><DT><A NAME="M14"><B>&#92;</B><I>x</I></A><DD>
+Matches the single character <I>x</I>.  This provides a way of
+avoiding the special interpretation of the characters
+<B>*?[]&#92;</B> in <I>pattern</I>.
+<P></DL>
+<P><DT><A NAME="M15"><B>string range </B><I>string first last</I></A><DD>
+Returns a range of consecutive characters from <I>string</I>, starting
+with the character whose index is <I>first</I> and ending with the
+character whose index is <I>last</I>. An index of 0 refers to the
+first character of the string.  
+An index of <B>end</B> (or any
+abbreviation of it) refers to the last character of the string.
+If <I>first</I> is less than zero then it is treated as if it were zero, and
+if <I>last</I> is greater than or equal to the length of the string then
+it is treated as if it were <B>end</B>.  If <I>first</I> is greater than
+<I>last</I> then an empty string is returned.
+<P><DT><A NAME="M16"><B>string tolower </B><I>string</I></A><DD>
+Returns a value equal to <I>string</I> except that all upper case
+letters have been converted to lower case.
+<P><DT><A NAME="M17"><B>string toupper </B><I>string</I></A><DD>
+Returns a value equal to <I>string</I> except that all lower case
+letters have been converted to upper case.
+<P><DT><A NAME="M18"><B>string trim </B><I>string</I> ?<I>chars</I>?</A><DD>
+Returns a value equal to <I>string</I> except that any leading
+or trailing characters from the set given by <I>chars</I> are
+removed.
+If <I>chars</I> is not specified then white space is removed
+(spaces, tabs, newlines, and carriage returns).
+<P><DT><A NAME="M19"><B>string trimleft </B><I>string</I> ?<I>chars</I>?</A><DD>
+Returns a value equal to <I>string</I> except that any
+leading characters from the set given by <I>chars</I> are
+removed.
+If <I>chars</I> is not specified then white space is removed
+(spaces, tabs, newlines, and carriage returns).
+<P><DT><A NAME="M20"><B>string trimright </B><I>string</I> ?<I>chars</I>?</A><DD>
+Returns a value equal to <I>string</I> except that any
+trailing characters from the set given by <I>chars</I> are
+removed.
+If <I>chars</I> is not specified then white space is removed
+(spaces, tabs, newlines, and carriage returns).
+<P><DT><A NAME="M21"><B>string wordend </B><I>string index</I></A><DD>
+Returns the index of the character just after the last one in the
+word containing character <I>index</I> of <I>string</I>.
+A word is considered to be any contiguous range of alphanumeric
+or underscore characters, or any single character other than these.
+<P><DT><A NAME="M22"><B>string wordstart </B><I>string index</I></A><DD>
+Returns the index of the first character in the
+word containing character <I>index</I> of <I>string</I>.
+A word is considered to be any contiguous range of alphanumeric
+or underscore characters, or any single character other than these.
+
+<P></DL>
+<H3><A NAME="M23">KEYWORDS</A></H3>
+<A href="../Keywords/C.htm#case conversion">case conversion</A>, <A href="../Keywords/C.htm#compare">compare</A>, <A href="../Keywords/I.htm#index">index</A>, <A href="../Keywords/M.htm#match">match</A>, <A href="../Keywords/P.htm#pattern">pattern</A>, <A href="../Keywords/S.htm#string">string</A>, <A href="../Keywords/W.htm#word">word</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1993 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

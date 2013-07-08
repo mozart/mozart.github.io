@@ -1,0 +1,28 @@
+<HTML><HEAD><TITLE>Tcl Built-In Commands - vwait manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+vwait - Process events until a variable is written
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>vwait</B> ?<I>varName</I>?<BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+This command enters the Tcl event loop to process events, blocking
+the application if no events are ready.  It continues processing
+events until some event handler sets the value of variable
+<I>varName</I>.  Once <I>varName</I> has been set, the <B>vwait</B>
+command will return as soon as the event handler that modified
+<I>varName</I> completes.
+<P>
+In some cases the <B>vwait</B> command may not return immediately
+after <I>varName</I> is set.  This can happen if the event handler
+that sets <I>varName</I> does not complete immediately.  For example,
+if an event handler sets <I>varName</I> and then itself calls
+<B>vwait</B> to wait for a different variable, then it may not return
+for a long time.  During this time the top-level <B>vwait</B> is
+blocked waiting for the event handler to complete, so it cannot
+return either.
+
+<H3><A NAME="M5">KEYWORDS</A></H3>
+<A href="../Keywords/E.htm#event">event</A>, <A href="../Keywords/V.htm#variable">variable</A>, <A href="../Keywords/W.htm#wait">wait</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

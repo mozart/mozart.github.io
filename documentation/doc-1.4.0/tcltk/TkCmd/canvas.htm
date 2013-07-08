@@ -1,0 +1,1684 @@
+<HTML><HEAD><TITLE>Tk Built-In Commands - canvas manual page</TITLE></HEAD><BODY>
+<DL>
+<DD><A HREF="canvas.htm#M2" NAME="L126">NAME</A>
+<DL><DD>canvas - Create and manipulate canvas widgets</DL>
+<DD><A HREF="canvas.htm#M3" NAME="L127">SYNOPSIS</A>
+<DL>
+<DD><B>canvas</B> <I>pathName </I>?<I>options</I>?
+</DL>
+<DD><A HREF="canvas.htm#M4" NAME="L128">STANDARD OPTIONS</A>
+<DL>
+<DD><A HREF="options.htm#M-background">-background or -bg, background, Background</A>
+<DD><A HREF="options.htm#M-borderwidth">-borderwidth or -bd, borderWidth, BorderWidth</A>
+<DD><A HREF="options.htm#M-cursor">-cursor, cursor, Cursor</A>
+<DD><A HREF="options.htm#M-highlightbackground">-highlightbackground, highlightBackground, HighlightBackground</A>
+<DD><A HREF="options.htm#M-highlightcolor">-highlightcolor, highlightColor, HighlightColor</A>
+<DD><A HREF="options.htm#M-highlightthickness">-highlightthickness, highlightThickness, HighlightThickness</A>
+<DD><A HREF="options.htm#M-insertbackground">-insertbackground, insertBackground, Foreground</A>
+<DD><A HREF="options.htm#M-insertborderwidth">-insertborderwidth, insertBorderWidth, BorderWidth</A>
+<DD><A HREF="options.htm#M-insertofftime">-insertofftime, insertOffTime, OffTime</A>
+<DD><A HREF="options.htm#M-insertontime">-insertontime, insertOnTime, OnTime</A>
+<DD><A HREF="options.htm#M-insertwidth">-insertwidth, insertWidth, InsertWidth</A>
+<DD><A HREF="options.htm#M-relief">-relief, relief, Relief</A>
+<DD><A HREF="options.htm#M-selectbackground">-selectbackground, selectBackground, Foreground</A>
+<DD><A HREF="options.htm#M-selectborderwidth">-selectborderwidth, selectBorderWidth, BorderWidth</A>
+<DD><A HREF="options.htm#M-selectforeground">-selectforeground, selectForeground, Background</A>
+<DD><A HREF="options.htm#M-takefocus">-takefocus, takeFocus, TakeFocus</A>
+<DD><A HREF="options.htm#M-xscrollcommand">-xscrollcommand, xScrollCommand, ScrollCommand</A>
+<DD><A HREF="options.htm#M-yscrollcommand">-yscrollcommand, yScrollCommand, ScrollCommand</A>
+</DL>
+<DD><A HREF="canvas.htm#M5" NAME="L129">WIDGET-SPECIFIC OPTIONS</A>
+<DL>
+<DD><A HREF="canvas.htm#M6" NAME="L130">-closeenough, closeEnough, CloseEnough</A>
+<DD><A HREF="canvas.htm#M7" NAME="L131">-confine, confine, Confine</A>
+<DD><A HREF="canvas.htm#M8" NAME="L132">-height, height, Height</A>
+<DD><A HREF="canvas.htm#M9" NAME="L133">-scrollregion, scrollRegion, ScrollRegion</A>
+<DD><A HREF="canvas.htm#M10" NAME="L134">-width, width, width</A>
+</DL>
+<DL>
+<DD><A HREF="canvas.htm#M11" NAME="L135">-xscrollincrement, xScrollIncrement, ScrollIncrement</A>
+<DD><A HREF="canvas.htm#M12" NAME="L136">-yscrollincrement, yScrollIncrement, ScrollIncrement</A>
+</DL>
+<DD><A HREF="canvas.htm#M13" NAME="L137">INTRODUCTION</A>
+<DD><A HREF="canvas.htm#M14" NAME="L138">DISPLAY LIST</A>
+<DD><A HREF="canvas.htm#M15" NAME="L139">ITEM IDS AND TAGS</A>
+<DD><A HREF="canvas.htm#M16" NAME="L140">COORDINATES</A>
+<DD><A HREF="canvas.htm#M17" NAME="L141">TRANSFORMATIONS</A>
+<DD><A HREF="canvas.htm#M18" NAME="L142">INDICES</A>
+<DL>
+<DD><A HREF="canvas.htm#M19" NAME="L143"><I>number</I></A>
+<DD><A HREF="canvas.htm#M20" NAME="L144"><B>end</B></A>
+<DD><A HREF="canvas.htm#M21" NAME="L145"><B>insert</B></A>
+<DD><A HREF="canvas.htm#M22" NAME="L146"><B>sel.first</B></A>
+<DD><A HREF="canvas.htm#M23" NAME="L147"><B>sel.last</B></A>
+<DD><A HREF="canvas.htm#M24" NAME="L148"><B>@</B><I>x,y</I></A>
+</DL>
+<DD><A HREF="canvas.htm#M25" NAME="L149">WIDGET COMMAND</A>
+<DL>
+<DD><A HREF="canvas.htm#M26" NAME="L150"><I>pathName </I><B>addtag </B><I>tag searchSpec </I>?<I>arg arg ...</I>?</A>
+<DL>
+<DD><A HREF="canvas.htm#M27" NAME="L151"><B>above </B><I>tagOrId</I></A>
+<DD><A HREF="canvas.htm#M28" NAME="L152"><B>all</B></A>
+<DD><A HREF="canvas.htm#M29" NAME="L153"><B>below </B><I>tagOrId</I></A>
+<DD><A HREF="canvas.htm#M30" NAME="L154"><B>closest </B><I>x y </I>?<I>halo</I>? ?<I>start</I>?</A>
+<DD><A HREF="canvas.htm#M31" NAME="L155"><B>enclosed</B> <I>x1</I> <I>y1</I> <I>x2</I> <I>y2</I></A>
+<DD><A HREF="canvas.htm#M32" NAME="L156"><B>overlapping</B> <I>x1</I> <I>y1</I> <I>x2</I> <I>y2</I></A>
+<DD><A HREF="canvas.htm#M33" NAME="L157"><B>withtag </B><I>tagOrId</I></A>
+</DL>
+<DD><A HREF="canvas.htm#M34" NAME="L158"><I>pathName </I><B>bbox </B><I>tagOrId</I> ?<I>tagOrId tagOrId ...</I>?</A>
+<DD><A HREF="canvas.htm#M35" NAME="L159"><I>pathName </I><B>bind </B><I>tagOrId</I> ?<I>sequence</I>? ?<I>command</I>?</A>
+<DD><A HREF="canvas.htm#M36" NAME="L160"><I>pathName </I><B>canvasx </B><I>screenx</I> ?<I>gridspacing</I>?</A>
+<DD><A HREF="canvas.htm#M37" NAME="L161"><I>pathName </I><B>canvasy </B><I>screeny</I> ?<I>gridspacing</I>?</A>
+<DD><A HREF="canvas.htm#M38" NAME="L162"><I>pathName </I><B>cget</B> <I>option</I></A>
+<DD><A HREF="canvas.htm#M39" NAME="L163"><I>pathName </I><B>configure ?</B><I>option</I>? ?<I>value</I>? ?<I>option value ...</I>?</A>
+<DD><A HREF="canvas.htm#M40" NAME="L164"><I>pathName</I> <B>coords </B><I>tagOrId </I>?<I>x0 y0 ...</I>?</A>
+<DD><A HREF="canvas.htm#M41" NAME="L165"><I>pathName </I><B>create </B><I>type x y </I>?<I>x y ...</I>? ?<I>option value ...</I>?</A>
+<DD><A HREF="canvas.htm#M42" NAME="L166"><I>pathName </I><B>dchars </B><I>tagOrId first </I>?<I>last</I>?</A>
+<DD><A HREF="canvas.htm#M43" NAME="L167"><I>pathName </I><B>delete </B>?<I>tagOrId tagOrId ...</I>?</A>
+<DD><A HREF="canvas.htm#M44" NAME="L168"><I>pathName </I><B>dtag </B><I>tagOrId </I>?<I>tagToDelete</I>?</A>
+<DD><A HREF="canvas.htm#M45" NAME="L169"><I>pathName </I><B>find </B><I>searchCommand </I>?<I>arg arg ...</I>?</A>
+<DD><A HREF="canvas.htm#M46" NAME="L170"><I>pathName </I><B>focus </B>?<I>tagOrId</I>?</A>
+<DD><A HREF="canvas.htm#M47" NAME="L171"><I>pathName </I><B>gettags</B> <I>tagOrId</I></A>
+<DD><A HREF="canvas.htm#M48" NAME="L172"><I>pathName </I><B>icursor </B><I>tagOrId index</I></A>
+<DD><A HREF="canvas.htm#M49" NAME="L173"><I>pathName </I><B>index </B><I>tagOrId index</I></A>
+<DD><A HREF="canvas.htm#M50" NAME="L174"><I>pathName </I><B>insert </B><I>tagOrId beforeThis string</I></A>
+<DD><A HREF="canvas.htm#M51" NAME="L175"><I>pathName </I><B>itemcget</B> <I>tagOrId</I> <I>option</I></A>
+<DD><A HREF="canvas.htm#M52" NAME="L176"><I>pathName </I><B>itemconfigure </B><I>tagOrId</I> ?<I>option</I>? ?<I>value</I>? ?<I>option value ...</I>?</A>
+<DD><A HREF="canvas.htm#M53" NAME="L177"><I>pathName </I><B>lower </B><I>tagOrId </I>?<I>belowThis</I>?</A>
+<DD><A HREF="canvas.htm#M54" NAME="L178"><I>pathName </I><B>move </B><I>tagOrId xAmount yAmount</I></A>
+<DD><A HREF="canvas.htm#M55" NAME="L179"><I>pathName </I><B>postscript </B>?<I>option value option value ...</I>?</A>
+<DL>
+<DD><A HREF="canvas.htm#M56" NAME="L180"><B>-colormap </B><I>varName</I></A>
+<DD><A HREF="canvas.htm#M57" NAME="L181"><B>-colormode </B><I>mode</I></A>
+<DD><A HREF="canvas.htm#M58" NAME="L182"><B>-file </B><I>fileName</I></A>
+<DD><A HREF="canvas.htm#M59" NAME="L183"><B>-fontmap </B><I>varName</I></A>
+<DD><A HREF="canvas.htm#M60" NAME="L184"><B>-height </B><I>size</I></A>
+<DD><A HREF="canvas.htm#M61" NAME="L185"><B>-pageanchor </B><I>anchor</I></A>
+<DD><A HREF="canvas.htm#M62" NAME="L186"><B>-pageheight </B><I>size</I></A>
+<DD><A HREF="canvas.htm#M63" NAME="L187"><B>-pagewidth </B><I>size</I></A>
+<DD><A HREF="canvas.htm#M64" NAME="L188"><B>-pagex </B><I>position</I></A>
+<DD><A HREF="canvas.htm#M65" NAME="L189"><B>-pagey </B><I>position</I></A>
+<DD><A HREF="canvas.htm#M66" NAME="L190"><B>-rotate </B><I>boolean</I></A>
+<DD><A HREF="canvas.htm#M67" NAME="L191"><B>-width </B><I>size</I></A>
+<DD><A HREF="canvas.htm#M68" NAME="L192"><B>-x </B><I>position</I></A>
+<DD><A HREF="canvas.htm#M69" NAME="L193"><B>-y </B><I>position</I></A>
+</DL>
+<DD><A HREF="canvas.htm#M70" NAME="L194"><I>pathName </I><B>raise </B><I>tagOrId </I>?<I>aboveThis</I>?</A>
+<DD><A HREF="canvas.htm#M71" NAME="L195"><I>pathName </I><B>scale </B><I>tagOrId xOrigin yOrigin xScale yScale</I></A>
+<DD><A HREF="canvas.htm#M72" NAME="L196"><I>pathName </I><B>scan</B> <I>option args</I></A>
+<DL>
+<DD><A HREF="canvas.htm#M73" NAME="L197"><I>pathName </I><B>scan mark </B><I>x y</I></A>
+<DD><A HREF="canvas.htm#M74" NAME="L198"><I>pathName </I><B>scan dragto </B><I>x y</I>.</A>
+</DL>
+<DD><A HREF="canvas.htm#M75" NAME="L199"><I>pathName </I><B>select </B><I>option</I> ?<I>tagOrId arg</I>?</A>
+<DL>
+<DD><A HREF="canvas.htm#M76" NAME="L200"><I>pathName </I><B>select adjust </B><I>tagOrId index</I></A>
+<DD><A HREF="canvas.htm#M77" NAME="L201"><I>pathName </I><B>select clear</B></A>
+<DD><A HREF="canvas.htm#M78" NAME="L202"><I>pathName </I><B>select from </B><I>tagOrId index</I></A>
+<DD><A HREF="canvas.htm#M79" NAME="L203"><I>pathName </I><B>select item</B></A>
+<DD><A HREF="canvas.htm#M80" NAME="L204"><I>pathName </I><B>select to </B><I>tagOrId index</I></A>
+</DL>
+<DD><A HREF="canvas.htm#M81" NAME="L205"><I>pathName </I><B>type</B><I> tagOrId</I></A>
+<DD><A HREF="canvas.htm#M82" NAME="L206"><I>pathName </I><B>xview  </B>?<I>args</I>?</A>
+<DL>
+<DD><A HREF="canvas.htm#M83" NAME="L207"><I>pathName </I><B>xview</B></A>
+<DD><A HREF="canvas.htm#M84" NAME="L208"><I>pathName </I><B>xview moveto</B><I> fraction</I></A>
+<DD><A HREF="canvas.htm#M85" NAME="L209"><I>pathName </I><B>xview scroll </B><I>number what</I></A>
+</DL>
+<DD><A HREF="canvas.htm#M86" NAME="L210"><I>pathName </I><B>yview </B><I>?args</I>?</A>
+<DL>
+<DD><A HREF="canvas.htm#M87" NAME="L211"><I>pathName </I><B>yview</B></A>
+<DD><A HREF="canvas.htm#M88" NAME="L212"><I>pathName </I><B>yview moveto</B><I> fraction</I></A>
+<DD><A HREF="canvas.htm#M89" NAME="L213"><I>pathName </I><B>yview scroll </B><I>number what</I></A>
+</DL>
+</DL>
+<DD><A HREF="canvas.htm#M90" NAME="L214">OVERVIEW OF ITEM TYPES</A>
+<DD><A HREF="canvas.htm#M91" NAME="L215">ARC ITEMS</A>
+<DL>
+<DD><A HREF="canvas.htm#M92" NAME="L216"><B>-extent </B><I>degrees</I></A>
+<DD><A HREF="canvas.htm#M93" NAME="L217"><B>-fill </B><I>color</I></A>
+<DD><A HREF="canvas.htm#M94" NAME="L218"><B>-outline </B><I>color</I></A>
+<DD><A HREF="canvas.htm#M95" NAME="L219"><B>-outlinestipple </B><I>bitmap</I></A>
+<DD><A HREF="canvas.htm#M96" NAME="L220"><B>-start </B><I>degrees</I></A>
+<DD><A HREF="canvas.htm#M97" NAME="L221"><B>-stipple </B><I>bitmap</I></A>
+<DD><A HREF="canvas.htm#M98" NAME="L222"><B>-style </B><I>type</I></A>
+<DD><A HREF="canvas.htm#M99" NAME="L223"><B>-tags </B><I>tagList</I></A>
+<DD><A HREF="canvas.htm#M100" NAME="L224"><B>-width </B><I>outlineWidth</I></A>
+</DL>
+<DD><A HREF="canvas.htm#M101" NAME="L225">BITMAP ITEMS</A>
+<DL>
+<DD><A HREF="canvas.htm#M102" NAME="L226"><B>-anchor </B><I>anchorPos</I></A>
+<DD><A HREF="canvas.htm#M103" NAME="L227"><B>-background </B><I>color</I></A>
+<DD><A HREF="canvas.htm#M104" NAME="L228"><B>-bitmap </B><I>bitmap</I></A>
+<DD><A HREF="canvas.htm#M105" NAME="L229"><B>-foreground </B><I>color</I></A>
+<DD><A HREF="canvas.htm#M106" NAME="L230"><B>-tags </B><I>tagList</I></A>
+</DL>
+<DD><A HREF="canvas.htm#M107" NAME="L231">IMAGE ITEMS</A>
+<DL>
+<DD><A HREF="canvas.htm#M108" NAME="L232"><B>-anchor </B><I>anchorPos</I></A>
+<DD><A HREF="canvas.htm#M109" NAME="L233"><B>-image </B><I>name</I></A>
+<DD><A HREF="canvas.htm#M110" NAME="L234"><B>-tags </B><I>tagList</I></A>
+</DL>
+<DD><A HREF="canvas.htm#M111" NAME="L235">LINE ITEMS</A>
+<DL>
+<DD><A HREF="canvas.htm#M112" NAME="L236"><B>-arrow </B><I>where</I></A>
+<DD><A HREF="canvas.htm#M113" NAME="L237"><B>-arrowshape </B><I>shape</I></A>
+<DD><A HREF="canvas.htm#M114" NAME="L238"><B>-capstyle </B><I>style</I></A>
+<DD><A HREF="canvas.htm#M115" NAME="L239"><B>-fill </B><I>color</I></A>
+<DD><A HREF="canvas.htm#M116" NAME="L240"><B>-joinstyle </B><I>style</I></A>
+<DD><A HREF="canvas.htm#M117" NAME="L241"><B>-smooth </B><I>boolean</I></A>
+<DD><A HREF="canvas.htm#M118" NAME="L242"><B>-splinesteps </B><I>number</I></A>
+<DD><A HREF="canvas.htm#M119" NAME="L243"><B>-stipple </B><I>bitmap</I></A>
+<DD><A HREF="canvas.htm#M120" NAME="L244"><B>-tags </B><I>tagList</I></A>
+<DD><A HREF="canvas.htm#M121" NAME="L245"><B>-width </B><I>lineWidth</I></A>
+</DL>
+<DD><A HREF="canvas.htm#M122" NAME="L246">OVAL ITEMS</A>
+<DL>
+<DD><A HREF="canvas.htm#M123" NAME="L247"><B>-fill </B><I>color</I></A>
+<DD><A HREF="canvas.htm#M124" NAME="L248"><B>-outline </B><I>color</I></A>
+<DD><A HREF="canvas.htm#M125" NAME="L249"><B>-stipple </B><I>bitmap</I></A>
+<DD><A HREF="canvas.htm#M126" NAME="L250"><B>-tags </B><I>tagList</I></A>
+<DD><A HREF="canvas.htm#M127" NAME="L251"><B>-width </B><I>outlineWidth</I></A>
+</DL>
+<DD><A HREF="canvas.htm#M128" NAME="L252">POLYGON ITEMS</A>
+<DL>
+<DD><A HREF="canvas.htm#M129" NAME="L253"><B>-fill </B><I>color</I></A>
+<DD><A HREF="canvas.htm#M130" NAME="L254"><B>-outline </B><I>color</I></A>
+<DD><A HREF="canvas.htm#M131" NAME="L255"><B>-smooth </B><I>boolean</I></A>
+<DD><A HREF="canvas.htm#M132" NAME="L256"><B>-splinesteps </B><I>number</I></A>
+<DD><A HREF="canvas.htm#M133" NAME="L257"><B>-stipple </B><I>bitmap</I></A>
+<DD><A HREF="canvas.htm#M134" NAME="L258"><B>-tags </B><I>tagList</I></A>
+<DD><A HREF="canvas.htm#M135" NAME="L259"><B>-width </B><I>outlineWidth</I></A>
+</DL>
+<DD><A HREF="canvas.htm#M136" NAME="L260">RECTANGLE ITEMS</A>
+<DL>
+<DD><A HREF="canvas.htm#M137" NAME="L261"><B>-fill </B><I>color</I></A>
+<DD><A HREF="canvas.htm#M138" NAME="L262"><B>-outline </B><I>color</I></A>
+<DD><A HREF="canvas.htm#M139" NAME="L263"><B>-stipple </B><I>bitmap</I></A>
+<DD><A HREF="canvas.htm#M140" NAME="L264"><B>-tags </B><I>tagList</I></A>
+<DD><A HREF="canvas.htm#M141" NAME="L265"><B>-width </B><I>outlineWidth</I></A>
+</DL>
+<DD><A HREF="canvas.htm#M142" NAME="L266">TEXT ITEMS</A>
+<DL>
+<DD><A HREF="canvas.htm#M143" NAME="L267"><B>-anchor </B><I>anchorPos</I></A>
+<DD><A HREF="canvas.htm#M144" NAME="L268"><B>-fill </B><I>color</I></A>
+<DD><A HREF="canvas.htm#M145" NAME="L269"><B>-font </B><I>fontName</I></A>
+<DD><A HREF="canvas.htm#M146" NAME="L270"><B>-justify </B><I>how</I></A>
+<DD><A HREF="canvas.htm#M147" NAME="L271"><B>-stipple </B><I>bitmap</I></A>
+<DD><A HREF="canvas.htm#M148" NAME="L272"><B>-tags </B><I>tagList</I></A>
+<DD><A HREF="canvas.htm#M149" NAME="L273"><B>-text </B><I>string</I></A>
+<DD><A HREF="canvas.htm#M150" NAME="L274"><B>-width </B><I>lineLength</I></A>
+</DL>
+<DD><A HREF="canvas.htm#M151" NAME="L275">WINDOW ITEMS</A>
+<DL>
+<DD><A HREF="canvas.htm#M152" NAME="L276"><B>-anchor </B><I>anchorPos</I></A>
+<DD><A HREF="canvas.htm#M153" NAME="L277"><B>-height </B><I>pixels</I></A>
+<DD><A HREF="canvas.htm#M154" NAME="L278"><B>-tags </B><I>tagList</I></A>
+<DD><A HREF="canvas.htm#M155" NAME="L279"><B>-width </B><I>pixels</I></A>
+<DD><A HREF="canvas.htm#M156" NAME="L280"><B>-window </B><I>pathName</I></A>
+</DL>
+<DD><A HREF="canvas.htm#M157" NAME="L281">APPLICATION-DEFINED ITEM TYPES</A>
+<DD><A HREF="canvas.htm#M158" NAME="L282">BINDINGS</A>
+<DD><A HREF="canvas.htm#M159" NAME="L283">CREDITS</A>
+<DD><A HREF="canvas.htm#M160" NAME="L284">KEYWORDS</A>
+</DL><HR>
+<H3><A NAME="M2">NAME</A></H3>
+canvas - Create and manipulate canvas widgets
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>canvas</B> <I>pathName </I>?<I>options</I>?<BR>
+<H3><A NAME="M4">STANDARD OPTIONS</A></H3>
+<DL>
+<DT><B><A HREF="options.htm#M-background">-background or -bg, background, Background</A></B>
+<DT><B><A HREF="options.htm#M-borderwidth">-borderwidth or -bd, borderWidth, BorderWidth</A></B>
+<DT><B><A HREF="options.htm#M-cursor">-cursor, cursor, Cursor</A></B>
+<DT><B><A HREF="options.htm#M-highlightbackground">-highlightbackground, highlightBackground, HighlightBackground</A></B>
+<DT><B><A HREF="options.htm#M-highlightcolor">-highlightcolor, highlightColor, HighlightColor</A></B>
+<DT><B><A HREF="options.htm#M-highlightthickness">-highlightthickness, highlightThickness, HighlightThickness</A></B>
+<DT><B><A HREF="options.htm#M-insertbackground">-insertbackground, insertBackground, Foreground</A></B>
+<DT><B><A HREF="options.htm#M-insertborderwidth">-insertborderwidth, insertBorderWidth, BorderWidth</A></B>
+<DT><B><A HREF="options.htm#M-insertofftime">-insertofftime, insertOffTime, OffTime</A></B>
+<DT><B><A HREF="options.htm#M-insertontime">-insertontime, insertOnTime, OnTime</A></B>
+<DT><B><A HREF="options.htm#M-insertwidth">-insertwidth, insertWidth, InsertWidth</A></B>
+<DT><B><A HREF="options.htm#M-relief">-relief, relief, Relief</A></B>
+<DT><B><A HREF="options.htm#M-selectbackground">-selectbackground, selectBackground, Foreground</A></B>
+<DT><B><A HREF="options.htm#M-selectborderwidth">-selectborderwidth, selectBorderWidth, BorderWidth</A></B>
+<DT><B><A HREF="options.htm#M-selectforeground">-selectforeground, selectForeground, Background</A></B>
+<DT><B><A HREF="options.htm#M-takefocus">-takefocus, takeFocus, TakeFocus</A></B>
+<DT><B><A HREF="options.htm#M-xscrollcommand">-xscrollcommand, xScrollCommand, ScrollCommand</A></B>
+<DT><B><A HREF="options.htm#M-yscrollcommand">-yscrollcommand, yScrollCommand, ScrollCommand</A></B>
+</DL>
+<H3><A NAME="M5">WIDGET-SPECIFIC OPTIONS</A></H3>
+<DL>
+<DT>Command-Line Name: <B><A NAME="M6">-closeenough</A></B>
+<DT>Database Name: <B>closeEnough</B>
+<DT>Database Class: <B>CloseEnough</B>
+<DD>Specifies a floating-point value indicating how close the mouse cursor
+must be to an item before it is considered to be ``inside'' the item.
+Defaults to 1.0.
+<P><DT>Command-Line Name: <B><A NAME="M7">-confine</A></B>
+<DT>Database Name: <B>confine</B>
+<DT>Database Class: <B>Confine</B>
+<DD>Specifies a boolean value that indicates whether or not it should be
+allowable to set the canvas's view outside the region defined by the
+<B>scrollRegion</B> argument.
+Defaults to true, which means that the view will
+be constrained within the scroll region.
+<P><DT>Command-Line Name: <B><A NAME="M8">-height</A></B>
+<DT>Database Name: <B>height</B>
+<DT>Database Class: <B>Height</B>
+<DD>Specifies a desired window height that the canvas widget should request from
+its geometry manager.  The value may be specified in any
+of the forms described in the COORDINATES section below.
+<P><DT>Command-Line Name: <B><A NAME="M9">-scrollregion</A></B>
+<DT>Database Name: <B>scrollRegion</B>
+<DT>Database Class: <B>ScrollRegion</B>
+<DD>Specifies a list with four coordinates describing the left, top, right, and
+bottom coordinates of a rectangular region.
+This region is used for scrolling purposes and is considered to be
+the boundary of the information in the canvas.
+Each of the coordinates may be specified
+in any of the forms given in the COORDINATES section below.
+<P><DT>Command-Line Name: <B><A NAME="M10">-width</A></B>
+<DT>Database Name: <B>width</B>
+<DT>Database Class: <B>width</B>
+<DD>Specifies a desired window width that the canvas widget should request from
+its geometry manager.  The value may be specified in any
+of the forms described in the COORDINATES section below.
+</DL>
+<BR>
+<DL>
+<DT>Command-Line Name: <B><A NAME="M11">-xscrollincrement</A></B>
+<DT>Database Name: <B>xScrollIncrement</B>
+<DT>Database Class: <B>ScrollIncrement</B>
+<DD>Specifies an increment for horizontal scrolling, in any of the usual forms
+permitted for screen distances.  If the value of this option is greater
+than zero, the horizontal view in the window will be constrained so that
+the canvas x coordinate at the left edge of the window is always an even
+multiple of <B>xScrollIncrement</B>;  furthermore, the units for scrolling
+(e.g., the change in view when the left and right arrows of a scrollbar
+are selected) will also be <B>xScrollIncrement</B>.  If the value of
+this option is less than or equal to zero, then horizontal scrolling
+is unconstrained.
+<P><DT>Command-Line Name: <B><A NAME="M12">-yscrollincrement</A></B>
+<DT>Database Name: <B>yScrollIncrement</B>
+<DT>Database Class: <B>ScrollIncrement</B>
+<DD>Specifies an increment for vertical scrolling, in any of the usual forms
+permitted for screen distances.  If the value of this option is greater
+than zero, the vertical view in the window will be constrained so that
+the canvas y coordinate at the top edge of the window is always an even
+multiple of <B>yScrollIncrement</B>;  furthermore, the units for scrolling
+(e.g., the change in view when the top and bottom arrows of a scrollbar
+are selected) will also be <B>yScrollIncrement</B>.  If the value of
+this option is less than or equal to zero, then vertical scrolling
+is unconstrained.
+</DL>
+<H3><A NAME="M13">INTRODUCTION</A></H3>
+The <B>canvas</B> command creates a new window (given
+by the <I>pathName</I> argument) and makes it into a canvas widget.
+Additional options, described above, may be specified on the
+command line or in the option database
+to configure aspects of the canvas such as its colors and 3-D relief.
+The <B>canvas</B> command returns its
+<I>pathName</I> argument.  At the time this command is invoked,
+there must not exist a window named <I>pathName</I>, but
+<I>pathName</I>'s parent must exist.
+<P>
+Canvas widgets implement structured graphics.
+A canvas displays any number of <I>items</I>, which may be things like
+rectangles, circles, lines, and text.
+Items may be manipulated (e.g. moved or re-colored) and commands may
+be associated with items in much the same way that the <B><A HREF="../TkCmd/bind.htm">bind</A></B>
+command allows commands to be bound to widgets.  For example,
+a particular command may be associated with the &lt;Button-1&gt; event
+so that the command is invoked whenever button 1 is pressed with
+the mouse cursor over an item.
+This means that items in a canvas can have behaviors defined by
+the Tcl scripts bound to them.
+
+<H3><A NAME="M14">DISPLAY LIST</A></H3>
+The items in a canvas are ordered for purposes of display,
+with the first item in the display list being displayed
+first, followed by the next item in the list, and so on.
+Items later in the display list obscure those that are
+earlier in the display list and are sometimes referred to
+as being ``on top'' of earlier items.
+When a new item is created it is placed at the end of the
+display list, on top of everything else.
+Widget commands may be used to re-arrange the order of the
+display list.
+<P>
+Window items are an exception to the above rules.  The underlying
+window systems require them always to be drawn on top of other items.
+In addition, the stacking order of window items
+is not affected by any of the canvas widget commands; you must use
+the <B><A HREF="../TkCmd/raise.htm">raise</A></B> and <B><A HREF="../TkCmd/lower.htm">lower</A></B> Tk commands instead.
+
+<H3><A NAME="M15">ITEM IDS AND TAGS</A></H3>
+Items in a canvas widget may be named in either of two ways:
+by id or by tag.
+Each item has a unique identifying number which is assigned to
+that item when it is created.  The id of an item never changes
+and id numbers are never re-used within the lifetime of a
+canvas widget.
+<P>
+Each item may also have any number of <I>tags</I> associated
+with it.  A tag is just a string of characters, and it may
+take any form except that of an integer.
+For example, ``x123'' is OK but ``123'' isn't.
+The same tag may be associated with many different items.
+This is commonly done to group items in various interesting
+ways;  for example, all selected items might be given the
+tag ``selected''.
+<P>
+The tag <B>all</B> is implicitly associated with every item
+in the canvas;  it may be used to invoke operations on
+all the items in the canvas.
+<P>
+The tag <B>current</B> is managed automatically by Tk;
+it applies to the <I>current item</I>, which is the
+topmost item whose drawn area covers the position of
+the mouse cursor.
+If the mouse is not in the canvas widget or is not over
+an item, then no item has the <B>current</B> tag.
+<P>
+When specifying items in canvas widget commands, if the
+specifier is an integer then it is assumed to refer to
+the single item with that id.
+If the specifier is not an integer, then it is assumed to
+refer to all of the items in the canvas that have a tag
+matching the specifier.
+The symbol <I>tagOrId</I> is used below to indicate that
+an argument specifies either an id that selects a single
+item or a tag that selects zero or more items.
+Some widget commands only operate on a single item at a
+time;  if <I>tagOrId</I> is specified in a way that
+names multiple items, then the normal behavior is for
+the command to use the first (lowest) of these items in
+the display list that is suitable for the command.
+Exceptions are noted in the widget command descriptions
+below.
+
+<H3><A NAME="M16">COORDINATES</A></H3>
+All coordinates related to canvases are stored as floating-point
+numbers.
+Coordinates and distances are specified in screen units,
+which are floating-point numbers optionally followed
+by one of several letters.
+If no letter is supplied then the distance is in pixels.
+If the letter is <B>m</B> then the distance is in millimeters on
+the screen;  if it is <B>c</B> then the distance is in centimeters;
+<B>i</B> means inches, and <B>p</B> means printers points (1/72 inch).
+Larger y-coordinates refer to points lower on the screen;  larger
+x-coordinates refer to points farther to the right.
+
+<H3><A NAME="M17">TRANSFORMATIONS</A></H3>
+Normally the origin of the canvas coordinate system is at the
+upper-left corner of the window containing the canvas.
+It is possible to adjust the origin of the canvas
+coordinate system relative to the origin of the window using the
+<B>xview</B> and <B>yview</B> widget commands;  this is typically used
+for scrolling.
+Canvases do not support scaling or rotation of the canvas coordinate
+system relative to the window coordinate system.
+<P>
+Individual items may be moved or scaled using widget commands
+described below, but they may not be rotated.
+
+<H3><A NAME="M18">INDICES</A></H3>
+Text items support the notion of an <I>index</I> for identifying
+particular positions within the item.
+Indices are used for commands such as inserting text, deleting
+a range of characters, and setting the insertion cursor position.
+An index may be specified in any of a number of ways, and
+different types of items may support different forms for
+specifying indices.
+Text items support the following forms for an index;  if you
+define new types of text-like items, it would be advisable to
+support as many of these forms as practical.
+Note that it is possible to refer to the character just after
+the last one in the text item;  this is necessary for such
+tasks as inserting new text at the end of the item.
+<P>
+<DL>
+<P><DT><A NAME="M19"><I>number</I></A><DD>
+A decimal number giving the position of the desired character
+within the text item.
+0 refers to the first character, 1 to the next character, and
+so on.
+A number less than 0 is treated as if it were zero, and a
+number greater than the length of the text item is treated
+as if it were equal to the length of the text item.
+<P><DT><A NAME="M20"><B>end</B></A><DD>
+Refers to the character just after the last one in the item
+(same as the number of characters in the item).
+<P><DT><A NAME="M21"><B>insert</B></A><DD>
+Refers to the character just before which the insertion cursor
+is drawn in this item.
+<P><DT><A NAME="M22"><B>sel.first</B></A><DD>
+Refers to the first selected character in the item.
+If the selection isn't in this item then this form is illegal.
+<P><DT><A NAME="M23"><B>sel.last</B></A><DD>
+Refers to the last selected character in the item.
+If the selection isn't in this item then this form is illegal.
+<P><DT><A NAME="M24"><B>@</B><I>x,y</I></A><DD>
+Refers to the character at the point given by <I>x</I> and
+<I>y</I>, where <I>x</I> and <I>y</I> are specified in the coordinate
+system of the canvas.
+If <I>x</I> and <I>y</I> lie outside the coordinates covered by the
+text item, then they refer to the first or last character in the
+line that is closest to the given point.
+
+<P></DL>
+<H3><A NAME="M25">WIDGET COMMAND</A></H3>
+The <B>canvas</B> command creates a new Tcl command whose
+name is <I>pathName</I>.  This
+command may be used to invoke various
+operations on the widget.  It has the following general form:
+<PRE><I>pathName option </I>?<I>arg arg ...</I>?</PRE>
+<I>Option</I> and the <I>arg</I>s
+determine the exact behavior of the command.
+The following widget commands are possible for canvas widgets:
+<P>
+<DL>
+<P><DT><A NAME="M26"><I>pathName </I><B>addtag </B><I>tag searchSpec </I>?<I>arg arg ...</I>?</A><DD>
+For each item that meets the constraints specified by
+<I>searchSpec</I> and the <I>arg</I>s, add
+<I>tag</I> to the list of tags associated with the item if it
+isn't already present on that list.
+It is possible that no items will satisfy the constraints
+given by <I>searchSpec</I> and <I>arg</I>s, in which case the
+command has no effect.
+This command returns an empty string as result.
+<I>SearchSpec</I> and <I>arg</I>'s may take any of the following
+forms:
+<P>
+<DL>
+<P><DT><A NAME="M27"><B>above </B><I>tagOrId</I></A><DD>
+Selects the item just after (above) the one given by <I>tagOrId</I>
+in the display list.
+If <I>tagOrId</I> denotes more than one item, then the last (topmost)
+of these items in the display list is used.
+<P><DT><A NAME="M28"><B>all</B></A><DD>
+Selects all the items in the canvas.
+<P><DT><A NAME="M29"><B>below </B><I>tagOrId</I></A><DD>
+Selects the item just before (below) the one given by <I>tagOrId</I>
+in the display list.
+If <I>tagOrId</I> denotes more than one item, then the first (lowest)
+of these items in the display list is used.
+<P><DT><A NAME="M30"><B>closest </B><I>x y </I>?<I>halo</I>? ?<I>start</I>?</A><DD>
+Selects the item closest to the point given by <I>x</I> and <I>y</I>.
+If more than one item is at the same closest distance (e.g. two
+items overlap the point), then the top-most of these items (the
+last one in the display list) is used.
+If <I>halo</I> is specified, then it must be a non-negative
+value.
+Any item closer than <I>halo</I> to the point is considered to
+overlap it.
+The <I>start</I> argument may be used to step circularly through
+all the closest items.
+If <I>start</I> is specified, it names an item using a tag or id
+(if by tag, it selects the first item in the display list with
+the given tag).
+Instead of selecting the topmost closest item, this form will
+select the topmost closest item that is below <I>start</I> in
+the display list;  if no such item exists, then the selection
+behaves as if the <I>start</I> argument had not been specified.
+<P><DT><A NAME="M31"><B>enclosed</B> <I>x1</I> <I>y1</I> <I>x2</I> <I>y2</I></A><DD>
+Selects all the items completely enclosed within the rectangular
+region given by <I>x1</I>, <I>y1</I>, <I>x2</I>, and <I>y2</I>.
+<I>X1</I> must be no greater then <I>x2</I> and <I>y1</I> must be
+no greater than <I>y2</I>.
+<P><DT><A NAME="M32"><B>overlapping</B> <I>x1</I> <I>y1</I> <I>x2</I> <I>y2</I></A><DD>
+Selects all the items that overlap or are enclosed within the
+rectangular region given by <I>x1</I>, <I>y1</I>, <I>x2</I>,
+and <I>y2</I>.
+<I>X1</I> must be no greater then <I>x2</I> and <I>y1</I> must be
+no greater than <I>y2</I>.
+<P><DT><A NAME="M33"><B>withtag </B><I>tagOrId</I></A><DD>
+Selects all the items given by <I>tagOrId</I>.
+<P></DL>
+<P><DT><A NAME="M34"><I>pathName </I><B>bbox </B><I>tagOrId</I> ?<I>tagOrId tagOrId ...</I>?</A><DD>
+Returns a list with four elements giving an approximate bounding box
+for all the items named by the <I>tagOrId</I> arguments.
+The list has the form ``<I>x1 y1 x2 y2</I>'' such that the drawn
+areas of all the named elements are within the region bounded by
+<I>x1</I> on the left, <I>x2</I> on the right, <I>y1</I> on the top,
+and <I>y2</I> on the bottom.
+The return value may overestimate the actual bounding box by
+a few pixels.
+If no items match any of the <I>tagOrId</I> arguments or if the
+matching items have empty bounding boxes (i.e. they have nothing
+to display)
+then an empty string is returned.
+<P><DT><A NAME="M35"><I>pathName </I><B>bind </B><I>tagOrId</I> ?<I>sequence</I>? ?<I>command</I>?</A><DD>
+This command associates <I>command</I> with all the items given by
+<I>tagOrId</I> such that whenever the event sequence given by
+<I>sequence</I> occurs for one of the items the command will
+be invoked.
+This widget command is similar to the <B><A HREF="../TkCmd/bind.htm">bind</A></B> command except that
+it operates on items in a canvas rather than entire widgets.
+See the <B><A HREF="../TkCmd/bind.htm">bind</A></B> manual entry for complete details
+on the syntax of <I>sequence</I> and the substitutions performed
+on <I>command</I> before invoking it.
+If all arguments are specified then a new binding is created, replacing
+any existing binding for the same <I>sequence</I> and <I>tagOrId</I>
+(if the first character of <I>command</I> is ``+'' then <I>command</I>
+augments an existing binding rather than replacing it).
+In this case the return value is an empty string.
+If <I>command</I> is omitted then the command returns the <I>command</I>
+associated with <I>tagOrId</I> and <I>sequence</I> (an error occurs
+if there is no such binding).
+If both <I>command</I> and <I>sequence</I> are omitted then the command
+returns a list of all the sequences for which bindings have been
+defined for <I>tagOrId</I>.
+<P>
+The only events for which bindings may be specified are those related to
+the mouse and keyboard (such as <B>Enter</B>, <B>Leave</B>,
+<B>ButtonPress</B>, <B>Motion</B>, and <B>KeyPress</B>) or virtual events.
+The handling of events in canvases uses the current item defined in ITEM
+IDS AND TAGS above.  <B>Enter</B> and <B>Leave</B> events trigger for an
+item when it becomes the current item or ceases to be the current item;
+note that these events are different than <B>Enter</B> and <B>Leave</B>
+events for windows.  Mouse-related events are directed to the current
+item, if any.  Keyboard-related events are directed to the focus item, if
+any (see the <B>focus</B> widget command below for more on this).  If a
+virtual event is used in a binding, that binding can trigger only if the
+virtual event is defined by an underlying mouse-related or
+keyboard-related event.
+<P>
+It is possible for multiple bindings to match a particular event.
+This could occur, for example, if one binding is associated with the
+item's id and another is associated with one of the item's tags.
+When this occurs, all of the matching bindings are invoked.
+A binding associated with the <B>all</B> tag is invoked first,
+followed by one binding for each of the item's tags (in order),
+followed by a binding associated with the item's id.
+If there are multiple matching bindings for a single tag,
+then only the most specific binding is invoked.
+A <B><A HREF="../TclCmd/continue.htm">continue</A></B> command in a binding script terminates that
+script, and a <B><A HREF="../TclCmd/break.htm">break</A></B> command terminates that script
+and skips any remaining scripts for the event, just as for the
+<B><A HREF="../TkCmd/bind.htm">bind</A></B> command.
+<P>If bindings have been created for a canvas window using the <B><A HREF="../TkCmd/bind.htm">bind</A></B>
+command, then they are invoked in addition to bindings created for
+the canvas's items using the <B><A HREF="../TkCmd/bind.htm">bind</A></B> widget command.
+The bindings for items will be invoked before any of the bindings
+for the window as a whole.
+<P><DT><A NAME="M36"><I>pathName </I><B>canvasx </B><I>screenx</I> ?<I>gridspacing</I>?</A><DD>
+Given a window x-coordinate in the canvas <I>screenx</I>, this command returns
+the canvas x-coordinate that is displayed at that location.
+If <I>gridspacing</I> is specified, then the canvas coordinate is
+rounded to the nearest multiple of <I>gridspacing</I> units.
+<P><DT><A NAME="M37"><I>pathName </I><B>canvasy </B><I>screeny</I> ?<I>gridspacing</I>?</A><DD>
+Given a window y-coordinate in the canvas <I>screeny</I> this command returns
+the canvas y-coordinate that is displayed at that location.
+If <I>gridspacing</I> is specified, then the canvas coordinate is
+rounded to the nearest multiple of <I>gridspacing</I> units.
+<P><DT><A NAME="M38"><I>pathName </I><B>cget</B> <I>option</I></A><DD>
+Returns the current value of the configuration option given
+by <I>option</I>.
+<I>Option</I> may have any of the values accepted by the <B>canvas</B>
+command.
+<P><DT><A NAME="M39"><I>pathName </I><B>configure ?</B><I>option</I>? ?<I>value</I>? ?<I>option value ...</I>?</A><DD>
+Query or modify the configuration options of the widget.
+If no <I>option</I> is specified, returns a list describing all of
+the available options for <I>pathName</I> (see <B><A HREF="../TkLib/ConfigWidg.htm">Tk_ConfigureInfo</A></B> for
+information on the format of this list).  If <I>option</I> is specified
+with no <I>value</I>, then the command returns a list describing the
+one named option (this list will be identical to the corresponding
+sublist of the value returned if no <I>option</I> is specified).  If
+one or more <I>option-value</I> pairs are specified, then the command
+modifies the given widget option(s) to have the given value(s);  in
+this case the command returns an empty string.
+<I>Option</I> may have any of the values accepted by the <B>canvas</B>
+command.
+<P><DT><A NAME="M40"><I>pathName</I> <B>coords </B><I>tagOrId </I>?<I>x0 y0 ...</I>?</A><DD>
+Query or modify the coordinates that define an item.
+If no coordinates are specified, this command returns a list
+whose elements are the coordinates of the item named by
+<I>tagOrId</I>.
+If coordinates are specified, then they replace the current
+coordinates for the named item.
+If <I>tagOrId</I> refers to multiple items, then
+the first one in the display list is used.
+<P><DT><A NAME="M41"><I>pathName </I><B>create </B><I>type x y </I>?<I>x y ...</I>? ?<I>option value ...</I>?</A><DD>
+Create a new item in <I>pathName</I> of type <I>type</I>.
+The exact format of the arguments after <B>type</B> depends
+on <B>type</B>, but usually they consist of the coordinates for
+one or more points, followed by specifications for zero or
+more item options.
+See the subsections on individual item types below for more
+on the syntax of this command.
+This command returns the id for the new item.
+<P><DT><A NAME="M42"><I>pathName </I><B>dchars </B><I>tagOrId first </I>?<I>last</I>?</A><DD>
+For each item given by <I>tagOrId</I>, delete the characters
+in the range given by <I>first</I> and <I>last</I>,
+inclusive.
+If some of the items given by <I>tagOrId</I> don't support
+text operations, then they are ignored.
+<I>First</I> and <I>last</I> are indices of characters
+within the item(s) as described in INDICES above.
+If <I>last</I> is omitted, it defaults to <I>first</I>.
+This command returns an empty string.
+<P><DT><A NAME="M43"><I>pathName </I><B>delete </B>?<I>tagOrId tagOrId ...</I>?</A><DD>
+Delete each of the items given by each <I>tagOrId</I>, and return
+an empty string.
+<P><DT><A NAME="M44"><I>pathName </I><B>dtag </B><I>tagOrId </I>?<I>tagToDelete</I>?</A><DD>
+For each of the items given by <I>tagOrId</I>, delete the
+tag given by <I>tagToDelete</I> from the list of those
+associated with the item.
+If an item doesn't have the tag <I>tagToDelete</I> then
+the item is unaffected by the command.
+If <I>tagToDelete</I> is omitted then it defaults to <I>tagOrId</I>.
+This command returns an empty string.
+<P><DT><A NAME="M45"><I>pathName </I><B>find </B><I>searchCommand </I>?<I>arg arg ...</I>?</A><DD>
+This command returns a list consisting of all the items that
+meet the constraints specified by <I>searchCommand</I> and
+<I>arg</I>'s.
+<I>SearchCommand</I> and <I>args</I> have any of the forms
+accepted by the <B>addtag</B> command.
+The items are returned in stacking order, with the lowest item first.
+<P><DT><A NAME="M46"><I>pathName </I><B>focus </B>?<I>tagOrId</I>?</A><DD>
+Set the keyboard focus for the canvas widget to the item given by
+<I>tagOrId</I>.
+If <I>tagOrId</I> refers to several items, then the focus is set
+to the first such item in the display list that supports the
+insertion cursor.
+If <I>tagOrId</I> doesn't refer to any items, or if none of them
+support the insertion cursor, then the focus isn't changed.
+If <I>tagOrId</I> is an empty
+string, then the focus item is reset so that no item has the focus.
+If <I>tagOrId</I> is not specified then the command returns the
+id for the item that currently has the focus, or an empty string
+if no item has the focus.
+<P>
+Once the focus has been set to an item, the item will display
+the insertion cursor and all keyboard events will be directed
+to that item.
+The focus item within a canvas and the focus window on the
+screen (set with the <B><A HREF="../TkCmd/focus.htm">focus</A></B> command) are totally independent:
+a given item doesn't actually have the input focus unless (a)
+its canvas is the focus window and (b) the item is the focus item
+within the canvas.
+In most cases it is advisable to follow the <B>focus</B> widget
+command with the <B><A HREF="../TkCmd/focus.htm">focus</A></B> command to set the focus window to
+the canvas (if it wasn't there already).
+<P><DT><A NAME="M47"><I>pathName </I><B>gettags</B> <I>tagOrId</I></A><DD>
+Return a list whose elements are the tags associated with the
+item given by <I>tagOrId</I>.
+If <I>tagOrId</I> refers to more than one item, then the tags
+are returned from the first such item in the display list.
+If <I>tagOrId</I> doesn't refer to any items, or if the item
+contains no tags, then an empty string is returned.
+<P><DT><A NAME="M48"><I>pathName </I><B>icursor </B><I>tagOrId index</I></A><DD>
+Set the position of the insertion cursor for the item(s)
+given by <I>tagOrId</I>
+to just before the character whose position is given by <I>index</I>.
+If some or all of the items given by <I>tagOrId</I> don't support
+an insertion cursor then this command has no effect on them.
+See INDICES above for a description of the
+legal forms for <I>index</I>.
+Note:  the insertion cursor is only displayed in an item if
+that item currently has the keyboard focus (see the widget
+command <B>focus</B>, below), but the cursor position may
+be set even when the item doesn't have the focus.
+This command returns an empty string.
+<P><DT><A NAME="M49"><I>pathName </I><B>index </B><I>tagOrId index</I></A><DD>
+This command returns a decimal string giving the numerical index
+within <I>tagOrId</I> corresponding to <I>index</I>.
+<I>Index</I> gives a textual description of the desired position
+as described in INDICES above.
+The return value is guaranteed to lie between 0 and the number
+of characters within the item, inclusive.
+If <I>tagOrId</I> refers to multiple items, then the index
+is processed in the first of these items that supports indexing
+operations (in display list order).
+<P><DT><A NAME="M50"><I>pathName </I><B>insert </B><I>tagOrId beforeThis string</I></A><DD>
+For each of the items given by <I>tagOrId</I>, if the item supports
+text insertion then <I>string</I> is inserted into the item's
+text just before the character whose index is <I>beforeThis</I>.
+See INDICES above for information about the forms allowed
+for <I>beforeThis</I>.
+This command returns an empty string.
+<P><DT><A NAME="M51"><I>pathName </I><B>itemcget</B> <I>tagOrId</I> <I>option</I></A><DD>
+Returns the current value of the configuration option for the
+item given by <I>tagOrId</I> whose name is <I>option</I>.
+This command is similar to the <B>cget</B> widget command except that
+it applies to a particular item rather than the widget as a whole.
+<I>Option</I> may have any of the values accepted by the <B>create</B>
+widget command when the item was created.
+If <I>tagOrId</I> is a tag that refers to more than one item,
+the first (lowest) such item is used.
+<P><DT><A NAME="M52"><I>pathName </I><B>itemconfigure </B><I>tagOrId</I> ?<I>option</I>? ?<I>value</I>? ?<I>option value ...</I>?</A><DD>
+This command is similar to the <B>configure</B> widget command except
+that it modifies item-specific options for the items given by
+<I>tagOrId</I> instead of modifying options for the overall
+canvas widget.
+If no <I>option</I> is specified, returns a list describing all of
+the available options for the first item given by <I>tagOrId</I>
+(see <B><A HREF="../TkLib/ConfigWidg.htm">Tk_ConfigureInfo</A></B> for
+information on the format of this list).  If <I>option</I> is specified
+with no <I>value</I>, then the command returns a list describing the
+one named option (this list will be identical to the corresponding
+sublist of the value returned if no <I>option</I> is specified).  If
+one or more <I>option-value</I> pairs are specified, then the command
+modifies the given widget option(s) to have the given value(s) in
+each of the items given by <I>tagOrId</I>;  in
+this case the command returns an empty string.
+The <I>option</I>s and <I>value</I>s are the same as those permissible
+in the <B>create</B> widget command when the item(s) were created;
+see the sections describing individual item types below for details
+on the legal options.
+<P><DT><A NAME="M53"><I>pathName </I><B>lower </B><I>tagOrId </I>?<I>belowThis</I>?</A><DD>
+Move all of the items given by <I>tagOrId</I> to a new position
+in the display list just before the item given by <I>belowThis</I>.
+If <I>tagOrId</I> refers to more than one item then all are moved
+but the relative order of the moved items will not be changed.
+<I>BelowThis</I> is a tag or id;  if it refers to more than one
+item then the first (lowest) of these items in the display list is used
+as the destination location for the moved items.
+Note: this command has no effect on window items.  Window items always
+obscure other item types, and the stacking order of window items is
+determined by the <B><A HREF="../TkCmd/raise.htm">raise</A></B> and <B><A HREF="../TkCmd/lower.htm">lower</A></B> commands, not the
+<B><A HREF="../TkCmd/raise.htm">raise</A></B> and <B><A HREF="../TkCmd/lower.htm">lower</A></B> widget commands for canvases.
+This command returns an empty string.
+<P><DT><A NAME="M54"><I>pathName </I><B>move </B><I>tagOrId xAmount yAmount</I></A><DD>
+Move each of the items given by <I>tagOrId</I> in the canvas coordinate
+space by adding <I>xAmount</I> to the x-coordinate of each point
+associated with the item and <I>yAmount</I> to the y-coordinate of
+each point associated with the item.
+This command returns an empty string.
+<P><DT><A NAME="M55"><I>pathName </I><B>postscript </B>?<I>option value option value ...</I>?</A><DD>
+Generate a Postscript representation for part or all of the canvas.
+If the <B>-file</B> option is specified then the Postscript is written
+to a file and an empty string is returned;  otherwise the Postscript
+is returned as the result of the command.
+If the interpreter that owns the canvas is marked as safe, the operation
+will fail because safe interpreters are not allowed to write files.
+If the <B>-channel</B> option is specified, the argument denotes the name
+of a channel already opened for writing. The Postscript is written to
+that channel, and the channel is left open for further writing at the end
+of the operation.
+The Postscript is created in Encapsulated Postscript form using
+version 3.0 of the Document Structuring Conventions.
+Note: by default Postscript is only generated for information that
+appears in the canvas's window on the screen.  If the canvas is
+freshly created it may still have its initial size of 1x1 pixel
+so nothing will appear in the Postscript.  To get around this problem
+either invoke the &quot;update&quot; command to wait for the canvas window
+to reach its final size, or else use the <B>-width</B> and <B>-height</B>
+options to specify the area of the canvas to print.
+The <I>option</I>-<I>value</I> argument pairs provide additional
+information to control the generation of Postscript.  The following
+options are supported:
+<P>
+<DL>
+<P><DT><A NAME="M56"><B>-colormap </B><I>varName</I></A><DD>
+<I>VarName</I> must be the name of an array variable
+that specifies a color mapping to use in the Postscript.
+Each element of <I>varName</I> must consist of Postscript
+code to set a particular color value (e.g. ``<B>1.0 1.0 0.0 setrgbcolor</B>'').
+When outputting color information in the Postscript, Tk checks
+to see if there is an element of <I>varName</I> with the same
+name as the color.
+If so, Tk uses the value of the element as the Postscript command
+to set the color.
+If this option hasn't been specified, or if there isn't an entry
+in <I>varName</I> for a given color, then Tk uses the red, green,
+and blue intensities from the X color.
+<P><DT><A NAME="M57"><B>-colormode </B><I>mode</I></A><DD>
+Specifies how to output color information.  <I>Mode</I> must be either
+<B>color</B> (for full color output), <B>gray</B> (convert all colors
+to their gray-scale equivalents) or <B>mono</B> (convert all colors
+to black or white).
+<P><DT><A NAME="M58"><B>-file </B><I>fileName</I></A><DD>
+Specifies the name of the file in which to write the Postscript.
+If this option isn't specified then the Postscript is returned as the
+result of the command instead of being written to a file.
+<P><DT><A NAME="M59"><B>-fontmap </B><I>varName</I></A><DD>
+<I>VarName</I> must be the name of an array variable
+that specifies a font mapping to use in the Postscript.
+Each element of <I>varName</I> must consist of a Tcl list with
+two elements, which are the name and point size of a Postscript font.
+When outputting Postscript commands for a particular font, Tk
+checks to see if <I>varName</I> contains an element with the same
+name as the font.
+If there is such an element, then the font information contained in
+that element is used in the Postscript.
+Otherwise Tk attempts to guess what Postscript font to use.
+Tk's guesses generally only work for well-known fonts such as
+Times and Helvetica and Courier, and only if the X font name does not
+omit any dashes up through the point size.
+For example, <B>-*-Courier-Bold-R-Normal--*-120-*</B> will work but
+<B>*Courier-Bold-R-Normal*120*</B> will not;  Tk needs the dashes to
+parse the font name).
+<P><DT><A NAME="M60"><B>-height </B><I>size</I></A><DD>
+Specifies the height of the area of the canvas to print.
+Defaults to the height of the canvas window.
+<P><DT><A NAME="M61"><B>-pageanchor </B><I>anchor</I></A><DD>
+Specifies which point of the printed area of the canvas should appear over
+the positioning point on the page (which is given by the <B>-pagex</B>
+and <B>-pagey</B> options).
+For example, <B>-pageanchor n</B> means that the top center of the
+area of the canvas being printed (as it appears in the canvas window)
+should be over the positioning point. Defaults to <B>center</B>.
+<P><DT><A NAME="M62"><B>-pageheight </B><I>size</I></A><DD>
+Specifies that the Postscript should be scaled in both x and y so
+that the printed area is <I>size</I> high on the Postscript page.
+<I>Size</I> consists of a floating-point number followed by
+<B>c</B> for centimeters, <B>i</B> for inches, <B>m</B> for millimeters,
+or <B>p</B> or nothing for printer's points (1/72 inch).
+Defaults to the height of the printed area on the screen.
+If both <B>-pageheight</B> and <B>-pagewidth</B> are specified then
+the scale factor from <B>-pagewidth</B> is used (non-uniform scaling
+is not implemented).
+<P><DT><A NAME="M63"><B>-pagewidth </B><I>size</I></A><DD>
+Specifies that the Postscript should be scaled in both x and y so
+that the printed area is <I>size</I> wide on the Postscript page.
+<I>Size</I> has the same form as for <B>-pageheight</B>.
+Defaults to the width of the printed area on the screen.
+If both <B>-pageheight</B> and <B>-pagewidth</B> are specified then
+the scale factor from <B>-pagewidth</B>  is used (non-uniform scaling
+is not implemented).
+<P><DT><A NAME="M64"><B>-pagex </B><I>position</I></A><DD>
+<I>Position</I> gives the x-coordinate of the positioning point on
+the Postscript page, using any of the forms allowed for <B>-pageheight</B>.
+Used in conjunction with the <B>-pagey</B> and <B>-pageanchor</B> options
+to determine where the printed area appears on the Postscript page.
+Defaults to the center of the page.
+<P><DT><A NAME="M65"><B>-pagey </B><I>position</I></A><DD>
+<I>Position</I> gives the y-coordinate of the positioning point on
+the Postscript page, using any of the forms allowed for <B>-pageheight</B>.
+Used in conjunction with the <B>-pagex</B> and <B>-pageanchor</B> options
+to determine where the printed area appears on the Postscript page.
+Defaults to the center of the page.
+<P><DT><A NAME="M66"><B>-rotate </B><I>boolean</I></A><DD>
+<I>Boolean</I> specifies whether the printed area is to be rotated 90
+degrees.
+In non-rotated output the x-axis of the printed area runs along
+the short dimension of the page (``portrait'' orientation);
+in rotated output the x-axis runs along the long dimension of the
+page (``landscape'' orientation).
+Defaults to non-rotated.
+<P><DT><A NAME="M67"><B>-width </B><I>size</I></A><DD>
+Specifies the width of the area of the canvas to print.
+Defaults to the width of the canvas window.
+<P><DT><A NAME="M68"><B>-x </B><I>position</I></A><DD>
+Specifies the x-coordinate of the left edge of the area of the
+canvas that is to be printed, in canvas coordinates, not window
+coordinates.
+Defaults to the coordinate of the left edge of the window.
+<P><DT><A NAME="M69"><B>-y </B><I>position</I></A><DD>
+Specifies the y-coordinate of the top edge of the area of the
+canvas that is to be printed, in canvas coordinates, not window
+coordinates.
+Defaults to the coordinate of the top edge of the window.
+<P></DL>
+<P><DT><A NAME="M70"><I>pathName </I><B>raise </B><I>tagOrId </I>?<I>aboveThis</I>?</A><DD>
+Move all of the items given by <I>tagOrId</I> to a new position
+in the display list just after the item given by <I>aboveThis</I>.
+If <I>tagOrId</I> refers to more than one item then all are moved
+but the relative order of the moved items will not be changed.
+<I>AboveThis</I> is a tag or id;  if it refers to more than one
+item then the last (topmost) of these items in the display list is used
+as the destination location for the moved items.
+Note: this command has no effect on window items.  Window items always
+obscure other item types, and the stacking order of window items is
+determined by the <B><A HREF="../TkCmd/raise.htm">raise</A></B> and <B><A HREF="../TkCmd/lower.htm">lower</A></B> commands, not the
+<B><A HREF="../TkCmd/raise.htm">raise</A></B> and <B><A HREF="../TkCmd/lower.htm">lower</A></B> widget commands for canvases.
+This command returns an empty string.
+<P><DT><A NAME="M71"><I>pathName </I><B>scale </B><I>tagOrId xOrigin yOrigin xScale yScale</I></A><DD>
+Rescale all of the items given by <I>tagOrId</I> in canvas coordinate
+space.
+<I>XOrigin</I> and <I>yOrigin</I> identify the origin for the scaling
+operation and <I>xScale</I> and <I>yScale</I> identify the scale
+factors for x- and y-coordinates, respectively (a scale factor of
+1.0 implies no change to that coordinate).
+For each of the points defining each item, the x-coordinate is
+adjusted to change the distance from <I>xOrigin</I> by a factor
+of <I>xScale</I>.
+Similarly, each y-coordinate is adjusted to change the distance
+from <I>yOrigin</I> by a factor of <I>yScale</I>.
+This command returns an empty string.
+<P><DT><A NAME="M72"><I>pathName </I><B>scan</B> <I>option args</I></A><DD>
+This command is used to implement scanning on canvases.  It has
+two forms, depending on <I>option</I>:
+<P>
+<DL>
+<P><DT><A NAME="M73"><I>pathName </I><B>scan mark </B><I>x y</I></A><DD>
+Records <I>x</I> and <I>y</I> and the canvas's current view;  used
+in conjunction with later <B>scan dragto</B> commands.
+Typically this command is associated with a mouse button press in
+the widget and <I>x</I> and <I>y</I> are the coordinates of the
+mouse.  It returns an empty string.
+<P><DT><A NAME="M74"><I>pathName </I><B>scan dragto </B><I>x y</I>.</A><DD>
+This command computes the difference between its <I>x</I> and <I>y</I>
+arguments (which are typically mouse coordinates) and the <I>x</I> and
+<I>y</I> arguments to the last <B>scan mark</B> command for the widget.
+It then adjusts the view by 10 times the
+difference in coordinates.  This command is typically associated
+with mouse motion events in the widget, to produce the effect of
+dragging the canvas at high speed through its window.  The return
+value is an empty string.
+<P></DL>
+<P><DT><A NAME="M75"><I>pathName </I><B>select </B><I>option</I> ?<I>tagOrId arg</I>?</A><DD>
+Manipulates the selection in one of several ways, depending on
+<I>option</I>.
+The command may take any of the forms described below.
+In all of the descriptions below, <I>tagOrId</I> must refer to
+an item that supports indexing and selection;  if it refers to
+multiple items then the first of
+these that supports indexing and the selection is used.
+<I>Index</I> gives a textual description of a position
+within <I>tagOrId</I>, as described in INDICES above.
+<P>
+<DL>
+<P><DT><A NAME="M76"><I>pathName </I><B>select adjust </B><I>tagOrId index</I></A><DD>
+Locate the end of the selection in <I>tagOrId</I> nearest
+to the character given by <I>index</I>, and adjust that
+end of the selection to be at <I>index</I> (i.e. including
+but not going beyond <I>index</I>).
+The other end of the selection is made the anchor point
+for future <B>select to</B> commands.
+If the selection isn't currently in <I>tagOrId</I> then
+this command behaves the same as the <B>select to</B> widget
+command.
+Returns an empty string.
+<P><DT><A NAME="M77"><I>pathName </I><B>select clear</B></A><DD>
+Clear the selection if it is in this widget.
+If the selection isn't in this widget then the command
+has no effect.
+Returns an empty string.
+<P><DT><A NAME="M78"><I>pathName </I><B>select from </B><I>tagOrId index</I></A><DD>
+Set the selection anchor point for the widget to be just
+before the character
+given by <I>index</I> in the item given by <I>tagOrId</I>.
+This command doesn't change the selection;  it just sets
+the fixed end of the selection for future <B>select to</B>
+commands.
+Returns an empty string.
+<P><DT><A NAME="M79"><I>pathName </I><B>select item</B></A><DD>
+Returns the id of the selected item, if the selection is in an
+item in this canvas.
+If the selection is not in this canvas then an empty string
+is returned.
+<P><DT><A NAME="M80"><I>pathName </I><B>select to </B><I>tagOrId index</I></A><DD>
+Set the selection to consist of those characters of <I>tagOrId</I>
+between the selection anchor point and
+<I>index</I>.
+The new selection will include the character given by <I>index</I>;
+it will include the character given by the anchor point only if
+<I>index</I> is greater than or equal to the anchor point.
+The anchor point is determined by the most recent <B>select adjust</B>
+or <B>select from</B> command for this widget.
+If the selection anchor point for the widget isn't currently in
+<I>tagOrId</I>, then it is set to the same character given
+by <I>index</I>.
+Returns an empty string.
+<P></DL>
+<P><DT><A NAME="M81"><I>pathName </I><B>type</B><I> tagOrId</I></A><DD>
+Returns the type of the item given by <I>tagOrId</I>, such as
+<B>rectangle</B> or <B>text</B>.
+If <I>tagOrId</I> refers to more than one item, then the type
+of the first item in the display list is returned.
+If <I>tagOrId</I> doesn't refer to any items at all then
+an empty string is returned.
+<P><DT><A NAME="M82"><I>pathName </I><B>xview  </B>?<I>args</I>?</A><DD>
+This command is used to query and change the horizontal position of the
+information displayed in the canvas's window.
+It can take any of the following forms:
+<P>
+<DL>
+<P><DT><A NAME="M83"><I>pathName </I><B>xview</B></A><DD>
+Returns a list containing two elements.
+Each element is a real fraction between 0 and 1;  together they describe
+the horizontal span that is visible in the window.
+For example, if the first element is .2 and the second element is .6,
+20% of the canvas's area (as defined by the <B>-scrollregion</B> option)
+is off-screen to the left, the middle 40% is visible
+in the window, and 40% of the canvas is off-screen to the right.
+These are the same values passed to scrollbars via the <B>-xscrollcommand</B>
+option.
+<P><DT><A NAME="M84"><I>pathName </I><B>xview moveto</B><I> fraction</I></A><DD>
+Adjusts the view in the window so that <I>fraction</I> of the
+total width of the canvas is off-screen to the left.
+<I>Fraction</I> must be a fraction between 0 and 1.
+<P><DT><A NAME="M85"><I>pathName </I><B>xview scroll </B><I>number what</I></A><DD>
+This command shifts the view in the window left or right according to
+<I>number</I> and <I>what</I>.
+<I>Number</I> must be an integer.
+<I>What</I> must be either <B>units</B> or <B>pages</B> or an abbreviation
+of one of these.
+If <I>what</I> is <B>units</B>, the view adjusts left or right in units
+of the <B>xScrollIncrement</B> option, if it is greater than zero,
+or in units of one-tenth the window's width otherwise.
+If <I>what is </I><B>pages</B> then the view
+adjusts in units of nine-tenths the window's width.
+If <I>number</I> is negative then information farther to the left
+becomes visible;  if it is positive then information farther to the right
+becomes visible.
+<P></DL>
+<P><DT><A NAME="M86"><I>pathName </I><B>yview </B><I>?args</I>?</A><DD>
+This command is used to query and change the vertical position of the
+information displayed in the canvas's window.
+It can take any of the following forms:
+<P>
+<DL>
+<P><DT><A NAME="M87"><I>pathName </I><B>yview</B></A><DD>
+Returns a list containing two elements.
+Each element is a real fraction between 0 and 1;  together they describe
+the vertical span that is visible in the window.
+For example, if the first element is .6 and the second element is 1.0,
+the lowest 40% of the canvas's area (as defined by the <B>-scrollregion</B>
+option) is visible in the window.
+These are the same values passed to scrollbars via the <B>-yscrollcommand</B>
+option.
+<P><DT><A NAME="M88"><I>pathName </I><B>yview moveto</B><I> fraction</I></A><DD>
+Adjusts the view in the window so that <I>fraction</I> of the canvas's
+area is off-screen to the top.
+<I>Fraction</I> is a fraction between 0 and 1.
+<P><DT><A NAME="M89"><I>pathName </I><B>yview scroll </B><I>number what</I></A><DD>
+This command adjusts the view in the window up or down according to
+<I>number</I> and <I>what</I>.
+<I>Number</I> must be an integer.
+<I>What</I> must be either <B>units</B> or <B>pages</B>.
+If <I>what</I> is <B>units</B>, the view adjusts up or down in units
+of the <B>yScrollIncrement</B> option, if it is greater than zero,
+or in units of one-tenth the window's height otherwise.
+If <I>what</I> is <B>pages</B> then
+the view adjusts in units of nine-tenths the window's height.
+If <I>number</I> is negative then higher information becomes
+visible;  if it is positive then lower information
+becomes visible.
+<P></DL>
+<P></DL>
+<H3><A NAME="M90">OVERVIEW OF ITEM TYPES</A></H3>
+The sections below describe the various types of items supported
+by canvas widgets.  Each item type is characterized by two things:
+first, the form of the <B>create</B> command used to create
+instances of the type;  and second, a set of configuration options
+for items of that type, which may be used in the
+<B>create</B> and <B>itemconfigure</B> widget commands.
+Most items don't support indexing or selection or the commands
+related to them, such as <B>index</B> and <B>insert</B>.
+Where items do support these facilities, it is noted explicitly
+in the descriptions below (at present, only text items provide
+this support).
+
+<H3><A NAME="M91">ARC ITEMS</A></H3>
+Items of type <B>arc</B> appear on the display as arc-shaped regions.
+An arc is a section of an oval delimited by two angles (specified
+by the <B>-start</B> and <B>-extent</B> options) and displayed in
+one of several ways (specified by the <B>-style</B> option).
+Arcs are created with widget commands of the following form:
+<PRE><I>pathName </I><B>create arc </B><I>x1 y1 x2 y2 </I>?<I>option value option value ...</I>?</PRE>
+The arguments <I>x1</I>, <I>y1</I>, <I>x2</I>, and <I>y2</I> give
+the coordinates of two diagonally opposite corners of a
+rectangular region enclosing the oval that defines the arc.
+After the coordinates there may be any number of <I>option</I>-<I>value</I>
+pairs, each of which sets one of the configuration options
+for the item.  These same <I>option</I>-<I>value</I> pairs may be
+used in <B>itemconfigure</B> widget commands to change the item's
+configuration.
+The following options are supported for arcs:
+<P>
+<DL>
+<P><DT><A NAME="M92"><B>-extent </B><I>degrees</I></A><DD>
+Specifies the size of the angular range occupied by the arc.
+The arc's range extends for <I>degrees</I> degrees counter-clockwise
+from the starting angle given by the <B>-start</B> option.
+<I>Degrees</I> may be negative.
+If it is greater than 360 or less than -360, then <I>degrees</I>
+modulo 360 is used as the extent.
+<P><DT><A NAME="M93"><B>-fill </B><I>color</I></A><DD>
+Fill the region of the arc with <I>color</I>.
+<I>Color</I> may have any of the forms accepted by <B><A HREF="../TkLib/GetColor.htm">Tk_GetColor</A></B>.
+If <I>color</I> is an empty string (the default), then
+then the arc will not be filled.
+<P><DT><A NAME="M94"><B>-outline </B><I>color</I></A><DD>
+<I>Color</I> specifies a color to use for drawing the arc's
+outline;  it may have any of the forms accepted by <B><A HREF="../TkLib/GetColor.htm">Tk_GetColor</A></B>.
+This option defaults to <B>black</B>.  If <I>color</I> is specified
+as an empty string then no outline is drawn for the arc.
+<P><DT><A NAME="M95"><B>-outlinestipple </B><I>bitmap</I></A><DD>
+Indicates that the outline for the arc should be drawn with a stipple pattern;
+<I>bitmap</I> specifies the stipple pattern to use, in any of the
+forms accepted by <B><A HREF="../TkLib/GetBitmap.htm">Tk_GetBitmap</A></B>.
+If the <B>-outline</B> option hasn't been specified then this option
+has no effect.
+If <I>bitmap</I> is an empty string (the default), then the outline is drawn
+in a solid fashion.
+<P><DT><A NAME="M96"><B>-start </B><I>degrees</I></A><DD>
+Specifies the beginning of the angular range occupied by the
+arc.
+<I>Degrees</I> is given in units of degrees measured counter-clockwise
+from the 3-o'clock position;  it may be either positive or negative.
+<P><DT><A NAME="M97"><B>-stipple </B><I>bitmap</I></A><DD>
+Indicates that the arc should be filled in a stipple pattern;
+<I>bitmap</I> specifies the stipple pattern to use, in any of the
+forms accepted by <B><A HREF="../TkLib/GetBitmap.htm">Tk_GetBitmap</A></B>.
+If the <B>-fill</B> option hasn't been specified then this option
+has no effect.
+If <I>bitmap</I> is an empty string (the default), then filling is done
+in a solid fashion.
+<P><DT><A NAME="M98"><B>-style </B><I>type</I></A><DD>
+Specifies how to draw the arc.  If <I>type</I> is <B>pieslice</B>
+(the default) then the arc's region is defined by a section
+of the oval's perimeter plus two line segments, one between the center
+of the oval and each end of the perimeter section.
+If <I>type</I> is <B>chord</B> then the arc's region is defined
+by a section of the oval's perimeter plus a single line segment
+connecting the two end points of the perimeter section.
+If <I>type</I> is <B>arc</B> then the arc's region consists of
+a section of the perimeter alone.
+In this last case the <B>-fill</B> option is ignored.
+<P><DT><A NAME="M99"><B>-tags </B><I>tagList</I></A><DD>
+Specifies a set of tags to apply to the item.
+<I>TagList</I> consists of a list of tag names, which replace any
+existing tags for the item.
+<I>TagList</I> may be an empty list.
+<P><DT><A NAME="M100"><B>-width </B><I>outlineWidth</I></A><DD>
+Specifies the width of the outline to be drawn around
+the arc's region, in any of the forms described in the COORDINATES
+section above.
+If the <B>-outline</B> option has been specified as an empty string
+then this option has no effect.
+Wide outlines will be drawn centered on the edges of the arc's region.
+This option defaults to 1.0.
+
+<P></DL>
+<H3><A NAME="M101">BITMAP ITEMS</A></H3>
+Items of type <B>bitmap</B> appear on the display as images with
+two colors, foreground and background.
+Bitmaps are created with widget commands of the following form:
+<PRE><I>pathName </I><B>create bitmap </B><I>x y </I>?<I>option value option value ...</I>?</PRE>
+The arguments <I>x</I> and <I>y</I> specify the coordinates of a
+point used to position the bitmap on the display (see the <B>-anchor</B>
+option below for more information on how bitmaps are displayed).
+After the coordinates there may be any number of <I>option</I>-<I>value</I>
+pairs, each of which sets one of the configuration options
+for the item.  These same <I>option</I>-<I>value</I> pairs may be
+used in <B>itemconfigure</B> widget commands to change the item's
+configuration.
+The following options are supported for bitmaps:
+<P>
+<DL>
+<P><DT><A NAME="M102"><B>-anchor </B><I>anchorPos</I></A><DD>
+<I>AnchorPos</I> tells how to position the bitmap relative to the
+positioning point for the item;  it may have any of the forms
+accepted by <B><A HREF="../TkLib/GetAnchor.htm">Tk_GetAnchor</A></B>.  For example, if <I>anchorPos</I>
+is <B>center</B> then the bitmap is centered on the point;  if
+<I>anchorPos</I> is <B>n</B> then the bitmap will be drawn so that
+its top center point is at the positioning point.
+This option defaults to <B>center</B>.
+<P><DT><A NAME="M103"><B>-background </B><I>color</I></A><DD>
+Specifies a color to use for each of the bitmap pixels
+whose value is 0.
+<I>Color</I> may have any of the forms accepted by <B><A HREF="../TkLib/GetColor.htm">Tk_GetColor</A></B>.
+If this option isn't specified, or if it is specified as an empty
+string, then nothing is displayed where the bitmap pixels are 0;  this
+produces a transparent effect.
+<P><DT><A NAME="M104"><B>-bitmap </B><I>bitmap</I></A><DD>
+Specifies the bitmap to display in the item.
+<I>Bitmap</I> may have any of the forms accepted by <B><A HREF="../TkLib/GetBitmap.htm">Tk_GetBitmap</A></B>.
+<P><DT><A NAME="M105"><B>-foreground </B><I>color</I></A><DD>
+Specifies a color to use for each of the bitmap pixels
+whose value is 1.
+<I>Color</I> may have any of the forms accepted by <B><A HREF="../TkLib/GetColor.htm">Tk_GetColor</A></B> and
+defaults to <B>black</B>.
+<P><DT><A NAME="M106"><B>-tags </B><I>tagList</I></A><DD>
+Specifies a set of tags to apply to the item.
+<I>TagList</I> consists of a list of tag names, which replace any
+existing tags for the item.
+<I>TagList</I> may be an empty list.
+
+<P></DL>
+<H3><A NAME="M107">IMAGE ITEMS</A></H3>
+Items of type <B>image</B> are used to display images on a
+canvas.
+Images are created with widget commands of the following form:
+<PRE><I>pathName </I><B>create image </B><I>x y </I>?<I>option value option value ...</I>?</PRE>
+The arguments <I>x</I> and <I>y</I> specify the coordinates of a
+point used to position the image on the display (see the <B>-anchor</B>
+option below for more information).
+After the coordinates there may be any number of <I>option</I>-<I>value</I>
+pairs, each of which sets one of the configuration options
+for the item.  These same <I>option</I>-<I>value</I> pairs may be
+used in <B>itemconfigure</B> widget commands to change the item's
+configuration.
+The following options are supported for images:
+<P>
+<DL>
+<P><DT><A NAME="M108"><B>-anchor </B><I>anchorPos</I></A><DD>
+<I>AnchorPos</I> tells how to position the image relative to the
+positioning point for the item;  it may have any of the forms
+accepted by <B><A HREF="../TkLib/GetAnchor.htm">Tk_GetAnchor</A></B>.  For example, if <I>anchorPos</I>
+is <B>center</B> then the image is centered on the point;  if
+<I>anchorPos</I> is <B>n</B> then the image will be drawn so that
+its top center point is at the positioning point.
+This option defaults to <B>center</B>.
+<P><DT><A NAME="M109"><B>-image </B><I>name</I></A><DD>
+Specifies the name of the image to display in the item.
+This image must have been created previously with the
+<B><A HREF="../TkCmd/image.htm">image create</A></B> command.
+<P><DT><A NAME="M110"><B>-tags </B><I>tagList</I></A><DD>
+Specifies a set of tags to apply to the item.
+<I>TagList</I> consists of a list of tag names, which replace any
+existing tags for the item;  it may be an empty list.
+
+<P></DL>
+<H3><A NAME="M111">LINE ITEMS</A></H3>
+Items of type <B>line</B> appear on the display as one or more connected
+line segments or curves.
+Lines are created with widget commands of the following form:
+<PRE><I>pathName </I><B>create line </B><I>x1 y1... xn yn </I>?<I>option value option value ...</I>?</PRE>
+The arguments <I>x1</I> through <I>yn</I> give
+the coordinates for a series of two or more points that describe
+a series of connected line segments.
+After the coordinates there may be any number of <I>option</I>-<I>value</I>
+pairs, each of which sets one of the configuration options
+for the item.  These same <I>option</I>-<I>value</I> pairs may be
+used in <B>itemconfigure</B> widget commands to change the item's
+configuration.
+The following options are supported for lines:
+<P>
+<DL>
+<P><DT><A NAME="M112"><B>-arrow </B><I>where</I></A><DD>
+Indicates whether or not arrowheads are to be drawn at one or both
+ends of the line.
+<I>Where</I> must have one of the values <B>none</B> (for no arrowheads),
+<B>first</B> (for an arrowhead at the first point of the line),
+<B>last</B> (for an arrowhead at the last point of the line), or
+<B>both</B> (for arrowheads at both ends).
+This option defaults to <B>none</B>.
+<P><DT><A NAME="M113"><B>-arrowshape </B><I>shape</I></A><DD>
+This option indicates how to draw arrowheads.
+The <I>shape</I> argument must be a list with three elements, each
+specifying a distance in any of the forms described in
+the COORDINATES section above.
+The first element of the list gives the distance along the line
+from the neck of the arrowhead to its tip.
+The second element gives the distance along the line from the
+trailing points of the arrowhead to the tip, and the third
+element gives the distance from the outside edge of the line to the
+trailing points.
+If this option isn't specified then Tk picks a ``reasonable'' shape.
+<P><DT><A NAME="M114"><B>-capstyle </B><I>style</I></A><DD>
+Specifies the ways in which caps are to be drawn at the endpoints
+of the line.
+<I>Style</I> may have any of the forms accepted by <B><A HREF="../TkLib/GetCapStyl.htm">Tk_GetCapStyle</A></B>
+(<B>butt</B>, <B>projecting</B>, or <B>round</B>).
+If this option isn't specified then it defaults to <B>butt</B>.
+Where arrowheads are drawn the cap style is ignored.
+<P><DT><A NAME="M115"><B>-fill </B><I>color</I></A><DD>
+<I>Color</I> specifies a color to use for drawing the line; it may have
+any of the forms acceptable to <B><A HREF="../TkLib/GetColor.htm">Tk_GetColor</A></B>.  It may also be an
+empty string, in which case the line will be transparent.
+This option defaults to <B>black</B>.
+<P><DT><A NAME="M116"><B>-joinstyle </B><I>style</I></A><DD>
+Specifies the ways in which joints are to be drawn at the vertices
+of the line.
+<I>Style</I> may have any of the forms accepted by <B><A HREF="../TkLib/GetCapStyl.htm">Tk_GetCapStyle</A></B>
+(<B>bevel</B>, <B>miter</B>, or <B>round</B>).
+If this option isn't specified then it defaults to <B>miter</B>.
+If the line only contains two points then this option is
+irrelevant.
+<P><DT><A NAME="M117"><B>-smooth </B><I>boolean</I></A><DD>
+<I>Boolean</I> must have one of the forms accepted by <B>Tk_GetBoolean</B>.
+It indicates whether or not the line should be drawn as a curve.
+If so, the line is rendered as a set of parabolic splines: one spline
+is drawn for the first and second line segments, one for the second
+and third, and so on.  Straight-line segments can be generated within
+a curve by duplicating the end-points of the desired line segment.
+<P><DT><A NAME="M118"><B>-splinesteps </B><I>number</I></A><DD>
+Specifies the degree of smoothness desired for curves:  each spline
+will be approximated with <I>number</I> line segments.  This
+option is ignored unless the <B>-smooth</B> option is true.
+<P><DT><A NAME="M119"><B>-stipple </B><I>bitmap</I></A><DD>
+Indicates that the line should be filled in a stipple pattern;
+<I>bitmap</I> specifies the stipple pattern to use, in any of the
+forms accepted by <B><A HREF="../TkLib/GetBitmap.htm">Tk_GetBitmap</A></B>.
+If <I>bitmap</I> is an empty string (the default), then filling is
+done in a solid fashion.
+<P><DT><A NAME="M120"><B>-tags </B><I>tagList</I></A><DD>
+Specifies a set of tags to apply to the item.
+<I>TagList</I> consists of a list of tag names, which replace any
+existing tags for the item.
+<I>TagList</I> may be an empty list.
+<P><DT><A NAME="M121"><B>-width </B><I>lineWidth</I></A><DD>
+<I>LineWidth</I> specifies the width of the line, in any of the forms
+described in the COORDINATES section above.
+Wide lines will be drawn centered on the path specified by the
+points.
+If this option isn't specified then it defaults to 1.0.
+
+<P></DL>
+<H3><A NAME="M122">OVAL ITEMS</A></H3>
+Items of type <B>oval</B> appear as circular or oval regions on
+the display.  Each oval may have an outline, a fill, or
+both.  Ovals are created with widget commands of the
+following form:
+<PRE><I>pathName </I><B>create oval </B><I>x1 y1 x2 y2 </I>?<I>option value option value ...</I>?</PRE>
+The arguments <I>x1</I>, <I>y1</I>, <I>x2</I>, and <I>y2</I> give
+the coordinates of two diagonally opposite corners of a
+rectangular region enclosing the oval.
+The oval will include the top and left edges of the rectangle
+not the lower or right edges.
+If the region is square then the resulting oval is circular;
+otherwise it is elongated in shape.
+After the coordinates there may be any number of <I>option</I>-<I>value</I>
+pairs, each of which sets one of the configuration options
+for the item.  These same <I>option</I>-<I>value</I> pairs may be
+used in <B>itemconfigure</B> widget commands to change the item's
+configuration.
+The following options are supported for ovals:
+<P>
+<DL>
+<P><DT><A NAME="M123"><B>-fill </B><I>color</I></A><DD>
+Fill the area of the oval with <I>color</I>.
+<I>Color</I> may have any of the forms accepted by <B><A HREF="../TkLib/GetColor.htm">Tk_GetColor</A></B>.
+If <I>color</I> is an empty string (the default), then
+then the oval will not be filled.
+<P><DT><A NAME="M124"><B>-outline </B><I>color</I></A><DD>
+<I>Color</I> specifies a color to use for drawing the oval's
+outline;  it may have any of the forms accepted by <B><A HREF="../TkLib/GetColor.htm">Tk_GetColor</A></B>.
+This option defaults to <B>black</B>.
+If <I>color</I> is an empty string then no outline will be
+drawn for the oval.
+<P><DT><A NAME="M125"><B>-stipple </B><I>bitmap</I></A><DD>
+Indicates that the oval should be filled in a stipple pattern;
+<I>bitmap</I> specifies the stipple pattern to use, in any of the
+forms accepted by <B><A HREF="../TkLib/GetBitmap.htm">Tk_GetBitmap</A></B>.
+If the <B>-fill</B> option hasn't been specified then this option
+has no effect.
+If <I>bitmap</I> is an empty string (the default), then filling is done
+in a solid fashion.
+<P><DT><A NAME="M126"><B>-tags </B><I>tagList</I></A><DD>
+Specifies a set of tags to apply to the item.
+<I>TagList</I> consists of a list of tag names, which replace any
+existing tags for the item.
+<I>TagList</I> may be an empty list.
+<P><DT><A NAME="M127"><B>-width </B><I>outlineWidth</I></A><DD>
+<I>outlineWidth</I> specifies the width of the outline to be drawn around
+the oval, in any of the forms described in the COORDINATES section above.
+If the <B>-outline</B> option hasn't been specified then this option
+has no effect.
+Wide outlines are drawn centered on the oval path defined by
+<I>x1</I>, <I>y1</I>, <I>x2</I>, and <I>y2</I>.
+This option defaults to 1.0.
+
+<P></DL>
+<H3><A NAME="M128">POLYGON ITEMS</A></H3>
+Items of type <B>polygon</B> appear as polygonal or curved filled regions
+on the display.
+Polygons are created with widget commands of the following form:
+<PRE><I>pathName </I><B>create polygon </B><I>x1 y1 ... xn yn </I>?<I>option value option value ...</I>?</PRE>
+The arguments <I>x1</I> through <I>yn</I> specify the coordinates for
+three or more points that define a closed polygon.
+The first and last points may be the same;  whether they are or not,
+Tk will draw the polygon as a closed polygon.
+After the coordinates there may be any number of <I>option</I>-<I>value</I>
+pairs, each of which sets one of the configuration options
+for the item.  These same <I>option</I>-<I>value</I> pairs may be
+used in <B>itemconfigure</B> widget commands to change the item's
+configuration.
+The following options are supported for polygons:
+<P>
+<DL>
+<P><DT><A NAME="M129"><B>-fill </B><I>color</I></A><DD>
+<I>Color</I> specifies a color to use for filling the area of the
+polygon; it may have any of the forms acceptable to <B><A HREF="../TkLib/GetColor.htm">Tk_GetColor</A></B>.
+If <I>color</I> is an empty string then the polygon will be
+transparent.
+This option defaults to <B>black</B>.
+<P><DT><A NAME="M130"><B>-outline </B><I>color</I></A><DD>
+<I>Color</I> specifies a color to use for drawing the polygon's
+outline;  it may have any of the forms accepted by <B><A HREF="../TkLib/GetColor.htm">Tk_GetColor</A></B>.
+If <I>color</I> is an empty string then no outline will be
+drawn for the polygon.
+This option defaults to empty (no outline).
+<P><DT><A NAME="M131"><B>-smooth </B><I>boolean</I></A><DD>
+<I>Boolean</I> must have one of the forms accepted by <B>Tk_GetBoolean</B>
+It indicates whether or not the polygon should be drawn with a
+curved perimeter.
+If so, the outline of the polygon becomes a set of parabolic splines,
+one spline for the first and second line segments, one for the second
+and third, and so on.  Straight-line segments can be generated in a
+smoothed polygon by duplicating the end-points of the desired line segment.
+<P><DT><A NAME="M132"><B>-splinesteps </B><I>number</I></A><DD>
+Specifies the degree of smoothness desired for curves:  each spline
+will be approximated with <I>number</I> line segments.  This
+option is ignored unless the <B>-smooth</B> option is true.
+<P><DT><A NAME="M133"><B>-stipple </B><I>bitmap</I></A><DD>
+Indicates that the polygon should be filled in a stipple pattern;
+<I>bitmap</I> specifies the stipple pattern to use, in any of the
+forms accepted by <B><A HREF="../TkLib/GetBitmap.htm">Tk_GetBitmap</A></B>.
+If <I>bitmap</I> is an empty string (the default), then filling is
+done in a solid fashion.
+<P><DT><A NAME="M134"><B>-tags </B><I>tagList</I></A><DD>
+Specifies a set of tags to apply to the item.
+<I>TagList</I> consists of a list of tag names, which replace any
+existing tags for the item.
+<I>TagList</I> may be an empty list.
+<P><DT><A NAME="M135"><B>-width </B><I>outlineWidth</I></A><DD>
+<I>OutlineWidth</I> specifies the width of the outline to be drawn around
+the polygon, in any of the forms described in the COORDINATES section above.
+If the <B>-outline</B> option hasn't been specified then this option
+has no effect.  This option defaults to 1.0.
+<P></DL>
+<P>
+Polygon items are different from other items such as rectangles, ovals
+and arcs in that interior points are considered to be ``inside'' a
+polygon (e.g. for purposes of the <B>find closest</B> and
+<B>find overlapping</B> widget commands) even if it is not filled.
+For most other item types, an
+interior point is considered to be inside the item only if the item
+is filled or if it has neither a fill nor an outline.  If you would
+like an unfilled polygon whose interior points are not considered
+to be inside the polygon, use a line item instead.
+
+<H3><A NAME="M136">RECTANGLE ITEMS</A></H3>
+Items of type <B>rectangle</B> appear as rectangular regions on
+the display.  Each rectangle may have an outline, a fill, or
+both.  Rectangles are created with widget commands of the
+following form:
+<PRE><I>pathName </I><B>create rectangle </B><I>x1 y1 x2 y2 </I>?<I>option value option value ...</I>?</PRE>
+The arguments <I>x1</I>, <I>y1</I>, <I>x2</I>, and <I>y2</I> give
+the coordinates of two diagonally opposite corners of the rectangle
+(the rectangle will include its upper and left edges but not
+its lower or right edges).
+After the coordinates there may be any number of <I>option</I>-<I>value</I>
+pairs, each of which sets one of the configuration options
+for the item.  These same <I>option</I>-<I>value</I> pairs may be
+used in <B>itemconfigure</B> widget commands to change the item's
+configuration.
+The following options are supported for rectangles:
+<P>
+<DL>
+<P><DT><A NAME="M137"><B>-fill </B><I>color</I></A><DD>
+Fill the area of the rectangle with <I>color</I>, which may be
+specified in any of the forms accepted by <B><A HREF="../TkLib/GetColor.htm">Tk_GetColor</A></B>.
+If <I>color</I> is an empty string (the default),
+then the rectangle will not be filled.
+<P><DT><A NAME="M138"><B>-outline </B><I>color</I></A><DD>
+Draw an outline around the edge of the rectangle in <I>color</I>.
+<I>Color</I> may have any of the forms accepted by <B><A HREF="../TkLib/GetColor.htm">Tk_GetColor</A></B>.
+This option defaults to <B>black</B>.
+If <I>color</I> is an empty string then no outline will be
+drawn for the rectangle.
+<P><DT><A NAME="M139"><B>-stipple </B><I>bitmap</I></A><DD>
+Indicates that the rectangle should be filled in a stipple pattern;
+<I>bitmap</I> specifies the stipple pattern to use, in any of the
+forms accepted by <B><A HREF="../TkLib/GetBitmap.htm">Tk_GetBitmap</A></B>.
+If the <B>-fill</B> option hasn't been specified then this option
+has no effect.
+If <I>bitmap</I> is an empty string (the default), then filling
+is done in a solid fashion.
+<P><DT><A NAME="M140"><B>-tags </B><I>tagList</I></A><DD>
+Specifies a set of tags to apply to the item.
+<I>TagList</I> consists of a list of tag names, which replace any
+existing tags for the item.
+<I>TagList</I> may be an empty list.
+<P><DT><A NAME="M141"><B>-width </B><I>outlineWidth</I></A><DD>
+<I>OutlineWidth</I> specifies the width of the outline to be drawn around
+the rectangle, in any of the forms described in the COORDINATES section above.
+If the <B>-outline</B> option hasn't been specified then this option
+has no effect.
+Wide outlines are drawn centered on the rectangular path
+defined by <I>x1</I>, <I>y1</I>, <I>x2</I>, and <I>y2</I>.
+This option defaults to 1.0.
+
+<P></DL>
+<H3><A NAME="M142">TEXT ITEMS</A></H3>
+A text item displays a string of characters on the screen in one
+or more lines.
+Text items support indexing and selection, along with the
+following text-related canvas widget commands:  <B>dchars</B>,
+<B>focus</B>, <B>icursor</B>, <B>index</B>, <B>insert</B>,
+<B>select</B>.
+Text items are created with widget commands of the following
+form:
+<PRE><I>pathName </I><B>create text </B><I>x y </I>?<I>option value option value ...</I>?</PRE>
+The arguments <I>x</I> and <I>y</I> specify the coordinates of a
+point used to position the text on the display (see the options
+below for more information on how text is displayed).
+After the coordinates there may be any number of <I>option</I>-<I>value</I>
+pairs, each of which sets one of the configuration options
+for the item.  These same <I>option</I>-<I>value</I> pairs may be
+used in <B>itemconfigure</B> widget commands to change the item's
+configuration.
+The following options are supported for text items:
+<P>
+<DL>
+<P><DT><A NAME="M143"><B>-anchor </B><I>anchorPos</I></A><DD>
+<I>AnchorPos</I> tells how to position the text relative to the
+positioning point for the text;  it may have any of the forms
+accepted by <B><A HREF="../TkLib/GetAnchor.htm">Tk_GetAnchor</A></B>.  For example, if <I>anchorPos</I>
+is <B>center</B> then the text is centered on the point;  if
+<I>anchorPos</I> is <B>n</B> then the text will be drawn such that
+the top center point of the rectangular region occupied by the
+text will be at the positioning point.
+This option defaults to <B>center</B>.
+<P><DT><A NAME="M144"><B>-fill </B><I>color</I></A><DD>
+<I>Color</I> specifies a color to use for filling the text characters;
+it may have any of the forms accepted by <B><A HREF="../TkLib/GetColor.htm">Tk_GetColor</A></B>.
+If this option isn't specified then it defaults to <B>black</B>.
+<P><DT><A NAME="M145"><B>-font </B><I>fontName</I></A><DD>
+Specifies the font to use for the text item.
+<I>FontName</I> may be any string acceptable to <B>Tk_GetFontStruct</B>.
+If this option isn't specified, it defaults to a system-dependent
+font.
+<P><DT><A NAME="M146"><B>-justify </B><I>how</I></A><DD>
+Specifies how to justify the text within its bounding region.
+<I>How</I> must be one of the values <B>left</B>, <B>right</B>,
+or <B>center</B>.
+This option will only matter if the text is displayed as multiple
+lines.
+If the option is omitted, it defaults to <B>left</B>.
+<P><DT><A NAME="M147"><B>-stipple </B><I>bitmap</I></A><DD>
+Indicates that the text should be drawn in a stippled pattern
+rather than solid;
+<I>bitmap</I> specifies the stipple pattern to use, in any of the
+forms accepted by <B><A HREF="../TkLib/GetBitmap.htm">Tk_GetBitmap</A></B>.
+If <I>bitmap</I> is an empty string (the default) then the text
+is drawn in a solid fashion.
+<P><DT><A NAME="M148"><B>-tags </B><I>tagList</I></A><DD>
+Specifies a set of tags to apply to the item.
+<I>TagList</I> consists of a list of tag names, which replace any
+existing tags for the item.
+<I>TagList</I> may be an empty list.
+<P><DT><A NAME="M149"><B>-text </B><I>string</I></A><DD>
+<I>String</I> specifies the characters to be displayed in the text item.
+Newline characters cause line breaks.
+The characters in the item may also be changed with the
+<B>insert</B> and <B>delete</B> widget commands.
+This option defaults to an empty string.
+<P><DT><A NAME="M150"><B>-width </B><I>lineLength</I></A><DD>
+Specifies a maximum line length for the text, in any of the forms
+described in the COORDINATES section above.
+If this option is zero (the default) the text is broken into
+lines only at newline characters.
+However, if this option is non-zero then any line that would
+be longer than <I>lineLength</I> is broken just before a space
+character to make the line shorter than <I>lineLength</I>;  the
+space character is treated as if it were a newline
+character.
+
+<P></DL>
+<H3><A NAME="M151">WINDOW ITEMS</A></H3>
+Items of type <B>window</B> cause a particular window to be displayed
+at a given position on the canvas.
+Window items are created with widget commands of the following form:
+<PRE><I>pathName </I><B>create window </B><I>x y </I>?<I>option value option value ...</I>?</PRE>
+The arguments <I>x</I> and <I>y</I> specify the coordinates of a
+point used to position the window on the display (see the <B>-anchor</B>
+option below for more information on how bitmaps are displayed).
+After the coordinates there may be any number of <I>option</I>-<I>value</I>
+pairs, each of which sets one of the configuration options
+for the item.  These same <I>option</I>-<I>value</I> pairs may be
+used in <B>itemconfigure</B> widget commands to change the item's
+configuration.
+The following options are supported for window items:
+<P>
+<DL>
+<P><DT><A NAME="M152"><B>-anchor </B><I>anchorPos</I></A><DD>
+<I>AnchorPos</I> tells how to position the window relative to the
+positioning point for the item;  it may have any of the forms
+accepted by <B><A HREF="../TkLib/GetAnchor.htm">Tk_GetAnchor</A></B>.  For example, if <I>anchorPos</I>
+is <B>center</B> then the window is centered on the point;  if
+<I>anchorPos</I> is <B>n</B> then the window will be drawn so that
+its top center point is at the positioning point.
+This option defaults to <B>center</B>.
+<P><DT><A NAME="M153"><B>-height </B><I>pixels</I></A><DD>
+Specifies the height to assign to the item's window.
+<I>Pixels</I> may have any of the
+forms described in the COORDINATES section above.
+If this option isn't specified, or if it is specified as an empty
+string, then the window is given whatever height it requests internally.
+<P><DT><A NAME="M154"><B>-tags </B><I>tagList</I></A><DD>
+Specifies a set of tags to apply to the item.
+<I>TagList</I> consists of a list of tag names, which replace any
+existing tags for the item.
+<I>TagList</I> may be an empty list.
+<P><DT><A NAME="M155"><B>-width </B><I>pixels</I></A><DD>
+Specifies the width to assign to the item's window.
+<I>Pixels</I> may have any of the
+forms described in the COORDINATES section above.
+If this option isn't specified, or if it is specified as an empty
+string, then the window is given whatever width it requests internally.
+<P><DT><A NAME="M156"><B>-window </B><I>pathName</I></A><DD>
+Specifies the window to associate with this item.
+The window specified by <I>pathName</I> must either be a child of
+the canvas widget or a child of some ancestor of the canvas widget.
+<I>PathName</I> may not refer to a top-level window.
+<P></DL>
+<P>
+Note:  due to restrictions in the ways that windows are managed, it is not
+possible to draw other graphical items (such as lines and images) on top
+of window items.  A window item always obscures any graphics that
+overlap it, regardless of their order in the display list.
+
+<H3><A NAME="M157">APPLICATION-DEFINED ITEM TYPES</A></H3>
+It is possible for individual applications to define new item
+types for canvas widgets using C code.
+See the documentation for <B><A HREF="../TkLib/CrtItemType.htm">Tk_CreateItemType</A></B>.
+
+<H3><A NAME="M158">BINDINGS</A></H3>
+In the current implementation, new canvases are not given any
+default behavior:  you'll have to execute explicit Tcl commands
+to give the canvas its behavior.
+
+<H3><A NAME="M159">CREDITS</A></H3>
+Tk's canvas widget is a blatant ripoff of ideas from Joel Bartlett's
+<I>ezd</I> program.  <I>Ezd</I> provides structured graphics in a Scheme
+environment and preceded canvases by a year or two.  Its simple
+mechanisms for placing and animating graphical objects inspired the
+functions of canvases.
+
+<H3><A NAME="M160">KEYWORDS</A></H3>
+<A href="../Keywords/C.htm#canvas">canvas</A>, <A href="../Keywords/W.htm#widget">widget</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1992-1994 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

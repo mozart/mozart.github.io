@@ -1,0 +1,23 @@
+<HTML><HEAD><TITLE>Tcl Built-In Commands - linsert manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+linsert - Insert elements into a list
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>linsert </B><I>list index element </I>?<I>element element ...</I>?<BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+This command produces a new list from <I>list</I> by inserting all
+of the <I>element</I> arguments just before the <I>index</I>th
+element of <I>list</I>.  Each <I>element</I> argument will become
+a separate element of the new list.  If <I>index</I> is less than
+or equal to zero, then the new elements are inserted at the
+beginning of the list.  If <I>index</I>
+has the value <B>end</B>,
+or if it is greater than or equal to the number of elements in the list,
+then the new elements are appended to the list.
+
+<H3><A NAME="M5">KEYWORDS</A></H3>
+<A href="../Keywords/E.htm#element">element</A>, <A href="../Keywords/I.htm#insert">insert</A>, <A href="../Keywords/L.htm#list">list</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1993 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

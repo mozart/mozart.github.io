@@ -1,0 +1,93 @@
+<HTML><HEAD><TITLE>Library Procedures - Tcl_CreateTrace manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tcl_CreateTrace, Tcl_DeleteTrace - arrange for command execution to be traced
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tcl.h&gt;</B><BR>
+Tcl_Trace<BR>
+<B>Tcl_CreateTrace</B>(<I>interp, level, proc, clientData</I>)<BR>
+<B>Tcl_DeleteTrace</B>(<I>interp, trace</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT><A HREF="../TclLib/Interp.htm">Tcl_Interp</A> <B>*interp</B> (in)<DD>
+Interpreter containing command to be traced or untraced.
+<P><DT>int <B>level</B> (in)<DD>
+Only commands at or below this nesting level will be traced.  1 means
+top-level commands only, 2 means top-level commands or those that are
+invoked as immediate consequences of executing top-level commands
+(procedure bodies, bracketed commands, etc.) and so on.
+<P><DT>Tcl_CmdTraceProc <B>*proc</B> (in)<DD>
+Procedure to call for each command that's executed.  See below for
+details on the calling sequence.
+<P><DT>ClientData <B>clientData</B> (in)<DD>
+Arbitrary one-word value to pass to <I>proc</I>.
+<P><DT>Tcl_Trace <B><A HREF="../TclCmd/trace.htm">trace</A></B> (in)<DD>
+Token for trace to be removed (return value from previous call
+to <B>Tcl_CreateTrace</B>).
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+<B>Tcl_CreateTrace</B> arranges for command tracing.  From now on, <I>proc</I>
+will be invoked before Tcl calls command procedures to process
+commands in <I>interp</I>.  The return value from
+<B>Tcl_CreateTrace</B> is a token for the trace,
+which may be passed to <B>Tcl_DeleteTrace</B> to remove the trace.  There may
+be many traces in effect simultaneously for the same command interpreter.
+<P>
+<I>Proc</I> should have arguments and result that match the
+type <B>Tcl_CmdTraceProc</B>:
+<PRE>typedef void Tcl_CmdTraceProc(
+	ClientData <I>clientData</I>,
+	<A HREF="../TclLib/Interp.htm">Tcl_Interp</A> *<I>interp</I>,
+	int <I>level</I>,
+	char *<I>command</I>,
+	Tcl_CmdProc *<I>cmdProc</I>,
+	ClientData <I>cmdClientData</I>,
+	int <I>argc</I>,
+	char *<I>argv</I>[]);</PRE>
+The <I>clientData</I> and <I>interp</I> parameters are
+copies of the corresponding arguments given to <B>Tcl_CreateTrace</B>.
+<I>ClientData</I> typically points to an application-specific
+data structure that describes what to do when <I>proc</I>
+is invoked.  <I>Level</I> gives the nesting level of the command
+(1 for top-level commands passed to <B><A HREF="../TclLib/Eval.htm">Tcl_Eval</A></B> by the application,
+2 for the next-level commands passed to <B><A HREF="../TclLib/Eval.htm">Tcl_Eval</A></B> as part of parsing
+or interpreting level-1 commands, and so on).  <I>Command</I>
+points to a string containing the text of the
+command, before any argument substitution.
+<I>CmdProc</I> contains the address of the command procedure that
+will be called to process the command (i.e. the <I>proc</I> argument
+of some previous call to <B><A HREF="../TclLib/CrtCommand.htm">Tcl_CreateCommand</A></B>) and <I>cmdClientData</I>
+contains the associated client data for <I>cmdProc</I> (the <I>clientData</I>
+value passed to <B><A HREF="../TclLib/CrtCommand.htm">Tcl_CreateCommand</A></B>).  <I>Argc</I> and <I>argv</I> give
+the final argument information that will be passed to <I>cmdProc</I>, after
+command, variable, and backslash substitution.
+<I>Proc</I> must not modify the <I>command</I> or <I>argv</I> strings.
+<P>
+Tracing will only occur for commands at nesting level less than
+or equal to the <I>level</I> parameter (i.e. the <I>level</I>
+parameter to <I>proc</I> will always be less than or equal to the
+<I>level</I> parameter to <B>Tcl_CreateTrace</B>).
+<P>
+Calls to <I>proc</I> will be made by the Tcl parser immediately before
+it calls the command procedure for the command (<I>cmdProc</I>).  This
+occurs after argument parsing and substitution, so tracing for
+substituted commands occurs before tracing of the commands
+containing the substitutions.  If there is a syntax error in a
+command, or if there is no command procedure associated with a
+command name, then no tracing will occur for that command.  If a
+string passed to <A HREF="../TclLib/Eval.htm">Tcl_Eval</A> contains multiple commands (bracketed, or
+on different lines) then multiple calls to <I>proc</I> will occur,
+one for each command.  The <I>command</I> string for each of these
+trace calls will reflect only a single command, not the entire string
+passed to <A HREF="../TclLib/Eval.htm">Tcl_Eval</A>.
+<P>
+<B>Tcl_DeleteTrace</B> removes a trace, so that no future calls will be
+made to the procedure associated with the trace.  After <B>Tcl_DeleteTrace</B>
+returns, the caller should never again use the <I>trace</I> token.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/C.htm#command">command</A>, <A href="../Keywords/C.htm#create">create</A>, <A href="../Keywords/D.htm#delete">delete</A>, <A href="../Keywords/I.htm#interpreter">interpreter</A>, <A href="../Keywords/T.htm#trace">trace</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1989-1993 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

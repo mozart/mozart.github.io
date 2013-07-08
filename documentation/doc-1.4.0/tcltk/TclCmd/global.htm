@@ -1,0 +1,24 @@
+<HTML><HEAD><TITLE>Built-In Commands - global manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+global - Access global variables
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>global </B><I>varname </I>?<I>varname ...</I>?<BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+This command is ignored unless a Tcl procedure is being interpreted.
+If so then it declares the given <I>varname</I>'s to be global variables
+rather than local ones.
+Global variables are variables in the global namespace.
+For the duration of the current procedure
+(and only while executing in the current procedure),
+any reference to any of the <I>varname</I>s
+will refer to the global variable by the same name.
+
+<H3><A NAME="M5">SEE ALSO</A></H3>
+<B><A HREF="../TclCmd/namespace.htm">namespace</A></B>, <B><A HREF="../TclCmd/variable.htm">variable</A></B>
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/G.htm#global">global</A>, <A href="../Keywords/N.htm#namespace">namespace</A>, <A href="../Keywords/P.htm#procedure">procedure</A>, <A href="../Keywords/V.htm#variable">variable</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1993 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1997 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

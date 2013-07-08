@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>2.5 Incompleteness of Propagation</TITLE><LINK href="ozdoc.css" rel="stylesheet" type="text/css"></HEAD><BODY><TABLE align="center" border="0" cellpadding="6" cellspacing="6" class="nav"><TR bgcolor="#DDDDDD"><TD><A href="node6.html#section.constraints.intdom">&lt;&lt; Prev</A></TD><TD><A href="node2.html">- Up -</A></TD><TD><A href="node8.html#section.constraints.dast">Next &gt;&gt;</A></TD></TR></TABLE><DIV id="section.constraints.incomplete"><H2><A name="section.constraints.incomplete">2.5 Incompleteness of Propagation</A></H2><P>Constraint propagation is not a complete solution method. It may happen that a space has a unique solution and that constraint propagation does not find it. It may also happen that a space has no solution and that constraint propagation does not lead to a failed propagator. </P><P>A straightforward example for the second case consists of three propagators for </P><BLOCKQUOTE><P><IMG alt="X\neq Y
+\qquad
+X\neq Z
+\qquad
+Y\neq Z" src="latex53.png"></P></BLOCKQUOTE><P> and a constraint store </P><BLOCKQUOTE><P><IMG alt="X\in 0\#1
+\qquad
+Y\in 0\#1
+\qquad
+Z\in 0\#1." src="latex54.png"></P></BLOCKQUOTE><P> This space has no solution. Nevertheless, none of the propagators is inconsistent or can tell something to the constraint store. </P><P>To see an example for the case where a unique solution is not found by constraint propagation, suppose we have interval propagators for the constraints </P><BLOCKQUOTE><P><IMG alt=" {3\cdot X}+{3\cdot Y}=5\cdot Z
+\qquad
+ X-Y=Z
+\qquad
+ X+Y=Z+2" src="latex55.png"></P></BLOCKQUOTE><P> and a constraint store </P><BLOCKQUOTE><P><IMG alt="X\in 4\#10
+\qquad
+Y\in 1\#7
+\qquad
+Z\in 3\#9" src="latex56.png"></P></BLOCKQUOTE><P> This space has the unique solution <IMG alt="X=4" src="latex57.png">, <IMG alt="Y=1" src="latex58.png">, <IMG alt="Z=3" src="latex59.png">. Nevertheless, none of the propagators can narrow a variable domain. </P><P>If we narrow the domains to </P><BLOCKQUOTE><P><IMG alt="X\in 5\#10
+\qquad
+Y\in 1\#6
+\qquad
+Z\in 4\#9" src="latex60.png"></P></BLOCKQUOTE><P> the space becomes unsatisfiable. Still, none of the above propagators is inconsistent or can narrow a variable domain. </P></DIV><TABLE align="center" border="0" cellpadding="6" cellspacing="6" class="nav"><TR bgcolor="#DDDDDD"><TD><A href="node6.html#section.constraints.intdom">&lt;&lt; Prev</A></TD><TD><A href="node2.html">- Up -</A></TD><TD><A href="node8.html#section.constraints.dast">Next &gt;&gt;</A></TD></TR></TABLE><HR><ADDRESS><A href="http://www.ps.uni-sb.de/~schulte/">Christian&nbsp;Schulte</A> and&nbsp;<A href="http://www.ps.uni-sb.de/~smolka/">Gert&nbsp;Smolka</A><BR><SPAN class="version">Version 1.4.0 (20080702)</SPAN></ADDRESS></BODY></HTML>

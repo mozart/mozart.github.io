@@ -1,0 +1,30 @@
+<HTML><HEAD><TITLE>Built-In Commands - split manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+split - Split a string into a proper Tcl list
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>split </B><I>string </I>?<I>splitChars</I>?<BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+Returns a list created by splitting <I>string</I> at each character
+that is in the <I>splitChars</I> argument.
+Each element of the result list will consist of the
+characters from <I>string</I> that lie between instances of the
+characters in <I>splitChars</I>.
+Empty list elements will be generated if <I>string</I> contains
+adjacent characters in <I>splitChars</I>, or if the first or last
+character of <I>string</I> is in <I>splitChars</I>.
+If <I>splitChars</I> is an empty string then each character of
+<I>string</I> becomes a separate element of the result list.
+<I>SplitChars</I> defaults to the standard white-space characters.
+For example,
+<PRE><B>split &quot;comp.unix.misc&quot; .</B></PRE>
+returns <B>&quot;comp unix misc&quot;</B> and
+<PRE><B>split &quot;Hello world&quot; {}</B></PRE>
+returns <B>&quot;H e l l o { } w o r l d&quot;</B>.
+
+<H3><A NAME="M5">KEYWORDS</A></H3>
+<A href="../Keywords/L.htm#list">list</A>, <A href="../Keywords/S.htm#split">split</A>, <A href="../Keywords/S.htm#string">string</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1993 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

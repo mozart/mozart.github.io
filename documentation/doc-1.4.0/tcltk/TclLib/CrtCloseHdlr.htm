@@ -1,0 +1,44 @@
+<HTML><HEAD><TITLE>Tcl Library Procedures - Tcl_CreateCloseHandler manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tcl_CreateCloseHandler, Tcl_DeleteCloseHandler - arrange for callbacks when channels are closed
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tcl.h&gt;</B><BR>
+void<BR>
+<B>Tcl_CreateCloseHandler</B>(<I>channel, proc, clientData</I>)<BR>
+void<BR>
+<B>Tcl_DeleteCloseHandler</B>(<I>channel, proc, clientData</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>Tcl_Channel <B>channel</B> (in)<DD>
+The channel for which to create or delete a close callback.
+<P><DT>Tcl_CloseProc <B>*proc</B> (in)<DD>
+The procedure to call as the callback.
+<P><DT>ClientData <B>clientData</B> (in)<DD>
+Arbitrary one-word value to pass to <I>proc</I>.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+<B>Tcl_CreateCloseHandler</B> arranges for <I>proc</I> to be called when
+<I>channel</I> is closed with <B><A HREF="../TclLib/OpenFileChnl.htm">Tcl_Close</A></B> or
+<B><A HREF="../TclLib/OpenFileChnl.htm">Tcl_UnregisterChannel</A></B>, or using the Tcl <B><A HREF="../TclCmd/close.htm">close</A></B> command.
+<I>Proc</I> should match the following prototype:
+<P>
+<PRE>typedef void Tcl_CloseProc(
+	ClientData <I>clientData</I>);</PRE>
+<P>
+The <I>clientData</I> is the same as the value provided in the call to
+<B>Tcl_CreateCloseHandler</B>.
+<P>
+<B>Tcl_DeleteCloseHandler</B> removes a close callback for <I>channel</I>.
+The <I>proc</I> and <I>clientData</I> identify which close callback to
+remove; <B>Tcl_DeleteCloseHandler</B> does nothing if its <I>proc</I> and
+<I>clientData</I> arguments do not match the <I>proc</I> and <I>clientData</I>
+for a  close handler for <I>channel</I>.
+
+<H3><A NAME="M6">SEE ALSO</A></H3>
+<B><A HREF="../TclCmd/close.htm">close</A></B>, <B><A HREF="../TclLib/OpenFileChnl.htm">Tcl_Close</A></B>, <B><A HREF="../TclLib/OpenFileChnl.htm">Tcl_UnregisterChannel</A></B>
+<H3><A NAME="M7">KEYWORDS</A></H3>
+<A href="../Keywords/C.htm#callback">callback</A>, <A href="../Keywords/C.htm#channel closing">channel closing</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

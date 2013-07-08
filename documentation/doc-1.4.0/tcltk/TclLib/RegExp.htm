@@ -1,0 +1,103 @@
+<HTML><HEAD><TITLE>Tcl Library Procedures - Tcl_RegExpMatch manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tcl_RegExpMatch, Tcl_RegExpCompile, Tcl_RegExpExec, Tcl_RegExpRange - Pattern matching with regular expressions
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tcl.h&gt;</B><BR>
+int<BR>
+<B>Tcl_RegExpMatch</B>(<I>interp</I>, <I>string</I>, <I>pattern</I>)<BR>
+Tcl_RegExp<BR>
+<B>Tcl_RegExpCompile</B>(<I>interp</I>, <I>pattern</I>)<BR>
+int<BR>
+<B>Tcl_RegExpExec</B>(<I>interp</I>, <I>regexp</I>, <I>string</I>, <I>start</I>)<BR>
+<B>Tcl_RegExpRange</B>(<I>regexp</I>, <I>index</I>, <I>startPtr</I>, <I>endPtr</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT><A HREF="../TclLib/Interp.htm">Tcl_Interp</A> <B>*interp</B> (in)<DD>
+Tcl interpreter to use for error reporting.
+<P><DT>char <B>*string</B> (in)<DD>
+String to check for a match with a regular expression.
+<P><DT>char <B>*pattern</B> (in)<DD>
+String in the form of a regular expression pattern.
+<P><DT>Tcl_RegExp <B><A HREF="../TclCmd/regexp.htm">regexp</A></B> (in)<DD>
+Compiled regular expression.  Must have been returned previously
+by <B>Tcl_RegExpCompile</B>.
+<P><DT>char <B>*start</B> (in)<DD>
+If <I>string</I> is just a portion of some other string, this argument
+identifies the beginning of the larger string.
+If it isn't the same as <I>string</I>, then no <B>^</B> matches
+will be allowed.
+<P><DT>int <B>index</B> (in)<DD>
+Specifies which range is desired:  0 means the range of the entire
+match, 1 or greater means the range that matched a parenthesized
+sub-expression.
+<P><DT>char <B>**startPtr</B> (out)<DD>
+The address of the first character in the range is stored here, or
+NULL if there is no such range.
+<P><DT>char <B>**endPtr</B> (out)<DD>
+The address of the character just after the last one in the range
+is stored here, or NULL if there is no such range.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+<B>Tcl_RegExpMatch</B> determines whether its <I>pattern</I> argument
+matches <I>regexp</I>, where <I>regexp</I> is interpreted
+as a regular expression using the same rules as for the
+<B><A HREF="../TclCmd/regexp.htm">regexp</A></B> Tcl command.
+If there is a match then <B>Tcl_RegExpMatch</B> returns 1.
+If there is no match then <B>Tcl_RegExpMatch</B> returns 0.
+If an error occurs in the matching process (e.g. <I>pattern</I>
+is not a valid regular expression) then <B>Tcl_RegExpMatch</B>
+returns -1 and leaves an error message in <I>interp-&gt;result</I>.
+<P>
+<B>Tcl_RegExpCompile</B>, <B>Tcl_RegExpExec</B>, and <B>Tcl_RegExpRange</B>
+provide lower-level access to the regular expression pattern matcher.
+<B>Tcl_RegExpCompile</B> compiles a regular expression string into
+the internal form used for efficient pattern matching.
+The return value is a token for this compiled form, which can be
+used in subsequent calls to <B>Tcl_RegExpExec</B> or <B>Tcl_RegExpRange</B>.
+If an error occurs while compiling the regular expression then
+<B>Tcl_RegExpCompile</B> returns NULL and leaves an error message
+in <I>interp-&gt;result</I>.
+Note:  the return value from <B>Tcl_RegExpCompile</B> is only valid
+up to the next call to <B>Tcl_RegExpCompile</B>;  it is not safe to
+retain these values for long periods of time.
+<P>
+<B>Tcl_RegExpExec</B> executes the regular expression pattern matcher.
+It returns 1 if <I>string</I> contains a range of characters that
+match <I>regexp</I>, 0 if no match is found, and
+-1 if an error occurs.
+In the case of an error, <B>Tcl_RegExpExec</B> leaves an error
+message in <I>interp-&gt;result</I>.
+When searching a string for multiple matches of a pattern,
+it is important to distinguish between the start of the original
+string and the start of the current search.
+For example, when searching for the second occurrence of a
+match, the <I>string</I> argument might point to the character
+just after the first match;  however, it is important for the
+pattern matcher to know that this is not the start of the entire string,
+so that it doesn't allow <B>^</B> atoms in the pattern to match.
+The <I>start</I> argument provides this information by pointing
+to the start of the overall string containing <I>string</I>.
+<I>Start</I> will be less than or equal to <I>string</I>;  if it
+is less than <I>string</I> then no <B>^</B> matches will be allowed.
+<P>
+<B>Tcl_RegExpRange</B> may be invoked after <B>Tcl_RegExpExec</B>
+returns;  it provides detailed information about what ranges of
+the string matched what parts of the pattern.
+<B>Tcl_RegExpRange</B> returns a pair of pointers in <I>*startPtr</I>
+and <I>*endPtr</I> that identify a range of characters in
+the source string for the most recent call to <B>Tcl_RegExpExec</B>.
+<I>Index</I> indicates which of several ranges is desired:
+if <I>index</I> is 0, information is returned about the overall range
+of characters that matched the entire pattern;  otherwise,
+information is returned about the range of characters that matched the
+<I>index</I>'th parenthesized subexpression within the pattern.
+If there is no range corresponding to <I>index</I> then NULL
+is stored in <I>*firstPtr</I> and <I>*lastPtr</I>.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/M.htm#match">match</A>, <A href="../Keywords/P.htm#pattern">pattern</A>, <A href="../Keywords/R.htm#regular expression">regular expression</A>, <A href="../Keywords/S.htm#string">string</A>, <A href="../Keywords/S.htm#subexpression">subexpression</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

@@ -1,0 +1,24 @@
+<HTML><HEAD><TITLE>Tk Built-In Commands - bell manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+bell - Ring a display's bell
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>bell </B>?<B>-displayof </B><I>window</I>?<BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+This command rings the bell on the display for <I>window</I> and
+returns an empty string.
+If the <B>-displayof</B> option is omitted, the display of the
+application's main window is used by default.
+The command uses the current bell-related settings for the display, which
+may be modified with programs such as <B>xset</B>.
+<P>
+This command also resets the screen saver for the screen.  Some
+screen savers will ignore this, but others will reset so that the
+screen becomes visible again.
+
+<H3><A NAME="M5">KEYWORDS</A></H3>
+<A href="../Keywords/B.htm#beep">beep</A>, <A href="../Keywords/B.htm#bell">bell</A>, <A href="../Keywords/R.htm#ring">ring</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

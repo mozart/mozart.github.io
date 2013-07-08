@@ -1,0 +1,26 @@
+<HTML><HEAD><TITLE>Tk Library Procedures - Tk_MainWindow manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tk_MainWindow - find the main window for an application
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tk.h&gt;</B><BR>
+Tk_Window<BR>
+<B>Tk_MainWindow</B>(<I>interp</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT><A HREF="../TclLib/Interp.htm">Tcl_Interp</A> <B>*interp</B> (in/out)<DD>
+Interpreter associated with the application.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+If <I>interp</I> is associated with a Tk application then <B>Tk_MainWindow</B>
+returns the application's main window.
+If there is no Tk application associated with <I>interp</I> then
+<B>Tk_MainWindow</B> returns NULL and leaves an error message
+in <I>interp-&gt;result</I>.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/A.htm#application">application</A>, <A href="../Keywords/M.htm#main window">main window</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1990 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

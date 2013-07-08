@@ -1,0 +1,36 @@
+<HTML><HEAD><TITLE>Library Procedures - Tk_GetOption manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tk_GetOption - retrieve an option from the option database
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tk.h&gt;</B><BR>
+<A HREF="../TkLib/GetUid.htm">Tk_Uid</A><BR>
+<B>Tk_GetOption</B>(<I>tkwin, name, class</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>Tk_Window <B>tkwin</B> (in)<DD>
+Token for window.
+<P><DT>char <B>*name</B> (in)<DD>
+Name of desired option.
+<P><DT>char <B>*class</B> (in)<DD>
+Class of desired option.  Null means there is no class for
+this option;  do lookup based on name only.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+This procedure is invoked to retrieve an option from the database
+associated with <I>tkwin</I>'s main window.  If there is an option
+for <I>tkwin</I> that matches the given <I>name</I> or <I>class</I>,
+then it is returned in the form of a <A HREF="../TkLib/GetUid.htm">Tk_Uid</A>.  If multiple options
+match <I>name</I> and <I>class</I>, then the highest-priority one
+is returned.  If no option matches, then NULL is returned.
+<P>
+<B>Tk_GetOption</B> caches options related to <I>tkwin</I> so that
+successive calls for the same <I>tkwin</I> will execute much more
+quickly than successive calls for different windows.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/C.htm#class">class</A>, <A href="../Keywords/N.htm#name">name</A>, <A href="../Keywords/O.htm#option">option</A>, <A href="../Keywords/R.htm#retrieve">retrieve</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1990 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

@@ -1,0 +1,51 @@
+<HTML><HEAD><TITLE>Library Procedures - Tk_GetJoinStyle manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tk_GetJoinStyle, Tk_NameOfJoinStyle - translate between strings and join styles
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tk.h&gt;</B><BR>
+int<BR>
+<B>Tk_GetJoinStyle(</B><I>interp, string, joinPtr</I><B>)</B><BR>
+char *<BR>
+<B>Tk_NameOfJoinStyle(</B><I>join</I><B>)</B><BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT><A HREF="../TclLib/Interp.htm">Tcl_Interp</A> <B>*interp</B> (in)<DD>
+Interpreter to use for error reporting.
+<P><DT>char <B>*string</B> (in)<DD>
+String containing name of join style: one of ``bevel'', ``miter'',
+or ``round''.
+<P><DT>int <B>*joinPtr</B> (out)<DD>
+Pointer to location in which to store X join style corresponding to
+<I>string</I>.
+<P><DT>int <B><A HREF="../TclCmd/join.htm">join</A></B> (in)<DD>
+Join style: one of <B>JoinBevel</B>, <B>JoinMiter</B>, <B>JoinRound</B>.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+<B>Tk_GetJoinStyle</B> places in <I>*joinPtr</I> the X join style
+corresponding to <I>string</I>, which will be one of
+<B>JoinBevel</B>, <B>JoinMiter</B>, or <B>JoinRound</B>.
+Join styles are typically used in X graphics contexts to indicate
+how adjacent line segments should be joined together.
+See the X documentation for information on what each style
+implies.
+<P>
+Under normal circumstances the return value is <B>TCL_OK</B> and
+<I>interp</I> is unused.
+If <I>string</I> doesn't contain a valid join style
+or an abbreviation of one of these names, then an error message is
+stored in <I>interp-&gt;result</I>, <B>TCL_ERROR</B> is returned, and
+<I>*joinPtr</I> is unmodified.
+<P>
+<B>Tk_NameOfJoinStyle</B> is the logical inverse of <B>Tk_GetJoinStyle</B>.
+Given a join style such as <B>JoinBevel</B> it returns a
+statically-allocated string corresponding to <I>join</I>.
+If <I>join</I> isn't a legal join style, then
+``unknown join style'' is returned.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/B.htm#bevel">bevel</A>, <A href="../Keywords/J.htm#join style">join style</A>, <A href="../Keywords/M.htm#miter">miter</A>, <A href="../Keywords/R.htm#round">round</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1990 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

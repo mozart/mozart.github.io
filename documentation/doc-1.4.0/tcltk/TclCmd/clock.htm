@@ -1,0 +1,227 @@
+<HTML><HEAD><TITLE>Tcl Built-In Commands - clock manual page</TITLE></HEAD><BODY>
+<DL>
+<DD><A HREF="clock.htm#M2" NAME="L102">NAME</A>
+<DL><DD>clock - Obtain and manipulate time</DL>
+<DD><A HREF="clock.htm#M3" NAME="L103">SYNOPSIS</A>
+<DL>
+<DD><B>clock </B><I>option</I> ?<I>arg arg ...</I>?
+</DL>
+<DD><A HREF="clock.htm#M4" NAME="L104">DESCRIPTION</A>
+<DL>
+<DD><A HREF="clock.htm#M5" NAME="L105"><B>clock clicks</B></A>
+<DD><A HREF="clock.htm#M6" NAME="L106"><B>clock format </B><I>clockValue</I> ?<B>-format </B><I>string</I>? ?<B>-gmt </B><I>boolean</I>?</A>
+<DL>
+<DD><A HREF="clock.htm#M7" NAME="L107"><B>%%</B></A>
+<DD><A HREF="clock.htm#M8" NAME="L108"><B>%a</B></A>
+<DD><A HREF="clock.htm#M9" NAME="L109"><B>%A</B></A>
+<DD><A HREF="clock.htm#M10" NAME="L110"><B>%b</B></A>
+<DD><A HREF="clock.htm#M11" NAME="L111"><B>%B</B></A>
+<DD><A HREF="clock.htm#M12" NAME="L112"><B>%c</B></A>
+<DD><A HREF="clock.htm#M13" NAME="L113"><B>%d</B></A>
+<DD><A HREF="clock.htm#M14" NAME="L114"><B>%H</B></A>
+<DD><A HREF="clock.htm#M15" NAME="L115"><B>%I</B></A>
+<DD><A HREF="clock.htm#M16" NAME="L116"><B>%j</B></A>
+<DD><A HREF="clock.htm#M17" NAME="L117"><B>%m</B></A>
+<DD><A HREF="clock.htm#M18" NAME="L118"><B>%M</B></A>
+<DD><A HREF="clock.htm#M19" NAME="L119"><B>%p</B></A>
+<DD><A HREF="clock.htm#M20" NAME="L120"><B>%S</B></A>
+<DD><A HREF="clock.htm#M21" NAME="L121"><B>%U</B></A>
+<DD><A HREF="clock.htm#M22" NAME="L122"><B>%w</B></A>
+<DD><A HREF="clock.htm#M23" NAME="L123"><B>%W</B></A>
+<DD><A HREF="clock.htm#M24" NAME="L124"><B>%x</B></A>
+<DD><A HREF="clock.htm#M25" NAME="L125"><B>%X</B></A>
+<DD><A HREF="clock.htm#M26" NAME="L126"><B>%y</B></A>
+<DD><A HREF="clock.htm#M27" NAME="L127"><B>%Y</B></A>
+<DD><A HREF="clock.htm#M28" NAME="L128"><B>%Z</B></A>
+</DL>
+<DL>
+<DD><A HREF="clock.htm#M29" NAME="L129"><B>%D</B></A>
+<DD><A HREF="clock.htm#M30" NAME="L130"><B>%e</B></A>
+<DD><A HREF="clock.htm#M31" NAME="L131"><B>%h</B></A>
+<DD><A HREF="clock.htm#M32" NAME="L132"><B>%n</B></A>
+<DD><A HREF="clock.htm#M33" NAME="L133"><B>%r</B></A>
+<DD><A HREF="clock.htm#M34" NAME="L134"><B>%R</B></A>
+<DD><A HREF="clock.htm#M35" NAME="L135"><B>%t</B></A>
+<DD><A HREF="clock.htm#M36" NAME="L136"><B>%T</B></A>
+</DL>
+<DD><A HREF="clock.htm#M37" NAME="L137"><B>clock scan </B><I>dateString</I> ?<B>-base </B><I>clockVal</I>? ?<B>-gmt </B><I>boolean</I>?</A>
+<DL>
+<DD><A HREF="clock.htm#M38" NAME="L138"><I>time</I></A>
+<DD><A HREF="clock.htm#M39" NAME="L139"><I>date</I></A>
+<DD><A HREF="clock.htm#M40" NAME="L140"><I>relative time</I></A>
+</DL>
+<DD><A HREF="clock.htm#M41" NAME="L141"><B>clock seconds</B></A>
+</DL>
+<DD><A HREF="clock.htm#M42" NAME="L142">KEYWORDS</A>
+</DL><HR>
+<H3><A NAME="M2">NAME</A></H3>
+clock - Obtain and manipulate time
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>clock </B><I>option</I> ?<I>arg arg ...</I>?<BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+This command performs one of several operations that may obtain
+or manipulate strings or values that represent some notion of
+time.  The <I>option</I> argument determines what action is carried
+out by the command.  The legal <I>options</I> (which may be
+abbreviated) are:
+<P>
+<DL>
+<P><DT><A NAME="M5"><B>clock clicks</B></A><DD>
+Return a high-resolution time value as a system-dependent integer
+value.  The unit of the value is system-dependent but should be the
+highest resolution clock available on the system such as a CPU cycle
+counter. This value should only be used for the relative measurement
+of elapsed time.
+<P><DT><A NAME="M6"><B>clock format </B><I>clockValue</I> ?<B>-format </B><I>string</I>? ?<B>-gmt </B><I>boolean</I>?</A><DD>
+Converts an integer time value, typically returned by
+<B>clock seconds</B>, <B>clock scan</B>, or the <B>atime</B>, <B>mtime</B>,
+or <B>ctime</B> options of the <B><A HREF="../TclCmd/file.htm">file</A></B> command, to human-readable
+form.  If the <B>-format</B> argument is present the next argument is a
+string that describes how the date and time are to be formatted.
+Field descriptors consist of a <B>%</B> followed by a field
+descriptor character.  All other characters are copied into the result.
+Valid field descriptors are:
+<P>
+<DL>
+<P><DT><A NAME="M7"><B>%%</B></A><DD>
+Insert a %.
+<P><DT><A NAME="M8"><B>%a</B></A><DD>
+Abbreviated weekday name (Mon, Tue, etc.).
+<P><DT><A NAME="M9"><B>%A</B></A><DD>
+Full weekday name (Monday, Tuesday, etc.).
+<P><DT><A NAME="M10"><B>%b</B></A><DD>
+Abbreviated month name (Jan, Feb, etc.).
+<P><DT><A NAME="M11"><B>%B</B></A><DD>
+Full month name.
+<P><DT><A NAME="M12"><B>%c</B></A><DD>
+Locale specific date and time.
+<P><DT><A NAME="M13"><B>%d</B></A><DD>
+Day of month (01 - 31).
+<P><DT><A NAME="M14"><B>%H</B></A><DD>
+Hour in 24-hour format (00 - 23).
+<P><DT><A NAME="M15"><B>%I</B></A><DD>
+Hour in 12-hour format (00 - 12).
+<P><DT><A NAME="M16"><B>%j</B></A><DD>
+Day of year (001 - 366).
+<P><DT><A NAME="M17"><B>%m</B></A><DD>
+Month number (01 - 12).
+<P><DT><A NAME="M18"><B>%M</B></A><DD>
+Minute (00 - 59).
+<P><DT><A NAME="M19"><B>%p</B></A><DD>
+AM/PM indicator.
+<P><DT><A NAME="M20"><B>%S</B></A><DD>
+Seconds (00 - 59).
+<P><DT><A NAME="M21"><B>%U</B></A><DD>
+Week of year (01 - 52), Sunday is the first day of the week.
+<P><DT><A NAME="M22"><B>%w</B></A><DD>
+Weekday number (Sunday = 0).
+<P><DT><A NAME="M23"><B>%W</B></A><DD>
+Week of year (01 - 52), Monday is the first day of the week.
+<P><DT><A NAME="M24"><B>%x</B></A><DD>
+Locale specific date format.
+<P><DT><A NAME="M25"><B>%X</B></A><DD>
+Locale specific time format.
+<P><DT><A NAME="M26"><B>%y</B></A><DD>
+Year without century (00 - 99).
+<P><DT><A NAME="M27"><B>%Y</B></A><DD>
+Year with century (e.g. 1990)
+<P><DT><A NAME="M28"><B>%Z</B></A><DD>
+Time zone name.
+<P></DL>
+<P>
+<DL><P><DD>
+In addition, the following field descriptors may be supported on some
+systems (e.g. Unix but not Windows):
+<P>
+<DL>
+<P><DT><A NAME="M29"><B>%D</B></A><DD>
+Date as %m/%d/%y.
+<P><DT><A NAME="M30"><B>%e</B></A><DD>
+Day of month (1 - 31), no leading zeros.
+<P><DT><A NAME="M31"><B>%h</B></A><DD>
+Abbreviated month name.
+<P><DT><A NAME="M32"><B>%n</B></A><DD>
+Insert a newline.
+<P><DT><A NAME="M33"><B>%r</B></A><DD>
+Time as %I:%M:%S %p.
+<P><DT><A NAME="M34"><B>%R</B></A><DD>
+Time as %H:%M.
+<P><DT><A NAME="M35"><B>%t</B></A><DD>
+Insert a tab.
+<P><DT><A NAME="M36"><B>%T</B></A><DD>
+Time as %H:%M:%S.
+<P></DL>
+</DL>
+<P>
+<DL><P><DD>
+If the <B>-format</B> argument is not specified, the format string 
+&quot;<B>%a %b %d %H:%M:%S %Z %Y</B>&quot; is used.  If the <B>-gmt</B> argument
+is present the next argument must be a boolean which if true specifies
+that the time will be formatted as Greenwich Mean Time. If false
+then the local timezone will be used as defined by the operating
+environment.
+</DL>
+<P><DT><A NAME="M37"><B>clock scan </B><I>dateString</I> ?<B>-base </B><I>clockVal</I>? ?<B>-gmt </B><I>boolean</I>?</A><DD>
+Convert <I>dateString</I> to an integer clock value (see <B>clock seconds</B>).
+This command can parse and convert virtually any standard date and/or time
+string, which can include standard time zone mnemonics.  If only a time is
+specified, the current date is assumed.  If the string does not contain a
+time zone mnemonic, the local time zone is assumed, unless the <B>-gmt</B> 
+argument is true, in which case the clock value is calculated assuming
+that the specified time is relative to Greenwich Mean Time.
+<P>
+If the <B>-base</B> flag is specified, the next argument should contain
+an integer clock value.  Only the date in this value is used, not the
+time.  This is useful for determining the time on a specific day or
+doing other date-relative conversions.
+<P>
+The <I>dateString</I> consists of zero or more specifications of the
+following form:
+<P>
+<DL>
+<P><DT><A NAME="M38"><I>time</I></A><DD>
+A time of day, which is of the form: <I>hh</I>?<I>:mm</I>?<I>:ss</I>?? 
+?<I>meridian</I>? ?<I>zone</I>? or <I>hhmm </I>?<I>meridian</I>? 
+?<I>zone</I>?. If no meridian is specified, <I>hh</I> is interpreted on
+a 24-hour clock.
+<P><DT><A NAME="M39"><I>date</I></A><DD>
+A specific month and day with optional year.  The
+acceptable formats are <I>mm/dd</I>?<I>/yy</I>?, <I>monthname dd</I>
+?, <I>yy</I>?, <I>dd monthname </I>?<I>yy</I>? and <I>day, dd monthname
+yy</I>.  The default year is the current year.  If the year is less
+then 100, we treat the years 00-38 as 2000-2038 and the years 70-99
+as 1970-1999.  The years 39-70 are undefined and may not be valid on
+certain platforms.  (For thos platforms where it is defined then the
+years 69-99 match to 1969-1999.)
+<P><DT><A NAME="M40"><I>relative time</I></A><DD>
+A specification relative to the current time.  The format is <I>number
+unit</I> acceptable units are <B>year</B>, <B>fortnight</B>, <B>month</B>, <B>week</B>, <B>day</B>,
+<B>hour</B>, <B>minute</B> (or <B>min</B>), and <B>second</B> (or <B>sec</B>).  The
+unit can be specified as a singular or plural, as in <B>3 weeks</B>.
+These modifiers may also be specified:
+<B>tomorrow</B>, <B>yesterday</B>, <B>today</B>, <B>now</B>,
+<B>last</B>, <B>this</B>, <B>next</B>, <B>ago</B>.
+<P></DL>
+<P>The actual date is calculated according to the following steps.
+First, any absolute date and/or time is processed and converted.
+Using that time as the base, day-of-week specifications are added.
+Next, relative specifications are used.  If a date or day is
+specified, and no absolute or relative time is given, midnight is
+used.  Finally, a correction is applied so that the correct hour of
+the day is produced after allowing for daylight savings time
+differences and the correct date is given when going from the end
+of a long month to a short month.
+<P><DT><A NAME="M41"><B>clock seconds</B></A><DD>
+Return the current date and time as a system-dependent integer value.  The
+unit of the value is seconds, allowing it to be used for relative time
+calculations.  The value is usually defined as total elapsed time from
+an ``epoch''.  You shouldn't assume the value of the epoch.
+
+<P></DL>
+<H3><A NAME="M42">KEYWORDS</A></H3>
+<A href="../Keywords/C.htm#clock">clock</A>, <A href="../Keywords/D.htm#date">date</A>, <A href="../Keywords/T.htm#time">time</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1992-1995 Karl Lehenbauer and Mark Diekhans.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

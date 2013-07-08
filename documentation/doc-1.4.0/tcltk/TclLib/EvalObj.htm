@@ -1,0 +1,79 @@
+<HTML><HEAD><TITLE>Tcl Library Procedures - Tcl_EvalObj manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tcl_EvalObj, Tcl_GlobalEvalObj - execute Tcl commands
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tcl.h&gt;</B><BR>
+int<BR>
+<B>Tcl_EvalObj</B>(<I>interp, objPtr</I>)<BR>
+int<BR>
+<B>Tcl_GlobalEvalObj</B>(<I>interp, objPtr</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT><A HREF="../TclLib/Interp.htm">Tcl_Interp</A> <B>*interp</B> (in)<DD>
+Interpreter in which to execute the command.
+The command's result will be stored in the interpreter's result object
+and can be retrieved using <B><A HREF="../TclLib/SetResult.htm">Tcl_GetObjResult</A></B>.
+<P><DT>Tcl_Obj <B>*objPtr</B> (in)<DD>
+A Tcl object containing a command string
+(or sequence of commands in a string) to execute.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+These two procedures execute Tcl commands.
+<B>Tcl_EvalObj</B> is the core procedure
+and is used by <B>Tcl_GlobalEvalObj</B>.
+It executes the commands in the script held by <I>objPtr</I>
+until either an error occurs or it reaches the end of the script.
+If this is the first time <I>objPtr</I> has been executed,
+its commands are compiled into bytecode instructions
+that are then executed if there are no compilation errors.
+<P>
+The return value from <B>Tcl_EvalObj</B> is one of the Tcl return codes
+<B>TCL_OK</B>, <B>TCL_ERROR</B>, <B>TCL_RETURN</B>, <B>TCL_BREAK</B>, or
+<B>TCL_CONTINUE</B>,
+and a result object containing additional information
+(a result value or error message)
+that can be retrieved using <B><A HREF="../TclLib/SetResult.htm">Tcl_GetObjResult</A></B>.
+If an error occurs during compilation, this return information
+describes the error.
+Otherwise, this return information corresponds to the last command
+executed from <I>objPtr</I>.
+<P>
+<B>Tcl_GlobalEvalObj</B> is similar to <B>Tcl_EvalObj</B> except that it
+processes the command at global level.
+This means that the variable context for the command consists of
+global variables only (it ignores any Tcl procedure that is active).
+This produces an effect similar to the Tcl command ``<B>uplevel 0</B>''.
+<P>
+During the processing of a Tcl command it is legal to make nested
+calls to evaluate other commands (this is how procedures and
+some control structures are implemented).
+If a code other than <B>TCL_OK</B> is returned
+from a nested <B>Tcl_EvalObj</B> invocation,
+then the caller should normally return immediately,
+passing that same return code back to its caller,
+and so on until the top-level application is reached.
+A few commands, like <B><A HREF="../TclCmd/for.htm">for</A></B>, will check for certain
+return codes, like <B>TCL_BREAK</B> and <B>TCL_CONTINUE</B>, and process them
+specially without returning.
+<P>
+<B>Tcl_EvalObj</B> keeps track of how many nested <B>Tcl_EvalObj</B>
+invocations are in progress for <I>interp</I>.
+If a code of <B>TCL_RETURN</B>, <B>TCL_BREAK</B>, or <B>TCL_CONTINUE</B> is
+about to be returned from the topmost <B>Tcl_EvalObj</B>
+invocation for <I>interp</I>,
+it converts the return code to <B>TCL_ERROR</B>
+and sets the interpreter's result object
+to point to an error message indicating that
+the <B><A HREF="../TclCmd/return.htm">return</A></B>, <B><A HREF="../TclCmd/break.htm">break</A></B>, or <B><A HREF="../TclCmd/continue.htm">continue</A></B> command was
+invoked in an inappropriate place.
+This means that top-level applications should never see a return code
+from <B>Tcl_EvalObj</B> other then <B>TCL_OK</B> or <B>TCL_ERROR</B>.
+
+<H3><A NAME="M6">SEE ALSO</A></H3>
+<B><A HREF="../TclLib/SetResult.htm">Tcl_GetObjResult</A></B>, <B><A HREF="../TclLib/SetResult.htm">Tcl_SetObjResult</A></B>
+<H3><A NAME="M7">KEYWORDS</A></H3>
+<A href="../Keywords/C.htm#command">command</A>, <A href="../Keywords/E.htm#execute">execute</A>, <A href="../Keywords/F.htm#file">file</A>, <A href="../Keywords/G.htm#global">global</A>, <A href="../Keywords/O.htm#object">object</A>, <A href="../Keywords/O.htm#object result">object result</A>, <A href="../Keywords/V.htm#variable">variable</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1996-1997 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

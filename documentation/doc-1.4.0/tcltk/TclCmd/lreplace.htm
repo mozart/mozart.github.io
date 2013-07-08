@@ -1,0 +1,33 @@
+<HTML><HEAD><TITLE>Tcl Built-In Commands - lreplace manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+lreplace - Replace elements in a list with new elements
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>lreplace </B><I>list first last </I>?<I>element element ...</I>?<BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+<B>Lreplace</B> returns a new list formed by replacing one or more elements of
+<I>list</I> with the <I>element</I> arguments.
+<I>First</I> gives the index in <I>list</I> of the first element
+to be replaced (0 refers to the first element).
+If <I>first</I> is less than zero then it refers to the first
+element of <I>list</I>;  the element indicated by <I>first</I>
+must exist in the list.
+<I>Last</I> gives the index in <I>list</I> of the last element
+to be replaced.
+If <I>last</I> is less than <I>first</I> then no elements are deleted;
+the new elements are simply inserted before <I>first</I>.
+<I>First</I> or <I>last</I> may be <B>end</B>
+(or any abbreviation of it) to refer to the last element of the list.
+The <I>element</I> arguments specify zero or more new arguments to
+be added to the list in place of those that were deleted.
+Each <I>element</I> argument will become a separate element of
+the list.
+If no <I>element</I> arguments are specified, then the elements
+between <I>first</I> and <I>last</I> are simply deleted.
+
+<H3><A NAME="M5">KEYWORDS</A></H3>
+<A href="../Keywords/E.htm#element">element</A>, <A href="../Keywords/L.htm#list">list</A>, <A href="../Keywords/R.htm#replace">replace</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1993 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

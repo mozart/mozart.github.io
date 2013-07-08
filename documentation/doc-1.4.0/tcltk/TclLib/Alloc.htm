@@ -1,0 +1,40 @@
+<HTML><HEAD><TITLE>Tcl Library Procedures - Tcl_Alloc manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tcl_Alloc, Tcl_Free, Tcl_Realloc - allocate or free heap memory
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tcl.h&gt;</B><BR>
+char *<BR>
+<B>Tcl_Alloc</B>(<I>size</I>)<BR>
+<B>Tcl_Free</B>(<I>ptr</I>)<BR>
+char *<BR>
+<B>Tcl_Realloc</B>(<I>ptr, size</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>int <B>size</B> (in)<DD>
+Size in bytes of the memory block to allocate.
+<P><DT>char <B>*ptr</B> (in)<DD>
+Pointer to memory block to free or realloc.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+These procedures provide a platform and compiler independent interface
+for memory allocation.  Programs that need to transfer ownership of
+memory blocks between Tcl and other modules should use these routines
+rather than the native <B>malloc()</B> and <B>free()</B> routines
+provided by the C run-time library.
+<P>
+<B>Tcl_Alloc</B> returns a pointer to a block of at least <I>size</I>
+bytes suitably aligned for any use.
+<P>
+<B>Tcl_Free</B> makes the space referred to by <I>ptr</I> available for
+further allocation.
+<P>
+<B>Tcl_Realloc</B> changes the size of the block pointed to by
+<I>ptr</I> to <I>size</I> bytes and returns a pointer to the new block.
+The contents will be unchanged up to the lesser of the new and old
+sizes.  The returned location may be different from <I>ptr</I>.
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/A.htm#alloc">alloc</A>, <A href="../Keywords/A.htm#allocation">allocation</A>, <A href="../Keywords/F.htm#free">free</A>, <A href="../Keywords/M.htm#malloc">malloc</A>, <A href="../Keywords/M.htm#memory">memory</A>, <A href="../Keywords/R.htm#realloc">realloc</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

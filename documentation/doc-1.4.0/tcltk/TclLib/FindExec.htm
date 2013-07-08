@@ -1,0 +1,36 @@
+<HTML><HEAD><TITLE>Tcl Library Procedures - Tcl_FindExecutable manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tcl_FindExecutable - identify the binary file containing the application
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tcl.h&gt;</B><BR>
+char *<BR>
+<B>Tcl_FindExecutable</B>(<I>argv0</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>char <B>*argv0</B> (in)<DD>
+The first command-line argument to the program, which gives the
+application's name.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+This procedure computes the full path name of the executable file
+from which the application was invoked and saves it for Tcl's
+internal use.
+The executable's path name is needed for several purposes in
+Tcl.  For example, it is needed on some platforms in the
+implementation of the <B><A HREF="../TclCmd/load.htm">load</A></B> command.
+It is also returned by the <B><A HREF="../TclCmd/info.htm">info nameofexecutable</A></B> command.
+<P>
+On UNIX platforms this procedure is typically invoked as the very
+first thing in the application's main program;  it must be passed
+<I>argv[0]</I> as its argument.  <B>Tcl_FindExecutable</B> uses <I>argv0</I>
+along with the <B>PATH</B> environment variable to find the
+application's executable, if possible.  If it fails to find
+the binary, then future calls to <B><A HREF="../TclCmd/info.htm">info nameofexecutable</A></B>
+will return an empty string.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/B.htm#binary">binary</A>, <A href="../Keywords/E.htm#executable file">executable file</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

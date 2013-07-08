@@ -1,0 +1,63 @@
+<HTML><HEAD><TITLE>Library Procedures - Tk_GetGC manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tk_GetGC, Tk_FreeGC - maintain database of read-only graphics contexts
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tk.h&gt;</B><BR>
+GC<BR>
+<B>Tk_GetGC</B>(<I>tkwin, valueMask, valuePtr</I>)<BR>
+<B>Tk_FreeGC(</B><I>display, gc</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>Tk_Window <B>tkwin</B> (in)<DD>
+Token for window in which the graphics context will be used.
+<P><DT>unsigned long <B>valueMask</B> (in)<DD>
+Mask of bits (such as <B>GCForeground</B> or <B>GCStipple</B>)
+indicating which fields of <I>*valuePtr</I> are valid.
+<P><DT>XGCValues <B>*valuePtr</B> (in)<DD>
+Pointer to structure describing the desired values for the
+graphics context.
+<P><DT>Display <B>*display</B> (in)<DD>
+Display for which <I>gc</I> was allocated.
+<P><DT>GC <B>gc</B> (in)<DD>
+X identifier for graphics context that is no longer needed.
+Must have been allocated by <B>Tk_GetGC</B>.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+<B>Tk_GetGC</B> and <B>Tk_FreeGC</B> manage a collection of graphics contexts
+being used by an application.  The procedures allow graphics contexts to be
+shared, thereby avoiding the server overhead that would be incurred
+if a separate GC were created for each use.  <B>Tk_GetGC</B> takes arguments
+describing the desired graphics context and returns an X identifier
+for a GC that fits the description.  The graphics context that is returned
+will have default values in all of the fields not specified explicitly
+by <I>valueMask</I> and <I>valuePtr</I>.
+<P>
+<B>Tk_GetGC</B> maintains a
+database of all the graphics contexts it has created.  Whenever possible,
+a call to <B>Tk_GetGC</B> will
+return an existing graphics context rather than creating a new one.  This
+approach can substantially reduce server overhead, so <B>Tk_GetGC</B>
+should generally be used in preference to the Xlib procedure
+<B>XCreateGC</B>, which creates a new graphics context on each call.
+<P>
+Since the return values of <B>Tk_GetGC</B>
+are shared, callers should never modify the graphics contexts
+returned by <B>Tk_GetGC</B>.
+If a graphics context must be modified dynamically, then it should be
+created by calling <B>XCreateGC</B> instead of <B>Tk_GetGC</B>.
+<P>
+When a graphics context
+is no longer needed, <B>Tk_FreeGC</B> should be called to release it.
+There should be exactly one call to <B>Tk_FreeGC</B> for
+each call to <B>Tk_GetGC</B>.
+When a graphics context is no longer in use anywhere (i.e. it has
+been freed as many times as it has been gotten) <B>Tk_FreeGC</B>
+will release it to the X server and delete it from the database.
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/G.htm#graphics context">graphics context</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1990 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

@@ -7,13 +7,11 @@ title: Mozart Programming System
 
 Documentation is available in several forms.
 
-* Source code's compiled documentation
-* CTM book
-* Research publications and student theses
+* [Concepts, Techniques, and Models of Computer Programming (book)](http://www.info.ucl.ac.be/~pvr/book.html)
+* [Mozart 1 documentation](./doc-1.4.0/) -- Please note that installation and subsystem (constraint and distribution) instructions may no longer apply in Mozart 2.
+* [Research publications and student theses](/papers/)
 * Wikis
-
-Of which, the CTM book is the most extensive, but may not cover recent
-language additions.
+* [Source code](https://github.com/mozart/mozart2)
 
 ## Mozart/Oz Wikis
 

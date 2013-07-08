@@ -1,0 +1,66 @@
+<HTML><HEAD><TITLE>Tcl Library Procedures - Tcl_DoubleObj manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tcl_NewDoubleObj, Tcl_SetDoubleObj, Tcl_GetDoubleFromObj - manipulate Tcl objects as floating-point values
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tcl.h&gt;</B><BR>
+Tcl_Obj *<BR>
+<B>Tcl_NewDoubleObj</B>(<I>doubleValue</I>)<BR>
+<B>Tcl_SetDoubleObj</B>(<I>objPtr, doubleValue</I>)<BR>
+int<BR>
+<B>Tcl_GetDoubleFromObj</B>(<I>interp, objPtr, doublePtr</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>double <B>doubleValue</B> (in)<DD>
+A double-precision floating point value used to initialize or set a double object.
+<P><DT>Tcl_Obj <B>*objPtr</B> (in/out)<DD>
+For <B>Tcl_SetDoubleObj</B>, this points to the object to be converted
+to double type.
+For <B>Tcl_GetDoubleFromObj</B>, this refers to the object
+from which to get a double value; 
+if <I>objPtr</I> does not already point to a double object,
+an attempt will be made to convert it to one.
+<P><DT><A HREF="../TclLib/Interp.htm">Tcl_Interp</A> <B>*interp</B> (in/out)<DD>
+If an error occurs during conversion,
+an error message is left in the interpreter's result object
+unless <I>interp</I> is NULL.
+<P><DT>double <B>*doublePtr</B> (out)<DD>
+Points to place to store the double value
+obtained from <I>objPtr</I>.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+These procedures are used to create, modify, and read
+double Tcl objects from C code.
+<B>Tcl_NewDoubleObj</B> and <B>Tcl_SetDoubleObj</B>
+will create a new object of double type
+or modify an existing object to have double type. 
+Both of these procedures set the object to have the
+double-precision floating point value given by <I>doubleValue</I>;
+<B>Tcl_NewDoubleObj</B> returns a pointer to a newly created object
+with reference count zero.
+Both procedures set the object's type to be double
+and assign the double value to the object's internal representation
+<I>doubleValue</I> member.
+<B>Tcl_SetDoubleObj</B> invalidates any old string representation
+and, if the object is not already a double object,
+frees any old internal representation.
+<P>
+<B>Tcl_GetDoubleFromObj</B> attempts to return a double value
+from the Tcl object <I>objPtr</I>.
+If the object is not already a double object,
+it will attempt to convert it to one.
+If an error occurs during conversion, it returns <B>TCL_ERROR</B>
+and leaves an error message in the interpreter's result object
+unless <I>interp</I> is NULL.
+Otherwise, it returns <B>TCL_OK</B> and stores the double value
+in the address given by <I>doublePtr</I>.
+If the object is not already a double object,
+the conversion will free any old internal representation.
+
+<H3><A NAME="M6">SEE ALSO</A></H3>
+<B><A HREF="../TclLib/Object.htm">Tcl_NewObj</A></B>, <B><A HREF="../TclLib/Object.htm">Tcl_DecrRefCount</A></B>, <B><A HREF="../TclLib/Object.htm">Tcl_IncrRefCount</A></B>, <B><A HREF="../TclLib/SetResult.htm">Tcl_GetObjResult</A></B>
+<H3><A NAME="M7">KEYWORDS</A></H3>
+<A href="../Keywords/D.htm#double">double</A>, <A href="../Keywords/D.htm#double object">double object</A>, <A href="../Keywords/D.htm#double type">double type</A>, <A href="../Keywords/I.htm#internal representation">internal representation</A>, <A href="../Keywords/O.htm#object">object</A>, <A href="../Keywords/O.htm#object type">object type</A>, <A href="../Keywords/S.htm#string representation">string representation</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1996-1997 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

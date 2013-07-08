@@ -1,0 +1,88 @@
+<HTML><HEAD><TITLE>Tcl Library Procedures - Tcl_IntObj manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tcl_NewIntObj, Tcl_NewLongObj, Tcl_SetIntObj, Tcl_SetLongObj, Tcl_GetIntFromObj, Tcl_GetLongFromObj - manipulate Tcl objects as integers
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tcl.h&gt;</B><BR>
+Tcl_Obj *<BR>
+<B>Tcl_NewIntObj</B>(<I>intValue</I>)<BR>
+Tcl_Obj *<BR>
+<B>Tcl_NewLongObj</B>(<I>longValue</I>)<BR>
+<B>Tcl_SetIntObj</B>(<I>objPtr, intValue</I>)<BR>
+<B>Tcl_SetLongObj</B>(<I>objPtr, longValue</I>)<BR>
+int<BR>
+<B>Tcl_GetIntFromObj</B>(<I>interp, objPtr, intPtr</I>)<BR>
+int<BR>
+<B>Tcl_GetLongFromObj</B>(<I>interp, objPtr, longPtr</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT>int <B>intValue</B> (in)<DD>
+Integer value used to initialize or set an integer object.
+<P><DT>long <B>longValue</B> (in)<DD>
+Long integer value used to initialize or set an integer object.
+<P><DT>Tcl_Obj <B>*objPtr</B> (in/out)<DD>
+For <B>Tcl_SetIntObj</B> and <B>Tcl_SetLongObj</B>,
+this points to the object to be converted to integer type.
+For <B>Tcl_GetIntFromObj</B> and <B>Tcl_GetLongFromObj</B>,
+this refers to the object
+from which to get an integer or long integer value; 
+if <I>objPtr</I> does not already point to an integer object,
+an attempt will be made to convert it to one.
+<P><DT><A HREF="../TclLib/Interp.htm">Tcl_Interp</A> <B>*interp</B> (in/out)<DD>
+If an error occurs during conversion,
+an error message is left in the interpreter's result object
+unless <I>interp</I> is NULL.
+<P><DT>int <B>*intPtr</B> (out)<DD>
+Points to place to store the integer value
+obtained by <B>Tcl_GetIntFromObj</B> from <I>objPtr</I>.
+<P><DT>long <B>*longPtr</B> (out)<DD>
+Points to place to store the long integer value
+obtained by <B>Tcl_GetLongFromObj</B> from <I>objPtr</I>.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+These procedures are used to create, modify, and read
+integer Tcl objects from C code.
+<B>Tcl_NewIntObj</B>, <B>Tcl_NewLongObj</B>,
+<B>Tcl_SetIntObj</B>, and <B>Tcl_SetLongObj</B>
+create a new object of integer type
+or modify an existing object to have integer type. 
+<B>Tcl_NewIntObj</B> and <B>Tcl_SetIntObj</B> set the object to have the
+integer value given by <I>intValue</I>,
+while <B>Tcl_NewLongObj</B> and <B>Tcl_SetLongObj</B>
+set the object to have the
+long integer value given by <I>longValue</I>.
+<B>Tcl_NewIntObj</B> and <B>Tcl_NewLongObj</B>
+return a pointer to a newly created object with reference count zero.
+These procedures set the object's type to be integer
+and assign the integer value to the object's internal representation
+<I>longValue</I> member.
+<B>Tcl_SetIntObj</B> and <B>Tcl_SetLongObj</B>
+invalidate any old string representation and,
+if the object is not already an integer object,
+free any old internal representation.
+<P>
+<B>Tcl_GetIntFromObj</B> and <B>Tcl_GetLongFromObj</B>
+attempt to return an integer value from the Tcl object <I>objPtr</I>.
+If the object is not already an integer object,
+they will attempt to convert it to one.
+If an error occurs during conversion, they return <B>TCL_ERROR</B>
+and leave an error message in the interpreter's result object
+unless <I>interp</I> is NULL.
+Also, if the long integer held in the object's internal representation
+<I>longValue</I> member can not be represented in a (non-long) integer,
+<B>Tcl_GetIntFromObj</B> returns <B>TCL_ERROR</B>
+and leaves an error message in the interpreter's result object
+unless <I>interp</I> is NULL.
+Otherwise, both procedures return <B>TCL_OK</B> and
+store the integer or the long integer value
+in the address given by <I>intPtr</I> and <I>longPtr</I> respectively.
+If the object is not already an integer object,
+the conversion will free any old internal representation.
+
+<H3><A NAME="M6">SEE ALSO</A></H3>
+<B><A HREF="../TclLib/Object.htm">Tcl_NewObj</A></B>, <B><A HREF="../TclLib/Object.htm">Tcl_DecrRefCount</A></B>, <B><A HREF="../TclLib/Object.htm">Tcl_IncrRefCount</A></B>, <B><A HREF="../TclLib/SetResult.htm">Tcl_GetObjResult</A></B>
+<H3><A NAME="M7">KEYWORDS</A></H3>
+<A href="../Keywords/I.htm#integer">integer</A>, <A href="../Keywords/I.htm#integer object">integer object</A>, <A href="../Keywords/I.htm#integer type">integer type</A>, <A href="../Keywords/I.htm#internal representation">internal representation</A>, <A href="../Keywords/O.htm#object">object</A>, <A href="../Keywords/O.htm#object type">object type</A>, <A href="../Keywords/S.htm#string representation">string representation</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1996-1997 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

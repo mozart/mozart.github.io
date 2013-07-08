@@ -1,0 +1,35 @@
+<HTML><HEAD><TITLE>Tcl Built-In Commands - lsearch manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+lsearch - See if a list contains a particular element
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>lsearch </B>?<I>mode</I>? <I>list pattern</I><BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+This command searches the elements of <I>list</I> to see if one
+of them matches <I>pattern</I>.
+If so, the command returns the index of the first matching
+element.
+If not, the command returns <B>-1</B>.
+The <I>mode</I> argument indicates how the elements of the list are to
+be matched against <I>pattern</I> and it must have one of the following
+values:
+<P>
+<DL>
+<P><DT><A NAME="M5"><B>-exact</B></A><DD>
+The list element must contain exactly the same string as <I>pattern</I>.
+<P><DT><A NAME="M6"><B>-glob</B></A><DD>
+<I>Pattern</I> is a glob-style pattern which is matched against each list
+element using the same rules as the <B><A HREF="../TclCmd/string.htm">string match</A></B> command.
+<P><DT><A NAME="M7"><B>-regexp</B></A><DD>
+<I>Pattern</I> is treated as a regular expression and matched against
+each list element using the same rules as the <B><A HREF="../TclCmd/regexp.htm">regexp</A></B> command.
+<P></DL>
+<P>
+If <I>mode</I> is omitted then it defaults to <B>-glob</B>.
+
+<H3><A NAME="M8">KEYWORDS</A></H3>
+<A href="../Keywords/L.htm#list">list</A>, <A href="../Keywords/M.htm#match">match</A>, <A href="../Keywords/P.htm#pattern">pattern</A>, <A href="../Keywords/R.htm#regular expression">regular expression</A>, <A href="../Keywords/S.htm#search">search</A>, <A href="../Keywords/S.htm#string">string</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1993 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

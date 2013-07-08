@@ -1,0 +1,21 @@
+<HTML><HEAD><TITLE>Library Procedures - Tk_MainLoop manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tk_MainLoop - loop for events until all windows are deleted
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tk.h&gt;</B><BR>
+<B>Tk_MainLoop</B>()<BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+<B>Tk_MainLoop</B> is a procedure that loops repeatedly calling
+<B><A HREF="../TclLib/DoOneEvent.htm">Tcl_DoOneEvent</A></B>.  It returns only when there are no applications
+left in this process (i.e. no main windows exist anymore).  Most
+windowing applications will call <B>Tk_MainLoop</B> after
+initialization; the main execution of the application will consist
+entirely of callbacks invoked via <B><A HREF="../TclLib/DoOneEvent.htm">Tcl_DoOneEvent</A></B>.
+
+<H3><A NAME="M5">KEYWORDS</A></H3>
+<A href="../Keywords/A.htm#application">application</A>, <A href="../Keywords/E.htm#event">event</A>, <A href="../Keywords/M.htm#main loop">main loop</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1990-1992 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

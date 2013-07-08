@@ -1,0 +1,37 @@
+<HTML><HEAD><TITLE>Tk Library Procedures - Tk_Init manual page</TITLE></HEAD><BODY>
+<H3><A NAME="M2">NAME</A></H3>
+Tk_Init - add Tk to an interpreter and make a new Tk application.
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>#include &lt;tk.h&gt;</B><BR>
+int<BR>
+<B>Tk_Init</B>(<I>interp</I>)<BR>
+<H3><A NAME="M4">ARGUMENTS</A></H3>
+<DL>
+<P><DT><A HREF="../TclLib/Interp.htm">Tcl_Interp</A> <B>*interp</B> (in)<DD>
+Interpreter in which to load Tk.  Tk should not already be loaded
+in this interpreter.
+<P></DL>
+<H3><A NAME="M5">DESCRIPTION</A></H3>
+<B>Tk_Init</B> is the package initialization procedure for Tk.
+It is normally invoked by the <B><A HREF="../TclLib/AppInit.htm">Tcl_AppInit</A></B> procedure
+for an application or by the <B><A HREF="../TclCmd/load.htm">load</A></B> command.
+<B>Tk_Init</B> adds all of Tk's commands to <I>interp</I>
+and creates a new Tk application, including its main window.
+If the initialization is successful <B>Tk_Init</B> returns
+<B>TCL_OK</B>;  if there is an error it returns <B>TCL_ERROR</B>.
+<B>Tk_Init</B> also leaves a result or error message
+in <I>interp-&gt;result</I>.
+<P>
+If there is a variable <B>argv</B> in <I>interp</I>, <B>Tk_Init</B>
+treats the contents of this variable as a list of options for the
+new Tk application.
+The options may have any of the forms documented for the
+<B><A HREF="../UserCmd/wish.htm">wish</A></B> application (in fact, <B><A HREF="../UserCmd/wish.htm">wish</A></B> uses Tk_Init to process
+its command-line arguments).
+
+<H3><A NAME="M6">KEYWORDS</A></H3>
+<A href="../Keywords/A.htm#application">application</A>, <A href="../Keywords/I.htm#initialization">initialization</A>, <A href="../Keywords/L.htm#load">load</A>, <A href="../Keywords/M.htm#main window">main window</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>

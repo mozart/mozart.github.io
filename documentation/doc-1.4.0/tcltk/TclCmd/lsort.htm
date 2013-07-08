@@ -1,0 +1,80 @@
+<HTML><HEAD><TITLE>Tcl Built-In Commands - lsort manual page</TITLE></HEAD><BODY>
+<DL>
+<DD><A HREF="lsort.htm#M2" NAME="L585">NAME</A>
+<DL><DD>lsort - Sort the elements of a list</DL>
+<DD><A HREF="lsort.htm#M3" NAME="L586">SYNOPSIS</A>
+<DL>
+<DD><B>lsort </B>?<I>options</I>? <I>list</I>
+</DL>
+<DD><A HREF="lsort.htm#M4" NAME="L587">DESCRIPTION</A>
+<DL>
+<DD><A HREF="lsort.htm#M5" NAME="L588"><B>-ascii</B></A>
+<DD><A HREF="lsort.htm#M6" NAME="L589"><B>-dictionary</B></A>
+<DD><A HREF="lsort.htm#M7" NAME="L590"><B>-integer</B></A>
+<DD><A HREF="lsort.htm#M8" NAME="L591"><B>-real</B></A>
+<DD><A HREF="lsort.htm#M9" NAME="L592"><B>-command </B><I>command</I></A>
+<DD><A HREF="lsort.htm#M10" NAME="L593"><B>-increasing</B></A>
+<DD><A HREF="lsort.htm#M11" NAME="L594"><B>-decreasing</B></A>
+<DD><A HREF="lsort.htm#M12" NAME="L595"><B>-index </B><I>index</I></A>
+</DL>
+<DD><A HREF="lsort.htm#M13" NAME="L596">KEYWORDS</A>
+</DL><HR>
+<H3><A NAME="M2">NAME</A></H3>
+lsort - Sort the elements of a list
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>lsort </B>?<I>options</I>? <I>list</I><BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+This command sorts the elements of <I>list</I>, returning a new
+list in sorted order.  By default ASCII sorting is used with
+the result returned in increasing order.
+However, any of the
+following options may be specified before <I>list</I> to
+control the sorting process (unique abbreviations are accepted):
+<P>
+<DL>
+<P><DT><A NAME="M5"><B>-ascii</B></A><DD>
+Use string comparison with ASCII collation order.  This is
+the default.
+<P><DT><A NAME="M6"><B>-dictionary</B></A><DD>
+Use dictionary-style comparison.  This is the same as <B>-ascii</B>
+except (a) case is ignored except as a tie-breaker and (b) if two
+strings contain embedded numbers, the numbers compare as integers,
+not characters.  For example, in <B>-dictionary</B> mode, <B>bigBoy</B>
+sorts between <B>bigbang</B> and <B>bigboy</B>, and <B>x10y</B>
+sorts between <B>x9y</B> and <B>x11y</B>.
+<P><DT><A NAME="M7"><B>-integer</B></A><DD>
+Convert list elements to integers and use integer comparison.
+<P><DT><A NAME="M8"><B>-real</B></A><DD>
+Convert list elements to floating-point values and use floating
+comparison.
+<P><DT><A NAME="M9"><B>-command </B><I>command</I></A><DD>
+Use <I>command</I> as a comparison command.
+To compare two elements, evaluate a Tcl script consisting of
+<I>command</I> with the two elements appended as additional
+arguments.  The script should return an integer less than,
+equal to, or greater than zero if the first element is to
+be considered less than, equal to, or greater than the second,
+respectively.
+<P><DT><A NAME="M10"><B>-increasing</B></A><DD>
+Sort the list in increasing order (``smallest'' items first).
+This is the default.
+<P><DT><A NAME="M11"><B>-decreasing</B></A><DD>
+Sort the list in decreasing order (``largest'' items first).
+<P><DT><A NAME="M12"><B>-index </B><I>index</I></A><DD>
+If this option is specified, each of the elements of <I>list</I> must
+itself be a proper Tcl sublist.  Instead of sorting based on whole sublists,
+<B>lsort</B> will extract the <I>index</I>'th element from each sublist
+and sort based on the given element.  The keyword <B>end</B> is allowed
+for the <I>index</I> to sort on the last sublist element. For example,
+<PRE>lsort -integer -index 1 {{First 24} {Second 18} {Third 30}}</PRE>
+returns <B>{Second 18} {First 24} {Third 30}</B>.
+This option is much more efficient than using <B>-command</B>
+to achieve the same effect.
+<P></DL>
+<H3><A NAME="M13">KEYWORDS</A></H3>
+<A href="../Keywords/E.htm#element">element</A>, <A href="../Keywords/L.htm#list">list</A>, <A href="../Keywords/O.htm#order">order</A>, <A href="../Keywords/S.htm#sort">sort</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 1993 The Regents of the University of California.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1994-1996 Sun Microsystems, Inc.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
+</BODY></HTML>
