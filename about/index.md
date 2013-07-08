@@ -17,9 +17,8 @@ REPL interpreter execution for incremental development and experimentation.
 
 # Mozart 2 Alpha
 
-We are happy to announce the release of Mozart 2, and invite you to give it a try.
-
-The new release has a new 64 bit virtual machine and reflective
+We are happy to announce the release of Mozart 2, and invite you to give it a
+try. The new release has a new 64 bit virtual machine and reflective
 language-extension layer. This will be used for future language research and
 teaching at UCL.
 
