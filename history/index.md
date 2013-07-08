@@ -14,8 +14,7 @@ Oz has existed in several forms prior to Mozart 2. Here are the ones we know of.
 
 ### Mozart 1
 
-Discontinued at 1.4, now replaced by its successor 64-bit implementation, 
-Mozart 2. *No longer supported*.
+Discontinued at 1.4, now replaced by its successor implementation Mozart 2. *No longer supported*.
 
 ### The DFKI Oz 2 System
 
