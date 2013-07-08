@@ -17,7 +17,7 @@ Please include the following to help us reproduce the problem:
 - Mozart version
 - Operating System
 - A short piece of code that can reproduce the bug
-- For developers, please provide the revision number from the SVN repository
+- For developers, please provide the commit SHA from the Git repository
 
 
 ## Feature requests
