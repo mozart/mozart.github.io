@@ -8,7 +8,6 @@
     <meta name="description" content="mozart oz programming language system">
     <meta name="author" content="Mozart Consortium">
 
-
     <link href="/css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
       body {
@@ -30,7 +29,6 @@
       <script src="js/html5shiv.js"></script>
     <![endif]-->
 
-    <!-- Fav and touch icons -->
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/img/apple-touch-icon.png"/>
   </head>
@@ -89,15 +87,19 @@
       </div>
     </footer>
 
+    {% comment %}
     <!-- javascript -->
     <!-- At end for faster page load -->
+    {% endcomment %}
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     
     <script>
     $(document).ready(function () {
+      {% comment %}
       // match the path with the trailing "/" removed
       // then select links with and without the "/" by reinserting it
+      {% endcomment %}
       var pagepath = this.location.pathname;
       if(pagepath.charAt( pagepath.length-1 ) == "/") {
           pagepath = pagepath.slice(0, -1)
