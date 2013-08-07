@@ -17,8 +17,6 @@ configuration, in natural language and knowledge representation, multi-agent
 systems and sophisticated collaborative tools.
 
 
-
-
 ## Programming
 
 ### Object-oriented Programming
@@ -37,6 +35,12 @@ framework the functional, object-oriented, and logic flavors of programming.
 This is possible due to the very general and powerful underlying paradigm of
 concurrent constraint programming.
 
+
+--------
+
+# Past features
+
+The following are Mozart 1 features currently missing from or being redeveloped for  Mozart 2
 
 
 
@@ -104,7 +108,6 @@ quite good for the last two. In the context of aspect-oriented programming,
 this can be seen as a "vertical" approach, where a few aspects are treated in
 depth, versus the "horizontal" approach of tools like AspectJ, which provide
 primitives for handling many aspects. 
-
 
 
 
