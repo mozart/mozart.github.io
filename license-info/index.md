@@ -3,11 +3,7 @@ layout: default
 title: Mozart License
 ---
 
-
-# Mozart License
-
-
-## Mozart is Free Software
+# Mozart is Free Software
 
 Mozart is free software. Mozart is completely free of charge, including full
 source code and a license for all use including commercial use. Technically,
