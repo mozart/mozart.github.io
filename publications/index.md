@@ -16,9 +16,8 @@ Jump to:
 
 ----
 
-## Books 
-<a name="books"></a>
 
+## Books <a name="books">  </a>
 
 - [Multiparadigm Programming in Mozart/Oz, Second International Conference, MOZ 2004](/publications/abstracts/MOZ2004Procs.html) (2005) Peter Van Roy (Ed.)
 
@@ -31,8 +30,20 @@ Jump to:
 - [Objects for Concurrent Constraint Programming](/publications/abstracts/HenzBook.html) (1997) Martin Henz
 
 
-## General 
-<a name="general"></a>
+## General <a name="general"> </a>
+
+
+- Peter Van Roy. [The CTM Approach for Teaching and Learning Programming](http://www.info.ucl.ac.be/%7Epvr/VanRoyHorizonsVol2.pdf), Chapter 5, Horizons in Computer Science Research, Volume 2, Nova Science Publishers, Jan. 2011, pages 101-126.
+
+- Peter Van Roy. [Programming Paradigms for Dummies: What Every Programmer Should Know](http://www.info.ucl.ac.be/%7Epvr/VanRoyChapter.pdf), New Computational Paradigms for Computer Music, G. Assayag and A. Gerzso (eds.), IRCAM/Delatour France, June 2009.
+
+- Donatien Grolaux. [Transparent Migration and Adaptation in a Graphical User Interface Toolkit](http://www.info.ucl.ac.be/%7Epvr/Grolaux-PhD2007-Final.pdf), Ph.D. dissertation, Department of Computing Science and Engineering, Université catholique de Louvain, Sep. 2007.
+
+- Peter Van Roy. [Convergence in language design: a case of lightning striking four times in the same place](http://www.info.ucl.ac.be/%7Epvr/flopsPVRarticle.pdf), invited talk, Eighth International Symposium on Functional and Logic Programming (FLOPS 2006), Fuji Susono, Japan, Springer-Verlag LNCS volume 3945, April 2006.
+
+- Fred Spiessens and Peter Van Roy. [The Oz-E Project: Design Guidelines for a Secure Multiparadigm Programming Language](http://www.info.ucl.ac.be/%7Epvr/oze.pdf), Springer-Verlag LNCS volume 3389, March 2005.
+
+- Alfred Spiessens, Raphaël Collet, and Peter Van Roy. [Declarative Laziness in a Concurrent Constraint Language](http://www.info.ucl.ac.be/%7Epvr/dlcc.pdf), 2nd International Workshop on Multiparadigm Constraint Programming Languages (MultiCPL 2003), at the 9th International Conference on Principles and Practice of Constraint Programming (CP2003), Kinsale, Ireland, Sep. 2003.
 
 - [Logic programming in the context of multiparadigm programming: the Oz experience](/publications/abstracts/LogicProgrammingOzExperience.html) (2003) Peter Van Roy, Per Brand, Denys Duchier, Seif Haridi, Martin Henz, and Christian Schulte
 
@@ -77,8 +88,7 @@ Jump to:
 - [A Foundation for Higher-order Concurrent Constraint Programming](/publications/abstracts/RR-94-16.html) (1994) Gert Smolka
 
 
-## Constraints 
-<a name="constraints"></a>
+## Constraints <a name="constraints">  </a>
 
 - [Constraint Propagation in Mozart](/publications/abstracts/TobiasMuellerDiss.html) (2001) Tobias Müller
 
@@ -132,9 +142,14 @@ Jump to:
 
 
 
-##Distribution 
-<a name="distribution"></a>
+##Distribution <a name="distribution" />
 
+- Géry Debongnie, Raphaël Collet, Sébastien Doeraene, and Peter Van Roy. [Modular Fault Handling in a Network-Transparent Language](http://www.info.ucl.ac.be/%7Epvr/weh2012_cr.pdf), 5th International Workshop on Exception Handling (WEH 12), Zurich, Switzerland, June 9, 2012.
+- Boris Mejías. [Beernet: A Relaxed Approach to the Design of Scalable Systems with Self-Managing Behaviour and Transactional Robust Storage](http://www.info.ucl.ac.be/%7Epvr/beernet-phd-cl.pdf), Ph.D. dissertation, ICTEAM Institute (formerly Department of Computing Science and Engineering), Université catholique de Louvain, Oct. 2010.
+- Boris Mejías, Alfredo Cádiz, and Peter Van Roy. [Beernet: RMI-Free Peer-to-Peer Networks](http://www.info.ucl.ac.be/%7Epvr/beernet.pdf), First International Workshop on Distributed Objects for the 21st Century, colocated with ECOOP 2009, Genova, Italy, July 7, 2009.
+- Boris Mejías and Peter Van Roy. [The Relaxed Ring: A Fault-Tolerant Topology for Structured Overlay Networks](http://www.info.ucl.ac.be/%7Epvr/relaxed-ring-ws-ppl.pdf), Journal of Parallel Processing Letters, 18(3), Sep. 2008.
+- Boris Mejías and Peter Van Roy. [A Relaxed-Ring for Self-Organising and Fault-Tolerant Peer-to-Peer Networks](http://www.info.ucl.ac.be/%7Epvr/selfman-ring.pdf), XXVI International Conference of the Chilean Computer Science Society (SCCC 2007), Iquique, Chile, Nov. 8-9, 2007.
+- Raphaël Collet and Peter Van Roy. [Failure Handling in a Network-Transparent Distributed Programming Language](http://www.info.ucl.ac.be/%7Epvr/failure2.pdf), Recent Advances in Exception Handling Techniques, Springer-Verlag LNCS volume 4119, 2006.
 
 - [The Limits of Network Transparency in a Distributed Programming Language](/publications/abstracts/ColletThesis.html) (2007) Raphaël Collet
 
@@ -148,13 +163,13 @@ Jump to:
 
 - [Le protocole réparti de Distributed Oz (In French)](/publications/abstracts/alouini98.html) (1999) Iliès Alouini and Peter Van Roy
 
-- [Efficient Logic Variables for Distributed Computing](/publications/abstracts/TOPLAS99.html) (1999) Seif Haridi, Peter Van Roy, Per Brand, Michael Mehl, Ralf Scheidhauer, and Gert Smolka
+- [Efficient Logic Variables for Distributed Computing](/publications/abstracts/TOPLAS99.html) ([PDF](http://www.info.ucl.ac.be/%7Epvr/toplas1970_cr.pdf)) (1999) Seif Haridi, Peter Van Roy, Per Brand, Michael Mehl, Ralf Scheidhauer, and Gert Smolka
 
 - [A Platform for Constructing Virtual Spaces](/publications/abstracts/virtual.html) (1998) Per Brand, Nils Franzen, Erik Klintskog, and Seif Haridi
 
 - [Programming Languages for Distributed Applications](/publications/abstracts/ngc98.html) (1998) Seif Haridi, Peter Van Roy, Per Brand, and Christian Schulte
 
-- [Mobile Objects in Distributed Oz](/publications/abstracts/TOPLAS97.html) (1997) Peter Van Roy, Seif Haridi, Per Brand, Gert Smolka, Michael Mehl, and Ralf Scheidhauer
+- Peter Van Roy, Seif Haridi, Per Brand, Gert Smolka, Michael Mehl, and Ralf Scheidhauer. [Mobile Objects in Distributed Oz](http://www.info.ucl.ac.be/%7Epvr/toplas1870.pdf) [(abstract)](/publications/abstracts/TOPLAS97.html), ACM Transactions on Programming Languages and Systems (TOPLAS), Sep. 1997, pp. 804-851.
 
 - [An Overview of the Design of Distributed Oz](/publications/abstracts/PASCO97.html) (1997) Seif Haridi, Peter Van Roy, and Gert Smolka
 
