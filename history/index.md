@@ -31,7 +31,8 @@ language. For all practical concerns use Mozart. *No longer supported*.
 ## Mozart Board
 
 Previously, Mozart development was overseen by a board of senior community 
-members. Development is now largely overseen by [Peter Van Roy](http://www.info.ucl.ac.be/people/cvvanroy.html). 
+members. Development is now managed by the [PLDC Research Group](http://www.info.ucl.ac.be/~pvr/pldc.html) at UCL.
+
 Past board members include:
 
 <table width="100%">
