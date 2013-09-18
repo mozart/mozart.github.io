@@ -17,7 +17,7 @@
       .sidebar-nav {
         padding: 9px 0;
       }
-      
+
       #mozart-logo-img {
         margin-bottom: 5px;
       }
@@ -61,7 +61,8 @@
               <li class="nav-header">Participate</li>
               <li><a href="/mailing-lists/">Mailing list</a></li>
               <li><a href="https://github.com/mozart/mozart2">Source code</a></li>
-                <li><a href="/report-a-bug">Report a bug</a></li>
+              <li><a href="/report-a-bug">Report a bug</a></li>
+	      <li><a href="/collaboration-process">Collaboration process</a></li>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
@@ -72,11 +73,11 @@
           {% comment %} <!-- The page content is inserted in this main column --> {% endcomment %}
           {{ content }}
         </div><!--/span-->
-        
+
 
 
       </div><!--/row-->
-    
+
     </div><!--/.fluid-container-->
 
     <hr>
@@ -93,7 +94,7 @@
     {% endcomment %}
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="/js/bootstrap.min.js"></script>
-    
+
     <script>
     $(document).ready(function () {
       {% comment %}
@@ -106,10 +107,10 @@
       }
       // short url match
       $('a[href="' + this.location.pathname + '"]').parent().addClass('active');
-      $('a[href="' + this.location.pathname + '/"]').parent().addClass('active');      
+      $('a[href="' + this.location.pathname + '/"]').parent().addClass('active');
       // long url match
       $('a[href="' + document.URL + '"]').parent().addClass('active');
-      $('a[href="' + document.URL + '/"]').parent().addClass('active');      
+      $('a[href="' + document.URL + '/"]').parent().addClass('active');
     });
     </script>
   </body>
