@@ -16,4 +16,4 @@ discussion, ideas, and questions about how to use Mozart.
 
 Hackers are encouraged to join [github](https://www.github.com) and subscribe to the [Mozart2 git repository](https://github.com/mozart/mozart2) by clicking on the "watch" button in the top right of the page. This gives complete access to all detailed technical discussions related to Mozart2.
 
-Free Mozart notebook stickers are sent to anyone wishing them. Email [me](setori88@gmail.com).
+Free Mozart notebook stickers are sent to anyone wishing them. Email setori88@gmail.com.
