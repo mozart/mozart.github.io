@@ -64,7 +64,7 @@ C4 is meant to provide a reusable optimal collaboration model for open source so
 * To discuss a patch, people MAY comment on the Platform pull request, on the commit, or elsewhere.
 * To accept or reject a patch, a Maintainer SHALL use the Platform interface.
 * Maintainers SHALL NOT accept their own patches.
-* Maintainers SHALL NOT make value judgments on correct patches. (As long as the oz community is small, maintainers will make careful judgements on pull request code quality.)
+* Maintainers SHALL NOT make value judgments on correct patches. (As long as the oz community is small, Maintainers will make value judgements on correct patches.)
 * Maintainers SHALL merge correct patches rapidly.
 * The Contributor MAY tag an issue as "Ready" after making a pull request for the issue.
 * The user who created an issue SHOULD close the issue after checking the patch is successful.
