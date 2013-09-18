@@ -7,6 +7,10 @@ title: Mozart collaboration process
 
 # Collective Code Construction Contract (C4)
 
+## Language
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in RFC 2119.
+
 ## Goals
 
 C4 is meant to provide a reusable optimal collaboration model for open source software projects. It has these specific goals:
