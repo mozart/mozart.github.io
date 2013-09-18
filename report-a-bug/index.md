@@ -16,7 +16,7 @@ Please include the following to help us reproduce the problem:
 
 - Mozart version
 - Operating System
-- A short piece of code, an [sscce](http://sscce.org/), that can reproduce the issue
+- A short piece of code, a [sscce](http://sscce.org/), that can reproduce the issue
 - What should happen
 - What does happen
 
