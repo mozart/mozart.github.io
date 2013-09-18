@@ -18,5 +18,6 @@ Documentation is available in several forms.
 While Wikis are not officially supported, below we list those we are aware of.
 Feel free to contribute to any of them
 
+- [Mozart 2 wiki](https://github.com/mozart/mozart2/wiki)
 - [Vendian.org wiki](http://www.vendian.org/oz/wiki/)
 - [Vendian.org Virtual Manual](http://www.vendian.org/oz/wiki/index.cgi?VirtualManual)
