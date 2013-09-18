@@ -6,7 +6,7 @@ title: Mozart collaboration process
 {% comment %} <!-- markdown formatted, see http://daringfireball.net/projects/markdown/basics --> {% endcomment %}
 
 # Collective Code Construction Contract (C4)
-(please note there is a slight difference in our Development Process section from the canonical C4 release)
+(please note our Development Process section differs slightly from the canonical C4 release)
 
 ## Language
 
