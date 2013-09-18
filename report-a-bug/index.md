@@ -16,11 +16,14 @@ Please include the following to help us reproduce the problem:
 
 - Mozart version
 - Operating System
-- A short piece of code that can reproduce the bug
-- For developers, please provide the commit SHA from the Git repository
-
+- A short piece of code that can reproduce the bug [sscce](http://sscce.org/)
+- What should happen
+- What does happen
 
 ## Feature requests
 
-Feature requests should not be reported as bugs, instead discuss them on 
-the [mailing lists](/mailing-lists).
+We do not handle feature requests but encourage you to develop and contribute them using the collaboration process below.
+
+## Collaboration process
+
+Please refer to [this](/collaboration-process) page for the collaboration process used for the development of Mozart2.
