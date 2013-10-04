@@ -94,24 +94,6 @@
     {% endcomment %}
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="/js/bootstrap.min.js"></script>
-
-    <script>
-    $(document).ready(function () {
-      {% comment %}
-      // match the path with the trailing "/" removed
-      // then select links with and without the "/" by reinserting it
-      {% endcomment %}
-      var pagepath = this.location.pathname;
-      if(pagepath.charAt( pagepath.length-1 ) == "/") {
-          pagepath = pagepath.slice(0, -1)
-      }
-      // short url match
-      $('a[href="' + this.location.pathname + '"]').parent().addClass('active');
-      $('a[href="' + this.location.pathname + '/"]').parent().addClass('active');
-      // long url match
-      $('a[href="' + document.URL + '"]').parent().addClass('active');
-      $('a[href="' + document.URL + '/"]').parent().addClass('active');
-    });
-    </script>
+    <script src="/js/highlight_nav.js"></script>
   </body>
 </html>
