@@ -20,7 +20,5 @@ Free Mozart notebook stickers are sent to anyone wishing them. Email setori88@gm
 
 ## Pre-2013 List archives
 
-There are online archives of the old mailing lists:
-
 * [Mozart Users 1998-2012](http://mozart.info.ucl.ac.be/mailman/mozart-users/)
 * [Mozart Hackers 2001-2012](http://mozart.info.ucl.ac.be/mailman/mozart-hackers/)
