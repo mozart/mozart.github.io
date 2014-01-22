@@ -29,7 +29,7 @@ network-transparent and synchronization-free programming.
 ## Mozart 1.3.2 and 1.4.0
 
 Previous versions of Mozart, in particular Mozart 1.3.2 and Mozart 1.4.0,
-remain available for legacy programming in Oz. They will be deprecated when
+[remain available to download](http://sourceforge.net/projects/mozart-oz/files/v1). They will be deprecated when
 Mozart 2 is released with constraint and distribution support.
 
 
