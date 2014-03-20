@@ -8,9 +8,11 @@ title: Mozart collaboration process
 # Collective Code Construction Contract (C4)
 (please note our Development Process section differs slightly from the canonical C4 release)
 
+The Collective Code Construction Contract (C4) is an evolution of the github.com [Fork + Pull Model](https://help.github.com/articles/using-pull-requests), aimed at providing an optimal collaboration model for free software projects. This is revision 1 of the C4 specification.
+
 ## Language
 
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in RFC 2119.
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](http://tools.ietf.org/html/rfc2119).
 
 ## Goals
 
@@ -23,8 +25,10 @@ C4 is meant to provide a reusable optimal collaboration model for open source so
 * To reduce the internal complexity of project repositories, thus making it easier for Contributors to participate and reducing the scope for error;
 * To enforce collective ownership of the project, which increases economic incentive to Contributors and reduces the risk of hijack by hostile entities.
 
+
 ## Design
 ### Preliminaries
+
 
 * The project SHALL use the git distributed revision control system.
 * The project SHALL be hosted on github.com or equivalent, herein called the "Platform".
@@ -57,20 +61,22 @@ C4 is meant to provide a reusable optimal collaboration model for open source so
 
 ### Development Process
 
+
 * Change on the project SHALL be governed by the pattern of accurately identifying problems and applying minimal, accurate solutions to these problems.
-* To initiate changes, a user SHOULD log an issue on the project Platform issue tracker.
-* The user SHOULD write the issue by describing the problem they face or observe.
-* The user SHOULD seek consensus on the accuracy of their observation, and the value of solving the problem.
+* To request changes, a user SHOULD log an issue on the project Platform issue tracker.
+* The user or Contributor SHOULD write the issue by describing the problem they face or observe.
+* The user or Contributor SHOULD seek consensus on the accuracy of their observation, and the value of solving the problem.
 * Users SHALL NOT log feature requests, ideas, suggestions, or any solutions to problems that are not explicitly documented and provable.
 * Thus, the release history of the project SHALL be a list of meaningful issues logged and solved.
 * To work on an issue, a Contributor SHALL fork the project repository and then work on their forked repository.
 * To submit a patch, a Contributor SHALL create a Platform pull request back to the project.
 * A Contributor SHALL NOT commit changes directly to the project.
+* If the Platform implements pull requests as issues, a Contributor MAY directly send a pull request without logging a separate issue.
 * To discuss a patch, people MAY comment on the Platform pull request, on the commit, or elsewhere.
 * To accept or reject a patch, a Maintainer SHALL use the Platform interface.
-* Maintainers SHALL NOT accept their own patches.
-* Maintainers SHALL NOT make value judgments on correct patches. (As long as the oz community is small, Maintainers will make value judgements on correct patches.)
-* Maintainers SHALL merge correct patches rapidly.
+* Maintainers SHOULD NOT merge their own patches except in exceptional cases, such as non-responsiveness from other Maintainers for an extended period (more than 1-2 days).
+* Maintainers SHALL NOT make value judgments on correct patches.
+* Maintainers SHALL merge correct patches from other Contributors rapidly.
 * The Contributor MAY tag an issue as "Ready" after making a pull request for the issue.
 * The user who created an issue SHOULD close the issue after checking the patch is successful.
 * Maintainers SHOULD ask for improvements to incorrect patches and SHOULD reject incorrect patches if the Contributor does not respond constructively.
@@ -105,3 +111,5 @@ C4 is meant to provide a reusable optimal collaboration model for open source so
 * Administrators MAY remove Maintainers who are inactive for an extended period of time, or who repeatedly fail to apply this process accurately.
 
 Created by Pieter Hintjens.
+
+Origin: http://rfc.zeromq.org/spec:22
