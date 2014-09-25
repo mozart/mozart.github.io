@@ -47,3 +47,4 @@ Learn by [exploring the documentation](/documentation/).
 
 The [mailing lists](/mailing-lists/) are the best way to get in touch. 
 There is also an [issue tracker](/report-a-bug/) for bug reports.
+Do pop into the #mozart-oz freenode IRC channel for a chat.
