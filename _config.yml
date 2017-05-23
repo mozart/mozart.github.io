@@ -1,7 +1,7 @@
 source: .
 destination: ./_site
-plugins:     ./_plugins
-layouts:     ./_layouts
+plugins_dir:     ./_plugins
+layouts_dir:     ./_layouts
 include:     ['.htaccess']
 exclude:     ['README.md']
 keep_files:  ['.git', '.svn']
@@ -10,7 +10,7 @@ timezone: Europe/Brussels
 # github overrides some values as follows
 safe: true
 lsi: false
-pygments: true
+highlighter: true
 
 
 redcloth:

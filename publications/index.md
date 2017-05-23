@@ -53,7 +53,7 @@ Jump to:
 
 - [QTk - A Mixed Declarative/Procedural Approach for Designing Executable User Interfaces](/publications/abstracts/ehci2001.html) (2001) Donatien Grolaux, Peter Van Roy, and Jean Vanderdonckt
 
-- [Uniform Confluence in Concurrent Computation](/publications/abstracts/Uniform:2000.html) (2000) Joachim Niehren
+- [Uniform Confluence in Concurrent Computation](/publications/abstracts/Uniform-2000.html) (2000) Joachim Niehren
 
 - [Der Oz Inspector - Browsen: Interaktiver, einfacher, effizienter](/publications/abstracts/OzInspector.html) (2000) Thorsten Brunklaus
 
