@@ -1,0 +1,400 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>Simple GUI</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H4 {	color		: slateblue; }
+H3 {	color		: #881155; }
+H5 {	color		: darkslateblue; }
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+DIV.MENU {
+	text-align	: center;
+	font-size	: small;
+}
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<H1>Simple GUI</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.coli.uni-sb.de/~koller/">Alexander Koller</A>
+</P>
+<DL>
+  <DT><B>provides</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://koller/simplegui/simplegui.ozf</SPAN>
+  <DT><B>requires</B>
+  <DD><SPAN CLASS="MODULE">
+      <a href="http://www.ps.uni-sb.de/~duchier/mogul/info/grolaux/qtk.html"> 
+	    mogul:/grolaux/qtk</a>
+      </SPAN>
+</DL>
+
+
+<H2>Purpose</H2>
+<P>
+This package provides a very simple but high-level GUI that can accept
+input as strings or Oz terms and pass it to a user-defined procedure
+for further processing. Inputs can be stored in a list and saved into
+and loaded from files. In addition, the programmer can specify menus
+that allow the user to select options, which are also passed to the
+main procedure.</p>
+
+<p>
+The main design principle of this package was to keep the interface
+specification as high-level as possible; the most low-level concept
+that the programmer has to deal with is a menu. This makes it possible
+to attach a newly built procedure to a graphical interface very
+easily, without having to think about any details of graphical
+interfaces. The flexibility of the interface is quite limited (hence
+the name). If it is not powerful enough for your needs, I recommend
+you use one of the many more powerful GUI libraries available for
+Mozart, such as <a
+href="http://www.ps.uni-sb.de/~duchier/mogul/info/grolaux/qtk.html">QTk</a>.
+At the moment, SimpleGUI builds upon QTk.</p>
+
+SimpleGUI was originally developed in the context of applications from
+computational linguistics, which shows in some choices of words. I
+wrote it because I would usually build a procedure that did something
+interesting, and got tired of having to recompile my test program
+every time I wanted to change the inputs. The interface was heavily
+inspired by, but is not technically related to, the GUI in the <a
+href="http://www.coli.uni-sb.de/cl/projects/chorus.html">CHORUS</a>
+demo system, as well as Denys Duchier's GUI for his <a
+      href="http://www.ps.uni-sb.de/~duchier/mogul/info/duchier/coli/dg.html">dependency parser</a>.<p>
+
+
+<H2>Installation</H2>
+<p>
+SimpleGUI is distributed as an <a
+	href="http://www.ps.uni-sb.de/~duchier/mogul/info/duchier/ozmake.html">ozmake</a>
+package. After the download, you can compile and install it with the
+      command
+<CODE CLASS="DISPLAY">ozmake --install --package=koller-simplegui.pkg</code>
+
+
+<H2>Overview</H2>
+<P>
+The windows that SimpleGUI can draw look as follows:</p>
+
+<p align=center>
+<img src="simplegui.gif" alt="[SimpleGUI screenshot]">
+<br>
+Fig. 1: Screenshot of a SimpleGUI application.
+</p>
+
+The basic idea of the system is that as soon as the user clicks the
+"Go!" button, a user-defined procedure (which we call the <i>Go!
+Action</i>) is called. This procedure is passed the current values of
+the text boxes just above the button. Furthermore, it is possible to
+define options for the procedure, which are represented in the
+menus. These options are also passed to the Go! action when the button
+is pressed.<p>
+
+The listbox above the textboxes contains values for the textboxes
+which were recorded earlier. The "Examples" menu has functions for
+managing the listbox: The current values can be added to the list, and
+the currently selected row can be deleted from it. Finally, the "File"
+menu has functions to save and load the contents of the listbox.<p>
+
+
+<h2>Example</h2>
+
+For an example program, see the file <a href="sgtest.oz">sgtest.oz</a>
+that accompanies this package and is automatically compiled into
+<code>sgtest.exe</code> when you run <code>ozmake</code>.
+
+
+<H2>Usage</H2>
+<p>
+The SimpleGUI window is created as follows:
+</p>
+<code class="display">
+functor
+
+import
+  SimpleGUI at 'x-ozlib://koller/simplegui/simplegui.ozf'
+
+define
+  {SimpleGUI.create Values Go Menu GlobalOptions}
+
+end
+</code>
+
+<p>
+Below, we will discuss the values that can be passed in each argument
+to the <tt>Create</tt> procedure.
+</p>
+
+
+
+<h3>Values</h3>
+
+The <code>Values</code> argument declares the values which can be entered
+via the textboxes. It is a list of value declarations of the following
+form:
+
+<code class="display">
+value(id:    Atom
+      label: VirtualString
+      type:  {ozval, string}           % default: string
+      flags: list(Flag))               % default: nil
+</code>
+      
+In the <code>id</code> field, you specify a unique id for this entry. It
+will later be used as a feature in the record that is passed to the
+Go! action.<p>
+
+In the <code>label</code> field, you specify the label that is prepended to
+the textbox in the GUI. In the screenshot above, we have used the
+<code>text</code>s <code>'Label'</code>, <code>'Semantics'</code>, and <code>'Main
+Event'</code>.<p>
+
+In the <code>type</code> field, you specify in what form SimpleGUI should
+pass the value of the textbox to your Go! procedure. If the value is
+<code>string</code> (the default), the current contents are passed
+verbatim as a string. If the value is <code>ozval</code>, it is first run
+through the Oz compiler to produce an Oz value. If the contents of the
+textbox do not specify a valid Oz value, you will get a Compiler
+exception.<p>
+
+In the <code>flags</code> field, you can specify a list of flags; the
+default is the empty list (no flags). At the moment, the following
+flags are interpreted:<p>
+<dl>
+<dt><code>editor</code> 
+<dd> If an entry has this option, a little button labeled "E" appears
+to the right of the textbox. If you have set the environment variable
+<code>EDITOR</code>, a click on this button will open an editor with
+the current values of the textbox. If you edit the value in the
+editor, save, and quit the editor, the new value will be copied into
+the textbox. (This is useful e.g. if you want to use Emacs'
+bracket-matching functionality.) If the <code>EDITOR</code> variable
+is not set, the "E" button will be disabled.
+</dl>
+
+	
+<h3>Go!</h3>
+
+As the second argument to <code>Create</code>, you pass a procedure
+that takes two arguments, e.g.
+
+<code class="display">
+    proc {$ Values Options}
+       {Inspector.inspect go(val:Values opt:Options)}
+    end
+</code>
+
+This procedure is called whenever you click the "Go!" button in the
+SimpleGUI window. In the first argument, the procedure is passed a
+record containing the current values of the textboxes. For each of
+them, the record has a feature with the <code>id</code> of the value,
+and the value at this feature is the current value of the textbox,
+interpreted according to the entry's <code>type</code>.<p>
+
+In the second argument, the procedure is passed a record describing
+the current state of the options in the menus. For each (Boolean or
+file choice) option menu entry, the record has a feature with the
+option's <code>id</code>, and the value at this feature is the current
+value of the option (i.e. either a Boolean or a string).<p>
+
+
+<h3>Menu</h3>
+
+The SimpleGUI window always has two menus labeled "File" and
+"Examples". The first menu contains entries for loading and saving the
+examples list as an Oz pickle, and for quitting the program. The
+second menu contains functions for adding and deleting entries from
+the examples list.<p>
+
+However, you can add more menus if you like. Menu entries can either
+be bound to a procedure, which is called when you select the menu
+entry, or they can be linked to an option, whose value is
+automatically passed to the Go! action and to Menu actions.<p>
+
+You do this by passing as the third argument of <code>Create</code> a
+(potentially empty) list of menu definitions as follows:
+
+<code class="display">
+menu(label:   VirtualString
+     entries: list(MenuEntry))
+</code>
+
+A menu entry is a term of one of three types: a (Boolean) option, a
+file choice option, or an action. Each menu entry must specify a
+<code>label</code>, which is the label shown in the menu on the
+screen. It may also specify an <code>accelerator</code>, a keystroke
+which can be used to access the menu entry more quickly (see the <a
+href="http://www.ps.uni-sb.de/~duchier/mogul/doc/grolaux/qtk/node41.html">QTk
+documentation</a> for a definition of valid accelerator descriptions).
+Finally, the option entries all have <code>id</code> features, which
+must be unique and are used to identify the option in the options
+record passed to actions.
+
+<h4>Boolean Options</h4>
+<code class="display">
+option(id:          Atom
+       default:     Boolean
+       label:       VirtualString
+       accelerator: AcceleratorDefinition)
+</code>
+
+Boolean options allow the user a Boolean choice between two options
+(on and off). They are realized as menu entries with little
+checkboxes.
+
+
+<h4>File Choice Options</h4>
+<code class="display">
+filechoice(id:          Atom
+           label:       VirtualString
+           accelerator: AcceleratorDefinition
+           default:     VirtualString)
+</code>
+
+File choice options allow the user to select a file, using the Tcl/Tk
+file choice dialogue. The name of this file is then passed to actions
+in the feature for this option.
+
+
+<h4>Actions</h4>
+<code class="display">
+action(label:       VirtualString
+       accelerator: AcceleratorDefinition
+       action:      Proc/2)
+</code>
+
+When the user selects this menu entry, the procedure specified in the
+<code>action</code> feature is called. The procedure is passed the
+current values of the textboxes and of the options in two records, in
+the same way as the Go! action. Action menu entries don't need an
+<code>id</code> feature because they don't define options which could
+be passed to other actions.
+
+
+<h3>Global Options</h3>
+
+In the fourth and final argument to the <code>Create</code> function,
+you can pass a record that sets some global options which e.g. control
+the display of the SimpleGUI window. If you do not want to set any
+options, just pass an atom or <code>unit</code>. At the moment,
+SimpleGUI handles the following features in this argument:<p>
+
+<dl>
+<dt><code>title</code> 
+<dd> (default: <code>'SimpleGUI Window'</code>)
+The window title.<p>
+
+<dt><code>width</code>
+<dd> (default: 40)
+The width of the window, in characters.<p>
+
+<dt><code>golabel</code>
+<dd> (default: <code>'Go!'</code>)
+The label of the Go! button.<p>
+
+<dt><code>autoload</code>
+<dd> (default: not defined)
+If you pass a virtual string under this feature, SimpleGUI will
+attempt to load the file specified by the virtual string, as if
+you had selected it from the File/Load menu.
+</dl>
+
+
+
+<h2>Exceptions</h2>
+
+The package throws the following exceptions:<p>
+
+<dl>
+<dt>
+<code>saveload(error:cantOpen path:Path filename:Filename)</code>
+<dd>The file you selected in a File/Load dialogue can't be opened
+(for whatever reasons).<p>
+
+<dt><code>saveload(error:cantSaveIn pathname:Pathname path:Path filename:Filename)</code>
+<dd>The file you selected in a File/Save dialogue can't be written into
+(for whatever reasons).<p>
+
+<dt><code>textboxes(error:unknownType fct:getValues type:Type)</code>
+<dd>You specified an invalid type <code>Type</code> for one of the values you
+	passed to <code>Create</code>.<p>
+</dl>
+     
+
+
+
+
+<h2>Portability</h2>
+
+SimpleGUI was developed under Linux. I haven't tested it on other
+platforms, but I believe it should run wherever Mozart and ozmake
+run. If you can confirm or deny this, please <a
+href="mailto:koller@coli.uni-sb.de">let me know</a>.
+
+
+
+<h2>Bugs</h2>
+
+As this is the first public version of SimpleGUI, I'm sure it contains
+too many bugs to mention. If you find one, I'd appreciate if you could
+<a href="mailto:koller@coli.uni-sb.de">let me know</a> so I can fix
+it.<p>
+
+What is <i>not</i> a bug is that the interface is simple and not very
+flexible; I deliberately wanted to keep the complexity down. I'd love
+to hear your suggestions on how to improve the package, but please
+keep this proviso in mind.<p>
+
+One bug I'm aware of is that after an update of Mozart, you will not
+be able to read your old saved example lists any more. This is because
+I have implemented saving and loading with Oz pickles for convenience,
+and pickles aren't binary compatible between different versions of
+Mozart. I want to correct this in the next release.<p>
+
+
+
+
+<HR>
+<ADDRESS>
+<A HREF="http://www.coli.uni-sb.de/~koller/">Alexander Koller</A>
+</ADDRESS>
+</BODY>
+</HTML>

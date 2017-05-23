@@ -1,0 +1,268 @@
+<TITLE>A generic open, robust, distributed, concurrent client/server (version 0.5)</TITLE>
+<H1>A generic open, robust, distributed, concurrent client/server (version 0.5)</H1>
+
+<pre>
+by Peter Van Roy
+
+Department of Computing Science and Engineering
+Université catholique de Louvain
+B-1348 Louvain-la-Neuve, Belgium
+
+
+Introduction
+------------
+
+This tool takes a centralized, sequential client/server application
+written in Oz and, without writing any new code, turns it into an
+open, robust, distributed, concurrent client/server application.  In
+the distributed version, any number of clients can connect dynamically
+to the server and ask questions concurrently.  The tool guarantees
+that all client requests are serialized when fed to the server.
+
+In this version of the tool, the server tolerates client failures (it
+silently drops failed clients) and clients can reconnect to a new
+server if the server fails (a graphic interface is provided to handle
+the reconnection process).  This is adequate for client/server
+applications without server state.  The tool can be extended to do
+more sophisticated fault tolerance.
+
+This tool can be extended in many ways.  Currently, the tool does not
+protect against the server going into an infinite loop (it could,
+though, be extended to ask the server to interrupt execution, upon
+request from a client).  Another possible extension is to provide
+redundancy (multiple servers), with the client choosing automatically
+to find a working one.  A third possible extension is to add
+persistence to the server, to allow fault-tolerant client/server
+applications with state.
+
+
+Writing the application
+-----------------------
+
+The application must be logically divisible into two parts: a server
+and a client.  Typically, the client has the user interface and the
+server has the engine that does the calculation.  The interface
+between the two must be through a one-argument function, {Q E}, which
+when given input E, returns the result of the calculation.  It does
+not matter what the types of the argument and result are, except
+that they must be stateless.  That is, they can be any combination of
+data structures that do not change (like records, lists, numbers,
+atoms, strings, procedures, functions, functors, and classes) but
+they should not contain any stateful data (like objects, ports,
+dictionaries, unbound variables, and resources).
+
+The application can then be written as two functors.  We assume that
+the centralized client/server is written as follows:
+
+Server.oz:
+
+   functor
+   import [import list]
+   export query:Q
+   define
+      [body to define Q]
+   end
+
+Client.oz:
+
+   functor
+   import Server [other imports]
+   define
+      Q=Server.query
+      [body that uses Q]
+   end
+
+With this structure, one can compile Client.oz, which imports
+Server and gives a centralized, sequential application.  This
+structure is fine for a centralized client/server, but it is
+not quite write for the tool, because the server is hardwired
+in the client code.  For the tool, the client should be written 
+so that it is independent of the server:
+
+Client2.oz:
+
+   functor
+   import [other imports]
+   export query:Q
+   define
+      Q
+      thread
+         [body that uses Q]
+      in skip end
+   end
+
+This second version is better because it does not import the
+server.  It just exports its interface, the variable Q, which
+will be bound to the server's query function.  The body of
+Client2 should not block--one way of guaranteeing this is to
+put the part that uses Q in its own thread.  From the software
+engineering viewpoint, Client2.oz is the right way to write a
+client.
+
+
+Using the tool
+--------------
+
+We are given two functors, Client2.oz and Server.oz, as explained
+above.  First the two functors must be compiled:
+
+   % ozc -c Client2.oz
+   % ozc -c Server.oz
+
+This creates two compiled functors, Client2.ozf and Server.ozf.  These
+functors will be input to the tool's two executables, dserver* and
+dclient*.  To create a server, call:
+
+   % dserver --in=Server.ozf --publish=FileName
+
+This starts up a server and makes it accessible through file name
+FileName.  (The server must have write access to the file.)
+
+To create a client, call:
+
+   % dclient --in=Client2.ozf --connect=FNorURL
+
+This starts up a new client anywhere on the Internet and connects it
+to the server.  FNorURL is a file name or URL that directly or
+indirectly references the file FileName.  Any number of clients can be
+created.
+
+
+Compiling the tool
+------------------
+
+The tool comes as two source files, dserver.oz and dclient.oz.  Each
+must first be compiled and then linked with all its imported functors.
+This has to be done once only, when installing the tool.  Note that
+dclient.oz requires the QTk module (available through MOGUL).
+
+   % ozc -c dserver.oz
+   % ozl -x dserver.ozf -o dserver
+
+   % ozc -c dclient.oz
+   % ozl -x dclient.ozf -o dclient
+
+This creates the two executables dserver* and dclient*.
+
+
+An example
+----------
+
+We give an example application to show how the tool works.  Our
+example application is very simple: the client types arithmetic
+expressions which are evaluated by the server and the results are
+displayed by the client.
+
+The original program has two functors, whose source code is in
+Server.oz and Client.oz.
+
+Server.oz:
+
+   functor
+   import Compiler
+   export query:Q
+   define
+      fun {Q E} 
+         try
+            {Compiler.evalExpression E env _} 
+         catch X then
+            % The exception's 'debug' field contains a huge amount of
+            % information, which causes a large transmission delay.
+            % Removing the field avoids this delay:
+            raise {AdjoinAt X debug 'REMOVED'} end
+         end
+      end
+   end
+
+Client.oz:
+
+   functor
+   import Server Application QTk
+   define
+      Q=Server.query
+      In Out H
+      D=td(title:"Oz super expression evaluator"
+           tdrubberframe(glue:nswe
+             lr(glue:nswe
+                label(text:"Expression")
+                text(handle:In glue:nswe))
+             lr(glue:nswe
+                td(label(text:"Result")
+                   label(text:"DONE" bg:green handle:H))
+                text(handle:Out glue:nswe tdscrollbar:true)))
+           lr(glue:we
+              button(glue:we text:"Eval"
+                     action: proc {$}
+                             V in
+                                try
+                                   {H set(text:"CALCULATING" bg:red)}
+                                   V={Q {In get($)}}
+                                   {Out set(V)}
+                                catch _ then
+                                   {Out set("*** Syntax Error ***")}
+                                finally
+                                   {H set(text:"DONE" bg:green)}
+                                end
+                             end)
+              button(glue:we text:"Quit"
+                     action:toplevel#close)))
+      W={QTk.build D}
+      {W show(wait:true)}
+      {Application.exit 0}
+   end
+
+Compiling and executing Client.oz runs the centralized client/server
+application.  Now modify Client.oz to give Client2.oz:
+
+Client2.oz:
+
+   functor
+   import Application QTk
+   export query:Q
+   define
+      Q
+      thread
+         In Out H
+         ...
+         {Application.exit 0}
+      in skip end
+   end
+
+Now compile Server.oz and Client2.oz, creating Server.ozf and
+Client2.ozf.  Then create a server with:
+
+   % dserver --in=Server.ozf --publish=tick &
+
+The server can be accessed through the file 'tick'.  Create a client
+with:
+
+   % dclient --in=Client2.ozf --connect=tick &
+
+You can create as many clients as you wish to access one server.  The
+only bottleneck is the server performance.  If the file 'tick' can be
+accessed through a URL (e.g., it is in a public_html directory), then
+anyone on the Internet can use the server.
+
+By the way, this example application is quite powerful.  It has the
+full power of Mozart's incremental compiler and infinite precision
+integer arithmetic.  For example, you can calculate 100! (factorial)
+by entering the following expression:
+
+   local
+      fun {F N} if N==0 then 1 else N*{F N-1} end end
+   in
+      {F 100}
+   end
+
+
+Acknowledgements
+----------------
+
+The original idea for this package is from Mahmoud Rafea and Seif
+Haridi.  They developed a distributed version of an expert system for
+diagnosing cow disorders, based on extending a centralized version.
+For more information on this application see the draft paper "From A
+Mozart Centralized Application To A Fault Tolerant Distributed
+System", by Mahmoud Rafea and Seif Haridi.
+
+</pre>

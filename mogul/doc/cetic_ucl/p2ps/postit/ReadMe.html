@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+                                       
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  <title>P2P PostIt/ReadMe</title>
+</head>
+ <body bgcolor="#FFFFFF">
+ 
+
+<i>last update on 29 Oct. 2003</i>
+<br>
+<div align="Justify">
+<div align="Center"> 
+<h1><u>PostIt Application (vs 2.0)</u></h1>
+ </div>
+ 
+<div align="Left"> 
+<h2>Description</h2>
+ </div>
+ 
+<div align="Left">PostIt is an example of the appliance of the peer-to-peer (P2P) technology to area of collaborative work. It is a graphical application where users share a board for publishing postits (short time lived texts). It is written in <a href="">Mozart</a>.
+<br>
+<br>
+PostIt uses the <b>P2PS</b> library (available <a href="/mogul/info/cetic_ucl/p2ps.html">here</a>).
+<b>P2PS</b> is a P2P library implementing a distributed hash table, called <i>Tango</i></a>.
+<br>
+<br>
+ 
+<h2>Program retrieving and compilation</h2>
+<!-- Either you download <a href="PostIt_2.0.tar.gz">the PostIt_2.0.tar.gz sources</a> and compile them, or if you are running Mozart version 1.2.5, the simplest way consists in downloading a binary package <a href="PostIt.exe"><b>PostIt.exe</b></a>. <br> -->
+<i>The PostIt code is no more compatible with the new P2PS library. If you really want it, we can provide it for you; just let us know.</i> 
+<br>
+The PostIt application requires the QTk.ozf functor for graphical display. Usually Mozart distributions include the QTk module. However you can have QTk module either by installing the <a href="/download/view.cgi">standard Mozart library</a>, or by taking it from <a href="/mogul/">Mogul</a>.
+ <br>
+ 
+<h2>PostIt invocation and use</h2>
+You can invoke the precompiled PostIt by typing: "ozengine PostIt.exe". This will call the right <i>oz engine</i> on different OSs.
+<br>
+If you choosed to compile the application yourself, you can invoke it by simply typing: "PostIt".
+<br>
+Then, if everything goes right, the Profile Edition window will be displayed inviting you to enter a user name.
+Note that you can choose the desired character font size by invoking the application with the parameter --fs=<i>font_size</i>. 
+<br>
+ <img src="EditProfile.jpg" alt="Edit Profile Image" width="237" height="102" hspace="20" vspace="20" align="Center">
+ <br>
+ <br>
+         The user name will be used by the system to fill in the sender field
+ of  all   messages that you will send during the PostIt session. Note, you
+can change your user name during one session. Once you entered your user
+name, click  on the OK button to register. <br>
+ <br>
+         The next appearing window is the main PostIt window.<br>
+ <img src="MailDisplay.jpg" alt="Main Postit window" width="528" height="510" hspace="20" vspace="20">
+ <br>
+ <br>
+This main window is composed of three sections : menu, message display, 
+and  node status. 
+ <br>
+The File menu will allow you to create new messages and
+to exit the application while the edit menu will allow you to edit the
+user  profile.  
+ <br>
+The second section (message display) is composed by 3 sub-sections: Mail  Folders List (default Inbox), Message Header List and Message.
+The mail folders list shows you the available mail folders and the amount
+of unread messages in each folders. Currently only one folder exists (Inbox)
+and you are not allowed to create a new one. 
+ <br>
+The second sub-section displays
+the list of messages  header contained in the selected folders (<b>bold
+font</b> = unread message).  
+The third sub-section displays the message
+selected  in the Message Header  List. 
+Finally, the third section displays
+the node status: <i>Connected</i> is <b>true</b> if the node is member of the PostIt network; <i>Externally reachable</i> is <b>true</b> if the node is member of the PostIt network as a peer node (not as a client to a proxy); and <i>Proxy clients</i> is the number of nodes (usually behind fire-walls) using your PostIt application as a Proxy to connected to the PostIt network.  
+<br>
+Note that even if you are not connected to the PostIt network you can compose messages by selecting new messages in the file menu or by clicking
+with the right mouse button on the message display area.  
+<br>
+ <img src="Compose.jpg" alt="Compose Message Window" width="369" height="214" hspace="20" vspace="20">
+ <br>
+The compose message window allows the user to specify the subject
+ and the  body of the message. Moreover, the user can choose the duration
+ of the message on the PostIt board (by default 15 minutes). The duration of a message is the  amount of time  the message will stay inside the system. Once this period is passed, the  message will automatically disappear from the
+system.  Once you finish editing the message, click on send to transmit it to
+all the  PostIt community or click on cancel if you changed your mind.<br>
+ <br>
+The latest graphical component is the Connection one that you can
+ display    by selecting it in the main window panel.
+<br>
+ <img src="Connection.jpg" alt="Connection Window" width="446" height="341" hspace="20" vspace="20">
+ <br>
+There you can see the Peers cache. The peers cache display the address 
+of well known peer node. This cache is used if the auto connection is 
+activated (actually this feature is not yet implemented). If the auto connection is  not activated or failed, you can connect your application to the PostIt
+network   by entering the address and the port number of a known peer in
+the bottom-right   entry widget (PeerAddress@PortNumber). Click on Connect
+to perform the connection.   During the connection establishment, the Connecting Status is <i>In Progress...</i>,   once the connection is established, the Connecting Status is <i>Connection Succeeded</i> while if the connection could not be established,
+the Connecting Status is <i>Connection Failed</i>.  <br>
+<br>
+ </div>
+ </div>
+ 
+</body>
+</html>

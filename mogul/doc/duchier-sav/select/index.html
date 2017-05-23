@@ -1,0 +1,222 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>Selection Constraint</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H4 {	color		: slateblue; }
+H3 {	color		: #881155; }
+H5 {	color		: darkslateblue; }
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<H1>Selection Constraint</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ps.uni-sb.de/~duchier/">Denys Duchier</A>
+</P>
+<DL>
+  <DT><B>provides</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://duchier/cp/Select.ozf</SPAN>
+</DL>
+<HR>
+
+<H2>Purpose</H2>
+<P>
+The idea of the <EM>selection constraint</EM> is based on the
+intuitive notion of selecting the <CODE>I</CODE>th element out of a
+sequence of values.  Abstractly, we might write this as
+follows:
+<CODE CLASS="DISPLAY">X = &lt;V1 ... Vn&gt;[I]</CODE>
+However, this is more than just:
+<CODE CLASS="DISPLAY">X = {Nth [V1 ... Vn] I}</CODE>
+because it is intended to function as a constraint: all of
+<CODE>X</CODE>, <CODE>V1</CODE>, ..., <CODE>Vn</CODE>, and
+<CODE>I</CODE> can be variables (e.g. finite set variables). In
+particular, constraining <CODE>X</CODE> should restrict the values
+that <CODE>I</CODE> may take to only those positions in 1..n
+corresponding to elements <CODE>Vk</CODE> that are not yet
+inconsistent with <CODE>X</CODE>.  Conversely, if all elements that
+may still be selected by <CODE>I</CODE> have a basic constraint in
+common, the latter should be propagated to <CODE>V</CODE>.  This
+lifting of common information is a form of <EM>constructive
+disjunction</EM>.
+<P>As of version 1.3, this package also provides the <EM>selection
+union constraint</EM>:
+<CODE CLASS="DISPLAY">S = U&lt;S1 ... Sn&gt;[SI]</code>
+where <code>SI</code> is a set variable of indices.  Its declarative
+semantics is that <code>S</code> is the union of the sets
+<CODE>Si</CODE> for all <CODE>i</CODE> in <CODE>SI</CODE>.
+<P>As of version 1.5, this package also provides the <EM>selection
+intersection constraint</EM>:
+<CODE CLASS="DISPLAY">S = &amp;&lt;S1 ... Sn&gt;[SI]</CODE>
+where <code>SI</code> is a set variable of indices.  Its declarative
+semantics is that <code>S</code> is the intersection of the sets
+<CODE>Si</CODE> for all <CODE>i</CODE> in <CODE>SI</CODE>.
+<P>As of version 1.6, this package provides the <EM>sequenced union
+constraint</EM>:
+<CODE CLASS="DISPLAY">S = (&lt;&lt;U)&lt;S1 ... Sn&gt;</CODE>
+where <CODE>S</CODE> is the union of the sets <CODE>Si</CODE> which are
+additionally constrained to be sequential, i.e. for
+<code>i&lt;j</code> all elements of <code>Si</code> are smaller than
+elements of <code>Sj</code>.
+<P>Version 1.8 - added <em>indexed union constraint</em>:
+<CODE CLASS="DISPLAY">S = IU&lt;(I1,S1) ... (In,Sn)&gt;[SI]</CODE> which returns the union of
+the <code>Sk</code> for <code>Ik</code> in <code>SI</code>.
+
+<H2>Usage</H2>
+<P>
+This package implements the selection constraint for homogenous
+vectors of finite domains or of finite sets, and the selection union
+constraint.  It is available as a
+module that exports features <CODE>fd</CODE>, <CODE>fs</CODE>,
+and <CODE>union</CODE>:
+<P>
+<DL>
+  <DT><CODE><SPAN CLASS="KEYWORD">import</SPAN> Select(fd fs union) <SPAN CLASS="KEYWORD">at</SPAN> <SPAN CLASS="STRING">'x-ozlib://duchier/cp/Select.ozf'</SPAN></CODE><P>
+  <DT><CODE>{Select.fd L I D}</CODE>
+  <DD><CODE>L</CODE> must be a vector (list, tuple, record) of
+  integers and/or finite domain variables.  <CODE>I</CODE> and
+  <CODE>D</CODE> are nestable and will be constrained to finite domain
+  variables if necessary.<P>
+  <DT><CODE>{Select.fs L I S}</CODE>
+  <DD><CODE>L</CODE> must be a vector of finite set values or
+  variables.  Again, <CODE>I</CODE> and <CODE>S</CODE> are nestable
+  and will be constrained respectively to a finite domain variable and
+  a finite set variable if necessary.<P>
+  <DT><CODE>{Select.union L SI S}</CODE>
+  <DD><CODE>L</CODE> must be a vector of finite set values or
+  variables, <CODE>SI</CODE> a set value/variable selecting positions
+  in <CODE>L</CODE>.  Both <CODE>SI</CODE> and <CODE>S</CODE> are
+  nestable.
+  <DT><CODE>{Select.inter L SI S}</CODE>
+  <DD><CODE>L</CODE> must be a vector of finite set values or
+  variables, <CODE>SI</CODE> a set value/variable selecting positions
+  in <CODE>L</CODE>.  Both <CODE>SI</CODE> and <CODE>S</CODE> are
+  nestable.
+  <DT><CODE>{Select.seqUnion L S}</CODE>
+  <DD><CODE>S</CODE> is the union of the <CODE>Si</CODE> in
+  <CODE>L</CODE>. Furthermore the <CODE>Si</CODE> are constrained to
+  be sequential, i.e. for <code>i&lt;j</code>, all elements of
+  <code>Si</code> must be smaller than elements of <code>Sj</code>.
+  <DT><CODE>{Select.indexedUnion L SI S}</code>
+  <DD><CODE>L</CODE> is either a list of <CODE>Ik#Sk</CODE> where
+  <CODE>Ik</CODE> is an integer and <CODE>Sk</CODE> is a FS variable,
+  or a record mapping features <CODE>Ik</CODE> to values
+  <CODE>Sk</CODE>.  <CODE>S</CODE> is constrained to be the union of
+  the <CODE>Sk</CODE> for <CODE>k</CODE> in <CODE>SI</CODE>.
+</DL>
+<P>As of version 1.5, the <code>Select</code> module also exports
+features <code>fdom</code> and <code>fset</code> to distinguish
+between constraints according to the type of the sequence:
+<P>
+<DL>
+  <DT><CODE>{Select.fdom.nth L I J}</code>
+  <DT><CODE>{Select.fset.nth L I S}</code>
+  <DT><CODE>{Select.fset.union L SI S}</code>
+  <DT><CODE>{Select.fset.inter L SI S}</code>
+  <DT><CODE>{Select.fset.seqUnion L S}</code>
+  <DT><CODE>{Select.fset.indexedUnion L SI S}</CODE>
+</DT>
+
+<H2>Example</H2>
+<P>
+Here is an example to help clarify what the selection constraint can
+do for you.  Let's import the module implementing the selection
+constraint:
+<CODE CLASS="DISPLAY"><SPAN CLASS="KEYWORD">declare</SPAN> [Select]={Module.link [<SPAN CLASS="STRING">'x-ozlib://duchier/cp/Select.ozf'</SPAN>]}
+</CODE>
+Now we create 3 sets <CODE>S1</CODE>, <CODE>S2</CODE>,
+<CODE>S3</CODE>, and an index <CODE>I</CODE> ranging from 1 to 3 to
+select one of them.  <CODE>S1</CODE> contains just 5, <CODE>S2</CODE>
+contains 1 and 21, and <CODE>S3</CODE> contains 1 and 77:
+<CODE CLASS="DISPLAY">
+<SPAN CLASS="KEYWORD">declare</SPAN>
+S1 = {FS.value.make [5]}
+S2 = {FS.value.make [1 21]}
+S3 = {FS.value.make [1 77]}
+I I::1#3
+</CODE>
+Now we define <CODE>S</CODE> to be the <CODE>I</CODE>th element of the
+sequence of finite sets <CODE>[S1 S2 S3]</CODE>:
+<CODE CLASS="DISPLAY"><SPAN CLASS="KEYWORD">declare</SPAN> S = {Select.fs [S1 S2 S3] I}
+</CODE>
+Using <CODE>Show</CODE>, here is what is currently known about
+<CODE>S</CODE> and <CODE>I</CODE>:
+<CODE CLASS="DISPLAY">S{{}..{1 5 21 77}}#{1#2}
+I{1#3}
+</CODE>
+Thus it is already known that <CODE>S</CODE> can have at most as
+elements integers 1, 5, 21 and 77; i.e. this information has been lifted
+to <CODE>S</CODE>.  Now let's explicitly remove element 5:
+<CODE CLASS="DISPLAY">{FS.exclude 5 S}
+</CODE>
+Now, here is what is known:
+<CODE CLASS="DISPLAY">S{{1}..{1 21 77}}#2
+I{2 3}
+</CODE>
+In other words, it has been noticed that <CODE>I=1</CODE> would be
+inconsistent, thus this value has been removed from the domain of
+<CODE>I</CODE>.  Furthermore <CODE>S</CODE> is now known to contain 1
+and maybe 21 and 77.  It is known to contain 1 because only
+<CODE>S2</CODE> and <CODE>S3</CODE> remain as possibilities and both
+contain 1.
+
+<H2>Installation</H2>
+<P>Starting 5 Oct 2001, this contribution is only distributed as an
+<a
+   href="http://www.ps.uni-sb.de/~duchier/mogul/doc/duchier/ozmake/index.html"
+><file>ozmake</file></a> package.  To install this package, download
+it to a local file e.g. <file>duchier-select.pkg</file> on your
+computer, then invoke:
+<code class="DISPLAY">ozmake --install --package=duchier-select.pkg</file></code>
+If this package was already installed on your computer and you want to
+upgrade to a newer version, invoke:
+<code class="DISPLAY">ozmake --upgrade --package=duchier-select.pkg</file></code>
+or else <file>ozmake</file> will complain.  By default
+<file>ozmake</file> installs all files in the user's
+<file>~/.oz</file> directory tree.
+<HR>
+<ADDRESS>
+  <A HREF="http://www.ps.uni-sb.de/~duchier/">Denys Duchier</A>
+</ADDRESS>
+</BODY>
+</HTML>

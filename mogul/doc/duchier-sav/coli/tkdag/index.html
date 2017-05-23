@@ -1,0 +1,224 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>TkDAG</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H4 {	color		: slateblue; }
+H3 {	color		: #881155; }
+H5 {	color		: darkslateblue; }
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "Andale Mono","lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<H1>TkDAG</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ps.uni-sb.de/~duchier/">Denys Duchier</A>
+</P>
+<DL>
+  <DT><B>provides</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://duchier/coli/TkDAG.ozf</SPAN>
+</DL>
+<HR>
+
+<H2>Purpose</H2>
+<P>This module implements support for graphically displaying word-DAGs.
+A word-DAG is a Directed Acyclic Graph where the nodes correspond to
+the words of a sentence.  Essentially, this means that we will present
+the nodes arranged horizontally in a sequential fashion, but at different
+heights depending on their depth in the DAG, and with down-slanted (directed)
+edges between them.
+
+<H2>Usage</H2>
+
+<H3><CODE>TkDAG</CODE> Frame Objects</H3>
+<P>A frame for displaying word-DAGs is created as follows:
+<CODE CLASS="DISPLAY">{New TkDAG.'class' init(parent:WINDOW tkDAG:OPTIONS) ?FRAME}</CODE>
+where the <CODE>tkDAG:OPT</CODE> is optional.  <CODE>OPTIONS</CODE> is an
+<I>options database</I> (documented later) and permits to control the
+way word-DAGs are displayed.  It's role at frame-creation time is minimal (stipulates
+a color for the canvas background while it is still empty).
+
+<P>Now your <CODE>FRAME</CODE> is ready for displaying word-DAGs:
+<CODE CLASS="DISPLAY">{FRAME show(NODES EDGES OPTIONS)}</CODE>
+where <CODE>NODES</CODE> is a list of node descriptions, <CODE>EDGES</CODE> a
+list of edge descriptions, and <CODE>OPTIONS</CODE> is an options database.
+
+<P><CODE>NODES</CODE> is a list of records of the form:
+<CODE CLASS="DISPLAY">o(index:I string:S1 label:S2)</CODE>
+The <CODE>index</CODE> feature represents the position of the word in
+the sentence and uniquely identifies the node: nodes are assumed to be
+numbered consecutively from 1 to N (although they do not need to be given
+in this order in list <CODE>NODES</CODE>).  The <CODE>string</CODE> feature
+provides a string which is the written form of the word.  Finally,
+feature <CODE>label</CODE> is optional, and, when given, provides a
+node label.
+
+<P><CODE>EDGES</CODE> is a list of records of the form:
+<CODE CLASS="DISPLAY">o(src:I dst:J label:S)</CODE>
+where feature <CODE>src</CODE> gives the index of the source node
+and feature <CODE>dst</CODE> the index of the destination node.
+Feature <CODE>label</CODE> is optional, and, when given, provides
+a label for the edge.
+
+<H3>Options Databases</H3>
+<P>An option database can be created as follows:
+<CODE CLASS="DISPLAY">{TkDAG.newOptions ?OPTIONS}</CODE>
+or by invoking the <CODE>clone</CODE> operation of an existing
+options database:
+<CODE CLASS="DISPLAY">{OPTIONS.clone ?OPTIONS2}</CODE>
+Such a database consists essentially of nested dictionaries
+which can be modified through feature assignment.  The
+keys meaningful to <CODE>TkDAG</CODE> together with their default
+values are described below:
+<DL>
+<DT><CODE>OPTIONS.table.bg : ivory</CODE>
+<DD>background color for the canvas in which word-DAGs are displayed<P>
+<DT><CODE>OPTIONS.table.word.font.family : helvetica</CODE><BR>
+<CODE>OPTIONS.table.word.font.weight : bold</CODE><BR>
+<CODE>OPTIONS.table.word.font.size   : 12</CODE>
+<DD>font for the written form of words<P>
+<DT><CODE>OPTIONS.table.word.color : black</CODE>
+<DD>color for the written form of words<P>
+<DT><CODE>OPTIONS.table.word.vsep : 20</CODE>
+<DD>minimum height of the vertical line drawn between the written
+form of a word and its corresponding node<P>
+<DT><CODE>OPTIONS.table.label.font.family : courier</CODE><BR>
+<CODE>OPTIONS.table.label.font.weight : normal</CODE><BR>
+<CODE>OPTIONS.table.label.font.size   : 12</CODE>
+<DD>font for the labels<P>
+<DT><CODE>OPTIONS.table.edge.color : black</CODE>
+<DD>color for the labels<P>
+<DT><CODE>OPTIONS.table.edge.pos : edge</CODE>
+<DD>where to place an edge label.  If the value is <CODE>edge</CODE>, then
+the label is centered in the middle of the edge.  If the value is
+<CODE>node</CODE>, then the label is displayed just above the destination
+node<P>
+<DT><CODE>OPTIONS.table.vstep : 20</CODE>
+<DD>vertical distance between two consecutive nesting levels in the DAG<P>
+<DT><CODE>OPTIONS.table.hstep : 20</CODE>
+<DD>minimum separation between consecutive words<P>
+<DT><CODE>OPTIONS.table.margin.top    : 20</CODE><BR>
+<CODE>OPTIONS.table.margin.bottom : 20</CODE><BR>
+<CODE>OPTIONS.table.margin.left   : 20</CODE><BR>
+<CODE>OPTIONS.table.margin.right  : 20</CODE>
+<DD>margins to leave in the canvas around the graphical
+display of the DAG<P>
+<DT><CODE>OPTIONS.table.vline.color : orange</CODE><BR>
+<CODE>OPTIONS.table.vline.width : 2</CODE>
+<DD>color and width of the vertical line drawn between the written
+form of a word and its corresponding node<P>
+<DT><CODE>OPTIONS.table.vline.omitable : true</CODE>
+<DD>whether to omit drawing the vertical line if the node is isolated<P>
+<DT><CODE>OPTIONS.table.sline.color : slateblue</CODE><BR>
+<CODE>OPTIONS.table.vline.width : 2</CODE>
+<DD>color and width of the slanted edges drawn between nodes
+</DL>
+
+<H2>Example</H2>
+<P>First, let's create a <CODE>TkDAG</CODE> frame hosted in a toplevel Tk window:
+<pre><CODE CLASS="DISPLAY">declare [TkDAG]={Link ['x-ozlib://duchier/coli/TkDAG.ozf']}
+W1={New Tk.toplevel tkInit(title:'Foo')}
+W2={New TkDAG.'class' tkInit(parent:W1)}
+{Tk.batch [grid(columnconfigure W1 0 weight:1)
+           grid(rowconfigure W1 0 weight:1)
+           grid(W2 row:0 column:0 sticky:nswe)]}
+OPT={TkDAG.newOptions}</CODE>
+</pre>
+Now, we can display a dependency analysis of the sentence <TT>mary pretends to
+read a book</TT> as follows:
+<TABLE>
+<TR>
+<TD>
+<pre>
+<CODE CLASS="DISPLAY">
+{W2 show([o(index:1 string:mary)
+          o(index:2 string:pretends)
+          o(index:3 string:to)
+          o(index:4 string:read)
+          o(index:5 string:a)
+          o(index:6 string:book)]
+         [o(src:2 dst:1 label:subj)
+          o(src:2 dst:4 label:vinf)
+          o(src:4 dst:3 label:part)
+          o(src:4 dst:6 label:obj)
+          o(src:6 dst:5 label:det)]
+         OPT)}
+</CODE>
+</pre>
+</TD>
+<TD><IMG src="syntax.gif"></TD>
+</TR>
+</TABLE>
+A corresponding graph of thematic role dependencies is obtained as follows:
+<TABLE>
+<TR>
+<TD>
+<pre>
+<CODE CLASS="DISPLAY">
+{W2 show([o(index:1 string:mary)
+          o(index:2 string:pretends)
+          o(index:3 string:to)
+          o(index:4 string:read)
+          o(index:5 string:a)
+          o(index:6 string:book)]
+         [o(src:2 dst:1 label:agent)
+          o(src:2 dst:4 label:'prop')
+          o(src:4 dst:1 label:agent)
+          o(src:4 dst:6 label:patient)]
+         OPT)}
+</CODE>
+</pre>
+</TD>
+<TD><IMG src="roles.gif"></TD>
+</TR>
+</TABLE>
+
+<H2>Installation</H2>
+<P>This package can be installed using <CODE>ozmake</CODE>:
+<CODE CLASS="DISPLAY">ozmake -U tkDAG.pkg</CODE>
+
+<HR>
+<ADDRESS>
+<A HREF="http://www.ps.uni-sb.de/~duchier/">Denys Duchier</A>
+</ADDRESS>
+</BODY>
+</HTML>

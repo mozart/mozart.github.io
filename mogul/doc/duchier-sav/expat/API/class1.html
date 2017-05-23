@@ -1,0 +1,270 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+ <head>
+  <title>Class Processor</title>
+  <link href="ozdoc.css" rel="stylesheet" type="text/css">
+ </head>
+<body>
+<p class="margin"><table border="0" cellpadding="0" cellspacing="0">
+<tr><td width="100"><hr width="100"></td></tr>
+<tr><td width="100"><a href="index.html">Index</a>
+</td></tr>
+<tr><td width="100"><a href="node1.html">Processor</a>
+</td></tr>
+<tr><td width="100"><hr width="100"></td></tr>
+</table></p>
+<pre>
+ Processor
+</pre>
+<code>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+<span class="keyword">class</span> <span class="type">Processor</span> (Inheritance-free)<br>
+<br>
+<ul><li><span class="functionname">GetEvent</span>(E)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+</li><li><span class="functionname">Loop</span>()<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+</li><li><span class="functionname">characters</span>(Text)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string">SAX-event<BR>
+</span>
+</li><li><span class="functionname">close</span>()<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"> close stream, release resources<BR>
+</span>
+</li><li><span class="functionname">comment</span>(Data)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string">SAX-event<BR>
+</span>
+</li><li><span class="functionname">default</span>(_)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string">SAX-event<BR>
+</span>
+</li><li><span class="functionname">endCDATA</span>()<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string">SAX-event<BR>
+</span>
+</li><li><span class="functionname">endDocument</span>()<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string">SAX-event<BR>
+</span>
+</li><li><span class="functionname">endElement</span>(Tag)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string">SAX-event<BR>
+</span>
+</li><li><span class="functionname">endNamespaceDeclScope</span>(Prefix)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string">SAX-event<BR>
+</span>
+</li><li><span class="functionname">getEvent</span>($)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"> get next SAX event as a record. This record could also be<BR>
+ invoked as a method on the object.  When there are no more<BR>
+ events, unit is returned instead.<BR>
+</span>
+</li><li><span class="functionname">init</span>(SourceOrSpecs)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"> creates a processor given either an InputSource object or<BR>
+ a list of specs that can be used to create an InputSource object<BR>
+</span>
+</li><li><span class="functionname">initFromFile</span>(File)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+</li><li><span class="functionname">initFromFiles</span>(Files)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+</li><li><span class="functionname">initFromString</span>(Str)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+</li><li><span class="functionname">initFromURL</span>(URL)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+</li><li><span class="functionname">initFromURLs</span>(URLs)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+</li><li><span class="functionname">initFromVs</span>(Vs)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+</li><li><span class="functionname">parse</span>()<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"> invokes a loop that processes all events by invoking them<BR>
+ as methods on the object.<BR>
+</span>
+</li><li><span class="functionname">processingInstruction</span>(Target Data)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string">SAX-event<BR>
+</span>
+</li><li><span class="functionname">startCDATA</span>()<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string">SAX-event<BR>
+</span>
+</li><li><span class="functionname">startDocument</span>()<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string">SAX-event<BR>
+</span>
+</li><li><span class="functionname">startElement</span>(Tag Attributes)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string">SAX-event<BR>
+</span>
+</li><li><span class="functionname">startNamespaceDeclScope</span>(Prefix URI)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string">SAX-event<BR>
+</span>
+</li></ul>
+<span class="keyword">end</span>
+</code>
+</body>
+</html>

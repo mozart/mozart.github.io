@@ -1,0 +1,967 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<!-- EDIT -->
+<title>Basic Data Structures</title>
+<style>
+BODY {
+        background-color: white;
+        margin-left     : 2cm;
+        margin-right    : 2cm;
+        font-family     : tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+        text-align      : center;
+        color           : #9B0000;
+}
+h2 {    color           : #FF9933; }
+h4 {    color           : slateblue; }
+h3 {    color           : #881155; }
+h5 {    color           : darkslateblue; }
+code {  color           : #663366; }
+code,TT {
+        font-family     : "lucida console",courier,monospace;
+}
+code.DISPLAY {
+        display         : block;
+        white-space     : pre;
+        margin-left     : 2cm;
+        margin-top      : 1em;
+        margin-bottom   : 1em;
+}
+P.AUTHOR {
+        text-align      : center;
+        font-weight     : bold;
+}
+span.MODULE {
+        color           : steelblue;
+}
+A {     color           : steelblue; }
+span.COMMENT      { color: #B22222; }
+span.KEYWORD      { color: #A020F0; }
+span.STRING       { color: #BC8F8F; }
+span.FUNCTIONNAME { color: #0000FF; }
+span.TYPE         { color: #228B22; }
+span.VARIABLENAME { color: #B8860B; }
+span.REFERENCE    { color: #5F9EA0; }
+span.BUILTIN      { color: #DA70D6; }
+</style>
+</head>
+<body>
+<!-- EDIT -->
+<h1>Basic Data Structures</h1>
+<p CLASS="AUTHOR">
+  <A HREF="http://www.ps.uni-sb.de/~niehren">Joachim Niehren</A> 
+</p>
+<DL>
+  <DT><B>provides</B>
+  <DD><span CLASS="MODULE">x-ozlib://base/stack.ozf</span>
+  <DD><span CLASS="MODULE">x-ozlib://base/queue.ozf</span>
+  <DD><span CLASS="MODULE">x-ozlib://base/counter.ozf</span>
+  <DD><span CLASS="MODULE">x-ozlib://base/dictionary.ozf</span>
+  <DD><span CLASS="MODULE">x-ozlib://base/bag.ozf</span>
+  <DD><span CLASS="MODULE">x-ozlib://base/array.ozf</span>
+  <DD><span CLASS="MODULE">x-ozlib://base/gensym.ozf</span>
+  <DD><span CLASS="MODULE">x-ozlib://base/cell.ozf</span>
+  <DD><span CLASS="MODULE"> --------------</span>
+  <DD><span CLASS="MODULE">x-ozlib://base/lib/stack.ozf</span>
+  <DD><span CLASS="MODULE">x-ozlib://base/lib/queue.ozf</span>
+  <DD><span CLASS="MODULE">x-ozlib://base/lib/counter.ozf</span>
+  <DD><span CLASS="MODULE">x-ozlib://base/lib/dictionary.ozf</span>
+  <DD><span CLASS="MODULE">x-ozlib://base/lib/bag.ozf</span>
+  <DD><span CLASS="MODULE">x-ozlib://base/lib/cell.ozf</span>
+  <DD><span CLASS="MODULE">x-ozlib://base/lib/array.ozf</span>
+
+  <BR>
+
+  <DT><B>requires</B>
+  <DD>no other Mogul package required</span>
+</DL>
+<HR>
+
+
+<h2>Overview</h2>
+
+This package extends Mozart's base environment by the most frequent
+data types that are not directly supported otherwise:
+
+    <code CLASS=DISPLAY>stack, queue, counter, bag, gensym</code>
+
+All data structures come with a uniform user interface.  They are
+implemented efficiently on the basis of the Oz base environment. All
+data structures are given in two styles: the Oz-library style and the
+object-as-record style. The package also contains some further data
+structures.  They previously were only available in the Oz-library
+style:
+
+<code CLASS=display>dictionary, array, cell</code>
+
+
+<h3>Uniform Interface</h3>
+
+Every data structures has functions with the same name to put data
+into and get data from it:
+
+<code class=display>put, get </code>
+
+These functions are not only available with the uniform names, but
+also with their standard names. The <code>put</code> function of a
+cell for instance is usally called <code>assign</code> and its
+<code>get</code> function <code>access</code>. And of course, you can
+<code>push</code> or <code>pop</code> elements onto or from a stack,
+as you might expect.
+
+Other uniform function names that are only available if they make
+sense are:
+
+<code CLASS=DISPLAY>condGet, member, isEmpty, size, clone, toList,
+toRecord, toRecordLabel</code>
+
+
+<h3>Oz-Library Style versus Object-as-Record Style</h3>
+
+All datastructures in this package are provided in two styles: the
+Oz-Library style and the object-as-record style.
+
+<p>
+The Oz library style is the same style as used in the Oz base
+environment. The idea is that the functions of all instances of data
+structures are provided by a comon module. For example, the
+functionalities for all dictionaries are collected in the module
+<code/Dictionary/. If we want to apply such a function to a concrete
+dictionary like <code/EnglishToGerman/ then we have to access that
+function from the module and pass the concrete dictionary as an
+argument. For instance:
+
+   <code display/{Dictionary.get EnglishToGerman hi}/
+
+In the object-as-record style, each concete data structure is modelled
+as a record of functions. In other words, each instance of a data
+structure carries its own functions. The above example becomes:
+
+   <code display/{EnglishToGerman.get hi}/
+
+<p>
+This package provides implementations of data structure in the
+object-as-record style at the URI <span
+CLASS="MODULE">x-ozlib://niehren/base</span>.  The corresponding
+versions in the Oz-library style are available at the URI <span
+CLASS="MODULE">x-ozlib://niehren/base/lib</span>.
+
+
+<h3>Example</h3>
+
+<p>
+We first show how to use a stack in object as record style. Here, the
+stack <code>S</code> is a record of functions <code>push</code>,
+<code>pop</code>, etc:
+
+<code><pre>
+   declare [Stack] = {Module.link ['x-ozlib://niehren/base/stack.ozf']}
+   declare S = {Stack.new}
+   {S.push 1}            <span class="COMMENT">%% push 1 onto the stack</span>
+   {S.push 2}            <span class="COMMENT">%% push 2 onto the stack</span>
+   {Inspect {S.pop}}     <span class="COMMENT">%% remove and inspect the top most element</span>
+   {Inspect {S.toList}}  <span class="COMMENT">%% inspect the stack's content</span>
+</pre></code>
+
+Here is how to use a stack in the Oz-library style.  Now a stack
+<code>S</code> is the first argument expected by the functions of the
+module <code>stack</code>:
+
+<code><pre>
+   declare [Stack] = {Module.link ['x-ozlib://niehren/base/lib/stack.ozf']}
+   declare S = {Stack.new}
+   {Stack.push S 1}           <span class="COMMENT">%% push 1 onto the stack</span>
+   {Stack.push S 2}           <span class="COMMENT">%% push 2 onto the stack</span>
+   {Inspect {Stack.pop S}     <span class="COMMENT">%% remove and return the top most element</span>
+   {Inspect {Stack.toList S}} <span class="COMMENT">%% inspect the stack's content</span>
+</pre></code>
+
+
+<h2>Manual</h2>
+
+In the following we will describe all data structures in detail.  We
+will use the object-as-record style variants for explanation because
+function types are smaller and therefore more concise.  However, with
+the above information the following is easy applicable to the
+Oz-library style variants.
+
+<P>
+The documenting style is adopted from the <a
+href=/documentation/base/index.html>Oz Base
+Environment Documentation</A>.  It is described in the sections
+"Variable Status" and "Description Format" in chapter <a
+href=/documentation/base/node2.html>Type
+Structure and Description Format</a>.
+
+
+<h3>Stack</h3>
+<p> 
+There are two constructors for stacks: 
+
+<code><pre>Stack.new : -> stack</pre></code>
+
+creates a new and empty stack and
+
+<code><pre>Stack.newFromList : list(value) -> stack</pre></code>
+
+creates a new stack initialized with the given list, so that the head
+of the list becomes the topmost element.  A stack has the following
+type:
+
+<code><pre>
+    type stack = unit(push          : value ->
+                      pop           : -> value
+                      isEmpty       : -> bool
+                      toList        : -> list(value)
+                      top           : -> value
+                      clear         : ->
+                      clone         : -> stack
+                      member        : value -> bool
+                      size          : -> int 
+                      put           : value ->
+                      get           : -> value)
+</pre></code>
+
+The type can also be specified by modes as usual
+in the Oz documentation:
+
+
+<h4><code>{S.push X}</code></h4>
+
+pushes <code>X</code> onto the stack <code>S</code>.
+
+
+<h4><code>{S.pop ?X}</code></h4>
+
+pops the topmost element from <code>S</code> and returns it in
+<code>X</code>.  Raises <code>empty</code> iff <code>S</code> is
+empty.
+
+
+<h4><code>{S.isEmpty ?B}</code></h4>
+
+tests whether <code>S</code> is empty and returns the boolean result
+in <code>B</code>.
+
+
+<h4><code>{S.toList ?Xs}</code></h4>
+
+returns the list containing the elements of <code>S</code> in
+<code>Xs</code>.  The list returned is the list that is used to
+implement the stack, so this operation needs constant time.  The
+elements in <code>Xs</code> are in the same order they would appear by
+subsequent calls to <code>get</code>.
+
+
+<h4><code>{S.top ?X}</code></h4>
+
+returns the topmost element from <code>S</code> into <code>X</code>
+without changing <code>S</code>'s state.  Raises <code>empty</code>
+iff <code>S</code> is empty.
+
+
+<h4><code>{S.clear}</code></h4>
+
+erases <code>S</code> to an empty stack.
+
+
+<h4><code>{S.clone ?R}</code></h4>
+
+returns an independent clone of <code>S</code> in <code>R</code>.
+
+
+<h4><code>{S.member +X ?B}</code></h4>
+
+tests whether <code>S</code> contains <code>X</code> using
+<code>==</code> and returns the boolean result in <code>B</code>.
+
+
+<h4><code>{S.size ?I}</code></h4>
+
+returns the size of <code>S</code> in <code>I</code>.
+
+
+<h4><code>{S.put X}</code></h4>
+
+is a synonym for <code>{S.push X}</code>.
+
+
+<h4><code>{S.get ?X}</code></h4>
+
+is a synonym for <code>{S.pop ?X}</code>.
+
+
+<h3>Queue</h3>
+
+There are two constructors for queues:
+
+<code><pre>Queue.new : -> queue</pre></code>
+
+creates a new and empty queue and 
+
+<code><pre>Queue.newFromList : list(value) -> queue</pre></code>
+
+creates a new queue initialized with the given list, so that the
+elements in the list are in the same order they would appear by
+subsequent calls to <code>deq</code>.  A queue has the following type:
+
+<code><pre>
+    type queue = unit(deq           : -> value
+                      enq           : value ->
+                      isEmpty       : -> bool
+                      toList        : -> list(value)
+                      top           : -> value
+                      clear         : ->
+                      clone         : -> queue
+                      member        : value -> bool
+                      size          : -> int 
+                      put           : value ->
+                      get           : -> value)
+</pre></code>
+
+The type can also be specified by modes as usual in the Oz
+documentation:
+
+
+<h4><code>{Q.enq X}</code></h4>
+
+enqueues <code>X</code> into <code>Q</code>.
+
+
+<h4><code>{Q.deq ?X}</code></h4>
+
+dequeues the next element from <code>Q</code> and returns it in
+<code>X</code>.  Raises <code>empty</code> iff <code>Q</code> is
+empty.
+
+
+<h4><code>{Q.isEmpty ?B}</code></h4>
+
+tests whether <code>Q</code> is empty and returns the boolean result
+in <code>B</code>.
+
+
+<h4><code>{Q.toList ?Xs}</code></h4>
+
+returns the list containing the elements of <code>Q</code> in
+<code>?Xs</code>.  This operation needs linear time.  The elements in
+<code>?Xs</code> are in the same order they would appear by subsequent
+calls to <code>deq</code>.
+
+
+<h4><code>{Q.top ?X}</code></h4>
+
+returns the topmost element from <code>Q</code> into <code>X</code>
+without changing <code>Q</code>'s state.  Raises <code>empty</code>
+iff <code>Q</code> is empty.
+
+
+<h4><code>{Q.clear}</code></h4>
+
+erases <code>Q</code> to an empty queue.
+
+
+<h4><code>{Q.clone ?R}</code></h4>
+
+returns an independent clone of <code>Q</code> in <code>R</code>.
+
+
+<h4><code>{Q.member +X ?B}</code></h4>
+
+tests whether <code>Q</code> contains <code>X</code> using
+<code>==</code> and returns the boolean result in <code>B</code>.
+
+
+<h4><code>{Q.size ?I}</code></h4>
+
+returns the size of <code>Q</code> in <code>I</code>.
+
+
+<h4><code>{Q.put X}</code></h4>
+
+is a synonym for <code>{Q.push X}</code>.
+
+
+<h4><code>{Q.get ?X}</code></h4>
+
+is a synonym for <code>{Q.pop X}</code>.
+
+
+<h3>Counter</h3>
+
+A counter holds one integer that can be incremented or set to an
+arbitrary integer.  There are two constructors for counters:
+
+<code><pre>Counter.new : -> counter</pre></code>
+
+creates a new counter initialized with 0 and
+
+<code><pre>Counter.newFromInt : int -> counter</pre></code>
+
+creates a new counter initialized with the given integer.  A counter
+has the following type:
+
+<code><pre>
+    type counter = unit(inc   : ->
+                        set   : int ->
+                        show  : -> int
+                        next  : -> int
+                        clone : -> counter
+                        put   : int ->
+                        incr  : ->
+                        init  : int ->
+                        get   : -> int
+                        toInt : -> int
+</pre></code>
+
+The type can also be specified by modes as usual in the Oz
+documentation:
+
+
+<h4><code>{C.inc}</code></h4>
+
+increments <code>C</code> by 1.
+
+
+<h4><code>{C.set +I}</code></h4>
+
+sets the current value of <code>C</code> to <code>I</code>.
+
+
+<h4><code>{C.show ?I}</code></h4>
+
+returns the current value of <code>C</code> in <code>I</code>.
+
+
+<h4><code>{C.next ?I}</code></h4>
+
+increments <code>C</code> by 1 and returns the resulting integer in
+<code>I</code>.
+
+
+<h4><code>{C.clone ?R}</code></h4>
+
+returns an independent clone of <code>C</code> in <code>R</code>.
+
+
+<h4><code>{C.incr +I}</code></h4>
+
+is a synonym for <code>{C.inc +I}</code>.
+
+
+<h4><code>{C.put +I}</code></h4>
+
+is a synonym for <code>{C.set +I}</code>.
+
+
+<h4><code>{C.init +I}</code></h4>
+
+is a synonym for <code>{C.set +I}</code>.
+
+
+<h4><code>{C.get ?I}</code></h4>
+
+is a synonym for <code>{C.show ?I}</code>.
+
+
+<h4><code>{C.toInt ?I}</code></h4>
+
+is a synonym for <code>{C.show ?I}</code>.
+
+
+<h3>Dictionary</h3>
+
+<p> Dictionaries in the object-record style are derived
+straightforwardly from those in the Oz base environment. 
+But there are two important differences that we would 
+like to point out. 
+<P> 
+First there is a quite useful procedure
+<code>collect: feature x value -> </code> 
+which adds a value for some key to a collecting list. The
+actual list can be access as the entry of the key.
+Second, the type of <code>toRecord:->record</code> 
+differs from what one might expect. This function converts
+the dicitionary to a record whose label is the <code>unit</code>. 
+If you want to specify another label then you can still use 
+<code>toRecordLabel:literal->record</code> that does exactly 
+what the <code>toRecord</code> function of the Oz base 
+environment does.
+<p> 
+There are two constructors for dictionaries:
+
+<code><pre>Dictionary.new : -> dictionary</pre></code>
+
+creates a new and empty dictionary and
+
+<code><pre>Dictionary.newFromRecord : record -> dictionary</pre></code>
+
+creates a new dictionary initialized with the feature/value pairs of
+the given record.  A dictionary is a record with the following type:
+
+<code><pre>
+    type feature = literal | integer
+    type dictionary = unit(put           : feature x value -> dict
+                           get           : feature -> value
+                           hasFeature    : feature -> bool
+                           condGet       : feature x value -> value
+                           remove        : feature ->
+                           removeAll     : ->
+                           keys          : -> list(feature)
+                           entries       : -> list(feature#value)
+                           items         : -> list(value)
+                           toRecord      : -> record
+                           toRecordLabel : literal -> record
+                           isEmpty       : -> bool
+                           size          : -> int
+                           collect       : feature x value -> dict
+                           clone         : -> dict
+                           dict          : -> stdlib-dict
+                           clear         : ->
+                           condSelect    : feature x value -> value
+                           member        : feature -> bool
+                           toKeys        : -> list(feature))
+</pre></code>
+
+The type can also be specified by modes as usual
+in the Oz documentation:
+
+
+<h4><code>{D.put +LI X}</code></h4>
+
+sets the item of <code>D</code> under the key <code>LI</code> to
+<code>X</code>.
+
+
+<h4><code>{D.get +LI ?X}</code></h4>
+
+returns the item of <code>D</code> under the key <code>LI</code> in
+<code>X</code>.  Raises an exception if <code>LI</code> is not a valid
+key of <code>D</code>.
+
+
+<h4><code>{D.hasFeature +LI ?B}</code></h4>
+
+tests whether <code>D</code> has an entry with the feature
+<code>LI</code> and returns the boolean result in <code>B</code>.
+
+
+<h4><code>{D.condGet +LI Default ?Y}</code></h4>
+
+returns the item of <code>D</code> under the key <code>LI</code> as
+<code>Y</code> iff <code>LI</code> is a valid key of <code>D</code>.
+Otherwise, returns <code>Default</code>.
+
+
+<h4><code>{D.remove +LI}</code></h4>
+
+removes the entry with the key <code>LI</code> from <code>D</code> iff
+<code>LI</code> is a valid key of <code>D</code>.  Otherwise, does
+nothing.
+
+
+<h4><code>{D.removeAll}</code></h4>
+
+resets <code>D</code> to an empty dictionary.
+
+
+<h4><code>{D.keys ?LIs}</code></h4>
+
+returns a list of all valid features for <code>D</code> in
+<code>LIs</code>.
+
+
+<h4><code>{D.entries ?Ts}</code></h4>
+
+returns a list of all entries in <code>Ts</code> where each entry has
+the form <code>Feature#Item</code>.
+
+
+<h4><code>{D.items ?Xs}</code></h4>
+
+returns a list of all items in <code>Xs</code>.
+
+
+<h4><code>{D.toRecord ?R}</code></h4>
+
+returns a record containing all feature/item pairs of <code>D</code>
+as its fields in <code>R</code>. This record <code>R</code> will get
+the label <code>unit</code>.  <B>Note that 
+<code>ToRecord</code> differs to the corresponding function in the
+Oz base environment. But you can still use <code>toRecordLabel</code> 
+if you want to custom your own label.</B>
+
+
+<h4><code>{D.toRecordLabel +LI ?R}</code></h4>
+
+works like <code>toRecord</code> except that it gives the possibility
+to specify a custom label (<code>LI</code>).  <B>Note that this
+function does exactly what the function <code>ToRecord</code> in the
+Oz base environment does despite of its different name.</B>
+
+
+<h4><code>{D.isEmpty ?B}</code></h4>
+
+tests whether <code>D</code> is empty and returns the boolean result
+in <code>B</code>.
+
+
+<h4><code>{D.size ?I}</code></h4>
+
+returns the element count of <code>D</code> in <code>I</code>.
+
+
+<h4><code>{D.collect +LI X}</code></h4>
+
+collects <code>X</code> in the list under the feature <code>LI</code>
+in <code>D</code>.  More precise, it will set <code>D</code>'s item
+under <code>LI</code> to <code>X|{D.condGet LI nil}</code>. <B>
+Note that collectors are not available for the dictionaries of
+the base environment.</B>
+
+
+<h4><code>{D.clone +R}</code></h4>
+
+returns an independent clone of <code>D</code> in <code>R</code>.
+
+
+<h4><code>{D.dict}</code></h4>
+
+returns the Oz base environment dictionary through which
+<code>D</code> is implemented.
+
+
+<h4><code>{D.clear}</code></h4>
+
+is a synonym for <code>{D.removeAll}</code>.
+
+
+<h4><code>{D.condSelect +LI X ?Y}</code></h4>
+
+is a synonym for <code>{D.condGet +LI X ?Y}</code>.
+
+
+<h4><code>{D.member +LI ?B}</code></h4>
+
+is a synonym for <code>{D.hasFeature +LI ?B}</code>.
+
+
+<h4><code>{D.toKeys ?LIs}</code></h4>
+
+is a synonym for <code>{D.keys ?LIs}</code>.
+
+
+<h3>Bag</h3>
+
+A bag is a simple data structure that gives the possibility to put
+values into the bag, to test whether a given value is in the bag and
+to return the elements in a bag as a list.  A bag is essentially the
+same as a stack.  The only difference is that it does not provide
+functions for getting single elements from it (with <code>pop</code>
+or <code>top</code>).  There are two constructors for bags:
+
+<code><pre>Bag.new : -> bag</pre></code>
+
+creates a new and empty bag and
+
+<code><pre>Bag.newFromList : list(value) -> bag</pre></code>
+
+creates a new bag initialized with the elements of the given list.  A
+bag has the following type:
+
+<code><pre>
+    type queue = unit(put           : -> value
+                      member        : value -> bool
+                      isEmpty       : -> bool
+                      toList        : -> list(value)
+                      clear         : ->
+                      clone         : -> queue
+                      size          : -> int)
+</pre></code>
+
+The type can also be specified by modes as usual in the Oz
+documentation:
+
+
+<h4><code>{B.put X}</code></h4>
+
+puts <code>X</code> into <code>B</code>.
+
+
+<h4><code>{B.member +X ?B1}</code></h4>
+
+tests whether <code>B</code> contains <code>X</code> using
+<code>==</code>.  Returns the boolean result in <code>B1</code>.
+
+
+<h4><code>{B.isEmpty ?B1}</code></h4>
+
+tests whether <code>B</code> is empty and returns the boolean result
+in <code>B1</code>.
+
+
+<h4><code>{B.toList ?Xs}</code></h4>
+
+returns the list containing the elements of <code>B</code> in
+<code>Xs</code>.  The list returned is the list that is used to
+implement the stack, so this operation needs constant time.
+
+
+<h4><code>{B.clear}</code></h4>
+
+resets <code>B</code> to an empty queue.
+
+
+<h4><code>{B.clone ?R}</code></h4>
+
+returns an independent clone of <code>B</code> in <code>R</code>.
+
+
+<h4><code>{B.size ?I}</code></h4>
+
+returns the size of <code>B</code> in <code>I</code>.
+
+
+
+
+<h3>Array</h3>
+
+<p> Arrays in are, very much like dictionaries, derived
+straightforwardly from the arrays in the Oz base environment.  Like
+the dictionaries the arrays provide a <code>collect: int x value
+-></code> procedure that lets you collect values in a list at a given
+index in the array.
+
+<code><pre>{Array.new +Low +High +InitVal ?A}</pre></code>
+
+creates a new and empty array <code>A</code>.  <code>Low</code> and
+<code>High</code> (both integers) are the bounds for the indices of
+the resulting array.  So <code>{A.put I X}</code> and <code>X={A.get
+I}</code> are legal iff <code>Low<=I<=High</code>.  All items of the
+array are initialized to <code>InitVal</code>.
+
+<p>An array is a record with the following type:
+
+<code><pre>
+    type array = unit(low           : int
+                      high          : int
+                      put           : int x value ->
+                      get           : int -> value
+                      collect       : int x value ->
+                      inc           : int ->
+                      clone         : -> array
+                      toRecord      : -> record
+                      toRecordLabel : literal -> record)
+</pre></code>
+
+<code>low</code> and <code>high</code> are the index bounds.
+
+
+<h4><code>{A.put +I X}</code></h4>
+
+sets the item of <code>A</code> under the index <code>I</code> to
+<code>X</code>.
+
+
+<h4><code>{A.get +I ?X}</code></h4>
+
+returns the item of <code>A</code> under the index <code>I</code> in
+<code>X</code>.  Raises an exception if <code>I</code> is not a valid
+index of <code>A</code>, i.e. if <code>I</code> is not in
+<code>A.low...A.high</code>.
+
+
+<h4><code>{A.collect +I X}</code></h4>
+
+has the same semantics as <code>{A.put I X|{A.get I}}</code>.
+
+
+<h4><code>{A.inc +I X}</code></h4>
+
+has the same semantics as <code>{A.put I 1+{A.get I}}</code>.  As a
+precondition <code>{A.get I}</code> must be an integer.  Otherwise an
+exception will be raised.
+
+
+<h4><code>{A.clone ?R}</code></h4>
+
+returns a copy of <code>A</code> in <code>R</code>, such that
+<code>{A.get I}</code> is token equal to <code>{R.get I}</code> for
+<code>I</code> in <code>A.low...A.high</code>.
+
+
+<h4><code>{A.toRecord ?R}</code></h4>
+
+returns a record <code>R</code> with label <code>unit</code> and
+features <code>A.low...A.high</code> such that <code>{A.get I}</code>
+is token equal to <code>R.I</code> for <code>I</code> in
+<code>A.low...A.high</code>.
+
+
+<h4><code>{A.toRecordLabel +LI ?R}</code></h4>
+
+is like <code>toRecord</code> except that you can specify an custom
+label <code>LI</code>.
+
+
+<h3>Gensym</h3>
+
+<p>The gensym.ozf functor provides generators for successively
+different atoms.  Such a generator is a function in
+
+<pre>
+<code>   virtual-string -> atom</code>.
+</pre>
+
+A generator takes a virtual string <code>V</code> and returns a
+concatenation of <code>V</code> and an integer <code>I</code>.
+Successive calls increment <code>I</code>.  Counting starts from
+<code>1</code>.
+
+<p>An important fact about the Gensym functions is that you can even
+use them in search and in different computation spaces, where they
+still return the expected values, unlike <code>{NewName}</code> which
+can return equal names in different spaces.
+
+<p>With <code>G={New}</code> you create a new symbol generator
+<code>G</code>.  Additionally the Gensym functor provides a default
+symbol generator <code>Gensym</code>.
+
+<p><b>Example:</b>
+
+<code><pre>
+   declare [Gensym] = {Link ['x-ozlib://base/gensym.ozf']} in
+   {Show {Gensym.gensym 'stem'}}
+   {Show {Gensym.gensym 'stem'}}
+   {Show {Gensym.gensym 'stem'}}
+   local
+      G = {Gensym.new}
+   in
+      {Show {G 'kuckuck'}}
+   end
+   {Show {Gensym.gensym 'stem'}}
+</pre></code>
+
+This shows:
+
+<code><pre>
+   stem1
+   stem2
+   stem3
+   kuckuck1
+   stem4
+</pre>
+
+
+
+<h3>Cell</h3>
+
+Cells are directly implemented through the cells of the Oz base
+environment.  But this package's cells have a slightly different
+<code>exchange</code> function that takes the old value instead of the
+new one as its last argument.  Apart from that the uniform names
+<code>put</code> and <code>get</code> are given.  There is one
+constructor
+
+<code><pre>Cell.new : value -> cell</pre></code>
+
+that expects a value <code>X</code> and creates a new cell with
+<code>X</code> as its initial element.  A cell is a record with the
+following type:
+
+<code><pre>
+    type cell = unit(put      : value ->
+                     get      : -> value
+                     exchange : value -> value
+                     clone    : -> cell
+                     access   : -> value
+                     assign   : value ->
+                     set      : value ->)
+</pre></code>
+
+The type can also be specified by modes as usual
+in the Oz documentation:
+
+
+<h4><code>{C.put X}</code></h4>
+
+sets the content of <code>C</code> to <code>X</code>.
+
+
+<h4><code>{C.get ?X}</code></h4>
+
+returns the current content of <code>C</code> in <code>X</code>.
+
+
+<h4><code>{C.exchange New ?Old}</code></h4>
+
+sets the cells content to <code>New</code> and returns the old content
+in <code>Old</code>.  <B>Note that the order of the arguments
+<code>New</code> and <code>Old</code> are reverse in comparison to the
+Oz base environment's <code>Exchange</code> function.</B> This way you
+can use <code>exchange</code> like a usual function that takes the new
+value and evaluates to the old one.
+
+
+<h4><code>{C.clone ?R}</code></h4>
+
+returns a clone of <code>C</code> in <code>R</code>.
+
+
+<h4><code>{C.assign X}</code></h4>
+
+is a synonym for <code>{C.put X}</code>.
+
+
+<h4><code>{C.set X}</code></h4>
+
+is a synonym for <code>{C.put X}</code>.
+
+
+<h4><code>{C.access ?X}</code></h4>
+
+is a synonym for <code>{C.get ?X}</code>.
+
+
+
+<h2>Installation</h2>
+
+Download the file <code>base-xx.pkg</code>, where xx should be
+replaced by the current version number, and execute
+
+<code CLASS="DISPLAY">
+ozmake --freshen --package=base-xx.pkg
+</code>
+
+<p> In case that you did not already install <code>ozmake</code> on
+your machine, note that it is also available in the Mogul archive.
+
+<p> By default, all files of the package are installed in the user's
+<TT>~/.oz</TT> directory tree.  In particular, all modules are
+installed in the user's private cache.
+
+
+<HR>
+<ADDRESS>
+<A HREF="http://www.ps.uni-sb.de/~niehren">Joachim Niehren</A>
+</ADDRESS>
+</BODY>
+</HTML>
+
+<!--  
+<h1> Uberschrift 1 </h1>
+<h2> Uberschrift 2 </h2>
+<h3> Uberschrift 3 </h3>
+<h4> Uberschrift 4 </h4>
+<h5> Uberschrift 5 </h5>
+<span CLASS="COMMENT">Comment</Span>
+<span CLASS="KEYWORD">Keyword</Span>
+<span CLASS="STRING">String</Span>
+<span CLASS="FUNCTIONNAME">Functionname</Span>
+<span CLASS="TYPE">Type</Span>
+<span CLASS="VARIABLENAME">Variablename</Span>
+<span CLASS="REFERENCE">Reference</Span>
+<span CLASS="BUILTIN">Builtin</Span>
+-->

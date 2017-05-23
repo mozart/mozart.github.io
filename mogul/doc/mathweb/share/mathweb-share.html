@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>Mathweb - Shared Functors</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H4 {	color		: slateblue; }
+H3 {	color		: #881155; }
+H5 {	color		: darkslateblue; }
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<H1>Mathweb - Shared Functors</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ags.uni-sb.de/~afranke/">Andreas Franke</A> -
+  Abdelhakim Freihat -
+  Stephan Hess -
+  <A HREF="http://www.ags.uni-sb.de/~jzimmer/">J&uuml;rgen Zimmer</A> - 
+</P>
+<DL>
+  <DT><B>provides</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/Benchmark.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/Buffer.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/Dir.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/Edit.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/Env.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/File.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/Internet.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/Misc.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/Process.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/Random.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/Text.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/Ticket.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/XApplication.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/XCompiler.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/XManagers.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/XOpen.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/XTime.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/XTkDialog.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/XTkTools.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">~/.oz/bin/benchmark.exe</SPAN>
+  <DD><SPAN CLASS="MODULE">~/.oz/bin/killtree.exe</SPAN>
+  <DT><B>requires</B>
+  <DD>nothing
+  <!-- <SPAN CLASS="MODULE">x-ozlib://.../Baz.ozf</SPAN> -->
+</DL>
+<HR>
+
+<H2>Purpose</H2>
+<P>These functors provide basic functionality used by other Mathweb packages.
+
+<H2>Installation</H2>
+<P>This package can be installed by following the usual
+<I>configure, build, install</I> procedure, i.e. by executing a the
+shell:
+<CODE CLASS="DISPLAY">./configure
+make install</CODE>
+By default, all files of the package are
+installed in the user's <TT>~/.oz</TT> directory tree.  In
+particular, all modules are installed in the user's private cache.
+
+<H2>Example</H2>
+<P>
+<TT>killtree.exe &lt;pid&gt;</TT><BR>
+kills the process &lt;pid&gt; and all its children. 
+<P>
+<TT>benchmark.exe &lt;file&gt;</TT><BR>
+compiles the Oz source in &lt;file&gt; which must result in a procedure/1,
+executes it 10 * 10000 times and prints some time statistics.
+<HR>
+<ADDRESS>
+<A HREF="http://www.ags.uni-sb.de/~omega/">Omega Homepage</A> -
+<A HREF="http://www.mathweb.org/">Mathweb Homepage</A>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>Title of Package</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H4 {	color		: slateblue; }
+H3 {	color		: #881155; }
+H5 {	color		: darkslateblue; }
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<H1>CoSIE - Constraint Solver for Inequalities and Equations</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ags.uni-sb.de/~jzimmer/">J&uuml;rgen Zimmer</A> -
+</P>
+<DL>
+  <DT><B>provides</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/services/cosie</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/cs/cosie/CosieClass.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/cs/cosie/Graph.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/cs/cosie/RISimpRules.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/cs/cosie/Sets.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/cs/cosie/DaVinciGraph.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/cs/cosie/RIDomain.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/cs/cosie/RISolver.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/cs/fscos/FSCosClass.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/cs/fscos/FSDomain.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/cs/fscos/FSSimpRules.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/cs/fscos/FSSolver.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/cs/share/ConfigCS.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/cs/share/Printer.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/cs/share/Translate.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/cs/share/ContextTreeClass.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/cs/share/Sets.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/cs/share/NodeClass.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/cs/share/Share.ozf</SPAN>
+  <DT><B>requires</B>
+  <DD><DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/XApplication.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/sys/XService.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/loui/TermPrinter.ozf</SPAN>
+</DL>
+<HR>
+
+<H2>Purpose</H2> <P>CoSIE is special purpose constraint solver for arithmetical
+constraints over the field of real numbers. It is integrated into the proof planning
+system of <A HREF="http://www.ags.uni-sb.de/~omega">OMEGA</A> as an external reasoning
+system.  CoSIE combines propagation-based numeric constraint solving techniques with
+term-rewriting and symbolic constraint inference mechanisms. <BR> During proof planning
+CoSIE collects all valid constraints (wrt. its constraint language) from proof assumptions
+and planning goals and tests for inconsistency of the constraint store. This helps the
+proof planner to prune inconsistent paths in the search tree. <BR> At the end of the
+planning process (e.g. when no more constraints are told to the constraint solver), CoSIE
+can search for solutions (i.e. instantiations) for the (meta-) variables occuring in the
+planning problem.  As a case study, we used CoSIE for planning proofs of Limit Theorems.
+
+
+<H2>Installation</H2>
+<P>This package can be installed by following the usual
+<I>configure, build, install</I> procedure, i.e. by executing a the
+shell:
+<CODE CLASS="DISPLAY">./configure
+make install</CODE>
+By default, all files of the package are
+installed in the user's <TT>~/.oz</TT> directory tree.  In
+particular, all modules are installed in the user's private cache.
+
+<H2>Example</H2>
+<P>
+<TT><PRE>
+functor
+import
+   Application(exit)
+   System(showInfo: ShowInfo)
+
+   XApplication
+   at 'x-ozlib://mathweb/share/XApplication.ozf'
+   CosieClass('class': Cosie)
+   at 'x-ozlib://mathweb/cs/cosie/CosieClass.ozf'
+
+define
+   local
+      Cos = {New Cosie init({New XApplication.manager init} 'Failure Test')}
+      S
+   in
+      {Cos reset('Failure Test' _)}
+
+      {Cos tellConstraint('L1' nil '<'('X'#var 'Y'#var) _)}
+      {Cos tellConstraint('L2' nil '<'('Y'#var 'Z'#var) _)}
+      {Cos tellConstraint('L3' nil '<'('Z'#var 'X'#var) _)}
+      
+      {Cos reflect(S)}
+      {ShowInfo S}
+     %{Cos showConstraints(_)}
+      {Application.exit 0}
+   end
+end
+</PRE></TT>
+<P>
+
+<HR>
+<ADDRESS>
+<A HREF="http://www.ags.uni-sb.de/~omega/">Omega Homepage</A> -
+<A HREF="http://www.mathweb.org/">Mathweb Homepage</A>
+</ADDRESS>
+</BODY>
+</HTML>

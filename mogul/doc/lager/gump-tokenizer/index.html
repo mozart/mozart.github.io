@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<TITLE>Gump Tokenizer</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H3,H4 {	color		: #881155; }
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<H1>Gump Tokenizer</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ling.gu.se/~lager/">Torbjörn Lager</A>
+</P>
+<DL> 
+  <DT><B>provides</B> 
+  <DD><SPAN CLASS="MODULE">x-ozlib://lager/gump-tokenizer/EnglishTokenizer.ozf</SPAN> 
+</DL>
+<HR>
+<!-- PURPOSE -->
+<H2>Purpose</H2>
+<P>This is a natural language tokenizer based on <a href="/documentation/gump/index.html">Gump</a> 
+  (which in itself is based on Flex). It improves upon the <a href="http://www.ling.gu.se/%7Elager/mogul/simple-tokenizer/index.html">simple 
+  tokenizer</a>, and represents a much better approach to tokenization of natural 
+  language. Among other things, it does not need the company of a sentence splitter, 
+  since it handles sentence splitting all by itself. It is however somewhat slower 
+  - and more heavyweight - than the simple tokenizer. 
+<P>Although the tokenizer in this package is set up for English, it should be 
+  fairly straightforward to port to other (similar) languages. However, note that 
+  a tokenizer for natural language often needs to be tuned, not only to a particular 
+  language, but also to the kind of texts on which it is going to be used. 
+<h3>Token classes</h3>
+<p>In the present version of the tokenizer, only four token classes are distinguished:</p>
+<table width="97%" border="0">
+  <tr> 
+    <td width="5%"><code>p</code></td>
+    <td width="95%">Paragraph delimiter (ends a paragraph) </td>
+  </tr>
+  <tr> 
+    <td width="5%"><code>s</code></td>
+    <td width="95%">Sentence delimiter (ends a sentence) </td>
+  </tr>
+  <tr> 
+    <td width="5%"><code>w</code></td>
+    <td width="95%">'Word' (includes ordinary words, but also abbreviations, numbers, 
+      etc.)</td>
+  </tr>
+  <tr> 
+    <td width="5%"><code>c</code></td>
+    <td width="95%">Other (separators, etc.)</td>
+  </tr>
+</table>
+<p>As can be seen from the actual Gump definitions (in the source file 'EnglishTokenizer.oz'), 
+  it would be possible to have a more fine-grained set of classes (recognizing 
+  e.g. abbreviations, dates, etc.), but the risk for misclassification would greatly 
+  increase. 
+<p>The tokenizer separate contractions into multiple tokens, e.g. splits the word 
+  "don't" into two tokens "do" and "n't", where "n't" is treated as a special 
+  form of "not". The word &quot;John's&quot; is treated as two tokens &quot;John&quot; 
+  and &quot;'s&quot;. It is done in this way because this is how the <a href="http://www.ling.gu.se/%7Elager/mogul/brill-tagger/index.html">Brill 
+  tagger</a> wants it. 
+<H2>Installation</H2>
+<P>Download the package, and invoke ozmake in a shell as follows: 
+<blockquote> 
+  <p><code>ozmake --install --package=lager-gump-tokenizer.pkg</code></p>
+</blockquote>
+<P>By default, all files of the package are installed in the user's <code>~/.oz</code> 
+  directory tree. In particular, all modules are installed in the user's private 
+  cache. 
+<h2>Usage<!-- --> </h2>
+<h4>Methods</h4>
+<p><span class="string">Tokenizer.'class'</span> defines functionality, inherited 
+  from Gump, that can be used by users of the generated tokenizer. Listed below 
+  is only a part of what is available. Refer to the <a href="/documentation/gump/index.html">Gump 
+  manual</a> for more information. </p>
+<dt> 
+  <dl> 
+    <dt><code><span class="keyword">meth</span>&nbsp;<span class="functionname">init</span>()</code><a name="label115"></a> 
+    </dt>
+    <dd>This initializes the internal structures of the tokenizer<code><span class="string"></span></code>. 
+      This must be called before any other method of this class. </dd>
+    <dt><code><span class="keyword">meth</span>&nbsp;<span class="functionname">getToken</span>(?X&nbsp;Y)</code><a name="label134"></a> 
+    </dt>
+    <dd>The next token is removed from the token stream and returned. The token 
+      class is returned in&nbsp;<code>X</code> and its value in&nbsp;<code>Y</code>. 
+      Both <code>X</code> and <code>Y</code> are atoms.</dd>
+    <dt><code><span class="keyword">meth</span>&nbsp;<span class="functionname">scanFile</span>(</code><code>+F</code><code>)</code><a name="label138"></a> 
+    </dt>
+    <dd>A new buffer is created from the file with name&nbsp;<code>F</code> and 
+      tokenized. If the file does not exist, the error exception <code>gump(fileNotFound&nbsp;</code><code>F</code><code>)</code><a name="label140"></a> 
+      with the filename in&nbsp;<code>F</code> is raised. </dd>
+    <dt><code><span class="keyword">meth</span>&nbsp;<span class="functionname">scanVirtualString</span>(</code><code>+<i>V</i></code><code>)</code><a name="label142"></a> 
+    </dt>
+    <dd>Like <code>scanFile</code>, but scans a virtual string&nbsp;<code><i>V</i></code>. 
+    </dd>
+    <dt><code><span class="keyword">meth</span>&nbsp;<span class="functionname">close</span>()</code> 
+    </dt>
+    <dd> Closes all buffers. Before calling any other methods, you should call 
+      <code>init()</code> again. </dd>
+  </dl>
+  <h2>Example</h2>
+  <p>This is how a we (in the OPI) write a function <code>GetSentence</code> that 
+    will retrieve one sentence (list of words) from the tokenizer each time it 
+    is called:</p>
+  <pre><code>declare
+
+%% Link functor, get module
+[Tokenizer] = {Module.link ['x-ozlib://lager/gump-tokenizer/EnglishTokenizer.ozf']}
+
+%% Create and initialize Tokenizer object
+MyTokenizer = {New Tokenizer.'class' init()}
+
+%% Tokenize file
+{MyTokenizer scanFile('test.txt')}
+
+fun {GetSentence} T V in
+   {MyTokenizer getToken(?T ?V)}
+   case T
+   of 'EOF' then nil
+   [] p then nil
+   [] s then [V]
+   [] w then V|{GetSentence}
+   [] c then V|{GetSentence}
+   end
+end
+
+%% Each time you feed this the Inspector will
+%% show a different sentence from 'test.txt'
+%% and 'nil' when there are no sentences left
+{Inspect {GetSentence}}
+
+/* Feed this to close tokenizer when you're done.
+{MyTokenizer close()}
+*/</code></pre>
+  <h2>Example Application</h2>
+  <P>The distribution also include a stand-alone application which prints each 
+    token and its class on a separate line. It can be invoked in the following 
+    way on a text file: 
+  <blockquote> 
+    <p><code> tokenize --in=test.txt</code> </p>
+  </blockquote>
+  <HR>
+  <ADDRESS> <A HREF="http://www.ling.gu.se/~lager">Torbj&ouml;rn Lager</A></ADDRESS>
+</BODY>
+</HTML>

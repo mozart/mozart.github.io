@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>3 Parsing</title>
+<link href="dg.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<table align="center" border="0" cellpadding="6" cellspacing="6" summary="navigation table">
+<tr>
+<td><a href="grammar.html">&lt;&lt; Previous</a></td>
+<td><a href="index.html">- Up -</a></td>
+<td><a href="plugins.html">Next &gt;&gt;</a></td>
+</tr>
+</table>
+
+<h1>3 Parsing</h1>
+
+<p>
+The parser is implemented using a reduction of the formulation of
+TDG outlined in
+<a href="http://www.ps.uni-sb.de/Papers/abstracts/rade-acl2001.html">
+(Duchier and Debusmann 2001)</a> into a constraint problem stated in
+terms of finite sets.  The reduction is more thoroughly described in
+
+<a href="http://www.ps.uni-sb.de/Papers/abstracts/duchier-mol6.html">
+(Duchier 99)</a>
+<a href="http://www.ps.uni-sb.de/Papers/abstracts/duchier-jlac2000.html">
+(Duchier 00)</a>
+<a href="http://www.ps.uni-sb.de/Papers/abstracts/duchier-fgmol2001.html">
+(Duchier 01)</a>.  Parsing amounts to searching for solutions of the
+CSP which describes the valid ID/LP analyses for a given
+input. Thereby, we apply alternating propagation and distribution
+steps. With the help of the <em>selection constraint</em> developed by
+Denys Duchier, we achieve very strong propagation. In fact, in many
+cases no search at all is necessary, in spite of substantial lexical
+and structural ambiguity.
+</p>
+
+<h2><a name="generate">3.1 Generate mode</a></h2>
+
+<p>
+It is possible to switch the parser into generate mode. In generate
+mode, the parser regards the list of words comprising the string to
+parse not as a list but a bag of words. Hence, the parser finds all
+ID/LP analyses which are licensed for this bag of words. Generate mode
+can be used to debug a grammar: it can help finding undesired ID/LP
+analyses. It is also employed by the graphical user interface (see <a
+href="gui.html">chapter 5</a>) to generate the set of linearizations
+licensed for a bag of words.
+</p>
+
+<h2><a name="principles">3.2 Principles</a></h2>
+
+<p>
+The TDG parser allows to individually toggle each of the ID, LP and
+ID/LP principles on and off which also facilitates grammar debugging.
+</p>
+
+<table align="center" border="0" cellpadding="6" cellspacing="6" summary="navigation table">
+<tr>
+<td><a href="grammar.html">&lt;&lt; Previous</a></td>
+<td><a href="index.html">- Up -</a></td>
+<td><a href="plugins.html">Next &gt;&gt;</a></td>
+</tr>
+</table>
+
+</body>
+</html>

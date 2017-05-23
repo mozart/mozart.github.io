@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>Automatic XML Parser Generator</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H4 {	color		: slateblue; }
+H3 {	color		: #881155; }
+H5 {	color		: darkslateblue; }
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<H1>Automatic XML Parser Generator</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ags.uni-sb.de/~afranke/">Andreas Franke</A>
+</P>
+<DL>
+  <DT><B>provides</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/dtdtool.exe</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/xmlparser/XmlScanner.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/xmlparser/XmlParser.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/xmlparser/ExpatEmulator.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/xmlparser/GumpScannerEmulator.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/xmlparser/SemTrivial.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/xmlparser/SemDefault.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/xmlread.exe</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/text2functor.exe</SPAN>  
+  <DT><B>requires</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://duchier/op/InputSource.ozf</SPAN>
+  <DT><B>is compatible with</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://duchier/xml/expat/Processor.ozf</SPAN>
+</DL>
+<HR>
+
+<H2>Purpose</H2>
+<P>
+This tool automatically converts XML Document Type Definitions (DTDs)
+into Oz Parsers (Gump). These are used to build user-specific 
+Oz-representations (e.g. tree structures) from XML documents.
+<P>
+The use of ``semantic modules'' makes it both powerful and easy-to-use:
+<UL>
+<LI> you can use predefined default modules
+<LI> you can easily create new modules (e.g. using the ``otherwise'' method)
+<LI> you can define specialized methods to generate any Oz-representation you want
+</UL>
+
+<H2>Installation</H2>
+<P>This package can be installed by following the usual
+<I>configure, build, install</I> procedure, i.e. by executing a the
+shell:
+<CODE CLASS="DISPLAY">./configure
+make install</CODE>
+By default, all files of the package are
+installed in the user's <TT>~/.oz</TT> directory tree.  In
+particular, all modules are installed in the user's private cache.
+
+<H2>Example</H2>
+<P>
+   You need:
+<UL>
+<LI> some XML documents (e.g. ./examples/omobj.xml)
+<LI> and a DTD for them (e.g. ./examples/omobj.dtd)
+</UL>
+<P>
+   Then you can use the tool as follows:
+<OL>   
+<LI> Make sure that you have <TT>$HOME/.oz/bin</TT> in your <TT>$PATH</TT>.
+<LI> Convert the DTD to a Gump Parser:
+<P>
+        <TT>dtdtool </TT>&lt;DTD&gt; <TT>--root=</TT>&lt;Element&gt;[,&lt;Element&gt;...]<TT> -o </TT>&lt;ParserFunctor.ozf&gt;
+<P>
+     where the root elements are the documents' possible root nodes 
+<LI> Test whether you can parse your documents:
+<P>
+        <TT>xmlread </TT>&lt;DOC.xml&gt;<TT> --parser=</TT>&lt;ParserFunctor.ozf&gt;<TT> --root=</TT>&lt;Element&gt;
+<P>
+<LI> Create an appropriate ``semantic module'' for your application
+        (analogous to <TT>SemDefault.oz</TT>)
+<LI> Test if it works: <BR>
+<P>
+        <TT>xmlread </TT>&lt;DOC.xml&gt;<TT> --parser=</TT>&lt;Parser.ozf&gt;<TT> --root=</TT>&lt;Elem&gt;<TT> --sem=</TT>&lt;SemFunctor.ozf&gt;
+<P>
+<LI> Integrate the parser into your application
+        (analogous to xmlread.oz)
+<LI> Replace ExpatEmulator.ozf with expat.ozf to improve efficiency
+        (available from Denys Duchier <duchier@ps.uni-sb.de>)
+</OL>
+
+<HR>
+<ADDRESS>
+<A HREF="http://www.ags.uni-sb.de/~omega/">Omega Homepage</A> -
+<A HREF="http://www.mathweb.org/">MathWeb Homepage</A>
+</ADDRESS>
+</BODY>
+</HTML>

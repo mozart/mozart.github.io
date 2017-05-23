@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>InputSource</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H4 {	color		: slateblue; }
+H3 {	color		: #881155; }
+H5 {	color		: darkslateblue; }
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<H1>InputSource</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ps.uni-sb.de/~duchier/">Denys Duchier</A>
+</P>
+<DL>
+  <DT><B>provides</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://duchier/op/InputSource.ozf</SPAN>
+</DL>
+<HR>
+
+<H2>Purpose</H2>
+<P>An <CODE>InputSource</CODE> is an object from which bytes can be
+read, i.e. just like <CODE>Open.file</CODE> in read mode.  However the
+actual data can be obtained from a number of arbitrary sources like
+files, urls or virtual strings as if they had been lazily
+concatenated.  For example:
+<CODE CLASS="DISPLAY"><SPAN CLASS="KEYWORD">functor</SPAN>
+<SPAN CLASS="KEYWORD">import</SPAN>
+   InputSource <SPAN CLASS="KEYWORD">at</SPAN> <SPAN CLASS="STRING">'x-ozlib://duchier/op/InputSource.ozf'</SPAN>
+<SPAN CLASS="KEYWORD">define</SPAN>
+   ...
+   F = {New InputSource.<SPAN CLASS="STRING">'class'</SPAN>
+        init([file(FILE1) url(URL2) vs(VS3)])}
+   ...
+<SPAN CLASS="KEYWORD">end</SPAN>
+</CODE>
+<CODE>F</CODE> will behave as if the data in file <CODE>FILE1</CODE>,
+in document at url <CODE>URL2</CODE>, and in virtual string
+<CODE>VS3</CODE> had been lazily concatenated.  This data can be read
+using the <CODE>read</CODE> method as in <CODE>Open.file</CODE>
+
+<H2>Installation</H2>
+<P>This package can be installed by following the usual
+<I>configure, build, install</I> procedure, i.e. by executing a the
+shell:
+<CODE CLASS="DISPLAY">./configure
+make install</CODE>
+By default, all files of the package are
+installed in the user's <TT>~/.oz</TT> directory tree.  In
+particular, all modules are installed in the user's private cache.
+
+<H2>API</H2>
+<P>You can check the <A HREF="API/index.html">automatically generated
+API</A> produced by ozh.  However in brief:
+
+<H3>An input source object responds to the methods below</H3>
+<P>
+<DL>
+<DT><CODE>init(Specs)</CODE>
+<DD>where <CODE>Specs</CODE> is a list of specs.  Each spec if either
+a file name or url, or more explicitly a record whose label indicates
+the type of source:
+<CODE CLASS="DISPLAY">files(S)
+files([S1 ... Sn])
+url(S)
+urls([S1 ... Sn])
+vs(S)
+string(S)</CODE><P>
+<DT><CODE>read(list:L tail:T<=nil size:S<=1024 len:N<=_)</CODE>
+<DD>same as in <CODE>Open</CODE><P>
+<DT><CODE>get($)</CODE>
+<DD>reads and returns some more data.  It returns <CODE>nil</CODE>
+only when the source is exhausted. It is equivalent to <CODE>read(list:$)</CODE><P>
+<DT><CODE>close()</CODE>
+<DD>close the stream, release resources.<P>
+</DL>
+
+<H3>The module exports several classes for creating input sources</h3>
+<P>
+<DL>
+<DT><CODE>{New InputSource.'class' init(Specs)}</CODE>
+<DD>the basic way to create a new input source.  <CODE>Specs</CODE> is
+a list of specs as described above.
+<P>
+<DT><CODE>{New InputSource.file   init(File)}</CODE>
+<DT><CODE>{New InputSource.files  init([File1 ... FileN])}</CODE>
+<DT><CODE>{New InputSource.url    init(URL)}</CODE>
+<DT><CODE>{New InputSource.urls   init([URL1 ... URLN])}</CODE>
+<DT><CODE>{New InputSource.vs     init(VS)}</CODE>
+<DT><CODE>{New InputSource.string init(VS)}</CODE>
+<DD>for convenience, specialized classes are also provided for all the
+frequent cases.<P>
+</DL>
+<HR>
+<ADDRESS>
+  <A HREF="http://www.ps.uni-sb.de/~duchier/">Denys Duchier</A>
+</ADDRESS>
+</BODY>
+</HTML>

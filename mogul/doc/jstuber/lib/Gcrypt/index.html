@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN"
+                      "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15">
+<title>Gcrypt: Mozart binding for libgcrypt</title>
+</head>
+
+<body>
+<h1>Gcrypt: Mozart binding for libgcrypt</h1>
+
+<a href="http://www.jstuber.net/">J&uuml;rgen Stuber</a>
+<p>Some parts are copied from the libgcrypt documentation.</p>
+<p>Publik key cryptography is currently not supported.</p>
+
+<h2>Symmetric cryptography</h2>
+
+<dl>
+<dt><tt>{New Gcrypt.cipher init(Algo Mode flags:Flags<=nil) ?Cipher}</tt></dt>
+<dd>Create a new symmetric cipher object.
+  <dl>
+  <dt><tt>Algo</tt></dt><dd>An atom denoting the encryption algorithm to use.
+    Use <tt>Gcrypt.cipherAlgorithms</tt> to obtain a list of known algorithms
+    and <tt>Gcrypt.cipherAlgoIsAvailable</tt> to check availability
+    (for example, IDEA is known but unavailable because it is patented).
+  </dd>
+  <dt><tt>Mode</tt></dt><dd>An atom denoting the encryption mode to use.
+    Use <tt>Gcrypt.cipherModes</tt> to obtain a list of known modes.
+  </dd>
+  <dt><tt>Flags</tt></dt><dd>A list of atoms denoting the flags to use.
+    Use <tt>Gcrypt.cipherFlags</tt> to obtain a list of known flags.
+    The flags have the following meaning:
+    <dl>
+    <dt><tt>secure</tt></dt><dd>
+      Use secure, i.e. non-swapped, memory for keys.
+      Currently not supported, it is unclear if it is feasible with Mozart.
+    </dd>
+    <dt><tt>enableSync</tt></dt><dd>
+      This flag enables the CFB sync mode, which is a special feature of
+      Libgcrypt's CFB mode implementation to allow for OpenPGP's CFB variant.
+      See <tt>sync</tt>.
+    </dd>
+    <dt><tt>cbcCts</tt></dt><dd>
+      Enable cipher text stealing (CTS) for the CBC mode.
+      Cannot be used simultaneous with cbcMac.
+    </dd>
+    <dt><a name="cbcMac"><tt>cbcMac</tt></dt></a><dd>
+      Compute CBC-MAC keyed checksums.
+      This is the same as CBC mode, but only output the last block.
+      Cannot be used simultaneous with cbcCts.
+    </dd>
+    </dl>
+  </dd>
+  </dl>
+  Cipher objects support the following methods:
+  <dl>
+    <dt><tt>setkey(Key)</tt></dt><dd>
+      Set the key.
+      <tt>Key</tt> must be a virtual string of key length.
+    </dd>
+    <dt><tt>setiv(Iv)</tt></dt><dd>
+      Set the initialization vector.
+      <tt>Iv</tt> must be a virtual string of block length.
+    </dd>
+    <dt><tt>setctr(Ctr)</tt></dt><dd>
+      Set the counter.
+      <tt>Ctr</tt> must be a virtual string of block length.
+    </dd>
+    <dt><tt>encrypt(In ?Out)</tt></dt><dd>
+      Encrypt data.
+      <tt>In</tt> must be a virtual string of multiple block length.
+    </dd>
+    <dt><tt>decrypt(In ?Out)</tt></dt><dd>
+      Decrypt data.
+      <tt>In</tt> must be a virtual string of multiple block length.
+    </dd>
+    <dt><tt>close</tt></dt><dd>
+      Close the cipher and release any resources used.
+      Any further use will raise an exception.
+    </dd>
+    <dt><tt>reset</tt></dt><dd>
+      Reset the cipher to its state after <tt>init</tt>.
+    </dd>
+    <dt><tt>sync</tt></dt><dd>
+      Sync, whatever that means.
+    </dd>
+    <dt><tt>isSecure(?Bool)</tt></dt><dd>
+      Check whether keys are allocated in secure memory.
+      Currently faked.
+    </dd>
+  </dl>
+</dd>
+<dt><tt>Gcrypt.cipherAlgorithms</tt></dt>
+<dd>The list of cipher algorithms.</dd>
+<dt><tt>Gcrypt.cipherModes</tt></dt>
+<dd>The list of cipher modes.</dd>
+<dt><tt>Gcrypt.cipherFlags</tt></dt>
+<dd>The list of cipher flags.</dd>
+<dt><tt>{Gcrypt.cipherAlgoIsAvailable Algo ?Bool}</tt></dt>
+<dd>Check whether a cipher algorithm is available.</dd>
+<dt><tt>{Gcrypt.cipherAlgoGetKeylen Algo ?Len}</tt></dt>
+<dd>Get the key length in bytes of an algorithm.</dd>
+<dt><tt>{Gcrypt.cipherAlgoGetBlklen Algo ?Len}</tt></dt>
+<dd>Get the block length in bytes of an algorithm.</dd>
+</dl>
+
+<h2>Message digests</h2>
+
+<dl>
+<dt><tt>{New Gcrypt.messageDigest init(Spec flags:Flags<=nil) ?Md}</tt></dt>
+<dd>
+  Create a new message digest object.
+  <dl>
+  <dt><tt>Spec</tt></dt><dd>
+    Either an atom denoting the message digest algorithm to use,
+    or a list of such atoms to use several algorithms in parallel.
+    Use <tt>Gcrypt.messageDigestAlgorithms</tt> to obtain
+    a list of algorithms.
+  </dd>
+  <dt><tt>Flags</tt></dt><dd>A list of atoms denoting the flags to use.
+    Use <tt>Gcrypt.messageDigestFlags</tt> to obtain a list of known flags.
+    The flags have the following meaning:
+    <dl>
+    <dt><tt>secure</tt></dt><dd>
+      Use secure, i.e. non-swapped, memory for keys.
+      Currently not supported, it is unclear if it is feasible with Mozart.
+    </dd>
+    <dt><tt>hmac</tt></dt><dd> Turn the algorithm into a
+      HMAC message authentication algorithm.
+      This does only work if just one algorithm is used and
+      SHA-384 and SHA512 is not used.
+      Note that the <tt>setkey</tt> method must be used set the MAC key.
+      If you want CBC message authentication codes based on a cipher,
+      see the <a href="index.html#cbcMac"><tt>cbcMac</tt></a> flag for symmetric ciphers.
+    </dd>
+    </dl>
+  </dd>
+  </dl>
+  MessageDigest objects support the following methods:
+  <dl>
+    <dt><tt>setkey(Key)</tt></dt><dd>
+      Set the key for HMAC message authentication.
+      <tt>Key</tt> must be a virtual string.
+    </dd>
+    <dt><tt>write(VS)</tt></dt><dd>
+      Pass <tt>VS</tt> to the message digest computation.
+    </dd>
+    <dt><tt>read(?Result)</tt></dt><dd>
+      Finish the computation and get the result.
+      Depending on the value of <tt>Spec</tt> used for initialization
+      this is either a single virtual string containing the message digest,
+      or a list of virtual strings if <tt>Spec</tt> was a list.
+    </dd>
+    <dt><tt>close</tt></dt><dd>
+      Close the messageDigest and release any resources used.
+      Any further use will raise an exception.
+    </dd>
+    <dt><tt>reset</tt></dt><dd>
+      Reset the messageDigest to its state after <tt>init</tt>.
+    </dd>
+    <dt><tt>copy(?Md)</tt></dt><dd>
+      Copy the current state of the message digest to a second,
+      independent one.
+    </dd>
+    <dt><tt>isSecure(?Bool)</tt></dt><dd>
+      Check whether keys are allocated in secure memory.
+      Currently faked.
+    </dd>
+  </dl>
+</dd>
+<dt><tt>Gcrypt.messageDigestAlgorithms</tt></dt>
+<dd>The list of message digest algorithms.</dd>
+<dt><tt>Gcrypt.messageDigestFlags</tt></dt>
+<dd>The list of message digest algorithms.</dd>
+<dt><tt>{Gcrypt.hash Spec Flags Key VS ?Digest}</tt></dt>
+<dd>Compute the message digest of <tt>VS</tt>.</dd>
+</dl>
+
+<h2>Random numbers</h2>
+
+<dl>
+<dt><tt>Gcrypt.randomLevels</tt></dt>
+<dd>The list of quality levels for the random numbers:
+  <dl>
+    <dt><tt>strong</tt></dt><dd>Use for session keys.</dd>
+    <dt><tt>veryStrong</tt></dt><dd>Use for important keys.</dd>
+  </dl>
+</dd>
+<dt><tt>{Gcrypt.randomCreate Len Level ?Random}</tt></dt>
+<dd>Create a virtual string of <tt>Len</tt> random bytes
+  at the specified quality level.</dd>
+<dt><tt>{Gcrypt.randomCreateNonce Len ?Random}</tt></dt>
+<dd>Create a virtual string of <tt>Len</tt> random bytes
+  that should be arbitrary but are not kept secret, e.g. nonces.
+  This uses a separate random number generator in order to better protect
+  the confidentiality of the secure random number generator.
+</dd>
+</dl>
+
+<hr>
+<address>
+<a href="http://www.jstuber.net/">J&uuml;rgen Stuber</a>
+<a href="mailto:juergen&#x40;jstuber.net">&lt;juergen&#x40;jstuber.net&gt;</a>
+</address>
+Last updated 2004-10-28 13:23:37
+</body>
+</html>

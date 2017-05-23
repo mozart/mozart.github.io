@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>Unification Grammar</TITLE>
+<STYLE>
+BODY {
+        background-color: white;
+        margin-left     : 2cm;
+        margin-right    : 2cm;
+        font-family     : tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+        text-align      : center;
+        color           : #9B0000;
+}
+H2 {    color           : #FF9933; }
+H4 {    color           : slateblue; }
+H3 {    color           : #881155; }
+H5 {    color           : darkslateblue; }
+CODE {  color           : #663366; }
+CODE,TT {
+        font-family     : "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+        display         : block;
+        white-space     : pre;
+        margin-left     : 2cm;
+        margin-top      : 1em;
+        margin-bottom   : 1em;
+}
+P.AUTHOR {
+        text-align      : center;
+        font-weight     : bold;
+}
+SPAN.MODULE {
+        color           : steelblue;
+}
+A {     color           : steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<H1>Natural language modelling and parsing with unification grammars</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ps.uni-sb.de/~niehren">Joachim Niehren</A> 
+</P>
+<DL>
+  <DT><B>provides</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/unif-grammar/parser.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/unif-grammar/tester.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/unif-grammar/configuration.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/unif-grammar/Grammars/English-Simple/test.oz</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/unif-grammar/Grammars/English-Simple/grammar.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/unif-grammar/Grammars/English-Simple/lexicon.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/unif-grammar/Grammars/English-Simple/sentences.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/unif-grammar/Grammars/Backets/test.oz</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/unif-grammar/Grammars/Types/test.oz</SPAN>
+  <DT><B>requires</B>
+  <DD><a href=/mogul/info/niehren/base.html><SPAN CLASS="MODULE">mogul:/niehren/base</S  <DD><a href=/mogul/info/niehren/configuration.html><SPAN CLASS="MODULE">mogul:/niehren/base</SPAN></a>
+</DL>
+<HR>
+
+<H2>Purpose</H2>
+<P> Unification grammars extend context free grammars so 
+that they become useful for natural language modelling. 
+This package provides parsers for unifications grammars.
+It was mainly develloped in the <A HREF="http://www.ps.uni-sb.de/~niehren/Web/Vorlesungen/Oz-NL-SS01/announcement.html">Oz-course</A> that
+was offered repeatedly since 1998 by Joachim Niehren,
+Denys Duchier and Claire Gardent at the departments of 
+computational linguistics and computer sience of the 
+University at Saarbrücken. 
+<p>
+The actual package underlies a Mogul package for 
+<A HREF="/mogul/info/niehren/typed-unif-grammar.html">
+typed unification grammars</a>. The latter is in practial use in a 
+spoken language 
+<A HREF="http://www.ps.uni-sb.de/~niehren/Aufzugsteuerung.html">
+spoken language control and information dialog system</a> which
+was develleped for the elevator at the department of computational 
+linguistics in Saarbrücken.
+<P>
+Two very samll example grammars are added in this package
+To test them, install this package first, and extact its
+files. Then feed one of the two test files from the Mozart
+Emacs environment: <code>Grammars/English-Simple/test.oz</code>
+or <code>Grammars/Brackets/test.oz</code>. 
+<P>
+<H2>Installation</H2>
+<P>Download the package
+<CODE CLASS="DISPLAY">niehren-unif-grammar-*.*.*.pkg</CODE> 
+invoke <i>ozmake</i> and execute the shell command
+<CODE CLASS="DISPLAY">ozmake --install --package=niehren-unif-grammar-*.*.*.pkg</CODE>
+<HR>
+<ADDRESS>
+<A HREF="http://www.ps.uni-sb.de/~niehren">Joachim Niehren</A>
+</ADDRESS>
+</BODY>
+</HTML>
+
+<!--  
+<H1> Uberschrift 1 </h1>
+<H2> Uberschrift 2 </h2>
+<H3> Uberschrift 3 </h3>
+<H4> Uberschrift 4 </h4>
+<H5> Uberschrift 5 </h5>
+<SPAN CLASS="COMMENT">Comment</Span>
+<SPAN CLASS="KEYWORD">Keyword</Span>
+<SPAN CLASS="STRING">String</Span>
+<SPAN CLASS="FUNCTIONNAME">Functionname</Span>
+<SPAN CLASS="TYPE">Type</Span>
+<SPAN CLASS="VARIABLENAME">Variablename</Span>
+<SPAN CLASS="REFERENCE">Reference</Span>
+<SPAN CLASS="BUILTIN">Builtin</Span>
+-->

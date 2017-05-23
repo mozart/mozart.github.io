@@ -1,0 +1,271 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+ <head>
+  <title>GraphicSite</title>
+  <style>BODY {
+ background: url(page.gif) repeat-y white;
+}
+#slidemenubar, #slidemenubar2{
+ position:absolute;
+ left:-144px;
+ width:160px;
+ top:10px;
+ border:0px solid black;
+ font:bold 12px Verdana;
+ line-height:10px;
+}
+.margin {
+ position: absolute;
+ left: 10px;
+ width: 130px;
+}
+BODY, P, H1, H2, H3, A {
+ font-family: sans-serif;
+}
+PRE, CODE {
+ font-family: courier, monospace;
+}
+P {
+ text-align: justify;
+}
+H1     { color: #9B0000; }
+H2     { color: #FF9933; }
+H3, H4 { color: #881155; }
+CODE              { color: #663366; }
+.code CODE        { color: #000000; }
+SPAN.comment      { color: #B22222; }
+SPAN.keyword      { color: #A020F0; }
+SPAN.string       { color: #BC8F8F; }
+SPAN.functionname { color: #0000FF; }
+SPAN.type         { color: #228B22; }
+SPAN.variablename { color: #B8860B; }
+SPAN.reference    { color: #5F9EA0; }
+SPAN.builtin      { color: #DA70D6; }
+A:link {
+ color: #666666;
+}
+A:visited {
+ color: black;
+}
+A.pre { font-family: courier, monospace;
+ color: #228B22;
+}
+</style>
+ </head>
+<body>
+<script language="JavaScript1.2">
+if (document.all)
+document.write('<div id="slidemenubar2" style="left:-144" onMouseover="pull()" onMouseout="draw()">')
+</script>
+<layer id="slidemenubar" onMouseover="pull()" onMouseout="draw()">
+<table border="0" cellpadding="0" cellspacing="0" width="161"><tr><td bgcolor="#009cff" width="144"><a href="index.html">Index</a>
+</td><td rowspan="14" valign="top" width="16"><img src="menu.gif" width="16"></td></tr><tr><td bgcolor="#009cff" width="144"><a href="node1.html">SimulationEngine</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node2.html">EventdbClass</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node3.html">GraphicSite</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node4.html">LogTrace</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node5.html">MessageLog</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node6.html">NodeClasses</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node7.html">SiteClass</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node8.html">NodeLinkGraphics</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node9.html">Graphics</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node10.html">GraphicalSimulationEngine</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node11.html">ControlFrame</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node12.html">TkUtils</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node13.html">Utils</a>
+</td></tr></table></layer>
+<script language="JavaScript1.2">
+function regenerate(){
+window.location.reload()
+}
+function regenerate2(){
+if (document.layers)
+setTimeout("window.onresize=regenerate",400)
+}
+window.onload=regenerate2
+if (document.all){
+document.write('</div>')
+themenu=document.all.slidemenubar2.style
+rightboundary=0
+leftboundary=-144
+}
+else{
+themenu=document.layers.slidemenubar
+rightboundary=144
+leftboundary=0
+}
+function pull(){
+if (window.drawit)
+clearInterval(drawit)
+pullit=setInterval("pullengine()",20)
+}
+function draw(){
+clearInterval(pullit)
+drawit=setInterval("drawengine()",50)
+}
+function pullengine(){
+if (document.all&&themenu.pixelLeft<rightboundary)
+themenu.pixelLeft+=5
+else if(document.layers&&themenu.left<rightboundary)
+themenu.left+=5
+else if (window.pullit)
+clearInterval(pullit)
+}
+function drawengine(){
+if (document.all&&themenu.pixelLeft>leftboundary)
+themenu.pixelLeft-=5
+else if(document.layers&&themenu.left>leftboundary)
+themenu.left-=5
+else if (window.drawit)
+clearInterval(drawit)
+}
+</script>
+
+<div style="margin-left:160px"><span class="string">
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+</span>
+<h3>Functor</h3>
+<ul>GraphicSite ("<span class="string">/home/annan/cvscode/isl/src/MozartMessageSimulator/MessageLog/GraphicSite.oz</span>")<br></ul>
+<h3>Import</h3>
+<code><ul><li>Tk</li><li>Browser</li></ul></code>
+<h3>Export</h3>
+<code><ul><li>&lt;C:<a href="node3.html#entity13"><span class="type">GraphicClass</span></a>&gt;
+</li><li>&lt;C:<a href="node3.html#entity9"><span class="type">StringNode</span></a>&gt;
+</li><li>&lt;C:<a href="node3.html#entity11"><span class="type">SendNode</span></a>&gt;
+</li><li>&lt;C:<a href="node3.html#entity10"><span class="type">ReceiveNode</span></a>&gt;
+</li><li>&lt;C:<a href="node3.html#entity12"><span class="type">Line</span></a>&gt;
+</li></ul></code>
+<h3>Define</h3>
+
+<a name="entity13">
+<p class="margin"><div align="right"><a href="class3.html">[class info]</a></div></p>
+<code>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+<span class="keyword">class</span> <span class="type">GraphicClass</span>
+<br>&nbsp;&nbsp;&nbsp;<span class="keyword">feat</span>&nbsp;db&nbsp;x&nbsp;canvas&nbsp;cm
+
+<ul><li><span class="functionname">init</span>(canvas:C colorMapping:CM x:X)<br>
+</li><li><span class="functionname">string</span>(id:Id msg:S short:Short type:T)<br>
+</li><li><span class="functionname">send</span>(dir:Dir id:Id msg:Msg short:Short type:T)<br>
+</li><li><span class="functionname">receive</span>(dir:Dir id:Id msg:Msg short:Short type:T)<br>
+</li><li><span class="functionname">solve</span>(id:Id y:Y)<br>
+</li><li><span class="functionname">getXY</span>(Id $)<br>
+</li><li><span class="functionname">createLine</span>(XY Id)<br>
+</li></ul>
+<span class="keyword">end</span>
+</code><br>
+
+<a name="entity9">
+<p class="margin"><div align="right"><a href="class4.html">[class info]</a></div></p>
+<code>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+<span class="keyword">class</span> <span class="type">StringNode</span>&nbsp;<span class="keyword">from</span>&nbsp;<a href="node3.html#entity8">GraphNode</a>
+<br>&nbsp;&nbsp;&nbsp;<span class="keyword">feat</span>&nbsp;string
+
+<ul><li><span class="functionname">display</span>()<br>
+</li></ul>
+<span class="keyword">end</span>
+</code><br>
+
+<a name="entity8">
+<p class="margin"><div align="right"><a href="class5.html">[class info]</a></div></p>
+<code>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+<span class="keyword">class</span> <span class="type">GraphNode</span>
+<br>&nbsp;&nbsp;&nbsp;<span class="keyword">feat</span>&nbsp;x&nbsp;canvas&nbsp;tag&nbsp;string&nbsp;color&nbsp;type
+
+<ul><li><span class="functionname">init</span>(canvas:C color:Col msg:Msg short:T x:X y:Y)<br>
+</li><li><span class="functionname">getY</span>($)<br>
+</li><li><span class="functionname">getX</span>($)<br>
+</li><li><span class="functionname">setY</span>(Y)<br>
+</li><li><span class="functionname">msgPrint</span>()<br>
+</li><li><span class="functionname">msgRemove</span>()<br>
+</li></ul>
+<span class="keyword">end</span>
+</code><br>
+
+<a name="entity11">
+<p class="margin"><div align="right"><a href="class6.html">[class info]</a></div></p>
+<code>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+<span class="keyword">class</span> <span class="type">SendNode</span>&nbsp;<span class="keyword">from</span>&nbsp;<a href="node3.html#entity8">GraphNode</a>
+<br>&nbsp;&nbsp;&nbsp;<span class="keyword">feat</span>&nbsp;op1&nbsp;op2
+
+<ul><li><span class="functionname">display</span>()<br>
+</li></ul>
+<span class="keyword">end</span>
+</code><br>
+
+<a name="entity10">
+<p class="margin"><div align="right"><a href="class7.html">[class info]</a></div></p>
+<code>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+<span class="keyword">class</span> <span class="type">ReceiveNode</span>&nbsp;<span class="keyword">from</span>&nbsp;<a href="node3.html#entity8">GraphNode</a>
+
+<ul><li><span class="functionname">setLine</span>($)<br>
+</li><li><span class="functionname">display</span>()<br>
+</li></ul>
+<span class="keyword">end</span>
+</code><br>
+
+<a name="entity12">
+<p class="margin"><div align="right"><a href="class8.html">[class info]</a></div></p>
+<code>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+<span class="keyword">class</span> <span class="type">Line</span>
+
+<ul><li><span class="functionname">display</span>(X0A Y Rec Can)<br>
+</li></ul>
+<span class="keyword">end</span>
+</code><br>
+<h3>End</h3>
+</div></body>
+</html>

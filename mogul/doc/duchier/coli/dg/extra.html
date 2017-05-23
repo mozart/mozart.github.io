@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>7 Extra files</title>
+<link href="dg.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<table align="center" border="0" cellpadding="6" cellspacing="6" summary="navigation table">
+<tr>
+<td><a href="without.html">&lt;&lt; Previous</a></td>
+<td><a href="index.html">- Up -</a></td>
+<td><a href="history.html">Next &gt;&gt;</a></td>
+</tr>
+</table>
+
+<h1>7 Extra files</h1>
+
+<h2><a name="sty">7.1 dtree.sty</a></h2>
+
+<p>
+The LaTeX-style file "dtree.sty" defines three environments:
+<code>idtree</code> for ID trees, <code>lptree</code> for LP trees and
+<code>thgraph</code> for TH graphs. ID trees (and TH graphs) are drawn
+as follows:
+</p>
+<pre>
+\begin{idtree}
+\node{1}{2}{Mary}
+\node{2}{1}{has}
+\node{3}{2}{loved}
+\node{4}{3}{John}
+\edge{2}{1}{subj}
+\edge{2}{3}{vpp}
+\edge{3}{4}{obj}
+\end{idtree}
+</pre>
+<p>
+This results in the following tree depiction:
+</p>
+<p align=center>
+<img src="sty1.gif" alt="Example ID tree">
+</p>
+<p>
+In the <code>idtree</code>-environment, the command <code>\node</code>
+creates a node. It has three arguments: the first is the node's
+identification number (from now on just <em>number</em>), the second
+is the vertical position of the node in the tree (1 = top) and the
+third is the string corresponding to the node. The first node in the
+above example is defined as <code>\node{1}{2}{Mary}</code>: its
+identification number is <code>1</code>, its vertical position is
+<code>2</code> (one position below the top node) and the corresponding
+string is <code>Mary</code>.  Edges in the ID tree are drawn using the
+<code>\edge</code>-command: the first argument is the number of the
+mother and the second is the number of the daughter. The third
+argument denotes the edge label. The first edge in the example above
+is <code>\edge{2}{1}{subj}</code> and goes from node <code>2</code> to
+node <code>1</code> and is labeled with <code>subj</code>.
+</p>
+
+<p>
+LP trees are drawn similarly. Here is an example:
+</p>
+<pre>
+\begin{lptree}
+\node{1}{2}{Maria}{n}
+\node{2}{1}{liebt}{v12}
+\node{3}{2}{ihn}{n}
+\edge{2}{1}{vf}
+\edge{2}{3}{mf}
+\end{lptree}
+</pre>
+<p>
+Resulting in the following picture:
+</p>
+<p align=center>
+<img src="sty2.gif" alt="Example LP tree">
+</p>
+<p>
+There is only one difference between the <code>idtree</code>- and the
+<code>lptree</code>-environments, viz. that the
+<code>\node</code>-command in the latter has a fourth argument denoting
+the node label. The first node in the above example thus has node
+label <code>n</code>.
+</p>
+
+<p>
+It is also possible to increase the spacing between two columns in
+either the <code>idtree</code>- and the
+<code>lptree</code>-environments by using the command
+<code>\dtreeExtraColsep</code>. <code>\dtreeExtraColsep</code> has two
+arguments: the first is the node whose corresponding column spacing is
+to be increased and the second is the length to add to the default
+column spacing. Here is an example:
+</p>
+<pre>
+\begin{idtree}
+\dtreeExtraColsep{1}{20pt}
+\node{1}{2}{Mary}
+\node{2}{1}{has}
+\node{3}{2}{loved}
+\node{4}{3}{John}
+\edge{2}{1}{subj}
+\edge{2}{3}{vpp}
+\edge{3}{4}{obj}
+\end{idtree}
+</pre>
+<p>
+Resulting in the following picture
+</p>
+<p align=center>
+<img src="sty3.gif" alt="Example ID tree with extra spacing">
+</p>
+<p>
+Here, the spacing between the first and the second column is increased
+by <code>20pt</code>.
+</p>
+
+<h2><a name="el">7.2 dg.el</a></h2>
+
+<p>
+This package also includes an emacs mode called <em>dg</em> defined in
+the file "dg.el". The emacs mode provides keyword highlighting for
+grammar files (extension "dg"). The emacs mode is activated for all
+files whose first line is:
+<pre>
+// -*-dg-*-
+</pre>
+</p>
+
+<table align="center" border="0" cellpadding="6" cellspacing="6" summary="navigation table">
+<tr>
+<td><a href="without.html">&lt;&lt; Previous</a></td>
+<td><a href="index.html">- Up -</a></td>
+<td><a href="history.html">Next &gt;&gt;</a></td>
+</tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+<html><head><title>mogul:/duchier/select</title><link href="/mogul/mogul.css" rel="stylesheet" type="text/css"></head><body><div class="margin"><table><tr><td><hr></td></tr><tr><td><a href="/mogul/index.html">Index</a></td></tr><tr><td><a href="/mogul/info/packages.html">All Packages</a></td></tr><tr><td><a href="/mogul/info/category/index.html">All Categories</a></td></tr><tr><td><a href="/mogul/info/byauthor.html">By Author</a></td></tr><tr><td><hr></td></tr><tr><td><a alt="Application Programming" href="/mogul/info/category/ap.html">ap</a>&nbsp;(3)</td></tr><tr><td><a alt="Constraint Programming" href="/mogul/info/category/cp.html">cp</a>&nbsp;(3)</td></tr><tr><td><a alt="Distributed Programming" href="/mogul/info/category/dp.html">dp</a>&nbsp;(3)</td></tr><tr><td><a alt="Scripts and Executable Functors" href="/mogul/info/category/exe.html">exe</a>&nbsp;(3)</td></tr><tr><td><a alt="GUI Modules" href="/mogul/info/category/gui.html">gui</a>&nbsp;(0)</td></tr><tr><td><a alt="GTk GUI Modules" href="/mogul/info/category/gui:gtk.html">gui/gtk</a>&nbsp;(0)</td></tr><tr><td><a alt="Tk GUI Modules" href="/mogul/info/category/gui:tk.html">gui/tk</a>&nbsp;(4)</td></tr><tr><td><a alt="IO" href="/mogul/info/category/io.html">io</a>&nbsp;(1)</td></tr><tr><td><a alt="General data structures and algorithms" href="/mogul/info/category/lib.html">lib</a>&nbsp;(11)</td></tr><tr><td><a alt="Mathematical & Numerical Modules" href="/mogul/info/category/math.html">math</a>&nbsp;(0)</td></tr><tr><td><a alt="Web, Network Protocols, etc..." href="/mogul/info/category/net.html">net</a>&nbsp;(9)</td></tr><tr><td><a alt="Natural Language Processing" href="/mogul/info/category/nlp.html">nlp</a>&nbsp;(18)</td></tr><tr><td><a alt="Open Programming" href="/mogul/info/category/op.html">op</a>&nbsp;(4)</td></tr><tr><td><a alt="Operating System" href="/mogul/info/category/os.html">os</a>&nbsp;(2)</td></tr><tr><td><a alt="Interfaces or wrappers for other programs" href="/mogul/info/category/program.html">program</a>&nbsp;(3)</td></tr><tr><td><a alt="System Programming" href="/mogul/info/category/sp.html">sp</a>&nbsp;(2)</td></tr><tr><td><a alt="Tools" href="/mogul/info/category/tool.html">tool</a>&nbsp;(9)</td></tr><tr><td><a alt="Window Programming" href="/mogul/info/category/wp.html">wp</a>&nbsp;(2)</td></tr><tr><td><a alt="XML" href="/mogul/info/category/xml.html">xml</a>&nbsp;(2)</td></tr><tr><td><hr></td></tr></table></div><h1 class="title">Select</h1><div class="entryinfo"><div class="formatheaders"><table border="0" cellspacing="0" class="formatheaders" width="100%"><tr class="header" valign="top"><td class="header">type</td><td class="header">:</td><td class="value">package</td></tr><tr class="header" valign="top"><td class="header">id</td><td class="header">:</td><td class="value"><tt>mogul:/duchier/select</tt></td></tr><tr class="header" valign="top"><td class="header">section</td><td class="header">:</td><td class="value"><a href="/mogul/info/duchier.html">mogul:/duchier</a></td></tr><tr class="header" valign="top"><td class="header">version</td><td class="header">:</td><td class="value">1.8</td></tr><tr class="header" valign="top"><td class="header">blurb</td><td class="header">:</td><td class="value">implements the selection constraint e.g. S={Select.fs [S1 ... Sn] I}</td></tr><tr class="header" valign="top"><td class="header">author</td><td class="header">:</td><td class="value"><a href="/mogul/info/duchier/denys.html">Denys Duchier</a></td></tr><tr class="header" valign="top"><td class="header">category</td><td class="header">:</td><td class="value"><span><a href="/mogul/info/category/cp.html"><tt>cp</tt></a></span></td></tr><tr class="headerdoc" valign="top"><td class="headerdoc">documentation</td><td class="headerdoc">:</td><td class="value"><span><a href="/mogul/doc/duchier/select/index.html">index.html</a></span></td></tr><tr class="headerdoc" valign="top"><td class="headerdoc">download</td><td class="headerdoc">:</td><td class="value"><a href="/mogul/populate/duchier/select/duchier-select__1.2.5__source__1.8.pkg">duchier-select__1.2.5__source__1.8.pkg</a><br><a href="/mogul/populate/duchier/select/duchier-select__1.3.0__source__1.8.pkg">duchier-select__1.3.0__source__1.8.pkg</a></td></tr><tr class="header" valign="top"><td class="header">provides</td><td class="header">:</td><td class="value"><tt>x-ozlib://duchier/cp/Select.ozf</tt><br><tt>x-ozlib://duchier/cp/SelectFD.so</tt><br><tt>x-ozlib://duchier/cp/SelectFS.so</tt><br><tt>x-ozlib://duchier/cp/SelectUnion.so</tt><br><tt>x-ozlib://duchier/cp/SelectInter.so</tt><br><tt>x-ozlib://duchier/cp/SeqUnion.so</tt><br><tt>x-ozlib://duchier/cp/SelectThe.so</tt><br><tt>x-ozlib://duchier/cp/SeqSelect.so</tt></td></tr></table></div><div class="formatbody"><p><b>Note: from now on, this module is only available as an ozmake package.</b></p>
+<p>This module implements the <b>selection constraints</b> for finite domains
+and for finite sets.</p>
+<p>the selection constraint <code>S={Select.fs [S1 ... Sn] I}</code>
+has the same declarative semantics as <code>S={Nth [S1 ... Sn] I}</code>,
+i.e. it unifies <code>X</code> with the <code>I</code>th
+element of sequence <code>[S1 ... Sn]</code>.  However, it is much more powerful
+because it is also a <b>constraint</b>.  All of <code>S</code>, <code>S1</code>,
+..., <code>Sn</code>, and <code>I</code> can be constrained variables.  In
+particular:</p>
+<ul>
+<li><code>I</code> can be a finite domain variable.  If <code>S</code> is
+incompatible with <code>Sk</code> then integer <code>k</code> is removed
+from the domain of <code>I</code>.<p>
+<li>the selection constraint provides a form of constructive disjunction.
+With <code>M={Select.fd [M1 ... Mn] I}</code> the domain of <code>M</code>
+is the union of those of the <code>Mi</code> for <code>i</code> in the domain
+of <code>I</code>.  Similarly, with <code>S={Select.fs [S1 ... Sn] I}</code>
+the lower (resp. upper) bound of <code>S</code> is the intersection (resp.
+union) of the lower (resp. upper) bounds of <code>Si</code> for <code>i</code>
+in the domain of <code>I</code>.
+</ul>
+<p>As of version 1.3, the module also implements the selection union constraint
+<code>{Select.union [S1 ... Sn] SI}</code> which returns the union of the sets
+<code>Si</code> for <code>i</code> in <code>SI</code>.</p>
+<p>As of version 1.5, the module also implements the selection intersection constraint
+<code>{Select.inter [S1 ... Sn] SI}</code> which returns the intersection of the sets
+<code>Si</code> for <code>i</code> in <code>SI</code>.</p>
+<P>As of version 1.6, this package provides the <EM>sequenced union
+constraint</EM> <code>{Select.seqUnion [S1 ... Sn] S}</code>
+where<CODE>S</CODE> is the union of the sets <CODE>Si</CODE> which are
+additionally constrained to be sequential, i.e. for
+<code>i&lt;j</code> all elements of <code>Si</code> are smaller than
+elements of <code>Sj</code>.</p>
+<P>Version 1.8 - added <em>indexedUnion</em> constraint
+<code>{Select.indexedUnion [I1#S1 ... In#Sn] SI}</code> which returns the union of
+the <code>Sk</code> for <code>Ik</code> in <code>SI</code>.</p></div></div></body></html>

@@ -1,0 +1,220 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+ <head>
+  <title>GraphicalSimulationEngine</title>
+  <style>BODY {
+ background: url(page.gif) repeat-y white;
+}
+#slidemenubar, #slidemenubar2{
+ position:absolute;
+ left:-144px;
+ width:160px;
+ top:10px;
+ border:0px solid black;
+ font:bold 12px Verdana;
+ line-height:10px;
+}
+.margin {
+ position: absolute;
+ left: 10px;
+ width: 130px;
+}
+BODY, P, H1, H2, H3, A {
+ font-family: sans-serif;
+}
+PRE, CODE {
+ font-family: courier, monospace;
+}
+P {
+ text-align: justify;
+}
+H1     { color: #9B0000; }
+H2     { color: #FF9933; }
+H3, H4 { color: #881155; }
+CODE              { color: #663366; }
+.code CODE        { color: #000000; }
+SPAN.comment      { color: #B22222; }
+SPAN.keyword      { color: #A020F0; }
+SPAN.string       { color: #BC8F8F; }
+SPAN.functionname { color: #0000FF; }
+SPAN.type         { color: #228B22; }
+SPAN.variablename { color: #B8860B; }
+SPAN.reference    { color: #5F9EA0; }
+SPAN.builtin      { color: #DA70D6; }
+A:link {
+ color: #666666;
+}
+A:visited {
+ color: black;
+}
+A.pre { font-family: courier, monospace;
+ color: #228B22;
+}
+</style>
+ </head>
+<body>
+<script language="JavaScript1.2">
+if (document.all)
+document.write('<div id="slidemenubar2" style="left:-144" onMouseover="pull()" onMouseout="draw()">')
+</script>
+<layer id="slidemenubar" onMouseover="pull()" onMouseout="draw()">
+<table border="0" cellpadding="0" cellspacing="0" width="161"><tr><td bgcolor="#009cff" width="144"><a href="index.html">Index</a>
+</td><td rowspan="14" valign="top" width="16"><img src="menu.gif" width="16"></td></tr><tr><td bgcolor="#009cff" width="144"><a href="node1.html">SimulationEngine</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node2.html">EventdbClass</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node3.html">GraphicSite</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node4.html">LogTrace</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node5.html">MessageLog</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node6.html">NodeClasses</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node7.html">SiteClass</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node8.html">NodeLinkGraphics</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node9.html">Graphics</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node10.html">GraphicalSimulationEngine</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node11.html">ControlFrame</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node12.html">TkUtils</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node13.html">Utils</a>
+</td></tr></table></layer>
+<script language="JavaScript1.2">
+function regenerate(){
+window.location.reload()
+}
+function regenerate2(){
+if (document.layers)
+setTimeout("window.onresize=regenerate",400)
+}
+window.onload=regenerate2
+if (document.all){
+document.write('</div>')
+themenu=document.all.slidemenubar2.style
+rightboundary=0
+leftboundary=-144
+}
+else{
+themenu=document.layers.slidemenubar
+rightboundary=144
+leftboundary=0
+}
+function pull(){
+if (window.drawit)
+clearInterval(drawit)
+pullit=setInterval("pullengine()",20)
+}
+function draw(){
+clearInterval(pullit)
+drawit=setInterval("drawengine()",50)
+}
+function pullengine(){
+if (document.all&&themenu.pixelLeft<rightboundary)
+themenu.pixelLeft+=5
+else if(document.layers&&themenu.left<rightboundary)
+themenu.left+=5
+else if (window.pullit)
+clearInterval(pullit)
+}
+function drawengine(){
+if (document.all&&themenu.pixelLeft>leftboundary)
+themenu.pixelLeft-=5
+else if(document.layers&&themenu.left>leftboundary)
+themenu.left-=5
+else if (window.drawit)
+clearInterval(drawit)
+}
+</script>
+
+<div style="margin-left:160px"><span class="string">
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"> The GraphicalSimulationEngine is a tool that provides a common interface<BR>
+ to a simulation engine, simulating message passing between nodes over links,<BR>
+ and two graphical representation of the events in that simulation engine.<BR>
+<BR>
+ A precise definition of the behaviour of the simulation engine can be found<BR>
+ in the documentation of the SimulationEngine functor and class.<BR>
+ The two graphical representations are NodeLink and MessageLog. NodeLink<BR>
+ shows a graphical snapshot of nodes, links and messages present in the<BR>
+ Simulation at any instant. MessageLog shows a graphical log of all messages<BR>
+ sent and received by each node. Both are available as frames.<BR>
+<BR>
+ For the NodeLink and MessageLog tools to work messages must fit the<BR>
+ definition of class Message.<BR>
+</span>
+</span>
+<h3>Functor</h3>
+<ul>GraphicalSimulationEngine ("<span class="string">/home/annan/cvscode/isl/src/MozartMessageSimulator/App/GraphicalSimulationEngine.oz</span>")<br></ul>
+<h3>Import</h3>
+<code><ul><li><a href="node1.html">SimulationEngine</a> at "<span class="string">../SimulationEngine/SimulationEngine.ozf"
+</span></li><li><a href="node8.html">NodeLinkGraphics</a> at "<span class="string">../NodeLinkGraphics/NodeLinkGraphics.ozf"
+</span></li><li><a href="node5.html">MessageLog</a> at "<span class="string">../MessageLog/MessageLog.ozf"
+</span></li></ul></code>
+<h3>Export</h3>
+<code><ul><li>&lt;C:<a href="node10.html#entity63"><span class="type">GraphicalSimulationEngine</span></a>&gt;
+</li><li>&lt;C:<a href="node10.html#entity64"><span class="type">Message</span></a>&gt;
+</li></ul></code>
+<h3>Define</h3>
+
+<a name="entity63">
+<p class="margin"><div align="right"><a href="class22.html">[class info]</a></div></p>
+<code>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+<span class="keyword">class</span> <span class="type">GraphicalSimulationEngine</span>
+<br>&nbsp;&nbsp;&nbsp;<span class="keyword">feat</span>&nbsp;simulationEngine&nbsp;nodeLinkGraphics&nbsp;messageLog&nbsp;Links
+
+<ul><li><span class="functionname">init</span>(NodeLinkTopLevel MessageLogTopLevel NodeLinkFrame MessageLogFrame)<br>
+</li><li><span class="functionname">step</span>()<br>
+</li><li><span class="functionname">nodeLinkActive</span>(Bool)<br>
+</li><li><span class="functionname">messageLogActive</span>(Bool)<br>
+</li><li><span class="functionname">createNode</span>(NodeId Listener GraphSpec)<br>
+</li><li><span class="functionname">removeNode</span>(NodeId)<br>
+</li><li><span class="functionname">createLink</span>(FromNodeId ToNodeId L nofslots:NofSlots shifter:Shifter)<br>
+</li><li><span class="functionname">removeLink</span>(L How)<br>
+</li><li><span class="functionname">send</span>(L Msg)<br>
+</li><li><span class="functionname">getTime</span>($)<br>
+</li><li><span class="functionname">updateNodeText</span>(NodeId TextList)<br>
+</li><li><span class="functionname">insertLogString</span>(Id S)<br>
+</li><li><span class="functionname">levelLog</span>()<br>
+</li><li><span class="functionname">delay</span>(Time)<br>
+</li></ul>
+<span class="keyword">end</span>
+</code><br>
+
+<a name="entity64">
+<p class="margin"><div align="right"><a href="class23.html">[class info]</a></div></p>
+<code>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"> This class may be viewed as a template. All messages that are sent<BR>
+ on the graphical simulation engine must have at least the following<BR>
+ interface.<BR>
+ The graphical simulation engine will never alter messages. It does not<BR>
+ care what contents contains. id must be a unique identifier.<BR>
+</span>
+<span class="keyword">class</span> <span class="type">Message</span>
+<br>&nbsp;&nbsp;&nbsp;<span class="keyword">feat</span>&nbsp;id&nbsp;content
+
+<ul><li><span class="functionname">init</span>(Content)<br>
+</li><li><span class="functionname">toString</span>($)<br>
+</li><li><span class="functionname">toShortString</span>($)<br>
+</li><li><span class="functionname">getMessageColor</span>($)<br>
+</li><li><span class="functionname">getMessageShape</span>($)<br>
+</li></ul>
+<span class="keyword">end</span>
+</code><br>
+<h3>End</h3>
+</div></body>
+</html>

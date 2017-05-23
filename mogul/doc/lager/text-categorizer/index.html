@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<TITLE>Text Categorizer</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H3,H4 {	color		: #881155; }
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<H1>Text Categorizer</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ling.gu.se/~lager/">Torbjörn Lager</A>
+</P>
+<DL> 
+  <DT><B>provides</B> 
+  <DD><SPAN CLASS="MODULE">x-ozlib://lager/text-categorizer/TextCategorizer.ozf</SPAN> 
+  <DD><SPAN CLASS="MODULE">x-ozlib://lager/text-categorizer/TextCategorizerManager.ozf</span>   
+  <DD><SPAN CLASS="MODULE">x-ozlib://lager/text-categorizer/categorize.exe</span> 
+  <DD><SPAN CLASS="MODULE">x-ozlib://lager/text-categorizer/train.exe</span> 
+  <dt>&nbsp; </dt>
+</DL>
+<HR>
+<!-- PURPOSE -->
+<H2>Purpose</H2>
+<P>This is an implementation in pure Oz of the text categorization method described 
+  in 
+<blockquote>
+  <p>Cavnar, W. B. and J. M. Trenkle, <a href="http://www.nonlineardynamics.com/trenkle/papers/sdair-94-bc.ps.gz">N-Gram-Based 
+    Text Categorization</a>. In <i>Proceedings of Third Annual Symposium on Document 
+    Analysis and Information Retrieval</i>, Las Vegas, NV, UNLV Publications/Reprographics, 
+    pp. 161-175, 11-13 April 1994. </p>
+</blockquote>
+<P>Gertjan van Noord's implementation in Perl, available from <a href="http://odur.let.rug.nl/%7Evannoord/TextCat/">http://odur.let.rug.nl/~vannoord/TextCat/</a> 
+  provided lots of inspiration too. Like van Noord's distribution, this Oz-implementation 
+  concentrates on the task of recognizing languages. The method as such is however 
+  more general than that. Indeed, Cavnar and Trenkle uses it to categorize documents 
+  based on their contents as well, and there is no reason why this wouldn't work 
+  with this implementation too. 
+<P>There are two modules of particular interest to a potential user. The TextCategorizer 
+  module exports a class with public methods useful for text categorization as 
+  such, when a set of categories and their corresponding models are assumed to 
+  already exist (in the form of a pickled record). The TextCategorizerManager inherits 
+  from TextCategorizer and makes publicly available a number of methods useful 
+  for creating new models of known texts. 
+<h2>Installation</h2>
+<P>Download the package, and invoke ozmake in a shell as follows: 
+<blockquote> 
+  <p><code>ozmake --install --package=lager-text-categorizer.pkg</code></p>
+</blockquote>
+<P>By default, all files of the package are installed in the user's <code>~/.oz</code> 
+  directory tree. In particular, all modules are installed in the user's private 
+  cache. 
+<h2>Usage<!-- --> </h2>
+<h3>TextCategorizer.ozf</h3>
+<h4>Methods</h4>
+<dl> 
+  <dt><code>init(File)</code> 
+  <dd>An initialization method which loads a model store from <code>File</code>. 
+  <dt><code>rank(String ?Ranking)</code> 
+  <dd><code>Ranking</code> gets bound to a list of pairs of the form <code>ModelName#Distance</code>, 
+    where <code>Distance</code> is an integer representing the distance between 
+    the model <code>ModelName</code> and the model of <code>String</code>. The 
+    list is sorted in order of increasing distance.
+  <dt><code>categorize(String ?ModelName)</code> 
+  <dd><code>ModelName</code> gets bound to the name of the model closest to the 
+    model of <code>String</code>. 
+  <dt><code>models(?ModelNames)</code> 
+  <dd>Binds <code>ModelName</code>s to the list of names of stored models. 
+  
+</dl>
+<h3>TextCategorizerManager.ozf</h3>
+<h4>Methods</h4>
+<dl> 
+  <dt><code>init(File&lt;=new)</code> 
+  <dd>An initialization method which loads a model store from <code>File</code>, 
+    or (by default) starts from a new model. 
+  <dt><code>addModel(ModelName String) </code> 
+  <dd>Adds a model of <code>String</code> to the model store under the name <code>ModelName</code>. 
+  <dt><code>addModelFromFile(ModelName File)</code> 
+  <dd>Adds a model of the contents of <code>File</code> to the model store under 
+    the name <code>ModelName</code>. 
+  <dt><code>addModelsFromDir(Dir)</code> 
+  <dd>Adds, for each file <code>F</code> in directory <code>Dir</code>, a model 
+    of the contents of <code>F</code> to the current model store. To be considered, 
+    the name of <code>F</code> must have the form <code>&lt;name&gt;.txt</code> 
+    (<code>&lt;name&gt;</code> must not contain any period) and the resulting 
+    model is stored under the name <code>&lt;name&gt;</code>. 
+  <dt><code>saveModels(File)</code> 
+  <dd>Saves the current model store to <code>File</code>. 
+</dl>
+  <p>+ methods inherited from <code>TextCategorizer</code>
+
+<H2>Example Applications</H2>
+<P>The distribution includes two example applications: <code>categorize</code> 
+  and <code>train</code>. These applications use the TextCategorizer module and 
+  TextCategorizerManager module, respectively. For example, <code>categorize</code> 
+  may be invoked as follows 
+<blockquote> 
+  <pre><code>categorize -l &quot;This is an example of English&quot;</code></pre>
+</blockquote>
+<p>and will then load the default model store and simply print, on standard out 
+<blockquote>
+  <pre><code>Closest match: english</code></pre>
+</blockquote>
+<p>To figure out what models (of, in this case, languages) are supported by the 
+  current model store, you say: 
+<blockquote>
+  <p><code>categorize -c</code></p>
+</blockquote>
+<p>which will print, on standard out, the list
+<blockquote> 
+  <p><code>Available models: danish dutch english estonian finnish french german 
+    hungarian icelandic italian norwegian polish portuguese spanish swedish turkish</code></p>
+</blockquote>
+<p>You may use <code>train</code> to create new models. For example, the invocation 
+<blockquote> 
+  <pre><code>train --directory=shortTexts --out=mymodels.ozp</code></pre>
+</blockquote>
+<p>will create new models for the text files in the directory <code>shortTexts</code>, 
+  and add them to <code>mymodels.ozp</code>. (By the way, I have borrowed these 
+  language samples from van Noord's distribution.) The program will consider each 
+  file of the form <code>&lt;name&gt;.txt</code> (no periods are allowed in <code>&lt;name&gt;</code>) 
+  and the corresponding model will be named <code>&lt;name&gt;</code>. If there 
+  is already a model in <code>mymodels.ozp</code> with that name, it will be replaced. 
+  <code>--in</code> and <code>--out</code> may point to the same file. If <code>--in</code> 
+  is not specified, a new model will be created. If <code>--out</code> is not 
+  specified, the store will be saved in <code>default.ozp</code>. 
+<p>&nbsp;
+<HR>
+<ADDRESS> <A HREF="http://www.ling.gu.se/~lager">Torbj&ouml;rn Lager</A></ADDRESS>
+</BODY>
+</HTML>

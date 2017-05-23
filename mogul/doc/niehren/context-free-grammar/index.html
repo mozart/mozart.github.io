@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>Transformations on Context Free Grammars</TITLE>
+<STYLE>
+BODY {
+        background-color: white;
+        margin-left     : 2cm;
+        margin-right    : 2cm;
+        font-family     : tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+        text-align      : center;
+        color           : #9B0000;
+}
+H2 {    color           : #FF9933; }
+H4 {    color           : slateblue; }
+H3 {    color           : #881155; }
+H5 {    color           : darkslateblue; }
+CODE {  color           : #663366; }
+CODE,TT {
+        font-family     : "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+        display         : block;
+        white-space     : pre;
+        margin-left     : 2cm;
+        margin-top      : 1em;
+        margin-bottom   : 1em;
+}
+P.AUTHOR {
+        text-align      : center;
+        font-weight     : bold;
+}
+SPAN.MODULE {
+        color           : steelblue;
+}
+A {     color           : steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<H1>Transformations on Context Free Grammars</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ps.uni-sb.de/~niehren">Joachim Niehren</A> 
+</P>
+<DL>
+  <DT><B>provides</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/context-free-grammar/convert.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/context-free-grammar/empty-category.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/context-free-grammar/bnf.ozf</SPAN>
+</DL>
+<HR>
+
+<H2>Purpose</H2>
+<P> <code>convert.toCFG</code> converts a context free 
+grammar (CFG) into Backus-Naur-Form (BNF). 
+<P> <code>empty-categories.simplify </code> removes all 
+unreachable empty categories (non-terminals) from a CFG.
+<P> <code>bnf.toCFG</code>  converts a BNF back into the
+usual format with  grammar rules and lexicon entries.
+<P> <code>bnf.toFile</code> 
+writes a BNF as a string onto a file. These strings are 
+in Lernout&Hauspie (L&H) format for speech recognition 
+with the ASR 1600. 
+<P>
+Note that parsers for context free grammars can be generated
+with the package <A
+HREF="/mogul/info/niehren/unif-grammar.html">unification
+grammars</A> 
+as every context free grammar is a unification
+grammar (without any change or syntactic manipulation). 
+<H2>Installation</H2>
+<P>You can install the package
+<code>niehren-context-free-grammar-1.0.pkg</code> 
+by using ozmake:
+<CODE CLASS="DISPLAY">
+ozmake --install --package=niehren-context-free-grammar-1.0</CODE>
+or extact (and later on compile) the source code (again with ozmake):
+<CODE CLASS="DISPLAY">
+ozmake --extract --package=niehren-context-free-grammar-1.0</CODE>
+<HR>
+<ADDRESS>
+<A HREF="http://www.ps.uni-sb.de/~niehren">Joachim Niehren</A>
+</ADDRESS>
+</BODY>
+</HTML>
+
+<!--  
+<H1> Uberschrift 1 </h1>
+<H2> Uberschrift 2 </h2>
+<H3> Uberschrift 3 </h3>
+<H4> Uberschrift 4 </h4>
+<H5> Uberschrift 5 </h5>
+<SPAN CLASS="COMMENT">Comment</Span>
+<SPAN CLASS="KEYWORD">Keyword</Span>
+<SPAN CLASS="STRING">String</Span>
+<SPAN CLASS="FUNCTIONNAME">Functionname</Span>
+<SPAN CLASS="TYPE">Type</Span>
+<SPAN CLASS="VARIABLENAME">Variablename</Span>
+<SPAN CLASS="REFERENCE">Reference</Span>
+<SPAN CLASS="BUILTIN">Builtin</Span>
+-->

@@ -1,0 +1,339 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>5 Graphical user interface</title>
+<link href="dg.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<table align="center" border="0" cellpadding="6" cellspacing="6" summary="navigation table">
+<tr>
+<td><a href="plugins.html">&lt;&lt; Previous</a></td>
+<td><a href="index.html">- Up -</a></td>
+<td><a href="without.html">Next &gt;&gt;</a></td>
+</tr>
+</table>
+
+<h1>5 Graphical user interface</h1>
+
+The GUI is invoked by starting the executable <code>TDG</code>.
+<code>TDG</code> can be parametrized using commandline parameters as
+explained in <a href="gui.html#cli">5.4</a> below.
+
+<h2><a name="main">5.1 Main window</a></h2>
+
+<p>
+We display the main window of the graphical user interface (GUI)
+below:
+</p>
+<p align=center><img src="main.gif" alt="main window"></p>
+<p>
+The main window is divided into five parts. The first part is the
+topmost row of pulldown-menus, consisting of <em>Project</em>,
+<em>Search</em>, <em>Principles</em>, <em>Tools</em>, <em>Display</em>
+and <em>Plugins</em>.
+</p>
+
+<p>
+The second part is a status display showing which grammar file is
+currently active (<em>Grammar: grammar-acl.dg</em>), which example file
+is currently loaded (<em>Examples: examples-acl.dg</em>) and which
+plugins file (<em>Plugins: Plugins-dummy.ozf</em>).
+</p>
+
+<p>
+The third part is made up of a button labeled <em>Inspect lexical
+entries</em> and an adjacent text entry field. Here, a list of words
+(including also names of lexical types) can be entered (separated by
+spaces) whose corresponding lexical entries shall be depicted using
+the Oz Inspector. The function is triggered either by pressing the
+<em>Inspect lexical entries</em>-button or by pressing the return key
+while the text entry field is active. An example output of this
+function for the lexical entries <code>wird</code> and
+<code>koennen</code> is given below:
+</p>
+<p align=center><img src="lex.gif" alt="Inspect lexical entries"></p>
+
+<p>
+The fourth part of the main window is a scrollable listview of example
+strings. Once clicking on an example string copies it into the text
+entry field below, and double clicking indicates that the string shall
+be parsed (this is equivalent with pressing the
+<em>Parse</em>-button).
+</p>
+
+<p>
+The fifth part consists of a button labeled <em>Parse</em> and an
+adjacent text entry field. In this entry field, the string to parse
+can be edited. Parsing is triggered either by pressing the
+<em>Parse</em>-button or by pressing the return key whilst the text
+entry field is active.
+</p>
+
+<h2><a name="menus">5.2 Pulldown menus</a></h2>
+
+<p>
+Please bear in mind that each of the pulldown menus can be displayed
+in a window on their own by selecting the topmost menu entry
+(consisting of dashes). This can prove particularly useful when a
+number of switches need to be toggled several times. Also note that
+menu entries whose name ends with an ellipsis start functions which
+open a dialog window (e.g. a file requestor).  To the right of some
+menu entries are keyboard shortcuts such as <em>C-w</em> for the menu
+entry <em>Close tree windows</em>.  <em>C-w</em> means that the menu
+entry can also be invoked by pressing CTRL and w simultaneously.
+</p>
+
+<h3>5.2.1 Project</h3>
+
+<p>
+The <em>Project</em>-menu consists of the following menu entries.
+<em>About...</em> displays an about window.  <em>Open grammar
+file...</em> displays a file requestor by which a new grammar file for
+the parser can be selected. This function also tries to find the
+corresponding examples- and plugins-files by looking at the grammar
+identifier &lt;ID&gt;. For instance when the GUI loads the grammar
+file "grammar-&lt;ID&gt;.dg", it also tries to load the the examples
+file "examples-&lt;ID&gt;.txt" and the plugins file
+"Plugins-&lt;ID&gt;.ozf".  If there is no plugins file available for
+the identifier, the dummy plugins file "Plugins-dummy.ozf" is loaded.
+Hint: If you have installed the TDG-package with <code>ozmake
+--install</code>, then all grammar, examples and Plugin-files have
+been put into the directory
+"~/.oz/cache/x-ozlib/duchier/coli/dg/". <em>Reload grammar file</em>
+reloads the currently active grammar file (useful when the grammar has
+changed). <em>Open examples...</em> loads a new examples file.
+Examples files are standard text files. <em>Reload examples</em>
+reloads the currently loaded text file and <em>Append examples...</em>
+appends an examples file to the list of examples currently loaded.
+<em>Open plugins...</em> loads a new plugins file. <em>Reload
+plugins</em> reloads the selected plugins file. <em>Close tree
+windows</em> closes all windows containing TDG analyses which is
+particularly useful in case the screen is cluttered up by
+them. <em>Quit</em> quits.
+</p>
+
+<h3>5.2.2 Search</h3>
+
+<p>
+The <em>Search</em>-menu consists of the three parts.  The first
+allows the user to choose between the entries <em>First solution</em>
+and <em>All solutions</em> <em>First solution</em> means that search
+stops after the first solution (parse) has been found, and <em>All
+solutions</em> that all solutions are enumerated. The
+<em>Distribute</em>-menu entry toggles distribution and the
+<em>Generate</em>-entry the generate mode.
+</p>
+
+<h3>5.2.3 Principles</h3>
+
+<p>
+The <em>Principles</em>-menu contains a number of switches which can
+be used to toggle the TDG principles on and off. The first three of
+these principles are the set of ID principles. Below are the
+LP and TH principles.
+</p>
+
+<h3>5.2.4 Tools</h3>
+
+<p>
+The <em>Tools</em>-menu consists of three menu entries: <em>Save trees
+as LaTeX...</em> allows the user to save all licensed TDG analyses of
+the currently selected sentence (in the <em>Parse</em> text entry
+field) into a LaTeX-file. The LaTeX-code utilizes Denys Duchier's
+"dtree.sty" style file provided with this package. The style file is
+explained in <a href="extra.html#sty">Chapter 7.1</a>.  Notice that
+the options configured in the <em>Search</em>-menu apply for this
+function.
+</p>
+
+<p>
+The <em>Save test suite...</em>-menu entry starts a function which
+goes through all strings in the examples file, parses each string and
+writes statistics about the parse into a text file.  The statistics
+are of the form
+</p>
+<pre>
+maria wird haben einen mann lieben koennen
+ choices:9 failed:1 succeeded:9
+</pre>
+<p>
+where the upper line contains the parsed string and the lower line
+information about the search tree: the number of choice points
+(<code>choice</code>), of failed spaces (<code>failed</code>) and of
+succeeded spaces (<code>succeeded</code>). Note that this function
+always searches for all solutions.
+</p>
+
+<p>
+The <em>Inspect all linearizations</em>-menu entry uses the generate
+mode to generate all licensed linearizations of a bag of words.  The
+linearizations are displayed in list form. We give
+an example output of this function below:
+</p>
+<p align=center><img src="lins.gif" alt="Inspect all linearizations"></p>
+<p>
+In addition, each of the displayed linearizations can be parsed by
+selecting the corresponding list in the Inspector and invoke the
+action <em>Parse</em> from the Inspector's context menu.
+</p>
+
+<p>
+The <em>Time first solution</em> and <em>Time all solutions</em>-menu
+entries can be used to get precise time measures of the parser (more
+precise than the measures in the Explorer) for the first and all
+solutions, respectively.
+</p>
+
+<h3>5.2.5 Display</h3>
+
+<p>
+<em>Edge labels on edges</em> and <em>Edge labels on node</em> switch
+between whether the edge labels shall be drawn on the edges or on the
+nodes (in tree windows).
+</p>
+
+<p>
+<em>Inspect cardinalities</em> toggles the printing out of set
+cardinality information in the Inspector and applies both for the
+<em>Pretty</em>-information action and the <em>Inspect lexical
+entries</em>-function.
+</p>
+
+<p>
+The remaining menu entries allow to individually toggle features on
+and off when using the <em>Pretty</em>-information action.
+</p>
+
+<h3>5.2.6 Plugins</h3>
+
+<p>
+Entries in the <em>Plugins</em>-menu are only generated if a non-dummy
+plugin is active. They are generated on the basis of the
+plugins-specifications explained in <a href="plugins.html">chapter
+4</a>.
+</p>
+
+<h3>5.2.7 ESSLLI</h3>
+
+<p>
+This menu is new in version 1.2. It contains a list of all the grammar
+files in the distribution, including the ESSLLI 2002 course grammar
+fragments. Click on any of these files to open it.
+</p>
+
+<h2><a name="explorer">5.3 Explorer</a></h2>
+
+<p>
+We employ the Oz Explorer to display the search space traversed during
+distribution. The Explorer is described in
+<a href="/documentation/explorer/index.html">
+Oz Explorer-Visual Constraint Programming Support</a>. Roughly, blue
+circles denote choice points (TDG analyses which are not yet fully
+specified) in the search space, green diamonds solutions (fully
+specified TDG analyses) and red boxes failures.  If the search space
+as displayed by the Explorer contains only red boxes, no parse for the
+string could be found. We show an example Explorer search tree below:
+</p>
+<p align=center><img src="explorer.gif" alt="Explorer search tree"></p>
+
+<p>
+Non-failed nodes in the search tree (blue circles and green diamonds)
+can be double-clicked to invoke a so-called information action.
+Information actions are e.g. the graphical display of the TDG analysis
+corresponding to the node in the search tree or a printout of the
+internal structure of Signs. The user can choose between several
+information actions using the Explorer's pulldown-menu (menu entry
+<em>Information Action</em> in the <em>Node</em>-menu), all of which
+we explain below.
+</p>
+
+<p>
+<em>Show</em> prints out the list of Signs on stdio.  <em>Inspect</em>
+does the same using the Oz Inspector. The information action
+<em>Pretty</em> prints out the list of Signs in prettified, i.e. more
+readable form using the Inspector. This action takes into account the
+options set in the <em>Display</em> pulldown-menu. The information
+actions <em>ID tree</em>, <em>LP tree</em> graphically depict ID and
+LP trees in separate windows and <em>ID and LP</em> depicts both trees
+in one window. Notice that these windows can be all be closed at once
+using the pulldown-menu function <em>Close tree windows</em>. Here is
+an example ID/LP tree depiction:
+</p>
+<p align=center><img src="idlp.gif" alt="ID and LP"></p>
+
+<p>
+Tip: Do not close the Explorer window: if you close it, it loses all
+information actions except <em>Show</em> and <em>Inspect</em>.
+</p>
+
+<h2><a name="cli">5.4 Command-line arguments</a></h2>
+
+<p>
+The GUI can be parametrized by command-line arguments. The argument
+<code>help</code> prints out a list of all command-line arguments.
+</p>
+
+<p>
+The argument <code>grammar</code> specifies a grammar to load (the
+default is "grammar-de.dg").  The argument <code>examples</code> can
+be similarly used to load a specific examples file (default:
+"examples-de.txt"), and the argument <code>plugins</code> to load a
+plugins file (default: "Plugins-de.ozf").
+</p>
+
+<p>
+The argument <code>search</code> can be either set to
+<code>first</code> (search for the first solution only) or
+<code>all</code> (search for all solutions, default). The argument
+<code>generate</code> is a boolean argument: it is set to true by
+writing <code>--generate</code> and to false by writing
+<code>--nogenerate</code>. The default is false. <code>dist</code> is
+another boolean and toggles distribution.
+</p>
+
+<p>
+The following options are all boolean options used to toggle the ID,
+LP and TH principles on and off. <code>idacc</code> corresponds to the
+ID accepted labels principle, <code>idval</code> to ID valency and
+<code>idgamma</code> to ID edge constraints.  <code>lporder</code>
+corresponds to the LP order principle, <code>lpproj</code> to LP
+projectivity, <code>lpacc</code> to the LP accepted labels principle,
+<code>lpval</code> to LP valency, <code>lpnode</code> to LP accepted
+node labels and <code>lpgamma</code> to LP edge constraints.
+<code>climbing</code> corresponds to the LP climbing principle,
+<code>subtrees</code> to LP subtrees and <code>barriers</code> to LP
+barriers. <code>thacc</code> is the TH accepted labels principle,
+<code>thval</code> the TH valency principle, <code>thgamma</code> the
+TH edge constraints and <code>link</code> the TH linking principle.
+The default for all of those switches is <code>true</code>.
+</p>
+
+<p>
+The <code>edgelabels</code>-argument can be either set to
+<code>edge</code> or <code>node</code> and determines the edge label
+placement. <code>cards</code> is a boolean argument and toggles the
+printing out of set cardinality information.
+</p>
+
+<p>
+Here is an example where the GUI is given the identifier "acl" to load
+the grammar file "grammar-acl.dg", the examples file
+"examples-acl.txt" and the dummy plugins file "Plugins-dummy.ozf"
+(because there is no plugins file for the identifier "acl") searches
+only for the first solution and switches the LP order principle off:
+</p>
+<pre>
+TDG --grammar=grammar-de.dg --search=first --nolporder
+</pre>
+
+<table align="center" border="0" cellpadding="6" cellspacing="6" summary="navigation table">
+<tr>
+<td><a href="plugins.html">&lt;&lt; Previous</a></td>
+<td><a href="index.html">- Up -</a></td>
+<td><a href="without.html">Next &gt;&gt;</a></td>
+</tr>
+</table>
+
+</body>
+</html>

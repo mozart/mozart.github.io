@@ -1,0 +1,363 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>
+      IOzSeF - Integrated Oz Search Factory
+    </title>
+
+    <STYLE>
+BODY {
+      background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}	
+H1 {	
+	text-align	: center;
+	color		: #9B0000;
+}	
+H2 {	color		: #FF9933; }
+H4 {	color		: slateblue; }
+H3 {	color		: #881155; }
+H5 {	color		: darkslateblue; }
+CODE, SPAN.CMD, PRE.OZDISPLAY, PRE.CODEDISPLAY {	color		: #663366; }
+CODE,TT,PRE,SPAN.CMD,SPAN.FILE,PRE.OZDISPLAY, PRE.CODEDISPLAY {
+	font-family	: "lucida console",courier,monospace;
+}	
+SPAN.FILE {
+	color:maroon;
+	white-space:pre;
+}	
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+PRE.OZDISPLAY,PRE.CODEDISPLAY {
+	margin-left : 2cm;
+}
+SPAN.CMD {
+	white-space	: pre;
+}
+P.BLURB {
+	text-align	: center;
+	font-style	: italic;
+	margin-left	: 3cm;
+	margin-right	: 3cm;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+P.CENTER {
+	text-align	: center;
+}
+A {	color		: steelblue; }
+SPAN.TOOL {
+  font-family:"lucida console",courier,monospace;
+  color:steelblue;
+}
+SPAN.META {
+  font-style:italic;
+  font-family:"lucida console",courier,monospace;
+  color:steelblue;
+}
+SPAN.DEFAULT {
+  font-weight: bold;
+  font-family:"lucida console",courier,monospace;
+  color:gray; /*steelblue*/;
+  margin-left: 1cm;
+}
+P.WARNING {
+  color:red;
+  font-weight:bold;
+  text-align:center;
+}
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+TABLE.ALIGN {
+	margin-left : 1cm;
+}
+TH {text-align : left; }
+TD {vertical-align: top; }
+#cl {background-color: #EEEEEE; }
+</STYLE>
+
+
+  </head>
+
+  <body>
+    <h1>IOzSeF</h1>
+
+    <P CLASS="AUTHOR">
+    <A HREF="http://www.ps.uni-sb.de/~tack/">Guido Tack</A>
+    </P>
+    <P CLASS="BLURB">An Integrated Oz Search Factory</P>
+
+    <hr>
+
+
+<p>
+IOzSef is a <i>search factory</i> for Mozart. It is a toolbox that can be used to build custom search engines for solving constraint problems. It features both a graphical interface very similar to that of the Oz Explorer, and a search engine library that may serve as a replacement for the <tt>Search</tt> module.
+</p>
+
+<p>
+Information about the design behind IOzSeF can be found in the paper
+<a href="http://www.ps.uni-sb.de/Papers/abstracts/abstractionsMOZ04.html">
+<i>Compositional Abstractions for Search Factories</i></a> by Guido Tack and Didier LeBotlan, which was presented at the 2004 International Mozart/Oz Conference.
+</p>
+
+<h2>Installation</h2>
+
+<p>
+You can obtain IOzSeF from the Mogul. It requires the <tt>TkTreeWidget</tt> to be installed. Both packages can be downloaded and installed using <tt>ozmake</tt>:
+</p>
+
+<p>
+<tt>ozmake --install --package=mogul:/tack/TkTreeWidget</tt><br>
+<tt>ozmake --install --package=mogul:/tack/iozsef</tt><br>
+</p>
+
+<h2>Example</h2>
+
+<p>
+The interactive interface can be used as a replacement for the Oz Explorer. The following example shows how to solve the n-Queens puzzle using IOzSeF:
+</p>
+
+<pre>
+declare
+[IOZSEF] = {Module.link ['x-ozlib://tack/iozsef/iozsef.ozf']}
+
+fun {Queens N}
+   proc{$ Row}
+      L1N  = {MakeTuple c N}
+      LM1N = {MakeTuple c N}
+   in
+      {FD.tuple queens N 1#N Row}
+      {For 1 N 1 proc{$ I}
+                     L1N.I=I LM1N.I=~I
+                 end}
+      {FD.distinct Row}
+      {FD.distinctOffset Row LM1N}
+      {FD.distinctOffset Row L1N}
+      {FD.distribute generic(value:min) Row}
+   end
+end
+
+{IOZSEF.exploreAll {Queens 8}}
+</pre>
+
+<h3>Working with the interactive IOzSeF</h3>
+
+The interactive IOzSeF should work quite similarly to the Oz Explorer.
+
+<h4>The tree view</h4>
+
+<p>
+The main part of the IOzSeF window is used by the tree view that displays the current search tree. The tree consists of six different node types:
+<ul>
+<li><b>Blue circles</b> are choice nodes.</li>
+<li><b>Red squares</b> are nodes representing a failure.</li>
+<li><b>Green diamonds</b> are nodes representing solutions.</li>
+<li><b>Gray triangles</b> are nodes representing yet unexplored parts of the search tree.</li>
+<li><b>Big red triangles</b> represent hidden subtrees.</li>
+<li><b>Orange stars</b> represent nodes that have a suspended computation.</li>
+</ul>
+</p>
+
+<p>
+You can select nodes by clicking on them. Double-clicking invokes the currently selected <i>inspection action</i>, which defaults to displaying the root variable of the current node in the Oz Inspector.
+</p>
+
+<p>
+You can also navigate through the tree using the arrow keys. The down-arrow moves to the leftmost child of a node. The up-arrow moves to the parent node. The left- and right-arrows move to the left and right sibling.
+</p>
+
+<h4>The <i>IOzSeF</i> menu</h4>
+
+<p>
+In this menu, you find the operations <b>Halt</b>, <b>Reset</b>, and <b>Quit</b>, which should be self-explaining.
+</p>
+
+<h4>The <i>Node</i> menu</h4>
+
+<p>
+This menu lets you hide or unhide the selected node, unhide all nodes in the current subtree, or unhide failed subtrees below the current subtree.
+</p>
+
+<h4>The <i>Search</i> menu</h4>
+
+<p>
+Using the items in this menu, you can search for the next <i>n</i> solutions, for the next solution, or for all remaining solutions. Search always starts at the currently selected node and only affects the subtree below that node.
+</p>
+
+<p>
+Clicking the menu item <b>One step</b> performs a single search step. You can use this to manually explore the search tree.
+</p>
+
+<p>
+The item <b>Next phase</b> is only active for search engines based on phases, like iterative deepening.
+</p>
+
+<h4>The <i>Options</i> menu</h4>
+
+<p>
+Using the items in this menu, you can control how IOzSeF searches for solutions, how they can be displayed, and how the memory of the search tree is managed.
+</p>
+
+<ul>
+<li>The <b>Search engine</b> submenu lets you choose the exploration strategy, for instance dfs (depth first search) or id (iterative deepening).</li>
+<li>The <b>Information action</b> submenu presents you the available information actions. For hints on programming your own actions, see the section below.</li>
+<li>The <b>PopUp action</b> submenu presents you the available pop-up actions.</li>
+<li>The <b>Recomputation...</b> dialog lets you choose the parameters for recomputation.</li>
+<li>The <b>Drawing...</b> dialog lets you choose whether failed subtrees should be hidden during exploration, after how many solutions the tree should be redrawn, and after how many solutions the exploration should stop.</li>
+</ul>
+
+<h4>The status line</h4>
+
+<p>
+The status line provides information about the search tree. It presents the number of nodes of each type, and the time needed for the last search.
+</p>
+
+<h2>Interface</h2>
+
+<h3>The IOzSeF module</h3>
+
+<table>
+<tr><th>Procedure</th><th>Usage</th></tr>
+<tr><td><tt>setOption(Key Value)</tt></td><td>Sets option <tt>Key</tt> to value <Value>. See the section on options below.</td></tr>
+<tr id="cl"><td><tt>getOption(Key ?Value)</tt></td><td>Retrieves the current value of option <tt>Key</tt>.</td></tr>
+<tr><td><tt>addInformationAction(Name Type Action)</tt></td><td>Registers an information action that can be activated by double-clicking on a node. The <tt>Name</tt> is an atom describing the action, it will be used for the menu entry. The <tt>Type</tt> is one of <tt>space</tt> or <tt>root</tt>. <tt>space</tt>(<tt>root</tt>) means that the space (root variable) of the clicked node is given to the action. The <tt>action</tt> is a unary procedure that gets the space or root variable as its argument.</td></tr>
+<tr id="cl"><td><tt>deleteInformationAction(Name)</tt></td><td>Unregisters the information action <tt>Name</tt>.</td></tr>
+<tr><td><tt>addPopUpAction(Name Type Action)</tt></td><td>
+Registers a pop-up action. Pop-up actions are invoked when the user stays with the mouse over a node for more than one second. The <tt>Name</tt> is used as for information actions. The type can be either <tt>space</tt>, or <tt>root</tt>, as for information actions.
+</td></tr>
+<tr id="cl"><td><tt>deletePopUpAction(Name)</tt></td><td>Unregisters a pop-up action.</td></tr>
+<tr><td><tt>init(Script)</tt></td><td>Initializes IOzSeF with the <tt>Script</tt>. This opens a window showing an unexplored root node.</td></tr>
+<tr id="cl"><td><tt>initBest(Script Order)</tt></td><td>Initializes IOzSeF for branch-and-bound search.</td></tr>
+<tr><td><tt>explore(Script)</tt></td><td>Explores all solutions of <tt>Script</tt> in the interactive IOzSeF.</td></tr>
+<tr id="cl"><td><tt>exploreOne(Script)</tt></td><td>Explores one solution of <tt>Script</tt> in the interactive IOzSeF.</td></tr>
+<tr><td><tt>exploreBest(Script Order)</tt></td><td>Explores all solutions of <tt>Script</tt> in the interactive IOzSeF, performing branch-and-bound search. The last solution found is guaranteed to be optimal.</td></tr>
+<tr id="cl"><td><tt>searchAll(Script ?Sols)</tt></td><td>
+Returns all solutions of <tt>Script</tt> in the list <tt>Sols</tt>.
+</td></tr>
+<tr><td><tt>searchOne(Script ?Sol)</tt></td><td>
+Returns one solution of <tt>Script</tt> in a singleton list <tt>Sol</tt>, or the empty list if <tt>Script</tt> has no solution.
+</td></tr>
+<tr id="cl"><td><tt>searchBest(Script Order ?Sol)</tt></td><td>
+Return all solutions of <tt>Script</tt> performing branch-and-bound search. The last solution is guaranteed to be optimal.
+</td></tr>
+<tr><td><tt>cancelSearch</tt></td><td>
+Cancels the current non-interactive search.
+</td></tr>
+<tr id="cl"><td><tt>cancelExploration</tt></td><td>
+Cancels the current interactive exploration.
+</td></tr>
+<tr><td><tt>getSolutions(?Sols)</tt></td><td>
+Returns the solutions found so far during interactive exploration.
+</td></tr>
+<tr id="cl"><td><tt>close</tt></td><td>Closes the exploration window.</td></tr>
+</table>
+
+<h3>Actions</h3>
+
+<p>
+Actions can be used to visualize information about a node in the search tree. The default inspection action just opens the Oz Inspector and displays the root variable of the node.
+</p>
+
+<h4>Information Actions</h4>
+
+<p>
+Information actions are invoked when the user double-clicks a node in the search tree. Information is not available for failed nodes.
+</p>
+
+<p>
+An information action can either get the space of the clicked node or its root variable, depending on the <tt>Type</tt> parameter given on registration. If the type <tt>space</tt> is used, you must note that that is the actual space of the node, not a copy, for efficiency reasons. This means that you must not merge it or post constraints on it, as that may make subsequent exploration from that space impossible.
+</p>
+
+<h4>Pop-up Actions</h4>
+
+<p>
+Pop-up actions are invoked when the user "hoovers" over a node in the search tree, that is, when the mouse stays over the same place for more than a second.
+</p>
+
+<p>
+A pop-up action must return a string that is then displayed in the pop-up window above the note. It can, just as for information actions, operate on a space or a root variable, and the same restrictions for spaces apply.
+</p>
+
+<h4>Using actions to compare two nodes</h4>
+
+<p>
+The Oz Explorer provides <i>comparison actions</i> that can be used to compare different nodes in the search tree. We can partly emulate this behavior using a combination of information and pop-up actions.
+</p>
+
+<p>
+The main idea is to select the first node using an information action, and then use a pop-up action to compare it to a second node. Let us assume that we have a procedure <tt>CmpSpacesToString/3</tt> that returns a string, given two root variables. Then we can implement comparison as follows:
+</p>
+
+<pre>
+declare
+local
+   S = {NewCell unit}
+in
+   proc {InfoAction NewS}
+      S := NewS
+   end
+   fun {PopupAction R}
+      {CmpSpacesToString @S R}
+   end
+   {IOZSEF.addInformationAction compare root InfoAction}
+   {IOZSEF.addPopUpAction compare root PopupAction}
+end
+</pre>
+
+<h3>Options</h3>
+
+<table>
+<tr><th>Option</th><th>Meaning</th><th>Possible values</th></tr>
+<tr id="cl"><td>explorationStrat</td><td>
+Used search strategy
+</td><td>dfs,bdfs,id,lds</td></tr>
+<tr><td>noOfSols</td><td>
+Number of solutions after which to stop search
+</td><td>0...</td></tr>
+<tr id="cl"><td>recompStrat</td><td>
+Strategy for recomputation
+</td><td>plain,fixed,adaptive</td></tr>
+<tr><td>mrd</td><td>
+Maximum recomputation distance (for fixed and adaptive recomputation)
+</td><td>0..</td></tr>
+<tr id="cl"><td>hideFailedSubtrees</td><td>
+Whether to automatically hide failed subtrees during search
+</td><td>true,false</td></tr>
+<tr><td>updateEvery</td><td>
+Redraw the tree after how many found solutions
+</td></tr>
+<tr id="cl"><td>informationAction</td><td>
+Selected information action
+</td><td></td></tr>
+<tr><td>popUpAction</td><td>
+Selected pop-up action
+</td><td></td></tr>
+</table>
+
+
+    <hr>
+    <address><a href="mailto:gtack@odiug.de">Guido Tack</a></address>
+<!-- Created: Thu May  2 20:42:32 CEST 2002 -->
+<!-- hhmts start -->
+Last modified: Thu May  2 20:47:02 CEST 2002
+<!-- hhmts end -->
+  </body>
+</html>

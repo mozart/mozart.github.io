@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+ <head>
+  <title>Html</title>
+  <link href="ozdoc.css" rel="stylesheet" type="text/css">
+ </head>
+<body>
+<p class="margin"><table border="0" cellpadding="0" cellspacing="0">
+<tr><td width="100"><hr width="100"></td></tr>
+<tr><td width="100"><a href="index.html">Index</a>
+</td></tr>
+<tr><td width="100"><a href="node1.html">Buffered</a>
+</td></tr>
+<tr><td width="100"><a href="node2.html">Html</a>
+</td></tr>
+<tr><td width="100"><hr width="100"></td></tr>
+</table></p>
+<span class="string">
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+</span>
+<h3>Functor</h3>
+<ul>Html ("<span class="string">/home/afranke/import/mathweb/html/Html.oz</span>")<br></ul>
+<h3>Import</h3>
+<code><ul><li>Type(ask)</li><li>Buffered(file socket pipe) at "<span class="string">x-ozlib://mathweb/html/Buffered.ozf"
+</span></li></ul></code>
+<h3>Export</h3>
+<code><ul><li>xml:&lt;C:<a href="node2.html#entity22"><span class="type">Xml</span></a>&gt;
+</li><li>class:&lt;C:<a href="node2.html#entity23"><span class="type">Html</span></a>&gt;
+</li><li>document:&lt;C:<a href="node2.html#entity24"><span class="type">HtmlDoc</span></a>&gt;
+</li><li>file:<span class="variablename">HtmlFile</span>
+</li><li>socket:<span class="variablename">HtmlSocket</span>
+</li><li>pipe:<span class="variablename">HtmlPipe</span>
+</li><li>escapeS:&lt;P/2:<a href="node2.html#entity19"><span class="functionname">EscapeHtml</span></a>&gt;
+</li><li>escapeVS:&lt;P/2:<a href="node2.html#entity20"><span class="functionname">EscapeVS</span></a>&gt;
+</li><li>escape:&lt;P/2:<a href="node2.html#entity20"><span class="functionname">EscapeVS</span></a>&gt;
+</li><li>escapeJS:&lt;P/2:<a href="node2.html#entity21"><span class="functionname">EscapeJS</span></a>&gt;
+</li></ul></code>
+<h3>Define</h3>
+
+<a name="entity22">
+<code>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+<span class="keyword">class</span> <a href="class6.html"><span class="type">Xml</span></a>
+
+<ul><li><span class="functionname">startTag</span>(T attribs:Attribs)<br>
+</li><li><span class="functionname">endTag</span>(T)<br>
+</li><li><span class="functionname">emptyTag</span>(T attribs:Attribs)<br>
+</li><li><span class="functionname">tagBody</span>(N Tag)<br>
+</li><li><span class="functionname">tagTuple</span>(Tag)<br>
+</li><li><span class="functionname">tagRecord</span>(Tag)<br>
+</li><li><span class="functionname">tagProcedure</span>(P)<br>
+</li><li><span class="functionname">tag</span>(Tag)<br>
+</li></ul>
+<span class="keyword">end</span>
+</code><br>
+
+<a name="entity23">
+<code>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+<span class="keyword">class</span> <a href="class7.html"><span class="type">Html</span></a>&nbsp;<span class="keyword">from</span>&nbsp;<a href="node2.html#entity22">Xml</a>
+
+<ul><li><span class="functionname">tagRecord</span>(Tag)<br>
+</li><li><span class="functionname">tagTuple</span>(Tag)<br>
+</li><li><span class="functionname">tag</span>(Tag)<br>
+</li></ul>
+<span class="keyword">end</span>
+</code><br>
+
+<a name="entity24">
+<code>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+<span class="keyword">class</span> <a href="class8.html"><span class="type">HtmlDoc</span></a>&nbsp;<span class="keyword">from</span>&nbsp;<a href="node2.html#entity23">Html</a>
+
+<ul><li><span class="functionname">writeDoc</span>(content:Content heading:Heading margin:Margin style:Style title:Title)<br>
+</li><li><span class="functionname">Head</span>(Title Style)<br>
+</li><li><span class="functionname">Body</span>(Margin Heading Content)<br>
+</li></ul>
+<span class="keyword">end</span>
+</code><br>
+
+<code>
+<a name="entity19">
+<span class="keyword">fun</span>{<span class="functionname">EscapeHtml</span> S}
+</code><br>
+
+<code>
+<a name="entity20">
+<span class="keyword">fun</span>{<span class="functionname">EscapeVS</span> VS}
+</code><br>
+
+<code>
+<a name="entity21">
+<span class="keyword">fun</span>{<span class="functionname">EscapeJS</span> S}
+</code><br>
+<h3>End</h3>
+</body>
+</html>

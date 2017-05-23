@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<TITLE>Levenshtein</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H3,H4 {	color		: #881155; }
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<H1>Levenshtein</H1>
+<P CLASS="AUTHOR"> <A HREF="http://www.ling.gu.se/~lager/">Torbjörn Lager</A> 
+</P>
+<DL> 
+  <DT><B>provides</B> 
+  <dd><span class="MODULE">x-ozlib://lager/levenshtein/Levenshtein.so{native}</span> 
+  <dd><span class="MODULE">x-ozlib://lager/levenshtein/Levenshtein.ozf</span> 
+  <dd><span class="MODULE">x-ozlib://lager/levenshtein/match.exe</span> 
+</DL>
+<HR>
+<!-- PURPOSE --> 
+<H2>Purpose</H2>
+<P> The modules in this package export functions which measure the so called <b>edit 
+  distance</b> (also called <b>Levenshtein distance</b>) between two strings, 
+  a source and a target. The edit distance is defined as the number of deletions, 
+  insertions, or substitutions required to transform the source into the target. 
+  The greater the distance, the more different the strings are, and vice versa. 
+  Edit distance can be (and has been) used for spell checking and speech recognition 
+  purposes. 
+<P> The distribution contains two functionally equivalent implementations, one 
+  in C linked into Oz, and one in pure Oz. They are both straightforward implementations 
+  of <b>Levenshtein's algorithm</b> - a dynamic programming algorithm capable 
+  of calculating the edit distance in time proportional to the length of the source 
+  times the length of the target. The C-based version is roughly eight times faster 
+  than the pure Oz version, and is therefore recommended for serious use. 
+<h2>Installation</h2>
+<p>Download the package, and invoke ozmake in a shell as follows: 
+<blockquote> 
+  <p><code>ozmake --install --package=lager-levenshtein.pkg</code></p>
+</blockquote>
+<p>By default, all files of the package are installed in the user's <code>~/.oz</code> 
+  directory tree. In particular, all modules are installed in the user's private 
+  cache. <!-- --> 
+<h2>Usage</h2>
+<p>The C version:</p>
+<blockquote> 
+  <pre><code><span class="KEYWORD">import</span> Levenshtein <span class="KEYWORD">at</span> <span class="STRING">'x-ozlib://lager/levenshtein/Levenshtein.so{native}'</span></code>      
+ ... 
+<code>{Levenshtein.distance +S1 +S2 ?I} </code></pre>
+</blockquote>
+<p>The pure Oz version:</p>
+<blockquote>
+  <pre><code><span class="KEYWORD">import</span> Levenshtein <span class="KEYWORD">at</span> <span class="STRING">'x-ozlib://lager/levenshtein/Levenshtein.ozf'</span></code>      
+ ... 
+<code>{Levenshtein.distance +S1 +S2 ?I} </code> </pre>
+</blockquote>
+<h2>Example</h2>
+<p>For example,</p>
+<blockquote> 
+  <pre><code>{Levenshtein.distance &quot;Mozart&quot; &quot;Mogul&quot; I}</code></pre>
+</blockquote>
+<p>binds <code>I</code> to <code>4</code>, since three substitutions and one deletion 
+  is required to transform &quot;Mozart&quot; into &quot;Mogul&quot;.<code><br>
+  </code></p>
+<p>
+<h2>Example Application</h2>
+<p>The distribution also includes <code>match</code>, a stand-alone demo application 
+  which reads and tokenizes a text file and prints each token - if it is within 
+  a given edit distance to a given target word - to a file, or to <code>stdout</code> 
+  by default. It can be invoked in the following way:</p>
+<blockquote> 
+ <pre><code>bash$ ./match -i test.txt -t lovely -l 1 -h 2
+closely
+levels  
+     
+Execution time: 40 ms
+bash$</code></pre>
+</blockquote>
+<p>Invoke <code>match</code> <code>--help</code> to see what options are available. 
+  Among other things, there is an option that will let you compare the speed of 
+  the two implementations.</p>
+<h2>Related Information</h2>
+<p>A thread discussing fast edit distance algorithms appeared on a the corpora 
+  mailing list a couple of years ago, and is summarized here:</p>
+<blockquote>
+  <p><a href="http://www.hit.uib.no/corpora/2000-1/0021.html">http://www.hit.uib.no/corpora/2000-1/0021.html</a></p>
+</blockquote>
+<p>Note that the C code used in the native functor described above appears at 
+  the very end of this document, and that it was contributed by Gertjan van Noord.</p>
+<blockquote>
+  <p></p>
+</blockquote>
+<HR>
+<ADDRESS> <A HREF="http://www.ling.gu.se/~lager">Torbj&ouml;rn Lager</A></ADDRESS>
+</BODY>
+</HTML>

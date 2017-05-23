@@ -1,0 +1,230 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<TITLE>Tagger</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H3,H4 {	color		: #881155; }
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<H1>Brill Tagger</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ling.gu.se/~lager/">Torbjörn Lager</A>
+</P>
+<DL> 
+  <dt><b>provides</b> 
+  <dd><span class="MODULE">x-ozlib://lager/brill-tagger/Tagger.ozf</span> 
+  <dd><span class="MODULE">x-ozlib://lager/brill-tagger/EnglishTagger.ozf</span> 
+  <dd><span class="MODULE">x-ozlib://lager/brill-tagger/EnglishChunker.ozf</span><br>
+    <span class="MODULE">x-ozlib://lager/brill-tagger/tag.exe</span><br>
+  <dd><span class="MODULE">x-ozlib://lager/brill-tagger/chunk.exe</span> 
+  <dt><b>requires</b> 
+  <dd><span class="MODULE">x-ozlib://lager/sentence-splitter/SentenceSplitter.ozf</span> 
+  <dd><span class="MODULE">x-ozlib://lager/simple-tokenizer/EnglishTokenizer.ozf</span> 
+</DL>
+<HR>
+<!-- PURPOSE -->
+<H2>Purpose</H2>
+<P>This is an implementation in pure Oz of a Brill-style rule-based tagger (Brill 
+  1995). The tagger is an abstract class (in the sense that it does not define 
+  all the methods that it calls) and you will need to subclass it in order to 
+  do something useful. In particular, a derived class is expected to contain (or 
+  import) the rules by means of which the tagger will be operating and thus it 
+  encapsulates everything which is specific to a particular language and application. 
+  The package includes two examples which show how to build a part-of-speech tagger 
+  for English, as well as a combined part-of-speech tagger and noun-phrase chunker, 
+  also for English. The accuracy of the part-of-speech tagger should be around 
+  95-97% (i.e. 95-97% of the word tokens in arbitrary English text receive the 
+  correct tag). An overview of the <a href="penn.html">tagset</a> is available. 
+  The accuracy of the chunker is probably around 91-92 percent. Injected with 
+  more rules it can be expected to land just above 93%. At least this is the result 
+  that Ramshaw and Marcus (1995) claim for this kind of chunker. 
+<P>This package does <i>not</i> (yet) include a transformation-based learner. 
+  To train your own taggers, see for example my <a href="http://www.ling.gu.se/%7Elager/mutbl.html">&micro;-TBL 
+  system</a> or the <a href="http://nlp.cs.jhu.edu/%7Erflorian/fntbl/index.html">fnTBL 
+  toolkit</a>. These systems generate rules with a different syntax, but the conversions 
+  are straightforward and can be done automatically. 
+<P>A short description of how a Brill tagger/chunker works follows. A reader only 
+  interested in <i>using</i> a part-of-speech tagger or noun-phrase parser could 
+  probably skip this part. On the other hand, a reader wanting to know even more 
+  should read (Brill 1995) and (Ramshaw and Marcus 1995). A reader wanting to 
+  really explore what this paradigm has to offer should consult my <a href="http://www.ling.gu.se/%7Elager/Mutbl/bibliography.html">Transformation-Based 
+  Learning bibliography</a>. It turns out that wonderful things can be achieved: 
+  not only part-of-speech tagging and chunking, but also word sense disambiguation, 
+  dialogue act tagging, morpheme-phoneme conversion, etc. 
+<h3>How the Part-of-Speech Tagger Works</h3>
+<P>In the first step, a lexical lookup module assigns exactly one tag to each 
+  occurrence of a word (usually the most frequent tag for that wordform), disregarding 
+  context. Here is the single rule responsible for this:
+<blockquote> 
+  <pre><code>init(pos wd @lex.lookup)</code></pre>
+</blockquote>
+<p>The lexicon has been generated from tagged corpora and contains more than 93,000 
+  entries. </p>
+<P>In the seconds step, words not in the lexicon are handled separately, by the 
+  guesser. The guesser starts by assigning tag NNP to unknown capitialized words, 
+  and NN to others. This is the relevant rule: 
+<blockquote>
+  <pre><code>replace(pos 'unknown' 'NNP' 'NN') # [isCap#[0]]</code></pre>
+</blockquote>
+<P>Then replacement rules are applied that may change these tags on the basis 
+  of a simple suffix analysis. Here is a guessing rule:
+<blockquote>
+  <pre><code>replace(pos 'NN' 'JJ') # [suffix#less#[0]] </code> </pre>
+</blockquote>
+<P>The rule means "replace tag NN with JJ if the word in question ends in "less"". 
+<P>In the fourth step, the rule application module proceeds to replace some of 
+  the tags with other tags, on the basis of what appears in the local context. 
+  Here is a typical context rule: 
+<blockquote> 
+  <pre><code>replace(pos 'VB' 'NN') # [canHave#'NN'#[0] pos#'DT'#[~1]] </code> </pre>
+</blockquote>
+<P>The rule means "replace tag VB with NN if the the word in question can have 
+  tag NN (according to the lexicon) and if the previous word is tagged DT". 
+<P>The present system uses around 50 guessing rules and nearly 300 context rules. 
+  Both kinds of rules have been induced from tagged corpora by means of Transformation-Based 
+  Learning (TBL). 
+<h3>How the Noun-Phrase Chunker Works</h3>
+<P>A noun-phrase chunker tries to mark up all the (basic) noun phrases in a text. 
+  The idea behind this particular chunker - due to Ramshaw and Marcus (1995) - 
+  is to view chunking as a tagging problem, and to encode the chunk structure 
+  as tags attached to each word. Three tags - I, O and B - are used to indicate 
+  if a word occurrence is inside an NP, outside an NP, or on the border between 
+  two NPs, respectively. 
+<P>Since the rules for noun-phrase chunking are meant to apply to part-of-speech 
+  tagged text, the chunker also includes a Brill part-of-speech tagger. Thus, 
+  the noun-phrase chunker contains all the rules that the tagger contains plus 
+  a number of rules for chunking. 
+<P>The chunking steps do not introduce any new kinds of rules. The first step 
+  creates a new field for each word and initializes it with a default NP tag (i.e. 
+  I, O, or B) based on the part-of-speech that it has (according to the part-of-speech 
+  tagging phase). Thus: 
+<blockquote> 
+  <pre><code>init(np pos @pos2np_mapping.lookup) </code> </pre>
+</blockquote>
+<P>A sequence of chunking rules are then applied, that will replace NP tags with 
+  other NP tags, based on what the local context looks like. Here is a typical 
+  chunking rule: 
+<blockquote> 
+  <pre><code>replace(np 'I' 'O' ) # [np#'O'#[1] pos#'JJ'#[0]] </code> </pre>
+</blockquote>
+<p>The rule means "replace tag I with tag O if the next word is tagged O and the 
+  part of speech of the word in question is JJ". In the present system there are 
+  100 rules of this kinds. 
+<H2>Installation</H2>
+<P>Download the package, and invoke ozmake in a shell as follows: 
+<blockquote> 
+  <p><code>ozmake --install --package=lager-brill-tagger.pkg</code></p>
+</blockquote>
+<P>By default, all files of the package are installed in the user's <code>~/.oz</code> 
+  directory tree. In particular, all modules are installed in the user's private 
+  cache. 
+<h2>Usage<!-- --> </h2>
+<h3>Tagger.ozf</h3>
+<p>Module <tt>Tagger.ozf</tt> exports, on feature <code>class</code>, a class 
+  definition for a tagger for natural language. 
+<h4>Methods</h4>
+<dl> 
+  <dt><code>init(Trace &lt;= false)</code> 
+  <dd>An initialization method. 
+  <dt><code>tag(Words Features ?Tag)</code> 
+  <dd><code>Tag</code> gets bound to a record describing the attributes of <code>Words.</code> 
+</dl>
+<h3>EnglishTagger.ozf</h3>
+<p>The package also contains a part-of-speech tagger for English that is implemented 
+  by subclassing Tagger. 
+<h4>Methods</h4>
+<dl> 
+  <dt><code>init(Trace &lt;= false)</code> 
+  <dd>An initialization method. 
+</dl>
+<p>+ methods inherited from Tagger. </p>
+<h3>EnglishChunker.ozf</h3>
+<p>The package also contains a combined part-of-speech tagger and noun-phrase 
+  chunker for English that is implemented by subclassing Tagger. 
+<h4>Methods</h4>
+<dl> 
+  <dt><code>init(Trace &lt;= false)</code> 
+  <dd>An initialization method. 
+</dl>
+<p>+ methods inherited from Tagger.</p>
+<H2>Example Applications</H2>
+<P>The distribution includes two example applications: a part-of-speech tagger 
+  and a noun-phrase chunker. These applications use the <span class="MODULE">EnglishTagger</span> 
+  module and <span class="MODULE">EnglishChunker </span>module, respectively. 
+  They also use the modules <a href="http://www.ling.gu.se/%7Elager/mogul/sentence-splitter/index.html">SentenceSplitter</a> 
+  and <a href="http://www.ling.gu.se/%7Elager/mogul/Tokenizer/index.html">EnglishTokenizer</a>, which will have 
+  to be installed in the user's cache. 
+<P>Given the file <a href="test.txt"><tt>test.txt</tt></a> the invocation 
+<blockquote>
+  <pre><code>tag --in=test.txt --out=test.tagged.txt --statistics</code></pre>
+</blockquote>
+<P>will produce the file <a href="test.tagged.txt"><tt>test.tagged.txt</tt></a>. 
+  It will also print the following statistics: 
+<blockquote>
+  <p><code>2321 words (90 sentences) tagged in 3.02 seconds (769 W/s).<br>
+    Reading: 0.0 s. <br>
+    Splitting: 0.06 s. <br>
+    Tokenizing: 0.16 s. <br>
+    Tagging: 2.8 s.</code></p>
+</blockquote>
+<P>(This example, by the way, was run on my old portable 166Mhz PC. On a more 
+  decent computer it would be a lot faster.)
+<P>The invocation 
+<blockquote> 
+  <pre><code>chunk --in=test.txt --out=test.chunked.txt</code></pre>
+</blockquote>
+<p>will produce the file <a href="test.chunked.txt"><tt>test.chunked.txt</tt></a>. 
+<h2>References</h2>
+<blockquote> 
+  <p>Brill, Eric (1995) Transformation-Based Error-Driven Learning and Natural 
+    Language Processing: A Case Study in Part of Speech Tagging. <i>Computational 
+    Linguistics</i>, December 1995. (<a href="http://www.cs.jhu.edu/~brill/CompLing95.ps">.ps</a>) 
+  </p>
+  <p>Ramshaw, L. A. and Marcus, M. P. (1995) Text Chunking using Transformation-Based 
+    Learning. In <i>Proceedings of the ACL Third Workshop on Very Large Corpora</i>, 
+    June 1995, pp. 82-94. (<a href="http://xxx.lanl.gov/ps/cmp-lg/9505040">.ps</a>) 
+  </p>
+</blockquote>
+<HR>
+<ADDRESS> <A HREF="http://www.ling.gu.se/~lager">Torbj&ouml;rn Lager</A></ADDRESS>
+</BODY>
+</HTML>

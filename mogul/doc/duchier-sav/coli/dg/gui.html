@@ -1,0 +1,305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>5 Graphical user interface</title>
+<link href="dg.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<table align="center" border="0" cellpadding="6" cellspacing="6" summary="navigation table">
+<tr>
+<td><a href="plugins.html">&lt;&lt; Previous</a></td>
+<td><a href="index.html">- Up -</a></td>
+<td><a href="without.html">Next &gt;&gt;</a></td>
+</tr>
+</table>
+
+<h1>5 Graphical user interface</h1>
+
+The GUI is invoked by starting the executable <code>TDG.exe</code>.
+<code>TDG.exe</code> can be parametrized using commandline parameters
+as explained in <a href="#cli">5.4</a> below.
+
+<h2><a name="main">5.1 Main window</a></h2>
+
+<p>
+We display the main window of the graphical user interface (GUI)
+below:
+</p>
+<p align=center><img src="main.gif" alt="main window"></p>
+<p>
+The main window is divided into five parts. The first part is the
+topmost row of pulldown-menus, consisting of <em>Project</em>,
+<em>Search</em>, <em>Principles</em>, <em>Tools</em> and
+<em>Plugins</em>.
+</p>
+
+<p>
+The second part is a status display showing which grammar file is
+currently active (<em>Grammar: grammar-acl.dg</em>), which example file
+is currently loaded (<em>Examples: examples-acl.dg</em>) and which
+plugins file (<em>Plugins: Plugins-dummy.ozf</em>).
+</p>
+
+<p>
+The third part is made up of a button labeled <em>Inspect lexical
+entries</em> and an adjacent text entry field. Here, a list of words
+(including also names of lexical types) can be entered (separated by
+spaces) whose corresponding lexical entries shall be depicted using
+the Oz Inspector. The function is triggered either by pressing the
+<em>Inspect lexical entries</em>-button or by pressing the return key
+while the text entry field is active. An example output of this
+function for the lexical entries <code>wird</code> and
+<code>koennen</code> is given below:
+</p>
+<p align=center><img src="lex.gif" alt="Inspect lexical entries"></p>
+
+<p>
+The fourth part of the main window is a scrollable listview of example
+strings. Once clicking on an example string copies it into the text
+entry field below, and double clicking indicates that the string shall
+be parsed (this is equivalent with pressing the
+<em>Parse</em>-button).
+</p>
+
+<p>
+The fifth part consists of a button labeled <em>Parse</em> and an
+adjacent text entry field. In this entry field, the string to parse
+can be edited. Parsing is triggered either by pressing the
+<em>Parse</em>-button or by pressing the return key whilst the text
+entry field is active.
+</p>
+
+<h2><a name="menus">5.2 Pulldown menus</a></h2>
+
+<p>
+Please bear in mind that each of the pulldown menus can be displayed
+in a window on their own by selecting the topmost menu entry
+(consisting of dashes). This can prove particularly useful when a
+number of switches need to be toggled several times. Also note that
+menu entries whose name ends with an ellipsis start functions which
+open a dialog window (e.g. a file requestor).  To the right of some
+menu entries are keyboard shortcuts such as <em>A-w</em> for the menu
+entry <em>Close tree windows</em>.  <em>A-w</em> means that the menu
+entry can also be invoked by pressing ALT and w simultaneously.
+</p>
+
+<h3>5.2.1 Project</h3>
+
+<p>
+The <em>Project</em>-menu consists of the following menu entries.
+<em>About...</em> displays an about window. <em>Open all...</em>
+displays a file requestor where the user is asked to select a grammar
+file from which the GUI then extracts an identifier &lt;ID&gt; such as
+"de" or "acl". The GUI then tries to load the grammar file
+"grammar-&lt;ID&gt;.dg", the examples file "examples-&lt;ID&gt;.txt"
+and the plugins file "Plugins-&lt;ID&gt;.ozf". If there is no plugins
+file available for the identifier, the dummy plugins file
+"Plugins-dummy.ozf" is loaded.  <em>Open grammar file...</em> displays
+a file requestor by which a new grammar file for the parser can be
+selected. <em>Reload grammar file</em> reloads the currently active
+grammar file (useful when the grammar has changed). <em>Open
+examples...</em> loads a new examples file.  Examples files are
+standard text files. <em>Reload examples</em> reloads the currently
+loaded text file and <em>Append examples...</em> appends an examples
+file to the list of examples currently loaded.  <em>Open
+plugins...</em> loads a new plugins file. <em>Reload plugins</em>
+reloads the selected plugins file. <em>Close tree windows</em> closes
+all windows containing ID, LP or ID/LP analyses which is particularly
+useful in case the screen is cluttered up by them. <em>Quit</em>
+quits.
+</p>
+
+<h3>5.2.2 Search</h3>
+
+<p>
+The <em>Search</em>-menu consists of the two parts.  The first allows
+the user to choose between the entries <em>First solution</em> and
+<em>All solutions</em> <em>First solution</em> means that search stops
+after the first solution (parse) has been found, and <em>All
+solutions</em> that all solutions are enumerated.  The
+<em>Generate</em>-menu entry can be used to toggle the generate mode
+on and off.
+</p>
+
+<h3>5.2.3 Principles</h3>
+
+<p>
+The <em>Principles</em>-menu contains a number of switches which can
+be used to toggle the TDG principles on and off. The first three of
+these principles are the set of ID principles, the second the set of
+LP principles and the third the set of ID/LP principles.
+</p>
+
+<h3>5.2.4 Tools</h3>
+
+<p>
+The <em>Tools</em>-menu consists of three menu entries: <em>Save trees
+as LaTeX...</em> allows the user to save all licensed ID/LP analyses
+of the currently selected sentence (in the <em>Parse</em> text entry
+field) into a LaTeX-file. The LaTeX-code utilized Denys Duchier's
+"dtree.sty" style file provided with this package. Notice
+that the options configured in the <em>Search</em>-menu apply for this
+function.
+</p>
+
+<p>
+The <em>Save test suite...</em>-menu entry starts a function which
+goes through all strings in the examples file, parses each string and
+writes statistics about the parse into a text file.  The statistics
+are of the form
+</p>
+<pre>
+maria wird haben einen mann lieben koennen
+ choices:9 failed:1 succeeded:9
+</pre>
+<p>
+where the upper line contains the parsed string and the lower line
+information about the search tree: the number of choice points
+(<code>choice</code>), of failed spaces (<code>failed</code>) and of
+succeeded spaces (<code>succeeded</code>). Note that this function
+always searches for all solutions.
+</p>
+
+<p>
+The <em>Inspect all linearizations</em>-menu entry uses the generate
+mode to generate all licensed linearizations of a bag of words.  The
+linearizations are displayed in list form. We give
+an example output of this function below:
+</p>
+<p align=center><img src="lins.gif" alt="Inspect all linearizations"></p>
+<p>
+In addition, each of the displayed linearizations can be parsed by
+selecting the corresponding list in the Inspector and invoke the
+action <em>Parse</em> from the Inspector's context menu.
+</p>
+
+<p>
+The <em>Configure pretty printing...</em> allows to individually
+toggle Sign-level features on and off when using the
+<em>Pretty</em>-information action.
+</p>
+
+<h3>5.2.5 Plugins</h3>
+
+<p>
+Entries in the <em>Plugins</em>-menu are only generated if a non-dummy
+plugin is active. They are generated on the basis of the
+plugins-specifications explained in <a href="plugins.html">chapter
+4</a>.
+</p>
+
+<h2><a name="explorer">5.3 Explorer</a></h2>
+
+<p>
+We employ the Oz Explorer to display the search space traversed during
+distribution. The Explorer is described in
+<a href="/documentation/explorer/index.html">
+Oz Explorer-Visual Constraint Programming Support</a>. Roughly, blue
+circles denote choice points (ID/LP analyses which are not yet fully
+specified) in the search space, green diamonds solutions (fully
+specified ID/LP analyses) and red boxes failures.  If the search space
+as displayed by the Explorer contains only red boxes, no parse for the
+string could be found. We show an example Explorer search tree below:
+</p>
+<p align=center><img src="explorer.gif" alt="Explorer search tree"></p>
+
+<p>
+Non-failed nodes in the search tree (blue circles and green diamonds)
+can be double-clicked to invoke a so-called information action.
+Information actions are e.g. the graphical display of the ID/LP
+analysis corresponding to the node in the search tree or a printout of
+the internal structure of Signs. The user can choose between several
+information actions using the Explorer's pulldown-menu (menu entry
+<em>Information Action</em> in the <em>Node</em>-menu), all of which
+we explain below.
+</p>
+
+<p>
+<em>Show</em> prints out the list of Signs on stdio. <em>Browse</em>
+prints out the list of Signs using the Oz Browser. <em>Inspect</em>
+does the same using the Oz Inspector. The information action
+<em>Pretty</em> prints out the list of Signs in prettified, i.e. more
+readable form using the Inspector. This action takes into account the
+options set under <em>Configure pretty printing...</em> in the
+<em>Tools</em> pulldown-menu.The information actions <em>ID tree</em>,
+<em>LP tree</em> graphically depict ID and LP trees in separate
+windows and <em>ID and LP tree</em> depicts both trees in one
+window. Notice that these windows can be all be closed at once using
+the pulldown-menu function <em>Close tree windows</em>. Here is an
+example ID/LP tree depiction:
+</p>
+<p align=center><img src="idlp.gif" alt="ID and LP tree"></p>
+
+
+<h2><a name="cli">5.4 Command-line arguments</a></h2>
+
+<p>
+The GUI can be parametrized by command-line arguments.  The argument
+<code>grammar</code> specifies a grammar to load (the default is
+"grammar-de.dg").  The argument <code>examples</code> can be similarly
+used to load a specific examples file (default: "examples-de.txt"),
+and the argument <code>plugins</code> to load a plugins file (default:
+"Plugins-de.ozf"). The argument <code>all</code> can be used to
+specify an identifier &lt;ID&gt; such as "de" or "acl".  Then, the GUI
+loads the grammar file "grammar-&lt;ID&gt;.dg", the examples file
+"examples-&lt;ID&gt;.txt" and the plugins file
+"Plugins-&lt;ID&gt;.ozf". If there is no plugins file available for
+the identifier, the dummy plugins file "Plugins-dummy.ozf" is loaded.
+</p>
+
+<p>
+The argument <code>search</code> can be either set to
+<code>first</code> (search for the first solution only) or
+<code>all</code> (search for all solutions, default). The argument
+<code>generate</code> is a boolean argument: it is set to true by
+writing <code>--generate</code> and to false by writing
+<code>--nogenerate</code>. The default is false.
+</p>
+
+<p>
+<code>prettylex</code>, <code>prettyattribute</code>,
+<code>prettyid</code> and <code>prettylp</code> are boolean arguments
+which can be used to toggle the Sign-level features <code>lex</code>,
+<code>attribute</code>, <code>id</code> and <code>lp</code> on and of
+when using the <em>Pretty</em>-information action. All of these
+arguments default to true.
+</p>
+
+
+<p>
+The following options are all boolean options used to toggle the ID,
+LP and ID/LP principles on and off. <code>idacc</code> corresponds to
+the ID accepted labels principle, <code>idval</code> to ID valency and
+<code>idgamma</code> to ID edge constraints.  <code>lporder</code>
+corresponds to the LP order principle, <code>lpproj</code> to LP
+projectivity, <code>lpacc</code> to the LP accepted labels principle,
+<code>lpval</code> to LP valency, <code>lpnode</code> to LP accepted
+node labels and <code>lpgamma</code> to LP edge constraints.
+<code>climbing</code> corresponds to the ID/LP climbing principle,
+<code>subtrees</code> to ID/LP subtrees and <code>barriers</code> to
+ID/LP barriers. The default for all of those switches is
+<code>true</code>.
+</p>
+
+<p>
+Here is an example where the GUI is given the identifier "acl" to load
+the grammar file "grammar-acl.dg", the examples file
+"examples-acl.txt" and the dummy plugins file "Plugins-dummy.ozf"
+(because there is no plugins file for the identifier "acl") searches
+only for the first solution and switches the LP order principle off:
+</p>
+<pre>
+TDG.exe --all=acl --search=first --nolporder
+</pre>
+
+<table align="center" border="0" cellpadding="6" cellspacing="6" summary="navigation table">
+<tr>
+<td><a href="plugins.html">&lt;&lt; Previous</a></td>
+<td><a href="index.html">- Up -</a></td>
+<td><a href="without.html">Next &gt;&gt;</a></td>
+</tr>
+</table>
+
+</body>
+</html>

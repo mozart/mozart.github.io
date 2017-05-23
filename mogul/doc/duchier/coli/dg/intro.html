@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>1 Introduction</title>
+<link href="dg.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<table align="center" border="0" cellpadding="6" cellspacing="6" summary="navigation table">
+<tr>
+<td><a href="pubs.html">&lt;&lt; Previous</a></td>
+<td><a href="index.html">- Up -</a></td>
+<td><a href="grammar.html">Next &gt;&gt;</a></td>
+</tr>
+</table>
+
+<h1>1 Introduction</h1>
+
+<p>
+This document describes a parser for Topological Dependency Grammar
+(TDG), a grammar formalism described in various <a
+href="pubs.html">publications</a>.  TDG grammars can be written in a
+concrete grammar specification language which we introduce in <a
+href="grammar.html">chapter 2</a>.  The parser can be parametrized in
+various ways. We explain these parameters in <a
+href="parsing.html">chapter 3</a>.  The parser can be augmented with
+so-called plugins. Plugins are additional constraints to restrict the
+number of admissible analyses. We show how to add plugins in <a
+href="plugins.html">chapter 4</a>. In addition to the parser itself,
+we have created a graphical user interface (GUI) to facilitate grammar
+development. The GUI allows to easily change parser parameters, switch
+between different grammar files, administrate example files and it
+provides a comprehensive set of facilities to display TDG analysis
+structures. We describe the GUI in <a href="gui.html">chapter
+5</a>. The parser is implemented in a completely modular fashion. In
+<a href="without.html">chapter 6</a>, we demonstrate how to utilize
+the parser without the GUI.  <a href="extra.html">Chapter 7</a>
+explains the extra files included in this package, viz. a LaTeX-style
+file to easily include TDG dependency tree depictions in
+LaTeX-documents and an emacs mode for grammar files. Finally, <a
+href="history.html">chapter 8</a> contains the history of this package.
+</p>
+
+<h2><a name="req">1.1 Requirements</a></h2>
+
+<p>
+The TDG parser requires <a
+href="/">Mozart-Oz</a> version 1.2.3 or
+higher.  It further requires Denys Duchier's packages <a
+href="/mogul/info/duchier/ozmake.html">Ozmake</a>
+and
+<a href="/mogul/info/duchier/select.html">
+Select</a> which can be found in <a
+href="/mogul/">MOGUL</a>.
+</p>
+
+<h2><a name="install">1.2 Installation</a></h2>
+
+<p>We distribute the TDG environment in the form of an
+<code>ozmake</code> package <code>TDG.pkg</code>. After downloading
+the <code>TDG.pkg</code> package, you can install it using
+<code>ozmake</code>:
+<code class='DISPLAY'>ozmake --install --package=TDG.pkg
+</code>
+Alternatively, you may extract the sources into subdirectory
+<code>TDG</code> as follows:
+<code class='DISPLAY'>ozmake --extract --package=TDG.pkg --dir=TDG
+</code>
+and then enter subdirectory <code>TDG</code> and invoke
+<code>ozmake</code> to just build the parser and its GUI in that
+directory:
+<code class='DISPLAY'>ozmake
+</code>
+<p>The GUI is invoked by starting the <code>TDG</code> executable
+application.  When installing the package, this application is placed
+in <code>~/.oz/bin</code> where <code>~</code> stands for your home
+directory.  Thus for greater convenience you should add
+<code>~/.oz/bin</code> to your search path if this is not the case
+already.
+</p>
+
+<p>
+How to make use of the parser without the GUI is explained in <a
+href="without.html">chapter 6</a>.
+</p>
+
+<table align="center" border="0" cellpadding="6" cellspacing="6" summary="navigation table">
+<tr>
+<td><a href="pubs.html">&lt;&lt; Previous</a></td>
+<td><a href="index.html">- Up -</a></td>
+<td><a href="grammar.html">Next &gt;&gt;</a></td>
+</tr>
+</table>
+
+</body>
+</html>
