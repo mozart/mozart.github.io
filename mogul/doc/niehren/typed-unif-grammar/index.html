@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>Typed Unification Grammar</TITLE>
+<STYLE>
+BODY {
+        background-color: white;
+        margin-left     : 2cm;
+        margin-right    : 2cm;
+        font-family     : tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+        text-align      : center;
+        color           : #9B0000;
+}
+H2 {    color           : #FF9933; }
+H4 {    color           : slateblue; }
+H3 {    color           : #881155; }
+H5 {    color           : darkslateblue; }
+CODE {  color           : #663366; }
+CODE,TT {
+        font-family     : "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+        display         : block;
+        white-space     : pre;
+        margin-left     : 2cm;
+        margin-top      : 1em;
+        margin-bottom   : 1em;
+}
+P.AUTHOR {
+        text-align      : center;
+        font-weight     : bold;
+}
+SPAN.MODULE {
+        color           : steelblue;
+}
+A {     color           : steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<H1>Natural Language Modelling and Parsing with Typed Unification Grammars</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ps.uni-sb.de/~niehren">Joachim Niehren</A> 
+</P>
+<DL>
+  <DT><B>provides</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/typed-unif-grammar/parser.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/typed-unif-grammar/convert.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/typed-unif-grammar/test-parser.oz</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/typed-unif-grammar/test-converter.oz</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/typed-unif-grammar/syntax.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/typed-unif-grammar/types.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/typed-unif-grammar/grammar.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/typed-unif-grammar/lexicon.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/typed-unif-grammar/sentences.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/typed-unif-grammar/map.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/typed-unif-grammar/type-check.ozf</SPAN>
+  <DT><B>requires</B>
+  <DD><SPAN CLASS="MODULE">mogul:/niehren/base</SPAN>  
+  <DD><SPAN CLASS="MODULE">mogul:/niehren/assignment</SPAN>  
+  <DD><SPAN CLASS="MODULE">mogul:/niehren/error</SPAN>
+  <DD><SPAN CLASS="MODULE">mogul:/niehren/context-free-grammar</SPAN>
+  <DD><SPAN CLASS="MODULE">mogul:/niehren/unif-grammar</SPAN>
+</DL>
+<HR>
+
+<H2>Purpose</H2>
+<P> Typed unification grammars extend context free grammars so 
+that they become useful for natural language modelling. This package 
+provides parsers for typed unifications grammars and converter to 
+context free grammars (for which the types are essential). 
+<p>
+The package support atomic types, record types, disjunctive types,
+and recursive types. A record type defines the features that syntactical 
+entity may record. This permits to omit features in the rules, which
+are then automatically inherited before parsing.
+<p>
+The parser is obtained by reduction to parsing with 
+<A HREF="http://www.mozart-oz.org/mogul/info/niehren/unif-grammar.html">unification
+grammars</A> as described in the <A HREF="http://www.ps.uni-sb.de/~niehren/Web/Vorlesungen/Oz-NL-SS01/announcement.html">Oz-course</A>, which was offered repeatedly since 1998 by Joachim Niehren,
+Denys Duchier and Claire Gardent at the departments of 
+computational linguistics and computer sience of the 
+University at Saarbrücken. 
+<p>
+Converting a typed unification grammar into a context free
+grammar means to compute all ground instances of the grammar
+rules and lexicion entries. This set of possible 
+ground instances is defined with respect to the types.
+Conversion to a context free grammar terminates if and
+only if there are finitely many ground instance for
+all rules and lexicon entries.
+<p>
+The actual package is in practial use in a 
+<A HREF="http://www.ps.uni-sb.de/~niehren/Aufzugsteuerung.html">
+spoken language control and information dialog system</a> which was 
+develloped for the elevator at the department of computational linguistics in 
+Saarbrücken. It serves for creating a context free grammar
+as required as input of speech recognition systems with
+bounded language coverage.  
+<P>
+
+<H2>Installation</H2>
+<P>Download the file <code>niehren-typed-unif-grammar-1.0.pkg</code>, 
+invoke <i>ozmake</i> and execute in a shell
+<CODE CLASS="DISPLAY">ozmake --install --package=niehren-typed-unif-grammar-1.0
+ozmake --extract --package=niehren-typed-unif-grammar-1.0</CODE>
+The second command will provide the necessary file in the current 
+directory. 
+
+<br>You can test it out from the Mozart Emacs user environment 
+by feeding test.oz.
+<HR>
+<ADDRESS>
+<A HREF="http://www.ps.uni-sb.de/~niehren">Joachim Niehren</A>
+</ADDRESS>
+</BODY>
+</HTML>
+
+<!--  
+<H1> Uberschrift 1 </h1>
+<H2> Uberschrift 2 </h2>
+<H3> Uberschrift 3 </h3>
+<H4> Uberschrift 4 </h4>
+<H5> Uberschrift 5 </h5>
+<SPAN CLASS="COMMENT">Comment</Span>
+<SPAN CLASS="KEYWORD">Keyword</Span>
+<SPAN CLASS="STRING">String</Span>
+<SPAN CLASS="FUNCTIONNAME">Functionname</Span>
+<SPAN CLASS="TYPE">Type</Span>
+<SPAN CLASS="VARIABLENAME">Variablename</Span>
+<SPAN CLASS="REFERENCE">Reference</Span>
+<SPAN CLASS="BUILTIN">Builtin</Span>
+-->

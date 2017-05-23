@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>Interface to daVinci</TITLE>
+<STYLE>
+BODY {
+        background-color: white;
+        margin-left     : 2cm;
+        margin-right    : 2cm;
+        font-family     : tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+        text-align      : center;
+        color           : #9B0000;
+}
+H2 {    color           : #FF9933; }
+H4 {    color           : slateblue; }
+H3 {    color           : #881155; }
+H5 {    color           : darkslateblue; }
+CODE {  color           : #663366; }
+CODE,TT {
+        font-family     : "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+        display         : block;
+        white-space     : pre;
+        margin-left     : 2cm;
+        margin-top      : 1em;
+        margin-bottom   : 1em;
+}
+P.AUTHOR {
+        text-align      : center;
+        font-weight     : bold;
+}
+SPAN.MODULE {
+        color           : steelblue;
+}
+A {     color           : steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<H1>Alternative Error Handling</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ps.uni-sb.de/~niehren">Joachim Niehren</A> 
+</P>
+<DL>
+  <DT><B>provides</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/error.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/error/test.oz</SPAN>
+  <DT><B>requires</B>
+  <DD><SPAN CLASS="MODULE">ssh (secure shell)</SPAN>
+</DL>
+<HR>
+
+<H2>Purpose</H2>
+<P>
+Inspect your exception before it kills you:
+This packages defines an alternative error handling procedure 
+that can be used instead of the usual:
+
+<code  class="DISPLAY">   raise Exception end </code>
+
+This solves the problem that one often wants to 
+inspect an exception while also terminating the
+program execution (but not the inspection process). 
+<P>
+This main procedure <code>error.raise</code> 
+inspects an exception in an independent Oz process before 
+raising it as usual. It type is
+ <code>value -></code>, i.e. it inputs an exception,
+inspects and raises it. An example is provided
+in the functor <code>error/test.oz</code>.
+<code  class="DISPLAY"> 
+declare Modules = ['x-ozlib://niehren/error.ozf']
+declare [Error] = {Link Modules}
+declare Raise = Error.'raise'
+declare Exception = error(msg    :gargel
+			  package:'your package'
+			  file   :'your file'
+			  value  :'your value')
+{Raise Exception} {Inspect 'this will never be browsed'}
+</code>
+<P>
+<H2>Installation</H2>
+<P>Download the file <code>niehren-error-0.3.pkg</code> and invoke <i>ozmake</i> 
+in a shell:  
+<CODE CLASS="DISPLAY">ozmake --install --package=niehren-error-0.3.pkg</CODE>
+<HR>
+<ADDRESS>
+<A HREF="http://www.ps.uni-sb.de/~niehren">Joachim Niehren</A>
+</ADDRESS>
+</BODY>
+</HTML>
+
+<!--  
+<H1> Uberschrift 1 </h1>
+<H2> Uberschrift 2 </h2>
+<H3> Uberschrift 3 </h3>
+<H4> Uberschrift 4 </h4>
+<H5> Uberschrift 5 </h5>
+<SPAN CLASS="COMMENT">Comment</Span>
+<SPAN CLASS="KEYWORD">Keyword</Span>
+<SPAN CLASS="STRING">String</Span>
+<SPAN CLASS="FUNCTIONNAME">Functionname</Span>
+<SPAN CLASS="TYPE">Type</Span>
+<SPAN CLASS="VARIABLENAME">Variablename</Span>
+<SPAN CLASS="REFERENCE">Reference</Span>
+<SPAN CLASS="BUILTIN">Builtin</Span>
+-->

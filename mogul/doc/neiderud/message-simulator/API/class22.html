@@ -1,0 +1,313 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+ <head>
+  <title>Class GraphicalSimulationEngine</title>
+  <style>BODY {
+ background: url(page.gif) repeat-y white;
+}
+#slidemenubar, #slidemenubar2{
+ position:absolute;
+ left:-144px;
+ width:160px;
+ top:10px;
+ border:0px solid black;
+ font:bold 12px Verdana;
+ line-height:10px;
+}
+.margin {
+ position: absolute;
+ left: 10px;
+ width: 130px;
+}
+BODY, P, H1, H2, H3, A {
+ font-family: sans-serif;
+}
+PRE, CODE {
+ font-family: courier, monospace;
+}
+P {
+ text-align: justify;
+}
+H1     { color: #9B0000; }
+H2     { color: #FF9933; }
+H3, H4 { color: #881155; }
+CODE              { color: #663366; }
+.code CODE        { color: #000000; }
+SPAN.comment      { color: #B22222; }
+SPAN.keyword      { color: #A020F0; }
+SPAN.string       { color: #BC8F8F; }
+SPAN.functionname { color: #0000FF; }
+SPAN.type         { color: #228B22; }
+SPAN.variablename { color: #B8860B; }
+SPAN.reference    { color: #5F9EA0; }
+SPAN.builtin      { color: #DA70D6; }
+A:link {
+ color: #666666;
+}
+A:visited {
+ color: black;
+}
+A.pre { font-family: courier, monospace;
+ color: #228B22;
+}
+</style>
+ </head>
+<body>
+<script language="JavaScript1.2">
+if (document.all)
+document.write('<div id="slidemenubar2" style="left:-144" onMouseover="pull()" onMouseout="draw()">')
+</script>
+<layer id="slidemenubar" onMouseover="pull()" onMouseout="draw()">
+<table border="0" cellpadding="0" cellspacing="0" width="161"><tr><td bgcolor="#009cff" width="144"><a href="index.html">Index</a>
+</td><td rowspan="14" valign="top" width="16"><img src="menu.gif" width="16"></td></tr><tr><td bgcolor="#009cff" width="144"><a href="node1.html">SimulationEngine</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node2.html">EventdbClass</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node3.html">GraphicSite</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node4.html">LogTrace</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node5.html">MessageLog</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node6.html">NodeClasses</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node7.html">SiteClass</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node8.html">NodeLinkGraphics</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node9.html">Graphics</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node10.html">GraphicalSimulationEngine</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node11.html">ControlFrame</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node12.html">TkUtils</a>
+</td></tr><tr><td bgcolor="#009cff" width="144"><a href="node13.html">Utils</a>
+</td></tr></table></layer>
+<script language="JavaScript1.2">
+function regenerate(){
+window.location.reload()
+}
+function regenerate2(){
+if (document.layers)
+setTimeout("window.onresize=regenerate",400)
+}
+window.onload=regenerate2
+if (document.all){
+document.write('</div>')
+themenu=document.all.slidemenubar2.style
+rightboundary=0
+leftboundary=-144
+}
+else{
+themenu=document.layers.slidemenubar
+rightboundary=144
+leftboundary=0
+}
+function pull(){
+if (window.drawit)
+clearInterval(drawit)
+pullit=setInterval("pullengine()",20)
+}
+function draw(){
+clearInterval(pullit)
+drawit=setInterval("drawengine()",50)
+}
+function pullengine(){
+if (document.all&&themenu.pixelLeft<rightboundary)
+themenu.pixelLeft+=5
+else if(document.layers&&themenu.left<rightboundary)
+themenu.left+=5
+else if (window.pullit)
+clearInterval(pullit)
+}
+function drawengine(){
+if (document.all&&themenu.pixelLeft>leftboundary)
+themenu.pixelLeft-=5
+else if(document.layers&&themenu.left>leftboundary)
+themenu.left-=5
+else if (window.drawit)
+clearInterval(drawit)
+}
+</script>
+
+<div style="margin-left:160px"><p align="right" class="margin"><div align="right">inheritance tree</div></p>
+<pre>
+ <a class="pre" href="node10.html#entity63">GraphicalSimulationEngine</a>
+</pre>
+<hr><p class="margin"><div align="right">class definition</div></p>
+<code>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+<span class="keyword">class</span> <span class="type">GraphicalSimulationEngine</span> (Inheritance-free)<br>
+&nbsp;&nbsp;&nbsp;<span class="keyword">prop</span>&nbsp;locking
+<br>
+&nbsp;&nbsp;&nbsp;<span class="keyword">feat</span>&nbsp;Links&nbsp;messageLog&nbsp;nodeLinkGraphics&nbsp;simulationEngine
+<br>
+&nbsp;&nbsp;&nbsp;<span class="keyword">attr</span>&nbsp;delays&nbsp;messageLogActive&nbsp;nodeLinkActive
+<br>
+<ul><li><span class="functionname">createLink</span>(FromNodeId ToNodeId L nofslots:NofSlots shifter:Shifter)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"> Create a new link between the two specified nodes. A link identifier<BR>
+ to be used at sends and removals is returned in L.<BR>
+ Optionally the number of slots in the link and the shifter can be<BR>
+ specified. Further see SimulationEngine.<BR>
+</span>
+</li><li><span class="functionname">createNode</span>(NodeId Listener GraphSpec)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"> Create a new node with the specified id and listener. Further<BR>
+ description of this part is found under SimulationEngine.<BR>
+ A specification of coordinates or color may be given in GraphSpec<BR>
+ as documented in NodeLinkGraphics.<BR>
+</span>
+</li><li><span class="functionname">delay</span>(Time)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"> Perform a delay based on simulation time<BR>
+</span>
+</li><li><span class="functionname">getTime</span>($)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"> returns the current time of the engine.<BR>
+</span>
+</li><li><span class="functionname">init</span>(NodeLinkTopLevel MessageLogTopLevel NodeLinkFrame MessageLogFrame)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"><BR>
+</span>
+<table border="0" cellpadding="2" cellspacing="2"><tr><th bgcolor="#cccc99" colspan="4">Arguments</th></tr><tr bgcolor="#eeeecc"><th bgcolor="#cccc99">arg</th><td>1</td><td>NodeLinkTopLevel</td><td>parent for the Node Layout-frame</td></tr><tr bgcolor="#eeeecc"><th bgcolor="#cccc99">arg</th><td>2</td><td>MessageLogTopLevel</td><td>parent for the Message Log-frame</td></tr><tr bgcolor="#eeeecc"><th bgcolor="#cccc99">arg</th><td>3</td><td>NodeLinkFrame</td><td>returned frame with Node Layout</td></tr><tr bgcolor="#eeeecc"><th bgcolor="#cccc99">arg</th><td>4</td><td>MessageLogFrame</td><td>returned frame with Message Log</td></tr></table>
+</li><li><span class="functionname">insertLogString</span>(Id S)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"> insert a string in the message log at node Id<BR>
+</span>
+</li><li><span class="functionname">levelLog</span>()<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"> level the message log<BR>
+</span>
+</li><li><span class="functionname">messageLogActive</span>(Bool)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"> Set the MessageLog be active or inactive with true or false.<BR>
+ When inactive, it will receive send and receive events but won't<BR>
+ calculate any new state graphs.<BR>
+</span>
+</li><li><span class="functionname">nodeLinkActive</span>(Bool)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"> Set the NodeLinkGraphics be active or inactive with true or false.<BR>
+ When inactive, it will receive information on created/removed<BR>
+ nodes/links, but won't update its state on the links.<BR>
+</span>
+</li><li><span class="functionname">removeLink</span>(L How)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"> Remove the link in one of two ways. Default is crash wich will<BR>
+ remove the link immediately dropping any messages in the link.<BR>
+ Optionally flush can be specified instead. This will remove the<BR>
+ link after all messages have traveled through the link. The link<BR>
+ is immediately closed for incomming messages. A flushing link state<BR>
+ is known to the NodeLinkGraphics enabling NodeLinkGraphics to display<BR>
+ a flushing link in e.g. a different color.<BR>
+</span>
+</li><li><span class="functionname">removeNode</span>(NodeId)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"> Remove node nodeid. Behaviour specified under SimulationEngine.<BR>
+</span>
+</li><li><span class="functionname">send</span>(L Msg)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"> send a message Msg on link L. Message must look like specified by<BR>
+ class Message.<BR>
+ If several threads to simultaneous sends ont the same link, it is<BR>
+ not sure that they will appear in the same order in the<BR>
+ SimulationEngine as in the MessageLog.<BR>
+</span>
+</li><li><span class="functionname">step</span>()<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"> Advances the simulation one step. This means:<BR>
+ 1. do step on the SimulationEngine<BR>
+ 2. if active tell NodeLinkGraphics the current state with step(...)<BR>
+ 3. if active tell MessageLog to calculate and display its graph<BR>
+</span>
+</li><li><span class="functionname">updateNodeText</span>(NodeId TextList)<br>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"> Update the text shown in a node. Every entry in TextList will<BR>
+ be shown on a seperate line.<BR>
+</span>
+</li></ul>
+<span class="keyword">end</span>
+</code>
+</div></body>
+</html>

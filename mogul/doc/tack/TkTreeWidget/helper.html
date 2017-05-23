@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>TkTreeWidget - Helper</title>
+    <STYLE>
+BODY {
+      background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}	
+H1 {	
+	text-align	: center;
+	color		: #9B0000;
+}	
+H2 {	color		: #FF9933; }
+H4 {	color		: slateblue; }
+H3 {	color		: #881155; }
+H5 {	color		: darkslateblue; }
+CODE, SPAN.CMD, PRE.OZDISPLAY, PRE.CODEDISPLAY {	color		: #663366; }
+CODE,TT,PRE,SPAN.CMD,SPAN.FILE,PRE.OZDISPLAY, PRE.CODEDISPLAY {
+	font-family	: "lucida console",courier,monospace;
+}	
+SPAN.FILE {
+	color:maroon;
+	white-space:pre;
+}	
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+PRE.OZDISPLAY,PRE.CODEDISPLAY {
+	margin-left : 2cm;
+}
+SPAN.CMD {
+	white-space	: pre;
+}
+P.BLURB {
+	text-align	: center;
+	font-style	: italic;
+	margin-left	: 3cm;
+	margin-right	: 3cm;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+P.CENTER {
+	text-align	: center;
+}
+A {	color		: steelblue; }
+SPAN.TOOL {
+  font-family:"lucida console",courier,monospace;
+  color:steelblue;
+}
+SPAN.META {
+  font-style:italic;
+  font-family:"lucida console",courier,monospace;
+  color:steelblue;
+}
+SPAN.DEFAULT {
+  font-weight: bold;
+  font-family:"lucida console",courier,monospace;
+  color:gray; /*steelblue*/;
+  margin-left: 1cm;
+}
+P.WARNING {
+  color:red;
+  font-weight:bold;
+  text-align:center;
+}
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+TABLE.ALIGN {
+	margin-left : 1cm;
+}
+</STYLE>
+
+
+
+  </head>
+
+  <body>
+    <h1>TkTreeWidget - Helper</h1>
+<h2>
+The helper specification
+</h2>
+
+<p>
+The helper specification is a record.<br>
+This is what a complete specification may look like:<br>
+</p>
+
+<p><code>
+h(drawNode:DrawNode<br>
+&nbsp;&nbsp;drawOrMove:DrawOrMove<br>
+&nbsp;&nbsp;allowCursor:AllowCursor<br>
+&nbsp;&nbsp;drawCursor:DrawCursor<br>
+&nbsp;&nbsp;getConnectionPoint:GetConnectionPoint<br>
+&nbsp;&nbsp;handleEvent:HandleEvent<br>
+&nbsp;&nbsp;getNodeWidth:GetNodeWidth<br>
+&nbsp;&nbsp;params:Params<br>
+)</code>
+</p>
+
+<p>
+<code>DrawNode</code>:<br>
+<code>(Node x Canvas x ScaledX:int x ScaledY:int -> NewItem)</code><br>
+This procedure does the actual drawing. Its arguments are the node to
+be drawn, a "Canvas"-Object (which is NOT a real tk canvas) and the X-
+and Y-coordinates of the middle of the new node.<br>
+The "Canvas" has a method for creating Objects:<br>
+<code>tkGet(Tickle ?Id)</code><br>
+</p>
+
+<p>
+<code>DrawOrMove</code>:<br>
+<code>(Node -> bool)</code><br>
+This procedure gets a Node, and depending on the node's state should
+decide whether the node has to be redrawn (if its state has changed)
+or can be just moved (if necessary).
+</p>
+
+<p>
+<code>AllowCursor</code>:<br>
+<code>(Node -> bool)</code><br>
+This procedure gets a node, and depending on the node's state should
+decide whether this node (when selected) should get the cursor (or
+whether this node can't be selected).
+</p>
+
+<p>
+<code>DrawCursor</code>:<br>
+<code>(Node x Canvas x ScaledX:int x ScaledY:int -> )</code><br>
+This procedure draws the "cursor", the shadow under a selected
+node.
+</p>
+
+<p>
+<code>GetConnectionPoint</code>:<br>
+<code>(Node x Node x MomX:int x MomY:int x MyY:int -> int x int x int
+x int)</code><br>
+This procedure gets the current node, this node's parent node, the
+parent node's X and Y coordinates and its own Y coordinate and should
+return the endpoints of the connection line between the node and its
+parent.
+</p>
+
+<p>
+<code>HandleEvent</code>:<br>
+<code>(Event -> )</code><br>
+This procedure is currently called when one of the following events
+occurs:<br>
+<code>nodeSelected(Node)</code> - the node <code>Node</code> was
+selected<br>
+<code>nodeInspected(Node)</code> - the node <code>Node</code> was double-clicked<br>
+(More events will be included in a future release)
+</p>
+
+<p>
+<code>GetNodeWidth</code>:<br>
+<code>(Node -> int)</code><br>
+This procedure gets a node and returns the width this node occupies
+(for dynamically sized nodes, e.g. with text labels).
+</p>
+
+
+
+    <hr>
+    <address><a href="mailto:gtack@odiug.de">Guido Tack</a></address>
+<!-- Created: Thu May  2 20:47:21 CEST 2002 -->
+<!-- hhmts start -->
+Last modified: Thu May  2 20:48:22 CEST 2002
+<!-- hhmts end -->
+  </body>
+</html>

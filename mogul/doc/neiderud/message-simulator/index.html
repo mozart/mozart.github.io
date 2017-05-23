@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>message-simulator</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H4 {	color		: slateblue; }
+H3 {	color		: #881155; }
+H5 {	color		: darkslateblue; }
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<H1>message-simulator</H1>
+<!--<P CLASS="AUTHOR">
+  <A HREF="http://www.sics.se/~annan">Anna Neiderud</A> -
+</P> -->
+<DL>
+  <DT><B>provides</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://neiderud/message-simulator/GraphicalSimulationEngine.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://neiderud/message-simulator/ControlFrame.ozf</SPAN>
+</DL>
+<HR>
+
+<H2>Purpose</H2>
+<P>The message simulator is a foundation to build demos and simulators that 
+display communcating nodes.
+
+<H2>Installation</H2>
+<P>This package can be installed by following the usual
+<I>configure, build, install</I> procedure, i.e. by executing a the
+shell:
+<CODE CLASS="DISPLAY">./configure
+make install</CODE>
+By default, all files of the package are
+installed in the user's <TT>~/.oz</TT> directory tree.  In
+particular, all modules are installed in the user's private cache.
+
+<H2>Example</H2>
+<P>A sample run is provided by the file <A HREF="example.oz">example.oz</A>.
+
+<H2>Interface</H2>
+<P>The interface is declared <A HREF="API/index.html">here</A>.
+
+<HR>
+<ADDRESS>
+<A HREF="mailto:annan@sics.se">Anna Neiderud</A>
+</ADDRESS>
+</BODY>
+</HTML>
+

@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>Algorithms and Data-structures</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H4 {	color		: slateblue; }
+H3 {	color		: #881155; }
+H5 {	color		: darkslateblue; }
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<H1>Algorithms and Data-structures</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ps.uni-sb.de/~duchier/">Denys Duchier</A>
+</P>
+<DL>
+  <DT><B>provides</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://duchier/algorithm/DictionaryMatrix.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://duchier/algorithm/Queue.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://duchier/algorithm/Stack.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://duchier/algorithm/graph/AllShortestPaths.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://duchier/algorithm/graph/Edge.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://duchier/algorithm/graph/Node.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://duchier/algorithm/graph/StronglyConnectedComponents.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://duchier/algorithm/graph/TopologicalSort.ozf</SPAN>
+</DL>
+<HR>
+
+<H2>Purpose</H2>
+<P>Implements useful data-structures and algorithms
+
+<H3>General Data-structures</H3>
+<DL>
+<DT><CODE>{DictionaryMatrix.new Dimensions Default ?D}</CODE>
+<DD><CODE>Dimensions</CODE> is a list of lists of keys, where each
+sublist describes one dimension of the matrix.  <CODE>Default</CODE>
+is the default value to give to each entry in the matrix.
+<DT><CODE>{Queue.new ?Q}</CODE>
+<DD>creates a new queue object <CODE>Q</CODE> which responds to the
+following methods:
+<DL>
+<DT><CODE>{Q reset}</CODE>
+<DT><CODE>{Q enqueue(X)}</CODE><BR><CODE>{Q enq(X)</CODE>
+<DT><CODE>{Q dequeue(?X)}</CODE><BR><CODE>{Q deq(?X)}</CODE>
+<DT><CODE>{Q condDequeue(Default ?X)}</CODE><BR><CODE>{Q condDeq(Default ?X)}</CODE>
+<DT><CODE>{Q isEmpty(?B)}</CODE>
+</DL>
+<DT><CODE>{Stack.new ?S}</CODE>
+<DD>creates a stack object <CODE>S</CODE> which responds to the
+following methods:
+<DL>
+<DT><CODE>{S reset}</CODE>
+<DT><CODE>{S push(X)}</CODE>
+<DT><CODE>{S pop(?X)}</CODE>
+<DT><CODE>{S condPop(Default ?X)}</CODE>
+<DT><CODE>{S top(?X)}</CODE>
+<DT><CODE>{S isEmpty(?B)}</CODE>
+</DL>
+</DL>
+
+<H3>Graph Data-structures and Algorithms</H3>
+
+<DL>
+<DT><CODE>{Node.new ?N}</CODE>
+<DD>a node has a feature <CODE>id</CODE> which uniquely identifies it.
+<DT><CODE>{Node.getId N ?Id}</CODE>
+<DT><CODE>{Edge.new ?Src ?Dst}</CODE>
+<DD>an edge is created by supplying a source node <CODE>Src</CODE> and
+a destination node <CODE>Dst</CODE>, and has a feature <CODE>id</CODE>
+which uniquely identifies it.
+<DT><CODE>{Edge.getId E ?Id}</CODE>
+<DT><CODE>{Edge.getSrc E ?N}</CODE>
+<DT><CODE>{Edge.getDst E ?N}</CODE>
+<DT><CODE>{AllShortestPaths.compute Graph ?Matrix}</CODE>
+<DD>a graph has a feature <CODE>nodes</CODE> which is a list of all
+its nodes, and a feature <CODE>edges</CODE> which is a list of all its
+edges.  Additionally, it may here have a feature
+<CODE>edge2value</CODE> mapping edge ids to numbers and representing
+the length of the edge.  If feature <CODE>edge2value</CODE> is missing
+or does not contain an entry for some edge id, then the number 1 is
+used as a default.  The returned value <CODE>Matrix</CODE> is a 2
+dimensional matrix giving for every pairs of node ids the shortest
+paths between them: this path is a list of nodes.  If there is no path
+(traversing at least 1 edge) between 2 nodes, then the corresponding
+entry is <CODE>unit</CODE>.  If <CODE>Matrix.I.I</CODE> is not unit,
+then it contains the node with id <CODE>I</CODE> twice: once as the
+starting point of the loop and once as its end point.
+<DT><CODE>{StronglyConnectedComponents Graph1 ?Graph2}</CODE>
+<DD>Given a graph <CODE>Graph1</CODE>, return a new graph
+<CODE>Graph2</CODE> where the nodes are actually the strongly
+connected components of <CODE>Graph1</CODE>.  The nodes of
+<CODE>Graph2</CODE> are called components.  <CODE>Graph2</CODE> has
+a feature <CODE>node2value</CODE> which maps each component id to a
+list of nodes of <CODE>Graph1</CODE> which form a strongly connected
+component.
+<DT><CODE>{TopologicalSort.compute Graph1 ?Graph2}</CODE>
+<DD><CODE>Graph1</CODE> is expected to be a DAG. <CODE>Graph2</CODE>
+is identical to <CODE>Graph1</CODE> except that the nodes have been
+topologically sorted according to the precedence induced by the
+edges. There may be several possible topological orderings: one is
+chosen arbitrarily.
+</DL>
+
+<H2>Installation</H2>
+<P>This package can be installed by following the usual
+<I>configure, build, install</I> procedure, i.e. by executing a the
+shell:
+<CODE CLASS="DISPLAY">./configure
+make install</CODE>
+By default, all files of the package are
+installed in the user's <TT>~/.oz</TT> directory tree.  In
+particular, all modules are installed in the user's private cache.
+
+<HR>
+<ADDRESS>
+<A HREF="http://www.ps.uni-sb.de/~duchier/">Denys Duchier</A>
+</ADDRESS>
+</BODY>
+</HTML>

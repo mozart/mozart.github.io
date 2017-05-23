@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>Edge Features</TITLE>
+<STYLE>
+BODY {
+        background-color: white;
+        margin-left     : 2cm;
+        margin-right    : 2cm;
+        font-family     : tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+        text-align      : center;
+        color           : #9B0000;
+}
+H2 {    color           : #FF9933; }
+H4 {    color           : slateblue; }
+H3 {    color           : #881155; }
+H5 {    color           : darkslateblue; }
+CODE {  color           : #663366; }
+CODE,TT {
+        font-family     : "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+        display         : block;
+        white-space     : pre;
+        margin-left     : 2cm;
+        margin-top      : 1em;
+        margin-bottom   : 1em;
+}
+P.AUTHOR {
+        text-align      : center;
+        font-weight     : bold;
+}
+SPAN.MODULE {
+        color           : steelblue;
+}
+A {     color           : steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<br><br><br>
+<p align=right>Back to<a href= "index.html"> index.html</a></p>
+
+<p>
+
+<span class="TYPE">Edge features</span>
+<p>An edge is a record with label edge and features for specifying the edge's attributes. 
+<code><pre>	
+   Edge = edge(Feature1 : Field1
+               Feature2 : Field2
+                 .         . 
+		 .	   .
+		 .	   .
+	       FeatureN : FieldN)</pre></code>
+
+
+All of the following features except for <code>id,to</code> and <code>kind/s</code> are attributes required by daVinci, <code>id,to</code> and <code>kind/s</code> are for the purpose of the interface
+    	
+<code><pre>		Edge.id = Atom or Number</pre></code>
+represents the id of an edge, when not specified it is automatically given
+
+<code><pre>		Edge.to = Node.id</pre></code>
+the feature must be definded, it states the second node the edge is connected with 
+
+
+<code><pre>		Edge.'OBJECT' = Atom </pre></code>
+
+This attribute is used to set an edge label. The label is displayed with the edge in grey in the background. When the edge is selected, the label is displayed in the foreground using the color of the edge.
+Multi-line text is possible using a "\n" character inside the attribute value. The default value for this attribute is the empty string. 
+
+<code><pre>		Edge.'FONTFAMILY' = Family </pre></code>
+<code>Family = {lucida<span class="COMMENT"> %default</span>, times,
+                helvetica, courier} </code>
+This is used to visualize the text of an edge in a different font.
+
+<code><pre>		Edge.'FONTSTYLE' = Style</pre></code>
+<code>Style = {normal, bold<span class="COMMENT"> %default</span>, italic, bold_italic} </code>
+This  attribute is used to visualize the text of an edge in a different font.
+
+<code><pre>		Edge.'INFO' = Atom </pre></code>
+This is used to define the tooltip text that appears after a delay when the mouse pointer is over the edge.
+
+
+<code><pre>		Edge.'EDGECOLOR' = Color</pre></code>
+can be used to define the color of an edge.<code> Color</code> may be any X-Window colorname (see file lib/rgb.txt in
+your X11 directory) or any RGB color specification in a format like '#0f331e', where 0f is the hexadecimal value for the red part of the
+color, 33 is the green part and 1e is the blue. 
+Defaults to black. 
+
+
+<code><pre>		Edge.'EDGEPATTERN' = Pattern</pre></code>
+<code>Pattern = {solid<span class="COMMENT"> %default</span>, dotted, dashed, thick, double}</code>
+<p>particularizes the pattern style of an edge
+<p>This attribute underwent major changes in <i>DV-Presenter 3.0</i> version:
+It is now composed by 4 parameters, separated by '<code>;</code>'.
+<br>Therefore the type of <code>Pattern</code> is now: 
+
+<code>Pattern = 'Type;Shape;Width;Spline'</code>
+
+<code><pre>Type = {single,double} 
+Shape = {solid,dotted,dashed}
+Width = Int 
+Spline = {0,1}</pre></code> 
+
+So, to visualize an edge using a solid, double-lined spline with a width of 3 pixels, you use: <br>
+<code>               Edge.'EDGEPATTERN' = 'double;solid;3;1'</code>
+
+<br>The old values of daVinci 2.x versions are still supported and are translated to the new style using the following conventions: 
+
+<code><pre>solid = single;solid;1;0
+dotted = single;dotted;1;0
+dashed = single;dashed;1;0
+thick = single;solid;3;0
+double = double;solid;5;0
+</pre></code>
+
+ 
+<code><pre>		Edge.'_DIR' = Direction</pre></code>
+<code>Direction = {normal <i>(=last)</i><span class="COMMENT">%default</span>, inverse <i>(=first)</i>, both, none}</code><br>
+
+<p>This attribute is used to control the arrow of an edge. In a graph visualization, each edge usually has an arrow pointing to the child node.
+This attribute can be used to let the arrow be drawn inverse (i.e. pointing to the parent), to get an arrow at both sides of an edge or to
+suppress arrows for a particular edge. The italic values are DV-Presenter 3.0 syntax.
+
+<code><pre>		Edge.'HEAD' = Head</pre></code>
+<code>Head = {farrow <span class="COMMENT">%default</span>, arrow, fcircle, and circle }</code>
+DaVinci will draw a little image at no, one or both ends of an edge. This behaviour is controlled with the attribute "_DIR". With the
+attribute "HEAD" you can define which image this should be. 
+				
+<code><pre>		Edge.m = [MenuEntry1 ... MenuEntryN]</pre></code>
+states the menu entries that will be shown as a popup menu at the edge. 
+<code><pre>   MenuEntry = menu_entry(MenuId MenuLabel)
+   MenuId    = MenuProc
+   MenuProc  = proc{$ EdgeId DaVinci} ... end 
+   MenuLabel = Atom or Number</pre></code>
+<code>MenuId</code> identifies the action to be executed when choosing this entry,<code> MenuLabel</code> represents the label of the entry (i.e. what is shown at the menu bar).
+Note that nested menus are not implemented.
+
+
+The <code>MenuId</code> is a procedure getting two arguments, the first being the<code> EdgeId</code>, the second denoting the DaVinci environment built from the parameters. This enviroment will provide some defaults like removing items or changing attributes.
+(cf.<a href= "example2.oz">example2.oz</a>) 
+
+
+<code><pre>                Edge.kind = Kind</pre></code>
+<code>Kind = Atom</code> refers to a self-defined layout-definition in <code>Parameters</code>
+
+<code><pre>		Edge.kinds = [Kind1 ... KindN]</pre></code>
+<code>Kind = Atom</code> refers to a self-defined layout-definition in <code>Parameters</code>
+
+<p><i>(For specification of Atom and Number cf. <a href= "http://www.mozart-oz.org/documentation/base/index.html"> The Oz Base Environment </a>)</i>
+
+<p align=right>Back to<a href= "index.html"> index.html</a></p>

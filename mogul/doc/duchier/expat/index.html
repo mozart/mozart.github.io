@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<TITLE>Expat XML Processor</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H3,H4 {	color		: #881155; }
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<H1>Expat XML Processor</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ps.uni-sb.de/~duchier/">Denys Duchier</A>
+</P>
+<DL>
+  <DT><B>provides</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://duchier/xml/expat/Processor.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://duchier/xml/expat/Parser.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://duchier/xml/expat/example</SPAN>
+  <DT><B>requires</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://duchier/op/InputSource.ozf</SPAN>
+</DL>
+<HR>
+<!-- PURPOSE -->
+<H2>Purpose</H2>
+<P>This is an interface to <A HREF="http://www.jclark.com/">James
+Clark</A>'s <TT>expat</TT> library for parsing XML documents.
+Module <TT>Processor.ozf</TT> exports a class that implements a
+SAX-like processor which can be used e.g. as shown below.
+SAX events are invoked as methods.  Each application should specialize
+these methods to do something useful.
+<PRE><CODE CLASS="DISPLAY"><SPAN CLASS="KEYWORD">functor</SPAN>
+<SPAN CLASS="KEYWORD">import</SPAN> Processor <SPAN CLASS="KEYWORD">at</SPAN> <SPAN CLASS="STRING">'x-ozlib://duchier/xml/expat/Processor.ozf'</SPAN>
+<SPAN CLASS="KEYWORD">define</SPAN>
+   ...
+   <SPAN CLASS="KEYWORD">class</SPAN> <SPAN CLASS="TYPE">MyProcessor</SPAN> <SPAN CLASS="KEYWORD">from</SPAN> <SPAN CLASS="TYPE">Processor.</SPAN><SPAN CLASS="STRING">'class'</SPAN>
+     ...
+     <SPAN CLASS="KEYWORD">meth</SPAN> <SPAN CLASS="FUNCTIONNAME">startElement</SPAN>(Tag Attribs) ... <SPAN CLASS="KEYWORD">end</SPAN>
+     ...
+   <SPAN CLASS="KEYWORD">end</SPAN>
+   ...
+<SPAN CLASS="KEYWORD">end</SPAN></CODE></PRE>
+<!-- INSTALLATION -->
+<H2>Installation</H2>
+<P>In order to build this package you first also need an installation of
+James Clark's expat library that provides header file
+<file>expat.h</file> and shared object library
+<file>libexpat.so</file>.  You can download such a distribution
+from expat's source forge site:
+<A HREF="http://expat.sourceforge.net/">expat.sourceforge.net</A>
+<!-- -->
+<H2>Example Application</H2>
+<P>The distribution include an <A HREF="http://www2.lifl.fr/%7Educhier/mogul/doc/duchier-expat/example.oz"><TT>example.oz</TT></A>
+application.  It can be invoked in the following way:
+<CODE CLASS="DISPLAY">example URL1 ... URLn</CODE>
+where input is obtained from the given URLs (or files) as if they had
+been concatenated.  If no url is given, standard input is used.  The
+input is assumed to contain an XML document.  The structure of this
+document is printed on standard output.  The amount of indentation
+used for this purpose can be changed with the <CODE>--index</CODE>
+option:
+<CODE CLASS="DISPLAY">example --index=3 ...</CODE>
+uses 3 additional indentation spaces for each level of XML nesting.
+The default is 2.  For example, after this package has been installed,
+you can execute:
+<CODE CLASS="DISPLAY">ozengine x-ozlib://duchier/xml/expat/{example,test1.xml,test2.xml}</CODE>
+which results in the following printout:
+<PRE><CODE CLASS="DISPLAY">/NONE   one
+  /NONE two
+  /FOO/BAR      two
+    /OTHER      three
+    /OTHER      three
+    /OTHER      three
+      /OTHER    four
+      /OTHER    four
+  /NONE two
+    /NONE       three
+</CODE></PRE>
+The argument files are
+<a href="http://www2.lifl.fr/%7Educhier/mogul/doc/duchier-expat/testa.xml"><tt>testa.xml</tt></a> and
+<a href="http://www2.lifl.fr/%7Educhier/mogul/doc/duchier-expat/testb.xml"><tt>testb.xml</tt></a>.
+
+<H2>Processor.ozf</H2>
+<P>See <A HREF="http://www2.lifl.fr/%7Educhier/mogul/doc/duchier-expat/API/index.html">API</A>
+<P>Module <TT>Processor.ozf</TT> exports, on feature
+<CODE>class</CODE>, a class definition for a SAX-like XML processor.
+SAX events are invoked as methods.  It is up to each application to
+specialize the methods to do something useful (by default they do
+nothing).  See above the definition of class
+<CODE>MyProcessor</CODE>.  It can be instantiated as follows:
+<CODE CLASS="DISPLAY">P={New MyProcessor initFromFile(Path)}</CODE>
+More generally, the <CODE>init</CODE> method takes one argument which
+is either an <CODE>InputSource</CODE> object or a list of specs for
+creating an <CODE>InputSource</CODE> object.
+
+<P>The processor object <CODE>P</CODE> can be used to obtain SAX
+events one by one using method <CODE>getEvent($)</CODE>, or method
+<CODE>parse</CODE> can be invoked to process all SAX events in a
+loop until the end.  See the <A HREF="http://www2.lifl.fr/%7Educhier/mogul/doc/duchier-expat/API/index.html">API</A> for a
+detailed list of the methods corresponding to SAX events, and see
+<A HREF="http://www2.lifl.fr/%7Educhier/mogul/doc/duchier-expat/example.oz">example.oz</A> for illustrative code.
+
+<H2>Parser.ozf</H2>
+<P>This package also contains a XML parser that is implemented by
+subclassing the previous processor.  What this parser does is to build
+a representation of the XML document as a term.  This representation
+is made available on feature <CODE>root</CODE> of the parser object.
+<HR>
+<ADDRESS>
+<A HREF="http://www.ps.uni-sb.de/~duchier/">Denys Duchier</A>
+</ADDRESS>
+</BODY>
+</HTML>

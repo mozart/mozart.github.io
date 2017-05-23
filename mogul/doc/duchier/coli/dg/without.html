@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>6 Parsing without the GUI</title>
+<link href="dg.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<table align="center" border="0" cellpadding="6" cellspacing="6" summary="navigation table">
+<tr>
+<td><a href="gui.html">&lt;&lt; Previous</a></td>
+<td><a href="index.html">- Up -</a></td>
+<td><a href="extra.html">Next &gt;&gt;</a></td>
+</tr>
+</table>
+
+<h1>6 Parsing without the GUI</h1>
+
+<p>
+The parser can also be used without the GUI, e.g. as a syntactic
+module in a bigger NLP system. For instance, an earlier version of our
+parser has been used in a software project described in <a
+href="http://www.coli.uni-sb.de/~koller/papers/dlws01.html">Building a
+Text Adventure on Description Logic</a>. In this package, we provide
+the file "TEST.oz" which is an illustrative example of how to use the
+parser without the GUI. In the following, we give a walkthrough of
+"TEST.oz".
+</p>
+
+<p>
+Firstly, to invoke the parser without the GUI, one needs to import or
+link the functor "Grammar.ozf", which must then be set up with a
+grammar file:
+</p>
+<pre>
+   [Grammar] = {Module.link ['x-ozlib://duchier/coli/dg/Grammar.ozf']}
+   {Grammar.set 'grammar-de.dg'}
+   G = {Grammar.get}   
+</pre>
+<p>
+As a result, the variable <code>G</code> denotes the compiled grammar
+file information of "grammar-de.dg".
+</p>
+
+<p>
+Next, the functor "Script.ozf" must be imported or linked:
+</p>
+<pre>
+   [Script] = {Module.link ['x-ozlib://duchier/coli/dg/Script.ozf']}
+</pre>
+
+<p>
+Optionally, a plugins file can also be imported or linked, as in the
+following example:
+</p>
+<pre>
+   [Plugins] = {Module.link ['x-ozlib://duchier/coli/dg/Plugins-de.ozf']}   
+   proc {PluginsProc Signs G}
+      {Plugins.plugins.relative.procedure Signs true G}
+      {Plugins.plugins.root.procedure Signs norestr G}
+   end
+</pre>
+<p>
+Here, we link the plugins file "Plugins-de.ozf". Then, we define the
+procedure <code>PluginsProc</code> which in turn calls the individual
+constraints <code>relative</code> and <code>root</code>.  The
+<code>relative</code>-constraint is given parameter <code>true</code>
+and the <code>root</code>-constraint the parameter
+<code>norestr</code>.
+</p>
+
+<p>
+In the following code snipped, we set the parser's parameters:
+</p>
+<pre>
+   Params = o(
+         generate: false
+	       
+         idacc: true
+         idval: true
+         idgamma: true
+
+         lporder: true
+         lpproj: true
+         lpacc: true
+         lpval: true
+         lpnode: true
+         lpgamma: true
+         climbing: true
+	 subtrees: true
+	 barriers: true
+
+         plugins: PluginsProc)
+</pre>
+<p>
+Any of these parameters can be omitted. If so, the parameter is
+assigned precisely a default value as defined for the GUI (see <a
+href="gui.html#cli">chapter 5.4</a>). If the <code>plugins</code>
+parameter is omitted, no plugin constraints are applied.
+</p>
+
+<p>
+Finally, we define the string <code>Words</code> and initialize the
+parser using the function <code>Script.make</code> which returns a
+parse script. This script must now be invoked by an Oz search engine:
+in the example, we use the standard search engine to find all
+solutions for the string (<code>Search.base.all</code>):
+</p>
+<pre>
+   Words = [maria liebt einen reichen mann]
+   S = {Script.make Words Params G}
+   Solutions = {Search.base.all S}
+</pre>
+<p>
+After parsing, the variable <code>Solutions</code> is unified with the
+list of all solutions. A solution is in turn a list of
+Signs.
+</p>
+
+<table align="center" border="0" cellpadding="6" cellspacing="6" summary="navigation table">
+<tr>
+<td><a href="gui.html">&lt;&lt; Previous</a></td>
+<td><a href="index.html">- Up -</a></td>
+<td><a href="extra.html">Next &gt;&gt;</a></td>
+</tr>
+</table>
+
+</body>
+</html>

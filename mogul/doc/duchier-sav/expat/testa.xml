@@ -1,0 +1,5 @@
+<one xmlns:the="/FOO/BAR" xmlns="/NONE" id="foo">
+  <two/>
+  <the:two xmlns="/OTHER">
+    <three>A</three>
+    <three id="ba

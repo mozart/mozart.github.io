@@ -1,0 +1,489 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>2 Grammar specification language</title>
+<link href="dg.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<table align="center" border="0" cellpadding="6" cellspacing="6" summary="navigation table">
+<tr>
+<td><a href="intro.html">&lt;&lt; Previous</a></td>
+<td><a href="index.html">- Up -</a></td>
+<td><a href="parsing.html">Next &gt;&gt;</a></td>
+</tr>
+</table>
+
+<h1>2 Grammar specification language</h1>
+
+<p>
+In this chapter, we describe the grammar specification language using
+an illustrative example. We implement in this chapter an enhanced
+version of the example grammar presented in
+<a href="http://www.ps.uni-sb.de/Papers/abstracts/rade-acl2001.html">
+(Duchier and Debusmann 2001)</a> which handles several phenomena
+associated with the German verb cluster. The grammar file is included
+in this package under the name "grammar-acl.dg". Notice that we
+encourage the user to use the extension "dg" throughout for all
+grammar files.
+</p>
+
+<h2><a name="uses">2.1 Uses</a></h2>
+<p>
+Here you define what components of the parser the grammar uses:
+</p>
+<pre>
+defuses {id lp}
+</pre>
+I.e. we use the ID and the LP-component. The ID-component
+<em>must</em> be used, whereas the LP-component is optional. To write
+a grammar that does not include word order constraints (i.e. only uses
+the ID-component), you would write:
+<pre>
+defuses {id}
+</pre>
+Note: The default is that both the ID and the LP-components are used.
+
+<p>
+New: from version 1.2, you can also use the TH-component (th).
+</p>
+
+<h2><a name="types">2.2 Types</a></h2>
+
+<p>
+Here we define the types which will be used in the grammar:
+</p>
+<pre>
+deftypes
+{
+  EDGELABELID : {det subject object vinf vpast zuvinf zu}
+  EDGELABELLP : {df mf vc xf zuf}
+  NODELABELLP : {d n v z}
+
+  PERSON      : {1 2 3}
+  GENDER      : {masc fem neut}
+  NUMBER      : {sg pl}
+  DEF         : {def indef undef}
+  CASE        : {nom gen dat acc}
+  AGR         : PERSON * GENDER * NUMBER * DEF * CASE
+}
+</pre>
+<p>
+Types are named by variables, i.e. by identifiers beginning with an
+uppercase letter, e.g. <code>EDGELABELID</code>. Variables are defined
+as a set of constants which must begin with a lowercase letter. Here,
+<code>EDGELABELID</code> is defined as a set of grammatical roles.
+<code>AGR</code> is defined as the cartesian product of
+<code>PERSON</code>, <code>GENDER</code>, <code>NUMBER</code>,
+<code>DEF</code> and <code>CASE</code>.  Note that each element of a
+domain is a typed constant, e.g. <code>det</code> has type
+<code>EDGELABELID</code>.  As a consequence, you must use distinct
+constants for different domains. Also note that the type
+<code>EDGELABELID</code> must be defined for each grammar.
+<code>EDGELABELLP</code> and <code>NODELABELLP</code> <em>must</em> be
+defined in each grammar that uses the LP-component, and
+<code>EDGELABELTH</code> in each grammar that uses the TH-component.
+</p>
+
+<h2><a name="entry">2.3 Lexical entry</a></h2>
+
+<p>
+Next, we define the features of a lexical entry.
+</p>
+<pre>
+defentry
+{
+  edgeID     : EDGELABELID set
+  valencyID  : EDGELABELID valency
+  edgeLP     : EDGELABELLP set
+  nodeLP     : NODELABELLP set
+  valencyLP  : EDGELABELLP valency
+  blocks     : EDGELABELID aset
+
+  agrs       : AGR set
+}
+</pre>
+<p>
+Each feature is typed, and <code>set</code>, <code>aset</code> and
+<code>valency</code> are builtin type constructors.  For example,
+<code>EDGELABELID set</code> denotes a set of grammatical roles. The
+difference between <code>set</code> and <code>aset</code> has impact
+on maximal values and inheritance which we explain in <a
+href="grammar.html#lexicon">2.8</a>.
+
+<p>
+In each grammar, the features <code>edgeID</code> and
+<code>valencyID</code> are obligatory. Each grammar that uses the
+LP-component must include <code>edgeLP</code>, <code>nodeLP</code>,
+<code>valencyLP</code> and <code>blocks</code>. Each grammar using the
+TH-component must include <code>edgeTH</code>, <code>valencyTH</code>,
+<code>link</code>, <code>raisedsubj</code> and <code>blocksTH</code>.
+</p>
+
+<p>
+The features <code>edgeID</code>, <code>edgeLP</code>,
+<code>nodeLP</code>, <code>blocks</code>, <code>edgeTH</code>,
+<code>raisedsubj</code> and <code>blocksTH</code> must be either of
+type <code>set</code> or <code>aset</code>.  <code>valencyID</code>,
+<code>valencyLP</code> and <code>valencyTH</code> must be of type
+<code>valency</code> and <code>link</code> of type <code>EDGELABELTH
+-> EDGELABELID aset</code>.
+</p>
+
+<h2><a name="order">2.4 Total order</a></h2>
+
+<p>
+The union of the sets <code>EDGELABELLP</code> and
+<code>NODELABELLP</code> must be totally ordered. We specify the order
+as follows:
+</p>
+<pre>
+{
+  z zuf d df n mf vc v xf
+}
+</pre>
+
+<h2><a name="signs">2.5 Signs</a></h2>
+
+<p>
+For each word, there is a corresponding sign with the following
+internal structure:
+</p>
+<pre>
+sign(
+   lex : o(index: Index
+           word : Word
+           entry: Entry)
+   id  : NodeID
+   lp  : NodeLP
+   th  : NodeTH
+   attribute : AttributeRecord)
+</pre>
+<p>
+where <code>Index</code> is the index of the selected entry,
+<code>Word</code> the string corresponding to the node and
+<code>Entry</code> the selected lexical entry
+itself. <code>NodeID</code> holds the information for the occurrence
+of the node in the ID tree. If the LP-component is used,
+<code>NodeLP</code> bears the corresponding information for its
+occurrence in the LP tree and (if the TH-component is used)
+<code>NodeTH</code> in the TH graph.
+</p>
+
+<p>
+<code>AttributeRecord</code> is a record that holds additional
+attributes which are introduced as follows:
+</p>
+<pre>
+defattributes
+{
+  agr        : AGR
+}
+</pre>
+
+<p>
+Defining constraints for these attributes are then specified as
+follows:
+</p>
+<pre>
+defnode
+{
+  _[agr] in _.lex.entry.agrs
+}
+</pre>
+<p>
+In other words, each one of these attributes is introduced in order to
+pick one of the values licensed by the lexical entry.
+</p>
+
+<h2><a name="edge">2.6 Edge constraints</a></h2>
+
+<p>
+We stipulate edge constraints next. First, in the ID tree:
+</p>
+<pre>
+defedges id {
+  det {
+    _[agr] = ^[agr]
+  }
+
+  subject {
+    _[agr] = ^[agr]
+    _[agr] in $ nom
+  }
+
+  object {
+    _[agr] in $ acc
+  }
+}
+</pre>
+<p>
+For example, this states that for an edge labeled <code>det</code> to
+be licensed, the daughter must agree with its mother
+(i.e. <code>_[agr]=^[agr]</code>).  <code>_</code> denotes the
+`current' node, and <code>^</code> its head.  The notation
+<code>_[agr]</code> is equivalent to <code>_.attribute.agr</code> and
+is merely supported for convenience.
+</p>
+
+<p>
+We can define similar constraints for edges in the LP tree. In the
+example grammar, we do not define any constraints for edges in the LP
+tree:
+</p>
+<pre>
+defedges lp {
+  __ { }
+}
+</pre>
+<p>
+Here, <code>__</code> matches any edge label.
+</p>
+
+<h2><a name="distribute">2.7 Distribution</a></h2>
+
+<p>
+For the parser, we must specify a distribution strategy.  Currently,
+we can specify the sequence of features on which to perform labeling:
+</p>
+<pre>
+defdistribute
+{
+  _.id.mothers
+  _.id.daughterSet
+  _.lp.mothers
+  _.lp.daughterSet
+  _.lp.nodeLP
+  _.lp.pos
+}
+</pre>
+<p>
+This says to first perform labeling on the the ID mothers, then on the
+ID daughter sets, the LP mothers, the LP daughter sets, the node
+labels and the position.
+</p>
+
+<h2><a name="lexicon">2.8 Lexicon</a></h2>
+
+<h3>2.8.1 Lexical types</h3>
+
+<p>
+Finally, we need to specify a lexicon. The lexicon can be specified on
+the basis of lexical types which can be combined using lexical
+inheritance to obtain lexical entries. In "grammar-acl.dg", finite
+verbs inherit from the following lexical type:
+</p>
+<pre>
+defword t_fin {
+  edgeID    : {}
+  valencyID : {subject}
+  edgeLP    : {}
+  nodeLP    : {v}
+  valencyLP : {mf* xf?}
+  blocks    : {det subject object vinf vpast vpast zuvinf}
+}
+</pre>
+<p>
+This lexical type indicates that the set of accepted roles
+<code>edgeID</code> of a finite verb denotes the empty set and that
+finite verbs always subcategorize for a subject by their role valency
+<code>valencyID</code>. The set of accepted fields is empty and the
+set of accepted node labels includes only <code>v</code>.  By its
+field valency (lexical attribute <code>valencyLP</code>), a finite
+verb offers a Mittelfeld (<code>mf</code>) and an extraposition fiel
+(<code>xf</code>). It blocks the set of all roles.
+</p>
+
+<p>
+Valency (i.e. the attributes <code>valencyID</code> and
+<code>valencyLP</code>) is specified using wildcard notation:
+e.g. <code>subject</code> indicates that exactly one syntactic
+dependent with edge label <code>subject</code> is
+required. <code>xf?</code> indicates that at most one topological
+dependent with edge label <code>xf</code> is permitted and
+<code>mf*</code> that any number of dependents with edge label
+<code>mf</code> is permitted. One or more dependents are indicated by
+a <code>+</code>.
+</p>
+
+<p>
+As in the example, we can omit lexical attributes. An omitted
+attribute is assigned its maximal value which depends on the
+attribute's type.  If the attribute is of type <code>set</code>, the
+maximal value is its range. Hence in the specification of the lexical
+type <code>t_fin</code> above, the omitted attribute <code>agrs</code>
+is assigned the set <code>AGR</code> of all agreement tuples.  If the
+omitted lexical attribute is of type <code>aset</code> or of type
+<code>valency</code>, its maximal value is the empty set.
+</p>
+
+<p>
+Transitive verbs inherit from the following lexical type:
+</p>
+<pre>
+defword t_tr {
+  valencyID : {object}
+}
+</pre>
+<p>
+<code>t_tr</code> only specifies the <code>valencyID</code>-attribute,
+stating that an object is required. All the other lexical attributes
+are assigned their maximal values.
+</p>
+
+<h3>2.8.2 Lexical entries</h3>
+
+<p>
+Here is how we obtain the lexical entry for the word
+<code>liebt</code>, using lexical inheritance:
+</p>
+<pre>
+defword liebt t_fin t_tr {
+  agrs      : $ 3 &amp; sg &amp; nom
+}
+</pre>
+<p>
+The lexical entry for <code>liebt</code> defines only the value of the
+lexical attribute <code>agrs</code> and the other lexical attributes
+are assigned their maximal values. In the specification of the
+<code>agrs</code>-attribute, the prefix operator <code>$</code>
+introduces a set generator which is a boolean expression that
+generates values for the corresponding type.  For example, <code>$ 3
+&amp; sg &amp; nom</code> denotes the set of agreement tuples that are
+3rd person, singular and nominative.  In addition, the lexical entry
+inherits from the lexical types <code>t_fin</code> and
+<code>t_tr</code>, stating that it is both a finite verb and a
+transitive verb.
+</p>
+
+<p>
+Notice that there can of course be several entries for one word form.
+Also note that lexical entries have to be escaped using quotation
+characters if there is an identical type in the
+<code>deftypes</code>-section.  In "grammar-acl.dg", we do not have to
+escape <code>liebt</code> because there is no identical type defined
+in the <code>deftypes</code>-section. However, if there would be a
+lexical entry for the word <code>subject</code>, we would have to
+escape it and write <code>'subject'</code> instead.  Further notice
+that in this implementation, we do not distinguish between lexical
+types and lexical entries: both are defined in exactly the same
+way. It is however convenient to notationally distinguish lexical
+types from lexical entries, and we adopt for this reason the
+notational convention to prefix lexical types with <code>t_</code>.
+</p>
+
+<h3>2.8.3 Lexical inheritance</h3>
+
+<p>
+Lexical inheritance proceeds differently for each lexical attribute
+depending on its type. It amounts to set intersection if the lexical
+entry is of type <code>set</code> and to set union if it is of type
+<code>aset</code> or <code>valency</code>. For instance, this is how
+the lexical entry for <code>liebt</code> is obtained:
+</p>
+<table align=center border=1 cellpadding=8 summary="lexical inheritance example">
+<tr>
+<td></td>
+<td><code>t_fin</code></td>
+<td><code>t_tr</code></td>
+<td><code>liebt</code></td>
+<td><code>liebt t_fin t_tr</code></td>
+</tr>
+<tr>
+<td><code>edgeID : EDGELABELID set</code></td>
+<td><code>{}</code></td>
+<td><code>EDGELABELID</code> <em>(max)</em></td>
+<td><code>EDGELABELID</code> <em>(max)</em></td>
+<td><code>{}</code></td>
+</tr>
+<tr>
+<td><code>valencyID : EDGELABELID valency</code></td>
+<td><code>{subject}</code></td>
+<td><code>{object}</code></td>
+<td><code>{}</code> <em>(max)</em></td>
+<td><code>{subject object}</code></td>
+</tr>
+<tr>
+<td><code>edgeLP : EDGELABELLP set</code></td>
+<td><code>{}</code></td>
+<td><code>EDGELABELLP</code> <em>(max)</em></td>
+<td><code>EDGELABELLP</code> <em>(max)</em></td>
+<td><code>{}</code></td>
+</tr>
+<tr>
+<td><code>nodeLP : NODELABELLP set</code></td>
+<td><code>{v}</code></td>
+<td><code>{d n v}</code> <em>(max)</em></td>
+<td><code>{d n v}</code> <em>(max)</em></td>
+<td><code>{v}</code></td>
+</tr>
+<tr>
+<td><code>valencyLP : EDGELABELLP valency</code></td>
+<td><code>{mf* xf?}</code></td>
+<td><code>{}</code> <em>(max)</em></td>
+<td><code>{}</code> <em>(max)</em></td>
+<td><code>{mf* xf?}</code></td>
+</tr>
+<tr>
+<td><code>blocks : EDGELABELID aset</code></td>
+<td><code>EDGELABELID</code></td>
+<td><code>{}</code> <em>(max)</em></td>
+<td><code>{}</code> <em>(max)</em></td>
+<td><code>EDGELABELID</code></td>
+</tr>
+<tr>
+<td><code>agrs : AGR set</code></td>
+<td><code>AGR</code> <em>(max)</em></td>
+<td><code>AGR</code> <em>(max)</em></td>
+<td><code>$ 3 &amp; sg &amp; nom</code></td>
+<td><code>$ 3 &amp; sg &amp; nom</code></td>
+</tr>
+</table>
+<p>
+In the table above, we display the lexical attributes in the leftmost
+column. The second column from the left indicates the values of these
+lexical attributes specified by the lexical type <code>t_fin</code>,
+the third those specified by <code>t_tr</code> and the fourth those
+specified by lexical entry <code>liebt</code>. We display the
+resulting values in the rightmost column. Notice that we annotate
+those values with <em>(max)</em> which are omitted in the respective
+lexical specification and which are therefore assigned their maximal
+values. As can be seen from the example, inheritance amounts to set
+intersection for the lexical attributes with type <code>set</code>,
+i.e. <code>edgeID</code>, <code>edgeLP</code>,
+<code>nodeLP</code> and <code>agrs</code>. Lexical inheritance
+amounts to set union for the lexical attributes with type
+<code>aset</code> and <code>valency</code>, i.e.
+<code>valencyID</code>, <code>valencyLP</code> and
+<code>blocks</code>.
+</p>
+
+<p>
+Notice that inheritance proceeds slightly differently for valencies
+than for normal accumulative set lattices. If two elements with the
+same edge label but with different cardinality are to be combined,
+only the most specific of the two is contained in the resulting set.
+The order of specifity is as follows for an edge label <code>r</code>:
+</p>
+<pre>
+(r not in the valency set) &lt; r* &lt; r? &lt; r+ &lt; r
+</pre>
+<p>
+If we for instance combine the valency set <code>{subj? adv*}</code>
+ with the valency set <code>{subj adv?}</code>, the result is
+ <em>not</em> <code>{subj? subj adv* adv?}</code> but <code>{subj
+ adv?}</code> because <code>subj</code> is more specific that
+ <code>subj?</code> and <code>adv?</code> is more specific than
+ <code>adv*</code>.
+</p>
+
+<table align="center" border="0" cellpadding="6" cellspacing="6" summary="navigation table">
+<tr>
+<td><a href="intro.html">&lt;&lt; Previous</a></td>
+<td><a href="index.html">- Up -</a></td>
+<td><a href="parsing.html">Next &gt;&gt;</a></td>
+</tr>
+</table>
+
+</body>
+</html>

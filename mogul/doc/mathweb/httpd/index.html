@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>Mathweb - HTTP Server</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H4 {	color		: slateblue; }
+H3 {	color		: #881155; }
+H5 {	color		: darkslateblue; }
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<H1>Mathweb - HTTP Server</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ags.uni-sb.de/~afranke/">Andreas Franke</A>
+</P>
+<DL>
+  <DT><B>provides</B>
+  <DD><SPAN CLASS="MODULE">~/.oz/bin/ozhttpd</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/ozhttpd.exe</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/httpd/HttpClient.ozf</SPAN> 
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/httpd/HttpHandler.ozf</SPAN> 
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/httpd/SampleHandlers.ozf</SPAN> 
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/httpd/Http.ozf</SPAN> 
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/httpd/HttpCodes.ozf</SPAN> 
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/httpd/HttpRequest.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/httpd/MimeTypes.ozf</SPAN> 
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/httpd/mime.types.ozf.static</SPAN>
+<!--  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/services/httpd</SPAN>-->
+  <DT><B>requires</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/File.ozf</SPAN> 
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/Internet.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/XTime.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/html/Html.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/html/Buffered.ozf</SPAN>
+<!-- and for MathWeb use:
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/XApplication.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/sys/BrokerAccess.ozf</SPAN>
+  -->
+</DL>
+<HR>
+
+<H2>Purpose</H2>
+<P>This is a simple HTTP server.
+   It aims to conform with HTTP 1.0, but probably still has a few bugs.
+   You can add and remove handlers dynamically,
+   but there is no support for CGI scripts yet.
+<P>
+An HttpHandler class must inherit from
+<pre>
+        HttpHandler('class')
+        at 'x-ozlib://mathweb/httpd/HttpHandler.ozf'
+</pre>
+It must implement the following method:
+<pre>
+        meth handle(UriInContext Request Connection)
+           ...
+        end
+</pre>
+UriInContext is the derived from the URI of the Request by dropping 
+the context path prefix. E.g. if the request uri is
+        <tt>/foo/bar?baz=example</tt>
+and the handler has been registered at
+        <tt>/foo/*</tt>
+then <tt>UriInContext</tt> will be equal to
+        <tt>{URL.make "/bar?baz=example"}</tt>
+
+<H2>Installation</H2>
+<P>This package can be installed by following the usual
+<I>configure, build, install</I> procedure, i.e. by executing a the
+shell:
+<CODE CLASS="DISPLAY">./configure
+make install</CODE>
+By default, all files of the package are
+installed in the user's <TT>~/.oz</TT> directory tree.  In
+particular, all modules are installed in the user's private cache.
+
+<H2>Examples</H2>
+<P>
+<UL>
+<LI> <TT> ozhttpd --port 8000 --default http://www.mozart-oz.org</TT>
+<LI> <TT> ozhttpd -p 8000 --resolver prefix=/=http\\://www.mozart-oz.org/</TT>
+</UL>
+
+<HR>
+<ADDRESS>
+<A HREF="http://www.ags.uni-sb.de/~omega/">Omega Homepage</A> - 
+<A HREF="http://www.mathweb.org/">MathWeb Hompage</A>
+</ADDRESS>
+</BODY>
+</HTML>

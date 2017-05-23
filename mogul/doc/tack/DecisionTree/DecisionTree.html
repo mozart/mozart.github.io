@@ -1,0 +1,221 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Decision Tree Viewer</title>
+    <STYLE>
+BODY {
+      background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}	
+H1 {	
+	text-align	: center;
+	color		: #9B0000;
+}	
+H2 {	color		: #FF9933; }
+H4 {	color		: slateblue; }
+H3 {	color		: #881155; }
+H5 {	color		: darkslateblue; }
+CODE, SPAN.CMD, PRE.OZDISPLAY, PRE.CODEDISPLAY {	color		: #663366; }
+CODE,TT,PRE,SPAN.CMD,SPAN.FILE,PRE.OZDISPLAY, PRE.CODEDISPLAY {
+	font-family	: "lucida console",courier,monospace;
+}	
+SPAN.FILE {
+	color:maroon;
+	white-space:pre;
+}	
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+PRE.OZDISPLAY,PRE.CODEDISPLAY {
+	margin-left : 2cm;
+}
+SPAN.CMD {
+	white-space	: pre;
+}
+P.BLURB {
+	text-align	: center;
+	font-style	: italic;
+	margin-left	: 3cm;
+	margin-right	: 3cm;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+P.CENTER {
+	text-align	: center;
+}
+A {	color		: steelblue; }
+SPAN.TOOL {
+  font-family:"lucida console",courier,monospace;
+  color:steelblue;
+}
+SPAN.META {
+  font-style:italic;
+  font-family:"lucida console",courier,monospace;
+  color:steelblue;
+}
+SPAN.DEFAULT {
+  font-weight: bold;
+  font-family:"lucida console",courier,monospace;
+  color:gray; /*steelblue*/;
+  margin-left: 1cm;
+}
+P.WARNING {
+  color:red;
+  font-weight:bold;
+  text-align:center;
+}
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+TABLE.ALIGN {
+	margin-left : 1cm;
+}
+</STYLE>
+  </head>
+
+  <body>
+    <h1>Decision Tree Viewer</h1>
+    <P CLASS="AUTHOR">
+    <A HREF="http://www.ps.uni-sb.de/~tack/">Guido Tack</A>
+    </P>
+    <P CLASS="BLURB">Visualization of boolean (prime) decision trees</P>
+
+    <hr>    
+
+    <h2>What is it?</h2>
+    A decision tree is a representation of a boolean formula. To be
+    precise, DTV displays <i>prime</i> trees, a reduced form of
+    decision trees.
+
+    <h2>Prerequisites</h2>
+    DTV depends on the package<br>
+    <code>mogul:/tack/TkTreeWidget</code><br>
+    Please install it before
+    installing DTV.
+
+    <h2>Installation</h2>
+    The package can be installed via ozmake. If you downloaded the
+    package from mogul, type<br>
+    <code>ozmake --install -p [FILENAME]</code><br>
+    Alternatively, you can install it directly from the internet:<br>
+    <code>ozmake --install -p mogul:/tack/DecisionTree</code>
+
+    <hr>
+    
+    <h2>Entering a formula</h2>
+    Start DTV by typing <code>dtv</code> at the command line. The main
+    window should open.
+    <p>
+      At the bottom of the window, you find a text area where you can
+      enter the boolean formula. The simple syntax for formulae is as follows:
+    </p>
+    <p><code>
+	sf ::= false<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| true<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| X<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| -sf<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| sf1 ^ sf2<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| sf1 v sf2<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| sf1 => sf2<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| sf1 <=> sf2<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| (sf)<br>
+      </code>
+      <br>
+      Where X is a variable (a string beginning with an uppercase letter).
+    </p>
+    <p>
+      There is an extended syntax, allowing for abbreviations (or
+      macros) of formulae:
+    </p>
+    <p><code>
+      flist ::= goal := sf<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| y := sf;flist<br>
+      </code>
+      <br>
+      Where y is a macro name (a string beginning with a lowercase
+      letter). In an extended formula, a macro name can appear instead
+      of a variable (in case it has been defined before).
+    </p>
+
+    <h2>Variable order</h2>
+    In decision trees, the order of variables matters. With DTV, you
+    can change the order as you like:<br>
+    After you have entered a formula, the order of the variables will
+    be the order in which they appear in the formula. The variables are
+    displayed on the right, ordered from top to bottom. Now you can
+    select a variable and move it up or down using the "Up" and "Down"
+    buttons. "Reverse" just brings the variables in reverse
+    order, "Sort" sorts them lexicographically. Anytime you change the
+    order, the tree will adjust accordingly.
+
+    <h2>Normal forms</h2>
+    Prime trees make it easy to compute a disjunctive and
+    conjunctive normal form of a formula. The normal forms
+    corresponding to the current variable order are displayed below
+    the entry field.
+
+    <h2>Postscript export</h2>
+    By selecting the menu entry "DTV -> Save tree", you can save the
+    picture of the current tree in encapsulated postscript format.
+
+    <hr>
+
+    <h2>Example</h2>
+    <p>
+      This is an example for a formula in extended syntax, taken from
+      a course on logics at Saarland University:
+    </p>
+    <p><cite>
+      "What is the secret of your long life?" a hundred-year-old is
+      asked. He replies: "I strictly obey three rules: Anytime I don't
+      drink beer, I eat fish. If I have fish as well as beer, I won't
+      eat ice cream. Should I eat ice cream or not drink beer, I won't
+      have fish."
+      </cite>
+    </p>
+    <p>
+      This problem could be modelled as follows:<br>
+      <code>
+	r1&nbsp;&nbsp; := -Beer => Fish;<br>
+	r2&nbsp;&nbsp; := Fish ^ Beer => -IceCream;<br>
+	r3&nbsp;&nbsp; := IceCream v -Beer => -Fish;<br>
+	goal := r1 ^ r2 ^ r3<br>
+      </code>
+    </p>
+    <p>
+      If you order the variables as Beer < IceCream < Fish, you can
+      see that the old man always drinks beer (this doesn't seem to be
+      a surprise ;-), but eats only either fish or ice cream.
+    </p>
+
+    <p>
+    This is what the output of dtv for this example may look like:
+    </p>
+    <p class="CENTER">
+    <img src="diet.png">
+    </p>
+
+    <hr>
+    <address><a href="mailto:tack@ps.uni-sb.de">Guido Tack</a></address>
+<!-- Created: Wed May  1 19:36:42 CEST 2002 -->
+<!-- hhmts start -->
+Last modified: Wed May  1 20:33:10 CEST 2002
+<!-- hhmts end -->
+  </body>
+</html>

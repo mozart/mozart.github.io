@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<TITLE>Sentence Splitter</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H3,H4 {	color		: #881155; }
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<H1>Simple Sentence Splitter</H1>
+<P CLASS="AUTHOR"> <A HREF="http://www.ling.gu.se/~lager/">Torbjörn Lager</A> 
+</P>
+<DL> 
+  <DT><B>provides</B> 
+  <DD><SPAN CLASS="MODULE">x-ozlib://lager/sentence-splitter/SentenceSplitter.ozf</SPAN> 
+</DL>
+<HR>
+<!-- PURPOSE --> 
+<H2>Purpose</H2>
+<P>The SentenceSplitter module exports a simple sentence splitter for English. 
+  Given a string, assumed to be English text, it returns a list of strings, where 
+  each element is an English sentence. By default, it treats occurrences of '.', 
+  '?' and '!' as sentence delimiters, but does its best to determine when an occurrence 
+  of '.' does not have this role (e.g. in abbreviations, URLs, numbers, etc.). 
+  Although the splitter is designed to work for English, it should be straightforward 
+  to adapt to other (similar) languages. 
+<p>It is important to emphasize that this is a simple program which does not always 
+  do the right thing. It was written to be used by the <a href="http://www.ling.gu.se/%7Elager/mogul/brill-tagger/index.html">Brill 
+  tagger</a>, but since it is also independently useful, I decided to make it 
+  available separately. Hopefully, it will eventually be replaced with something 
+  better.</p>
+<h2>Installation</h2>
+<p>Download the package, and invoke ozmake in a shell as follows:
+<blockquote>
+  <p><code>ozmake --install --package=lager-sentence-splitter.pkg</code></p>
+</blockquote>
+<p>By default, all files of the package are installed in the user's <code>~/.oz</code> 
+  directory tree. In particular, all modules are installed in the user's private 
+  cache. <!-- --> 
+<h2>Usage</h2>
+<blockquote> 
+  <pre><code><span class="KEYWORD">import</span> SentenceSplitter <span class="KEYWORD">at</span> <span class="STRING">'x-ozlib://lager/sentence-splitter/SentenceSplitter.ozf'</span></code>      
+... 
+<code>{SentenceSplitter.split +S ?Ss} </code> </pre>
+  </blockquote>
+<h2>Example</h2>
+<p>For example,</p>
+<blockquote>
+  <p><code>{SentenceSplitter.split &quot;THE BIG RIPOFF </code></p>
+  <p><code>Mr. John B. Smith bought cheapsite.com for 1.5 million dollars, i.e. 
+    he paid far too much for it. Did he mind? Adam Jones Jr. thinks he didn't. 
+    In any case, this isn't true... Well, with a probability of .9 it isn't. &quot;}</code></p>
+</blockquote>
+<p>yields<code><br>
+  </code></p>
+<blockquote>
+  <p><code>[&quot;THE BIG RIPOFF&quot; </code><code>&quot;Mr. John B. Smith bought 
+    cheapsite.com for 1.5 million dollars, i.e. he paid far too much for it.&quot; 
+    </code><code>&quot;Did he mind?&quot; </code><code>&quot;Adam Jones Jr. thinks 
+    he didn't.&quot; </code><code>&quot;In any case, this isn't true...&quot; 
+    </code><code>&quot;Well, with a probability of .9 it isn't.&quot;] </code></p>
+</blockquote>
+<p>as output.</p>
+<p>
+<h2>Example Application</h2>
+<p>The distribution also include a stand-alone application which prints each sentence 
+  on a separate line. It can be invoked in the following way on a text file:</p>
+<blockquote>
+  <p><code> split --in=test.txt</code> </p>
+</blockquote>
+<HR>
+<ADDRESS> <A HREF="http://www.ling.gu.se/~lager">Torbj&ouml;rn Lager</A></ADDRESS>
+</BODY>
+</HTML>

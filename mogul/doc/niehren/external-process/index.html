@@ -1,0 +1,269 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>External Process Connection to Oz</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H4 {	color		: slateblue; }
+H3 {	color		: #881155; }
+H5 {	color		: darkslateblue; }
+
+EMPH {	color		: #663366; }
+
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<H1>External Processes and how to Connect them to Oz</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ps.uni-sb.de/~niehren">Joachim Niehren</A> 
+</P>
+<DL>
+  <DT><B>provides</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/external-process/connect.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/external-process/input-output.ozf</SPAN>
+  <DT><B>requires</B>
+  <DD><SPAN CLASS="MODULE">Open Application Browser</SPAN>
+</DL>
+<HR>
+
+<H2>Purpose</H2>
+<P> The functor <code>connect.ozf</code> provides a simple way 
+    to connect external processes to an Oz process. The user
+    can freely chose between socket or pipe connections.
+    The implementation of both kinds of connections 
+    is hidden from the user so that the connection can
+    be switched easily. This abstraction is typically useful 
+    for Oz written systems that run on various platforms or 
+    with various configurations.
+<P>
+<H3>The Function <i>Connect</i></H3>
+Calling the function <i>Connect</i> creates an 
+external process and returns a connection to it.
+An external process is a process that runs outside the
+Oz and can be started from the command line, i.e. a shell. 
+An external process may be written in an arbitrary 
+programming language (C, Lisp, Oz, Shell, Perl, etc) as long 
+as it can be started by executing a shell command. The 
+function <i>Connect</i> has the following type:
+<code> 
+<pre>
+   <i>Connect</i>: ShellCmd x unit(args:Args ...)  ->  unit(stream:String
+                                                     kill:->
+                                                     send:String->)
+            ShellCmd = VirtualString
+            Args     = list(VirtualString)
+</pre>
+</code>
+The external process receives its input on the stream 
+<code>Connect.stream</code> and sends its output via 
+<code>Connect.send</code>. 
+
+<H3>The Functor <code>connect.ozf</code></H3>
+The functor <code>connect.ozf</code> exports a record 
+<code>Connect</code> containing two implementations of 
+the function <i>Connect</i>: 
+<code> 
+<pre>
+    Connect.pipe 
+    Connect.socket
+</pre>
+</code> 
+ Both functions can connect external processes but of 
+ different kind:
+<p>
+ <code>Connect.pipe</code> connects external processes that
+ send input and output to the standard input/output files
+ (<code>StdIn</code> and <code>StdOut</code>).
+<P>
+ <code>Connect.socket</code> connects Oz to external processes.
+ Such external processes are connected via a socket with port
+ <code>PortNumber</code> over which they send their input/output. 
+ To access the socket with <code>PortNumber</code> the external 
+ process requires an extra option when called from a shell:
+<code>
+<pre>
+     --port=PortNumber
+</pre>
+</code>
+ The external process behaves as a <emph>client</emph> of a 
+socket with the port number <code>PortNumber</code> (and not 
+as a server). The external process is started, connects to the 
+socket with this port, and sends its input and output
+to there.
+<H3>Establish a Connection</H3>
+ To establish a connection to an external process you have
+ to envoke either of the two connect functions (for pipes or
+ sockets). All 
+ you need to know is the shell command by which to start the 
+ external process from a shell. If this command is
+<code>
+<pre>
+     ShellCmd Arg1 ... Argn [--port=PortNumber]
+</pre>
+</code> 
+ then you can also invoke it from Oz by executing the
+ following statement (which does not require the port
+ number):
+<code>
+<pre>
+     Kind = socket % pipe
+     Process = {Connect.Kind ShellCmd unit(args:[Arg1 ... Argn])}
+</pre>
+</code> 
+Note that both kinds of connections are established in
+analogy. The choice depends only on the value of the
+variable <code>Kind</code>. This makes it very simple 
+for the user of this package to select and change the 
+kind of connection required (either socket or pipe).
+
+<h3>Send Input and Receive Output</h3>
+The string output of the process can be accessed on the 
+stream <code>Process.stream</code>. You can also send 
+input to the process by calling <code>Process.send</code>.
+
+<H3>Example</H3>
+<code>
+<pre>
+declare [Connect] = {Module.link ['x-ozlib://niehren/external-process/connect.ozf']}
+declare Connection = {Connect.pipe cat unit(args:nil)}
+{Browse Connection.stream}
+{Connection.send hiho}
+{Connection.send holladihi}
+{Connection.kill}
+</pre>
+</code> 
+
+<h2>Purpose</h2>
+  
+  The functor <code>input-output.oz</code> provides a generic 
+  way to define input-output interfaces for Oz processes (which
+  can then be used as external processes). 
+
+<h3>Oz-Processes as External Processes</h3>
+ 
+ We distinguish two kinds of external processes depending on 
+ their input-output behaviour. The first kind of processes
+ use use standard  input-output. The second kind sends input
+ to and receives output form a socket.
+ <p>
+ If you want to write external processes with Oz, then you 
+ might want to do it such way that you create both kinds of 
+ input-output interfaces for your process. In this case
+ you can frist define an abstract process and then apply
+ it to wrap a concrete interface around.
+ <P>
+ An abstract procedure is a process that is abstracted 
+ over its input-output interface, i.e. over an input
+ stream and a procedure to send output:
+ <code>
+<pre>
+   AbstractProcess: ( string x (string -> ) ) ->
+</pre>
+ </code>
+<h3>The Functor <code>input-output.ozf</code></h3>
+ The functor <code>input-output.ozf</code> exports a 
+ record <code>InputOutput</code> which contains two 
+ procedures <code>InputOutput.standard</code> and 
+ <code>InputOutput.toSocket</code> of the following type:
+  <code>
+<pre>
+    InputOutput.standard: AbstractProcess ->
+    InputOutput.socket: AbstractProcess ->
+</pre>
+ </code>
+ The procedure <i>InputOutput.standard</code> turns an
+ abstract process into a running process which uses standard
+ input and output. The procedure <i>InputOutput.socket</code>  
+ turns an abstracted process into a process which 
+ accesses a port number when called from the shell
+ via the following option:
+  <code>
+  <pre>
+    --port=PortNumber
+  </pre>
+   </code>
+ It then sends input and output to the socket with
+ that port number. 
+
+<H3>Example</H3>
+Here comes an example where the usual Unix process
+<code>cat</code> process is turned into an external
+process written in Oz that is equipped with a socket 
+interface for input output.
+<code>
+<pre>
+functor
+import   
+   InputOutput at 'x-ozlib://niehren/external-process/input-output.ozf'
+   Connect     at 'x-ozlib://niehren/external-process/connect.ozf'
+export
+   Cat
+define
+proc{AbstractCat InputStream SendOutput}
+   Process = {Connect.pipe cat unit(args:nil)}
+in
+   SendOutput = Process.send
+   InputStream = Process.stream
+end
+
+Cat = {InputOutput.socket AbstractCat}
+end
+</pre>
+</code> 
+
+
+<H2>Installation</H2>
+Download the package <code>niehren-external-process-1.1.pkg</code> to
+a file and execute the following command 
+in a shell (in the same directory where the file resides):
+<CODE CLASS="DISPLAY">ozmake --install --package=niehren-external-process-x.x.x.pkg</CODE>
+If you want to extract the source in the actual directory 
+then call ozmake as follows:
+<CODE CLASS="DISPLAY">
+ozmake --extract --package=niehren-external-process-x.x.x.pkg</CODE>
+<HR>
+<ADDRESS>
+<A HREF="http://www.ps.uni-sb.de/~niehren">Joachim Niehren</A>
+</ADDRESS>
+</BODY>
+</HTML>
+

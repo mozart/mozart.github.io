@@ -1,0 +1,73 @@
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H4 {	color		: slateblue; }
+H3 {	color		: #881155; }
+H5 {	color		: darkslateblue; }
+CODE {	color		: #663366; }
+CODE,TT,PRE {
+	font-family	: "Andale Mono","lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.TOOL {
+  font-family:"lucida console",courier,monospace;
+  color:steelblue;
+}
+SPAN.META {
+  font-style:italic;
+  font-family:"lucida console",courier,monospace;
+  color:steelblue;
+}
+SPAN.DEFAULT {
+  font-weight: bold;
+  font-family:"lucida console",courier,monospace;
+  color:steelblue;
+}
+P.WARNING {
+  color:red;
+  font-weight:bold;
+  text-align:center;
+}
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+
+DL.PUBS {
+	color:gray;
+}
+A.TITLE {
+	font-weight: bold;
+}
+A.AUTHOR {
+	color:gray;
+}
+UL.TOC {
+	list-style:none;
+}

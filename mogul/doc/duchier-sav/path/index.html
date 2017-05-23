@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>Path</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H4 {	color		: slateblue; }
+H3 {	color		: #881155; }
+H5 {	color		: darkslateblue; }
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<H1>Path</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ps.uni-sb.de/~duchier/">Denys Duchier</A>
+</P>
+<DL>
+  <DT><B>provides</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://duchier/sp/Path.ozf</SPAN>
+</DL>
+<HR>
+
+<H2>Purpose</H2>
+<P>This package provides an abstraction for file and directory names
+and operations on them and on the corresponding file system objects.
+<P>
+<DL>
+<DT><CODE>{Path.make +S ?O}</CODE>
+<DD>given a string <CODE>S</CODE>, returns a corresponding
+<CODE>Filename</CODE> object.
+<DT><CODE>{O toString($)}</CODE>
+<DD>returns the filename as a string
+<DT><CODE>{O dirname($)}</CODE>
+<DD>returns the <CODE>Filename</CODE> object for <CODE>O</CODE>'s
+directory
+<DT><CODE>{O basename($)}</CODE>
+<DD>returns the <CODE>Filename</CODE> object for <CODE>O</CODE>'s base
+name (i.e. last component of its path).
+<DT><CODE>{O toBase($)}</CODE>
+<DD>to put it simply: if <CODE>O</CODE> doesn't end with a slash, one
+is added, and the corresponding <CODE>Filename</CODE> object is
+returned.  This is useful for method <CODE>resolve</CODE>:
+<CODE CLASS="DISPLAY">D1 = {Path.make DIRECTORY}
+D2 = {D1 toBase($)}
+F1 = {Path.make FILENAME}
+F2 = {D2 resolve(F1 $)}</CODE>
+<DT><CODE>{O resolve(F $)}</CODE>
+<DD>if <CODE>F</CODE> is relative, prepend <CODE>O</CODE>'s directory
+and return the corresponding <CODE>Filename</CODE> object.
+<DT><CODE>{O expand($)}</CODE>
+<DD>if <CODE>O</CODE> begins with <CODE>~</CODE> or contains
+<CODE>.</CODE> or <CODE>..</CODE>, these are appropriately expanded and
+the resulting <CODE>Filename</CODE> object is returned.
+<DT><CODE>{O stat($)}</CODE>
+<DD>this is just like applying <CODE>OS.stat</CODE>, except that when
+file <CODE>O</CODE> does not exist <CODE>notFound(type:unknown size:0)</CODE>
+is returned instead of raising an exception.
+<DT><CODE>{O dirEntries($)}</CODE>
+<DD>returns the list of <CODE>Filename</CODE> objects for the files in
+directory <CODE>O</CODE>.
+<DT><CODE>{O tree($)}</CODE>
+<DD>returns a record describing the file tree rooted at
+<CODE>O</CODE>. This record is just like what is returned by
+<CODE>{O stat($)}</CODE>, except that, in the case of a directory, the
+additional feature <CODE>entries</CODE> is present and gives a list of
+the file trees (in the same form) rooted at each of <CODE>O</CODE>'s
+entry.
+<DT><CODE>{O leaves($)}</CODE>
+<DD>returns a list of <CODE>Filename</CODE> objects for all regular
+files in the file tree rooted at <CODE>O</CODE>.
+<DT><CODE>{O exists($)}</CODE>
+<DD>tests for the existence of file <CODE>O</CODE>
+<DT><CODE>{O isDir($)}</CODE>
+<DD>tests whether <CODE>O</CODE> exists and is a directory.
+<DT><CODE>{O isFile($)}</CODE>
+<DD>tests whether <CODE>O</CODE> exists and is a regular file.
+<DT><CODE>{O size($)}</CODE>
+<DD>returns the size of <CODE>O</CODE> in bytes (0 if it doesn't
+exist).
+<DT><CODE>{O mkdirs}</CODE>
+<DD>makes sure that all ancestor directories of <CODE>O</CODE> exists,
+else creates them.  Thus, to ensure the existence of a directory
+hierarchy <CODE>DIR</CODE>, execute:
+<CODE CLASS="DISPLAY">{{{Path.make DIR} toBase($)} mkdirs}</CODE>
+<DT><CODE>{O rmtree}</CODE>
+<DD>makes sure that the file tree rooted at <CODE>O</CODE> does not
+appear on the file system.  Thus, if <CODE>O</CODE> denotes a file, the
+file is deleted; if it denotes a directory, then this directory and
+its contents are recursively deleted.
+</DL>
+
+<H2>Installation</H2>
+<P>This package can be installed using <file>ozmake</file>, i.e. by
+invoking in a shell:
+<CODE CLASS="DISPLAY">./ozmake --install --package=duchier-path.pkg</CODE>
+By default, all files of the package are
+installed in the user's <TT>~/.oz</TT> directory tree.  In
+particular, all modules are installed in the user's private cache.
+
+<HR>
+<ADDRESS>
+<A HREF="http://www.ps.uni-sb.de/~duchier/">Denys Duchier</A>
+</ADDRESS>
+</BODY>
+</HTML>

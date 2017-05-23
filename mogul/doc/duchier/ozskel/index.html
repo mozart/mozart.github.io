@@ -1,0 +1,437 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>ozskel utilities</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H4 {	color		: slateblue; }
+H3 {	color		: #881155; }
+H5 {	color		: darkslateblue; }
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+DIV.MENU {
+	text-align	: center;
+	font-size	: small;
+}
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<H1>ozskel utilities</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ps.uni-sb.de/~duchier/">Denys Duchier</A>
+</P>
+<DL>
+  <DT><B>provides</B>
+  <DD><SPAN CLASS="MODULE">ozskel</SPAN>
+  <DD><SPAN CLASS="MODULE">ozinstall</SPAN>
+  <DT><B>requires</B>
+  <DD><SPAN CLASS="MODULE">GNU autoconf</SPAN> (for the developer)
+  <DD><SPAN CLASS="MODULE">GNU make</SPAN> (for installation)
+  <DD><SPAN CLASS="MODULE">GNU tar</SPAN> (optionally, for creating
+  <TT>.tgz</TT> archives)
+</DL>
+<HR>
+<DIV CLASS="MENU">
+<A HREF="index.html#ozskel">ozskel</A> |
+<A HREF="index.html#ozinstall">ozinstall</A>
+</DIV>
+<HR>
+<H1><A name="ozskel">ozskel</A></H1>
+<H2>Purpose</H2>
+<P><TT>ozskel</TT> is a script that creates all the administrative
+files that you need to make it easy to <I>configure</I>, <I>build</I>,
+and <I>install</I> a mozart package.  For example, it provides you
+with a well designed <TT>Makefile.in</TT> where you mostly only need
+to fill in the blanks.  More precisely, it creates the following
+files:</P>
+<DL>
+  <DT><TT>Package.html</TT>
+  <DD>the squeleton of a html file that you can use to document your
+  package.  You should rename this file appropriately,
+  e.g. <tt>index.html</tt>
+  <DT><TT>Makefile.in</TT>
+  <DD>you should fill in the blanks and extend this file, but you
+  should preserve its design for uniformity across all Mozart
+  packages.
+  <DT><TT>configure</TT>
+  <DD>A ready-made version of the configure script, created by
+  <TT>autoconf</TT> from <TT>configure.in</TT> and included in the
+  default set up, since few developers need to modify
+  <TT>configure.in</TT>.  This means you normally won't need to have
+  <TT>autoconf</TT> installed on your system.
+  <DT><TT>aclocal.m4</TT>
+  <DD>some m4 macros for autoconf.
+  <DT><TT>configure.in</TT>
+  <DD>unless your package has special configuration needs, you
+  probably don't have to touch this file.
+  <DT><TT>config.guess</TT>
+  <DT><TT>config.sub</TT>
+  <DT><TT>install-sh</TT>
+  <DT><TT>ozinstall</TT>
+  <DD>auxiliary scripts for configuration and installation.
+  <DT><TT>Package.mogul</TT>
+  <DD>Example of <a href="http://www.mozart-oz.org/mogul/">MOGUL</a>
+  package entry.
+</DL>
+
+<H2>Installation</H2>
+<P>This package can be installed by following the usual
+<I>configure, build, install</I> procedure, i.e. by executing in a
+shell:
+<CODE CLASS="DISPLAY">./configure
+make install</CODE>
+This builds the ozskel script and installs it in directory
+<TT>~/.oz/bin</TT> by default and its documentation in
+<TT>~/.oz/doc/bin/ozskel/</TT>.  You can override this e.g. using:
+<CODE CLASS="DISPLAY">make install PREFIX=/usr/local/oz</CODE>
+which will use <TT>/usr/local/oz/</TT> instead of <TT>~/.oz/</TT>
+
+<H2>Usage</H2>
+<P>When developing a new package, first create a directory for it and
+use <TT>ozskel</TT> to populate it with administrative files, e.g.:
+<CODE CLASS="DISPLAY">mkdir snap-crackle-pop
+cd snap-crackle-pop
+ozskel</CODE>
+There is already a <TT>configure</TT> script available, however you
+should remember to invoke <TT>autoconf</TT> again whenever you modify
+<TT>configure.in</TT> or <TT>aclocal.m4</TT>.
+<P>
+<DL>
+<DT><CODE>ozskel -m</CODE>
+<DD>this just creates the <TT>Makefile.in</TT> and is convenient to
+invoke in a subdirectory.  If the subdirectory is called <TT>foo</TT>,
+remember to add <TT>foo/Makefile</TT> in file <TT>configure.in</TT> in
+the call to the <TT>AC_OUTPUT</TT> macro.  Then you must also invoke
+<TT>autoconf</TT> in order to recompute <TT>configure</TT>.
+</DL>
+
+<H3>Makefile.in</H3>
+<P><TT>Makefile.in</TT> is the template that is instantiated when the
+user invokes <TT>configure</TT>.  Mostly, you should just have to
+provide values for some of its variables and perhaps add a few
+dependencies.  Rarely do you need to do more: this template
+anticipates most usual needs of a package developer.
+
+<H4>Fill In The Blanks</H4>
+
+<DL>
+<DT><CODE>PKG_NAME</CODE>
+<DD>The name of your package.  For example the name of the `ozskel'
+package is <TT>duchier-ozskel</TT>.  This is used as the base name for
+creating distribution files, e.g. with <TT>.tgz</TT> and <TT>.zip</TT>
+extensions.  Make sure you pick a name such that adding a
+<TT>.tgz</TT> or <TT>.zip</TT> extension results in a file name that
+does not conflict with any file or directory existing or created by
+your package.
+<DT><CODE>PKG_MOGUL_URI</CODE>
+<DD>This is the URI that uniquely identifies your package in the
+<a href="http://www.mozart-oz.org/mogul/">MOGUL Database</a>.  You
+are strongly urged to become a contributor to MOGUL, The MOzart Global
+User Library, but you don't have to.  <TT>PKG_MOGUL_URI</TT> is used
+to determine where to install your package's documentation.
+<DT><CODE>PKG_URI</CODE>
+<DD>This is the base URI for the modules in your package.  This is
+what is going to be used in <code>import</code> specifications.  It is
+very important to assigned a fixed URI to your package: this is how
+its modules can be imported, i.e. reused, by other applications.  When
+your package is installed, its modules are placed in the user's cache
+under this URI.
+<DT><CODE>PKG_URI_AUX</CODE>
+<DD>This is a sub URI for auxiliary modules and files that you don't
+want to expose at the same level as the base URI, but prefer to
+isolate in their own directory.
+<DT><CODE>PKG_SOURCES</CODE>
+<DD>All the source files for your application.  This is one possible
+way of creating source distributions, but see <TT>PKG_METHOD</TT> for
+an alternative.
+<DT><CODE>PKG_INSTALLS</CODE>
+<DD>These are the filenames of the main modules and data files of your
+package, e.g. <TT>Foo.ozf</TT> i.e. the name of the compiled functor
+<TT>Foo</TT>.  They are used to determine what needs to be installed
+at the main URI <TT>PKG_URI</TT> and, therefore what needs to be
+built.
+<DT><CODE>PKG_INSTALL_AUX</CODE>
+<DD>Auxiliary modules and files to be installed at the auxiliary URI
+<TT>PKG_URI_AUX</TT>.  Note that this is often used for data files
+such as GIF files etc...
+<DT><CODE>PKG_INSTALLS_DOC</CODE>
+<DD>Documentation files to be installed, and, therefore to be built if
+necessary.  Documentation files are installed in a directory computed
+from <TT>PKG_MOGUL_URI</TT>.  For example, if <TT>PKG_MOGUL_URI</TT>
+is <CODE>mogul:/sherlock/baker-street/pipe</CODE>
+then the documentation is installed in
+<CODE>$(DOCDIR)/sherlock/baker-street/pipe</CODE>
+<DT><CODE>PKG_INSTALLS_BIN</CODE>
+<DD>scripts or executable functors to be installed in
+<CODE>$(BINDIR)</CODE>
+<DT><CODE>PKG_INSTALLS_INC</CODE>
+<DD>include files to be installed under $(INCDIR).  For example if
+<TT>PKG_INSTALLS_INC</TT> is <TT>toby.hh</TT> and
+<TT>PKG_MOGUL_URI</TT> is
+<CODE>mogul:/sherlock/baker-street/toby.hh</CODE>
+then the include file is installed as:
+<CODE>$(INCDIR)/sherlock/baker-street/toby.hh</CODE>
+<DT><CODE>PKG_SUBDIRS</CODE>
+<DD>The source of your package can be organized in sub-directories.
+You should set <TT>PKG_SUBDIRS</TT> to the list of immediate
+directories into which <tt>make</tt> should recurse.  For example if
+your package has subdirectories <TT>baker-street</TT> and
+<TT>watson</TT> that also need to be `made', then use the following
+setting:
+<CODE CLASS="DISPLAY">PKG_SUBDIRS = baker-street watson</CODE>
+See <a href="index.html#subdirs">Package Sub Directories</a> for more info.
+<DT><CODE>PKG_API</CODE>
+<DD>A list of source functor files to hand to
+<A HREF="http://www.mozart-oz.org/mogul/info/franzen-ozh.html"
+><code>ozh</code></a> for creating the API documentation.
+<DT><CODE>PKG_METHOD</CODE>
+<DD>determines how a source archive is constructed.  If
+<TT>PKG_METHOD</TT> is <TT>find</TT>, then the <TT>find</TT> program
+is invoked to automatically compute a list of source files.  It does
+this by exploring your source tree and has good defaults about what
+files and directories to ignore (e.g. <TT>CVS</TT>
+directories, compiled files, backup files ... see <TT>FIND_OPTIONS</TT> in
+<TT>Makefile.in</TT>).  If <TT>PKG_METHOD</TT> is <TT>make</TT> then
+it is up to the <TT>Makefile</TT> (as well as the <TT>Makefile</TT>s
+in sub-directories) to decide what files to put into the archive.
+This is realized by setting variable <TT>PKG_SOURCES</TT> in each
+Makefile.  If <TT>PKG_METHOD</TT> is not set, it defaults to
+<TT>make</TT> if <TT>PKG_SOURCES</TT> is non-empty and to
+<TT>find</TT> otherwise.  Note that this decision is effected in the
+directory where you invoke <TT>make</TT> and passed on to
+sub-directories so that they all use the same method.
+<DT><CODE>PKG_UPDATE</CODE>
+<DD>This is a list of abstract update targets in the set
+<CODE>tgz</CODE>, <CODE>tarz</CODE> and <CODE>zip</CODE>.  The default
+is just <CODE>tgz</CODE>.  Target <CODE>tgz</CODE> creates a
+<TT>.tgz</TT> source archive distribution, <CODE>tarz</CODE> a
+<TT>.tar.Z</TT> (for platforms that do not have <TT>gzip</TT>), and
+<CODE>zip</CODE> a <TT>.zip</TT> archive.
+</DL>
+
+<H4>Makefile.vars and Makefile.rules</H4>
+
+<P>You may find it preferable to provide your customizations in files
+<TT>Makefile.vars</TT> and <TT>Makefiles.rules</TT>.  These are
+automatically included by the <TT>Makefile</TT>.
+<TT>Makefile.vars</TT> is included just after the default settings for
+the <TT>PKG_...</TT> variables, thus allowing you to override them.
+<TT>Makefile.rules</TT> is included at the very end, thus allowing you
+to provide additional rules while being able to take advantage of
+variable settings computed by the rest of the file.
+
+<H4>Targets</H4>
+
+<DL>
+<DT><CODE>make all</CODE>
+<DD>builds the package
+<DT><CODE>make install</CODE>
+<DD>builds and installs the package
+<DT><CODE>make install.top</CODE><BR>
+<CODE>make install.aux</CODE><BR>
+<CODE>make install.bin</CODE><BR>
+<CODE>make install.doc</CODE><BR>
+<CODE>make install.api</CODE>
+<DD>builds and installs part of the package.
+<DT><CODE>make api</CODE>
+<DD>creates the API documentation by invoking
+<A HREF="http://www.mozart-oz.org/mogul/info/franzen-ozh.html"
+><code>ozh</code></a>
+<DT><CODE>make clean</CODE><BR>
+<CODE>make veryclean</CODE><BR>
+<CODE>make distclean</CODE>
+<DD><code>clean</code> is for removing all files created by the build
+process, <code>veryclean</code> additionally removes the API
+documentation directory, and <code>distclean</code> additionally
+removes all files created by the configuration process.
+<DT><CODE>make tgz</CODE><BR>
+<CODE>make tarz</CODE>
+<DD>creates a source distribution archive, resp.
+<CODE>$(PKG_NAME).tgz</CODE> and <CODE>$(PKG_NAME).tar.Z</CODE>
+<DT><CODE>make update</CODE>
+<DD>executes <CODE>make $(PKG_UPDATE)</CODE>, then installs the
+resulting archives in <CODE>$(PKGDIR)</CODE> i.e. typically
+<TT>~/.oz/pkg</TT>.  This is intended for developers who make their
+applications available in MOGUL and instruct the MOGUL Librarian to
+fetch updates automatically from a url corresponding to directory
+<TT>$(PKGDIR)</TT>
+<DT><CODE>make zip</CODE>
+<DD>preliminary support for creating binary zip distributions.
+<DT><CODE>make debug-XXX</CODE>
+<DD>This is like <CODE>make XXX</CODE> but adds debugging flags for
+compilation.
+</DL>
+
+<H4><a name="subdirs"></a>Directories</H4>
+<P>
+Do not change any of the variables documented here.  They provide a
+uniform installation interface for all packages and are automatically
+instantiated by the configuration process.  A package installs
+into the directory tree specified by <CODE>PREFIX</CODE>:
+<DL>
+<DT><CODE>SRCDIR</CODE>
+<DD>the source directory of your package.  We distinguish between
+`source' and `build' directories.  You can build in a directory that
+is not the same as the source directory.  Suppose the source is in
+directory <TT>/user/kellogg/snap-crackle-pop</TT> and you create a
+build directory <TT>/user/tiger/breakfast</TT>.  You can then
+configure, build and install the package as follows:
+<CODE CLASS="DISPLAY">
+cd /user/tiger/breakfast
+/user/kellogg/snap-crackle-pop/configure
+make install
+</CODE>
+<DT><CODE>BUILDDIR</CODE>
+<DD>the build directory.
+<DT><CODE>PREFIX</CODE>
+<DD>This is the root of the directory tree in which the package will
+be installed.  It defaults to <code>~/.oz</code> which is the user's
+private area for mozart packages.  You can effect a site global
+installation either by 
+<CODE CLASS="DISPLAY">make install PREFIX=/usr/local/oz</CODE>
+or by causing the default to be different during configuration:
+<CODE CLASS="DISPLAY">./configure --prefix=/usr/local/oz</CODE>
+<DT><CODE>CACHE  = $(PREFIX)/cache</CODE>
+<DD>This is the user's cache.  A module with URI
+<TT>x-ozlib://kellogg/Snap.ozf</TT> is installed in
+<TT>$(CACHE)/x-ozlib/kellogg/Snap.ozf</TT>
+<DT><CODE>DOCDIR = $(PREFIX)/doc</CODE>
+<DD>For a package with <TT>PKG_MOGUL_URI</TT>
+<TT>mogul:/sherlock/baker-street/pipe</TT>, the documentation is
+installed in <TT>$(DOCDIR)/sherlock/baker-street/pipe</TT>
+<DT><CODE>BINDIR = $(PREFIX)/bin</CODE>
+<DD>When a package provides scripts or executable functors, these may be
+installed in <TT>BINDIR</TT>.  However, we discourage installing
+executable functors in <TT>BINDIR</TT> since this might cause two
+packages to step on each others toes.  For example, if the package
+makes available the executable functor
+<TT>x-ozlib://kellogg/breakfast.exe</TT>, it can simply be invoked
+from the shell as follows:
+<CODE CLASS="DISPLAY">ozengine x-ozlib://kellogg/breakfast.exe</CODE>
+The Mozart resolver mechanism will automatically find it in your
+cache.
+<DT><CODE>INCDIR = $(PREFIX)/include</CODE>
+<DD>This is where include files are installed.  For a package with
+<TT>PKG_MOGUL_URI</TT>
+<TT>mogul:/sherlock/baker-street/pipe</TT>, include files are
+installed in <TT>$(INCDIR)/sherlock/baker-street/pipe</TT>
+<DT><CODE>PKGDIR = $(PREFIX)/pkg</CODE>
+<DD>This is only of interest to MOGUL contributors (do consider
+becoming one and making your creations available to the rest of the
+Mozart user community).  <TT>PKGDIR</TT> is where distribution
+archives are placed.  Typically, this will be a directory that you
+will arrange to make also accessible from your home page (e.g. by
+drawing a symbolic link).
+</DL>
+
+<H4>Environment Variables</H4>
+<p>The configuration process can also be parametrized through
+environment variables</p>
+<dl>
+<dt><code>OZSKEL_PREFIX</code>
+<dd>This can be used to provide a different default value for
+<code>PREFIX</code>.  If you always want to install globally, you
+could do (in bash):
+<code class="DISPLAY">export OZSKEL_PREFIX=/usr/local/oz</code>
+or (in csh):
+<code class="DISPLAY">setenv OZSKEL_PREFIX /usr/local/oz</code>
+</dl>
+<P>
+<HR>
+<H1><A name="ozinstall">ozinstall</A></H1>
+<H2>Purpose</H2>
+<P><TT>ozinstall</TT> is a shell script to install files and
+directories.  It is hopefully written in pure <TT>sh</TT> and thus
+should be maximally portable.  It assumes the existence of
+<TT>cp</TT>, <TT>mkdir</TT>, <TT>chmod</TT>, and <TT>chgrp</TT>, and
+further assumes that <TT>cp</TT> supports the <TT>-f</TT> flag
+(force).</P>
+<P><TT>ozinstall</TT> makes it unnecessary to fight hordes of
+incompatible <TT>install</TT> programs and covers concisely all the
+cases useful for Mozart packages.  An `install' script must in any case
+be included in any distributed package to permit installation on
+machines which do not have an <TT>install</TT> program.  We might as
+well always use <TT>ozinstall</TT>.</P>
+<P>One feature of <TT>ozinstall</TT> is that it will automatically
+create the destination directory structure.  This greatly simplifies
+Makefiles since no rules are necessary to create installation
+directories.</P>
+<H2>Usage</H2>
+<DL>
+<DT><CODE>ozinstall OPTIONS -d DIR</CODE>
+<DD>if directory <TT>DIR</TT> is not present, it is created.
+<DT><CODE>ozinstall OPTIONS [-f|-x|-M] SRCFILE DSTFILE<BR>
+ozinstall OPTIONS [-f|-x|-M] SRCFILE DSTDIR/<BR>
+ozinstall OPTIONS [-f|-x|-M] SRCFILE -d DSTDIR</CODE>
+<DD><TT>SRCFILE</TT> is installed as <TT>DSTFILE</TT>.  If the
+directory of <TT>DSTFILE</TT> does not yet exist, it is
+created. <TT>-f</TT> installs a regular data file, <TT>-x</TT>
+installs an executable, and <TT>-M</TT> decides which of <TT>-f</TT>
+and <TT>-x</TT> to use based on whether <TT>SRCFILE</TT> is executable
+or not.
+</DL>
+<H4>Options</H4>
+<DL>
+<DT><CODE>-g GROUP<BR>
+--group GROUP<BR>
+--group=GROUP</CODE>
+<DD>sets the group to use for newly created files and directories.
+<DT><CODE>-m MODE<BR>
+--mode MODE<BR>
+--mode=MODE</CODE>
+<DD>sets the mode to use for explicit file or directory creation.
+This will not be used for implicit directory creation (see
+<TT>OZSKEL_MODE_DIR</TT>).
+</DL>
+<H4>Environment Variables</H4>
+<DL>
+<DT><CODE>OZSKEL_MODE_DIR</CODE>
+<DD>default mode for directories (initially 775)
+<DT><CODE>OZSKEL_MODE_FILE</CODE>
+<DD>default mode for data files (initially 444)
+<DT><CODE>OZSKEL_MODE_BIN</CODE>
+<DD>default mode for executable files (initially 555)
+</DL>
+<HR>
+<ADDRESS>
+<A HREF="http://www.ps.uni-sb.de/~duchier/">Denys Duchier</A>
+</ADDRESS>
+</BODY>
+</HTML>

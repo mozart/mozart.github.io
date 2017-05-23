@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+ <head>
+  <title>Buffered</title>
+  <link href="ozdoc.css" rel="stylesheet" type="text/css">
+ </head>
+<body>
+<p class="margin"><table border="0" cellpadding="0" cellspacing="0">
+<tr><td width="100"><hr width="100"></td></tr>
+<tr><td width="100"><a href="index.html">Index</a>
+</td></tr>
+<tr><td width="100"><a href="node1.html">Buffered</a>
+</td></tr>
+<tr><td width="100"><a href="node2.html">Html</a>
+</td></tr>
+<tr><td width="100"><hr width="100"></td></tr>
+</table></p>
+<span class="string">
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+</span>
+<h3>Functor</h3>
+<ul>Buffered ("<span class="string">/home/afranke/import/mathweb/html/Buffered.oz</span>")<br></ul>
+<h3>Import</h3>
+<code><ul><li>Open(file:File socket:Socket pipe:Pipe)</li></ul></code>
+<h3>Export</h3>
+<code><ul><li>class:&lt;C:<a href="node1.html#entity6"><span class="type">Buffer</span></a>&gt;
+</li><li>file:&lt;C:<a href="node1.html#entity7"><span class="type">BufFile</span></a>&gt;
+</li><li>socket:&lt;C:<a href="node1.html#entity8"><span class="type">BufSocket</span></a>&gt;
+</li><li>pipe:&lt;C:<a href="node1.html#entity9"><span class="type">BufPipe</span></a>&gt;
+</li></ul></code>
+<h3>Prepare</h3>
+
+<a name="entity6">
+<code>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+<span class="keyword">class</span> <a href="class1.html"><span class="type">Buffer</span></a>&nbsp;<span class="keyword">from</span>&nbsp;<a href="node1.html#entity5">Stack</a>
+
+<ul><li><span class="functionname">reset</span>(VS)<br>
+</li><li><span class="functionname">append</span>(VS)<br>
+</li><li><span class="functionname">getAll</span>(VS)<br>
+</li><li><span class="functionname">push</span>()<br>
+</li><li><span class="functionname">pop</span>(VS)<br>
+</li></ul>
+<span class="keyword">end</span>
+</code><br>
+
+<a name="entity5">
+<code>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+<span class="keyword">class</span> <a href="class2.html"><span class="type">Stack</span></a>
+
+<ul><li><span class="functionname">push</span>(X)<br>
+</li><li><span class="functionname">pop</span>(X)<br>
+</li></ul>
+<span class="keyword">end</span>
+</code><br>
+<h3>Define</h3>
+
+<a name="entity7">
+<code>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+<span class="keyword">class</span> <a href="class3.html"><span class="type">BufFile</span></a>&nbsp;<span class="keyword">from</span>&nbsp;<a href="node1.html#entity6">Buffer</a>&nbsp;<span class="reference">Open.file</span>
+
+<ul><li><span class="functionname">write</span>(vs:VS)<br>
+</li><li><span class="functionname">flushBuffer</span>()<br>
+</li><li><span class="functionname">close</span>()<br>
+</li></ul>
+<span class="keyword">end</span>
+</code><br>
+
+<a name="entity8">
+<code>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+<span class="keyword">class</span> <a href="class4.html"><span class="type">BufSocket</span></a>&nbsp;<span class="keyword">from</span>&nbsp;<a href="node1.html#entity6">Buffer</a>&nbsp;<span class="reference">Open.socket</span>
+
+<ul><li><span class="functionname">write</span>(vs:VS)<br>
+</li><li><span class="functionname">flushBuffer</span>()<br>
+</li><li><span class="functionname">shutDown</span>(...)<br>
+</li></ul>
+<span class="keyword">end</span>
+</code><br>
+
+<a name="entity9">
+<code>
+
+<table border="0" cellpadding="2" cellspacing="2"><tr bgcolor="#eeeecc">
+
+
+
+
+</tr></table>
+<span class="string"></span>
+<span class="keyword">class</span> <a href="class5.html"><span class="type">BufPipe</span></a>&nbsp;<span class="keyword">from</span>&nbsp;<a href="node1.html#entity6">Buffer</a>&nbsp;<span class="reference">Open.pipe</span>
+
+<ul><li><span class="functionname">write</span>(vs:VS)<br>
+</li><li><span class="functionname">flushBuffer</span>()<br>
+</li><li><span class="functionname">close</span>(...)<br>
+</li></ul>
+<span class="keyword">end</span>
+</code><br>
+<h3>End</h3>
+</body>
+</html>

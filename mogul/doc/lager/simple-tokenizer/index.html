@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<TITLE>Tokenizer</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H3,H4 {	color		: #881155; }
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<H1>Simple Tokenizer</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ling.gu.se/~lager/">Torbjörn Lager</A>
+</P>
+<DL> 
+  <DT><B>provides</B> 
+  <DD><SPAN CLASS="MODULE">x-ozlib://lager/simple-tokenizer/Tokenizer.ozf</SPAN> 
+  <DD><SPAN CLASS="MODULE">x-ozlib://lager/simple-tokenizer/EnglishTokenizer.ozf</SPAN> 
+  <dd><span class="MODULE">x-ozlib://lager/simple-tokenizer/tokenize.exe</span> 
+  <dt>&nbsp; </dt>
+</DL>
+<HR>
+<!-- PURPOSE -->
+<H2>Purpose</H2>
+<P>Module <TT>Tokenizer.ozf</TT> exports a class that implements a simple tokenizer 
+  for natural language. Given a string, it returns a list of strings (but this 
+  can be changed to e.g. a list of atoms by subclassing), where each string is 
+  a considered a token. The tokenizer has a reasonable default behaviour for most 
+  European languages (well, for English and Swedish at least...), and it can be 
+  tailored to specific languages and applications by subclassing. For example, 
+  the tokenizer for English separate contractions into multiple tokens, e.g. splits 
+  the word "don't" into two tokens "do" and "n't", where "n't" is treated as a 
+  special form of "not". The word &quot;John's&quot; is treated as two tokens 
+  &quot;John&quot; and &quot;'s&quot;. It is done in this way because this is 
+  how the <a href="http://www.ling.gu.se/%7Elager/mogul/brill-tagger/index.html">Brill tagger</a> wants it. 
+<P>It is important to emphasize that this is a simple program. It was written 
+  to be used by the <a href="http://www.ling.gu.se/%7Elager/mogul/brill-tagger/index.html">Brill tagger</a>, but 
+  since it is also independently useful, I decided to make it available separately. 
+<H2>Installation</H2>
+<P>Download the package, and invoke ozmake in a shell as follows: 
+<blockquote> 
+  <p><code>ozmake --install --package=lager-simple-tokenizer.pkg</code></p>
+</blockquote>
+<P>By default, all files of the package are installed in the user's <code>~/.oz</code> 
+  directory tree. In particular, all modules are installed in the user's private 
+  cache. 
+<h2>Usage<!-- --> </h2>
+<h3>Tokenizer.ozf</h3>
+<p>Module <tt>Tokenizer.ozf</tt> exports, on feature <code>class</code>, a class 
+  definition for a tokenizer for natural language. It is up to each application 
+  to specialize the methods for individual natural languages. 
+<h4>Methods</h4>
+<dl> 
+  <dt><code>init()</code> 
+  <dd>An initialization method (which doesn't really do anything). 
+  <dt><code>tokenize(String ?Tokens)</code>
+  <dd><code>Tokens</code> gets bound to the tokens in <code>String.</code> 
+</dl>
+<p>These are the overridable methods that control how the tokenizer works:</p>
+<dl> 
+  <dt><code>isWordChar(C ?B)</code>
+  <dd><code>B</code> is bound to <code>true</code> if <code>C</code> is to be 
+    handled as part of a word. 
+  <dt><code>isPunctuationChar(C ?B)</code> 
+  <dd><code>B</code> is bound to <code>true</code> if <code>C</code> is to be 
+    handled as a punctuation char. 
+  <dt><code>toToken(Cs ?Token)</code> 
+  <dd>Determines how an individual token will be built from a list of characters.
+  <dt><code>postProcess(TokensIn ?TokensOut)</code> 
+  <dd>A hook for a post processor.
+  <dt>&nbsp; </dt>
+</dl>
+<h3>EnglishTokenizer.ozf</h3>
+<p>The package also contains a tokenizer for English that is implemented by subclassing 
+  <tt>Tokenizer</tt>. 
+<H2>Example Application</H2>
+<P>The distribution also include a stand-alone application which prints each token 
+  on a separate line. It can be invoked in the following way on a text file:
+<blockquote> 
+  <p><code> tokenize --in=test.txt</code> </p>
+</blockquote>
+<HR>
+<ADDRESS> <A HREF="http://www.ling.gu.se/~lager">Torbj&ouml;rn Lager</A></ADDRESS>
+</BODY>
+</HTML>

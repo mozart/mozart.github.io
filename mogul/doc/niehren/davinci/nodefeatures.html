@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>Node Features</TITLE>
+<STYLE>
+BODY {
+        background-color: white;
+        margin-left     : 2cm;
+        margin-right    : 2cm;
+        font-family     : tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+        text-align      : center;
+        color           : #9B0000;
+}
+H2 {    color           : #FF9933; }
+H4 {    color           : slateblue; }
+H3 {    color           : #881155; }
+H5 {    color           : darkslateblue; }
+CODE {  color           : #663366; }
+CODE,TT {
+        font-family     : "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+        display         : block;
+        white-space     : pre;
+        margin-left     : 2cm;
+        margin-top      : 1em;
+        margin-bottom   : 1em;
+}
+P.AUTHOR {
+        text-align      : center;
+        font-weight     : bold;
+}
+SPAN.MODULE {
+        color           : steelblue;
+}
+A {     color           : steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<br><br><br>
+<p align=right>Back to<a href= "index.html"> index.html</a></p>
+
+<p>
+<span class="TYPE">Node features</span>
+<p>All of the following features except for <code>id,edges</code> and <code>kind/s</code> are attributes required by daVinci, <code>id,edges</code> and <code>kind/s</code> are for the purpose of the interface.<br>
+
+<code><pre>		Node.id = Atom or Number</pre></code>
+stands for identity of the node and is needed when specifying the edges
+
+
+<code><pre>		Node.'OBJECT' = Atom </pre></code>
+will be the text shown in the node (i.e. the label)
+
+<code><pre>		Node.edges = [Edge1 ... Edge2]</pre></code>
+declares the outgoing edges from this node, for type of edge see below
+
+
+<code><pre>		Node.'INFO' = Atom </pre></code>
+This is used to define the tooltip text that appears after a delay when the mouse pointer is over the node.
+
+
+<code><pre>		Node.'FONTFAMILY' = Family </pre></code>
+<code>Family = {lucida<span class="COMMENT"> %default</span>, times,
+                helvetica, courier} </code>
+This is used to visualize the text of a node in a different font.
+
+<code><pre>		Node.'FONTSTYLE' = Style</pre></code>
+<code>Style = {normal, bold<span class="COMMENT"> %default</span>, italic, bold_italic} </code>
+This  attribute is used to visualize the text of a node in a different font.
+
+
+<code><pre>		Node.'COLOR' = Color</pre></code>
+can be used to define the background color of a node.<code> Color</code> may be any X-Window colorname (see file lib/rgb.txt in
+your X11 directory) or any RGB color specification in a format like '#0f331e', where 0f is the hexadecimal value for the red part of the
+color, 33 is the green part and 1e is the blue. The default color for nodes is white. 
+
+<code><pre>		Node.'CCOLOR' = Color</pre></code>
+is used when the subgraph of the node is hidden, defaults to the value of <code>'COLOR'</code>
+
+<code><pre>		Node.'_GO' = GraphicalObject</pre></code>
+<code>GraphicalObject = {box<span class="COMMENT"> %default</span>, 
+circle, ellipse, rhombus, triangle, text, invisible, icon, image, scissors} </code>
+particularizes the geometrical form of the nodes, <br>
+Note that set to<code> icon</code>  (DV Version 2.x) or <code>image</code>  (DV-Presenter 3.0) an additional attribute (i.e. <code>ICON</code> or <code>IMAGE</code>) must be specified to declare the file name of the icon/image to be drawn into the node. <code>scissors</code> is usually used to display nodes with hidden subgraphs.
+ 
+<code><pre>		Node.'_CGO' = GraphicalObject</pre></code>
+similar to <code>'_GO'</code>, used when the subgraph of the node is hidden, defaults to scissors
+
+<code><pre>		Node.'ICONFILE' = File</pre></code>
+This is used as a supplement for attribute <code>'_GO'</code> when its value is set to<code> icon</code> . Attribute <code>'ICONFILE'</code> specifies the (relative) filename of the bitmap used to draw the node as icon. The<code> File</code> must be in X-Window bitmap format (.xbm). Absolute filenames are not allowed as a
+value for this attribute. DaVinci is looking for the <code>File</code> in all directories given by environment variable <TT>$DAVINCI_ICONDIR</TT>. So for example, when the bitmap of an icon is in<code> File</code> <TT>/home/me/images/my_image.xbm</TT> , then add<TT> /home/me/images</TT> to the search path of environement variable <TT>$DAVINCI_ICONDIR</TT> before starting daVinci, set attribute <code>'_GO'</code> to <code>icon</code> and attribute <code>'ICONFILE'</code> to "my_image.xbm" for a particular node. 
+
+<code><pre>		Node.'CICONFILE' = File</pre></code>
+similar to <code>'ICONFILE'</code>, used when the subgraph of the node is hidden
+<code><pre>		Node.'IMAGE' = File</pre></code>
+This is used as a supplement for attribute <code>_GO</code> when its value is set to <code>image</code>. Attribute <code>'IMAGE'</code> specifies the
+file name of the image used to draw the node as icon. 
+The <code>File</code> specified in the attribute value must be in GIF, XBM,
+XPM or BMP format. Absolute filenames are not allowed as a value for this attribute. DaVinci is looking for this <code>File</code> in all directories given by environment variable <tt>$DAVINCI_ICONDIR</tt>. So for example, when the icon is in file <tt>/home/me/images/my_image.gif</tt> (this is UNIX® notation, use <tt>C:</tt> and <tt>\</tt> on Windows®), then add <tt>/home/me/images</tt> to the search path of environment variable <tt>$DAVINCI_ICONDIR</tt> before starting daVinci, set attribute <code>'_GO'</code> to <code>image</code> and attribute <code>'IMAGE'</code> to <tt>my_image.gif</tt> for a particular node.
+The default value for this attribute is <code>""</code>. 
+
+<code><pre>		Node.'CIMAGE' = File</pre></code>
+similar to <code>'IMAGE'</code>, used when the subgraph of the node is hidden
+
+<code><pre>		Node.'HIDDEN' = {true, false}</pre></code>
+used to hide the subgraph of a node initially, defaults to false
+
+<code><pre>		Node.'BORDER' = {none, single, double}</pre></code>
+defines the border of the graphical object (see attribute "_GO"), defaults to<code> single</code>
+
+<code><pre>		Node.m = [MenuEntry1 ... MenuEntryN]</pre></code>
+states the menu entries that will be shown as a popup menu at the node
+<code><pre>   MenuEntry = menu_entry(MenuId MenuLabel)
+   MenuId    = MenuProc
+   MenuProc  = proc{$ NodeId DaVinci} ... end 
+   MenuLabel = Atom or Number</pre></code>
+<code>MenuId</code> identifies the action to be executed when choosing this entry,<code> MenuLabel</code> represents the label of the entry (i.e. what is shown at the menu bar).
+Note that nested menus are not implemented.
+
+
+The <code>MenuId</code> is a procedure getting two arguments, the first being the<code> NodeId</code>, the second denoting the DaVinci environment built from the parameters. This enviroment will provide some defaults like removing items or changing attributes.
+(cf.<a href= "example2.oz">example2.oz</a>) 
+
+
+
+
+<br>
+<code><pre>                Node.kind = Kind</pre></code>
+<code>Kind = Atom</code> refers to a self-defined layout-definition in <code>Parameters</code>
+
+<code><pre>		Node.kinds = [Kind1 ... KindN]</pre></code>
+<code>Kind = Atom</code> refers to a self-defined layout-definition in <code>Parameters</code>
+
+<br>
+
+<p><i>(For specification of Atom and Number cf. <a href= "http://www.mozart-oz.org/documentation/base/index.html"> The Oz Base Environment </a>)</i>
+
+<p align=right>Back to<a href= "index.html"> index.html</a></p>

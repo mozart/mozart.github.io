@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>Node Features</TITLE>
+<STYLE>
+BODY {
+        background-color: white;
+        margin-left     : 2cm;
+        margin-right    : 2cm;
+        font-family     : tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+        text-align      : center;
+        color           : #9B0000;
+}
+H2 {    color           : #FF9933; }
+H4 {    color           : slateblue; }
+H3 {    color           : #881155; }
+H5 {    color           : darkslateblue; }
+CODE {  color           : #663366; }
+CODE,TT {
+        font-family     : "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+        display         : block;
+        white-space     : pre;
+        margin-left     : 2cm;
+        margin-top      : 1em;
+        margin-bottom   : 1em;
+}
+P.AUTHOR {
+        text-align      : center;
+        font-weight     : bold;
+}
+SPAN.MODULE {
+        color           : steelblue;
+}
+A {     color           : steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<br><br><br>
+<p align=right>Back to<a href= "index.html"> index.html</a></p>
+
+<p>
+<h2>Node Attributes</h2>
+<p>A node is a record with features <code>id</code>, 
+<code>edges</code>, <code>kind</code>,  <code>kinds</code>,
+and some node attributes. These attributes are specified by
+<code>DaVinci</code> and taken over by this interface.
+We now specify the types of values of the attributes.
+
+<code><pre>		 Node.'OBJECT' = VirtualString </pre></code>
+will be the text shown in the node (i.e. the label).
+Multi-line text is possible using <code>\\n</code> inside the attribute value. The default value for this attribute is the empty string. 
+
+<code><pre>		 Node.'INFO' = VirtualString </pre></code>
+This is used to define the tooltip text that appears after a delay when the mouse pointer is over the node.
+<br>(Only supported by <i>DV-Presenter 3.0</i>)
+
+<code><pre>		 Node.'FONTFAMILY' = Family 
+                 type Family = lucida + times + helvetica + courier </pre> </code>
+This is used to visualize the text of a node in a different font.
+<br>(Only supported by <i>DV-Presenter 3.0</i>)
+  
+<code><pre>		 type Node.'FONTSTYLE' = Style
+        	 type Style = normal + bold + italic + bold_italic </pre></code>
+This  attribute is used to visualize the text of a node in a different font.
+The default is <code>normal</code>.
+
+<code><pre>		 type Node.'COLOR' = Color</pre></code>
+can be used to define the background color of a node.<code> Color</code> may be any X-Window colorname (see file lib/rgb.txt in
+your X11 directory) or any RGB color specification in a format like '#0f331e', where 0f is the hexadecimal value for the red part of the
+color, 33 is the green part and 1e is the blue. The default color for nodes is white. 
+
+<code><pre>		type Node.'CCOLOR' = Color</pre></code>
+is used when the subgraph of the node is hidden, defaults to the value of <code>'COLOR'</code>
+
+<code><pre>		type Node.'_GO'    = GraphicalObject
+                type GraphicalObject = box + circle + ellipse + rhombus + triangle + text 
+                                       + invisible + icon + image + scissors </pre></code>
+particularizes the geometrical form of the nodes. The default is <code>box</code> 
+<br> 
+When using <code> icon</code>  (DV Version 2.x) or <code>image</code>  (DV-Presenter 3.0) an additional attribute (i.e. <code>ICON</code> or <code>IMAGE</code>) must be specified to declare the URI of the icon/image to be drawn into the node. <code>scissors</code> is usually used to display nodes with hidden subgraphs.
+ 
+<code><pre>		type Node.'_CGO' = GraphicalObject</pre></code>
+similar to <code>'_GO'</code>, used when the subgraph of the node is hidden, defaults to scissors
+
+<code><pre>		type Node.'ICONFILE' = URI</pre></code>
+This is used as a supplement for attribute <code>'_GO'</code> when 
+its value is set to<code> icon</code> . 
+
+<code><pre>		type Node.'CICONFILE' = URI</pre></code>
+similar to <code>'ICONFILE'</code>, used when the subgraph of the node is hidden.
+<code><pre>		type Node.'IMAGE' = URI</pre></code>
+This is used as a supplement for attribute <code>_GO</code> when its value is set to <code>image</code>. Attribute <code>'IMAGE'</code> specifies the
+file name of the image used to draw the node as icon. 
+The <code>URI</code> specified in the attribute value must address a file
+in gif, xbm, xpm or bmp format. The Mozart resolver is resolving this <code>URI</code> into a file name. 
+<br>(Only supported by <i>DV-Presenter 3.0</i>)
+
+
+<code><pre>		type Node.'CIMAGE' = URI</pre></code>
+similar to <code>'IMAGE'</code>, used when the subgraph of the node is hidden
+<br>(Only supported by <i>DV-Presenter 3.0</i>)
+
+<code><pre>		type Node.'HIDDEN' = Bool</pre></code>
+used to hide the subgraph of a node initially, defaults to false
+
+<code><pre>		type Node.'BORDER' = none + single + double</pre></code>
+defines the border of the graphical object (see attribute "_GO"), defaults to<code> single</code>
+
+<code><pre>		type Node.menu = list(MenuEntry)</pre></code>
+states the menu entries that will be shown as a popup menu at the node
+<code><pre>   type MenuEntry = menu_entry(MenuAction VirtualString) 
+                   + submenu_entry(VirtualString MenuList)  
+		   + node_entry(NodeAction VirtualString)
+		   + submenu_node_entry(VirtualString MenuList)
+                   + blank  
+   type MenuAction    = Node x davinci -> 
+   type NodeAction    = Node -></pre></code>
+<code>MenuAction</code> identifies the action to be executed when choosing this entry, the <code>VirtualString</code> represents the label of the entry (i.e. what is shown at the menu bar).
+
+The <code>MenuAction</code> is a procedure getting two arguments, the first being the<code> Node</code>, the second denoting the DaVinci environment built from the parameters. This enviroment will provide some defaults like removing items or changing attributes.
+<code>NodeAction</code> is a procedure getting as the only argument the value of the node.
+ <code>blank</code> serves as a seperator. 
+(cf.<a href= "http://www.ps.uni-sb.de/%7Eniehren/mogul/publish/doc/niehren-davinci/examples/example2.oz">example2.oz</a>) 
+
+<p align=right>Back to<a href= "index.html"> index.html</a></p>

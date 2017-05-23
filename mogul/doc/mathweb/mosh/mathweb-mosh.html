@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>Mosh - A Mozart Shell</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H4 {	color		: slateblue; }
+H3 {	color		: #881155; }
+H5 {	color		: darkslateblue; }
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<H1>Mosh - A Mozart Shell</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ags.uni-sb.de/~afranke/">Andreas Franke</A>
+</P>
+<DL>
+  <DT><B>provides</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/mosh/Shell.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/mosh/ShellCommands.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/mosh/TextServer.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/mosh/TextClient.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/mosh.exe</SPAN>
+  <DT><B>requires</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/XApplication.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/XTime.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/Env.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/File.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/Text.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/Internet.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://mathweb/share/Ticket.ozf</SPAN>
+</DL>
+<HR>
+
+<H2>Purpose</H2>
+<P>
+Mosh is a tool for running multiple Oz-applications at the same 
+time within only one ozengine. It combines some frequently used 
+shells-commands (for files, processes &amp; environment) with some 
+(thread-related) Oz-commands. It can be used as an interactive 
+shell as well as a script processor. Output redirection is supported.
+<P>
+Once you have started some applications, you can disconnect and 
+leave them alone running in the background until you choose to 
+reconnect in order to read their output, start some new programs, 
+or just terminate them and exit. This feature is useful e.g. for 
+providing multiple little Oz-based internet-services. 
+
+<H2>Installation</H2>
+<P>This package can be installed by following the usual
+<I>configure, build, install</I> procedure, i.e. by executing a the
+shell:
+<CODE CLASS="DISPLAY">./configure
+make install</CODE>
+By default, all files of the package are
+installed in the user's <TT>~/.oz</TT> directory tree.  In
+particular, all modules are installed in the user's private cache.
+
+<H2>Example</H2>
+<P>
+<TT><PRE>
+$ ozengine x-ozlib://mathweb/mosh.exe -l
+This is mozart shell version 1.0.0 beta.
+Processing file `/home/afranke/.moshrc'...
+Warning: ^C kills the entire oz process.
+Type exit to leave.
+> system date
+Tue Jan 11 21:26:19 MET 2000
+> system which emacs
+/usr/bin/emacs
+> exec {Show 1+1}
+2
+> eval {Log 2.0}
+0.693147
+> exit
+
+Bye...
+</PRE></TT>
+
+<HR>
+<ADDRESS>
+<A HREF="http://www.ags.uni-sb.de/~omega/">Omega Homepage</A> -
+<A HREF="http://www.mathweb.org/">Mathweb Homepage</A>
+</ADDRESS>
+</BODY>
+</HTML>

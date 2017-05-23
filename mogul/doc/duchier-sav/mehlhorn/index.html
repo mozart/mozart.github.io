@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>Title of Package</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H4 {	color		: slateblue; }
+H3 {	color		: #881155; }
+H5 {	color		: darkslateblue; }
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<H1>Title of Package</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ps.uni-sb.de/~duchier/">Denys Duchier</A> -
+  <A HREF="http://www.mpi-sb.mpg.de/~mehlhorn/">Kurt Mehlhorn</A>
+</P>
+<DL>
+  <DT><B>provides</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://duchier/cp/mehlhorn/Mehlhorn.ozf</SPAN>
+  <DT><B>requires</B>
+  <DD><SPAN CLASS="MODULE">LEDA Library</SPAN>
+</DL>
+<HR>
+
+<H2>Purpose</H2>
+<P>This module provides a satisfiability test for a class of dominance
+constraints.
+<P>
+<DL>
+<DT><CODE>{Mehlhorn.satisfiable +N +Nodes +Edges ?Answer}</CODE>
+<DD><CODE>N</CODE> is the number of nodes.  Each node is denoted by an
+integer between 0 inclusive and <CODE>N</CODE>
+exclusive. <CODE>Nodes</CODE> is a list of pairs <CODE>I#K</CODE>
+where <CODE>I</CODE> denotes a node and <CODE>K</CODE> is the `kind'
+of the node represented as the integer 0, 1, or 2 according to whether
+the kind is <b>root</b>, <b>leaf</b>, or <b>interior</b>
+respectively. <CODE>Edges</CODE> is a list of triples
+<CODE>I#J#B</CODE> where <CODE>I</CODE> denotes the source node,
+<CODE>J</CODE> the target node, and <CODE>B</CODE> is a boolean which
+is <CODE>true</CODE> iff the edge is solid. <CODE>Answer</CODE> is
+either <CODE>true</CODE> if the dominance constraints are satisfiable,
+or else it is the representation of a falsifying cycle in the form of
+a list of pairs <CODE>I#J</CODE> representing the edges involved in
+the cycle.
+<P>
+<DT><CODE>{Mehlhorn.satisfiableNative +N +Nodes +Edges ?Answer}</CODE>
+<DD>This is the same as the above, but without any type checking or
+synchronization.  Use at your own risk.
+</DL>
+
+<H2>Installation</H2>
+<P>Assuming LEDA support has been installed (see below), this package
+can be installed by following the usual
+<I>configure, build, install</I> procedure, i.e. by executing a the
+shell:
+<CODE CLASS="DISPLAY">./configure
+make install</CODE>
+By default, all files of the package are
+installed in the user's <TT>~/.oz</TT> directory tree.  In
+particular, all modules are installed in the user's private cache.
+
+<P>in order for this package to be compilable and runnable, LEDA
+support for mozart must be installed.  This can be accomplished as
+follows:
+<P>
+<OL>
+<LI> download the LEDA binary tarball for your platform and unpack in
+some directory. Let's call this directory
+<CODE><i>LEDA_UNPACKED</i></CODE>
+<P>
+<LI> configure this present package using the <CODE>--with-leda</CODE>
+option argument:
+<CODE CLASS="DISPLAY">./configure --with-leda=<i>LEDA_UNPACKED</i></CODE>
+<LI> install leda support:
+<CODE CLASS="DISPLAY">make install.leda</CODE>
+</OL>
+Once LEDA support has been installed, you can proceed with building
+and installing the package proper:
+<CODE CLASS="DISPLAY">make install</CODE>
+
+<HR>
+<ADDRESS>
+  <A HREF="http://www.ps.uni-sb.de/~duchier/">Denys Duchier</A> -
+  <A HREF="http://www.mpi-sb.mpg.de/~mehlhorn/">Kurt Mehlhorn</A>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>4 Plugins</title>
+<link href="dg.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<table align="center" border="0" cellpadding="6" cellspacing="6" summary="navigation table">
+<tr>
+<td><a href="parsing.html">&lt;&lt; Previous</a></td>
+<td><a href="index.html">- Up -</a></td>
+<td><a href="gui.html">Next &gt;&gt;</a></td>
+</tr>
+</table>
+
+<h1>4 Plugins</h1>
+
+<p>
+The TDG grammar formalism is still under development, and hence it may
+not be sufficient to account for everything. The parser implementation
+described herein however allows to formulate additional constraints
+using a plugin system. We have included in this package the
+plugin-file "Plugins-de.oz", containing two additional procedures in
+which additional constraints for the grammar in grammar file
+"grammar-de.dg" are formulated.
+</p>
+
+<h2><a name="dummy">4.1 Dummy file</a></h2>
+
+<p>
+We also provide a plugin-dummy file with no additional constraints
+called "Plugins-dummy.oz". The dummy file contains the following code:
+</p>
+<pre>
+functor
+export
+   Plugins
+define
+   Plugins = o
+end
+</pre>
+<p>
+which is also the minimal code required for a plugin. Plugins are
+functors exporting the record <code>Plugins</code> which has to be
+labeled with <code>o</code>. In the dummy file, this record is empty.
+</p>
+
+<h2><a name="example">4.2 Example</a></h2>
+
+<p>
+We turn to the example plugin-file <code>Plugins-de.oz</code>.  The
+Plugins record specified in this file is displayed below:
+</p>
+<pre>
+   Plugins = o(relative: o(type:bool
+			   label:'Relative clause principle'
+			   default:true
+			   procedure:Relative)
+	       root: o(type:radio
+		       label:'Root node label'
+		       values:[o(label:'no restriction'
+				 value:norestr)
+			       o(label:'n'
+				 value:n)
+			       o(label:'v12'
+				 value:v12)
+			       o(label:'v'
+				 value:v)]
+		       default:norestr
+		       procedure:Root))
+</pre>
+<p>
+The arity of the plugin record consists of the names of the individual
+constraints formulated in the plugin code file, here:
+<code>relative</code> and <code>root</code>. The values of these
+features are again records characterizing the constraints. These
+records are also applied in the generation of the plugins-pulldown
+menu in the graphical user interface (see <a href="gui.html">chapter
+5</a>). The arity of this record comprises the features
+<code>type</code>, <code>label</code>, <code>values</code>,
+<code>default</code> and <code>procedure</code>.
+</p>
+
+<p>
+The feature <code>type</code> denotes either <code>bool</code> for a
+constraint which can be turned on and off or <code>radio</code> for a
+constraint which can be further parametrized. The constraint
+<code>relative</code> in the example is of type <code>bool</code> and
+the constraint called <code>root</code> of type <code>radio</code>.
+</p>
+
+<p>
+The feature <code>label</code> is used to assign a label to the
+respective constraint. The value of <code>label</code> is an atom.
+This label is used in the generation of the plugins-pulldown menu in
+the GUI. In the example, the <code>relative</code>-constraint is
+assigned label <code>'Relative clause principle'</code> and the
+<code>root</code>-constraint label <code>'Root node label'</code>.
+</p>
+
+<p>
+The feature <code>values</code> only applies for constraints of type
+<code>radio</code>.  Its value is a list of records describing the
+different parameters of the constraint. This record has the two
+features <code>label</code> and <code>value</code>. <code>label</code>
+is a label for the respective parameter (used for pulldown-menu
+generation in the GUI) and <code>value</code> is the abbreviated name
+of the parameter. In the example, the list of parameters contains e.g.
+a parameter with label <code>'no restriction'</code> and value
+<code>norestr</code>.
+</p>
+
+<p>
+The feature <code>default</code> denotes a default value for the
+parameter.  Constraints of type <code>bool</code> are either
+<code>true</code> or <code>false</code>, and constraints of type
+<code>radio</code> are given either of the parameters defined in
+<code>values</code> above.  In the example, the default value of the
+constraint <code>relative</code> is <code>true</code> and the default
+value of the constraint <code>root</code> is <code>norestr</code>.
+</p>
+
+<p>
+Finally, the feature <code>procedure</code> denotes the constraint
+itself. As an example, we show below abbreviated versions of the two
+constraints defined in "Plugins-de.oz". First, the
+<code>relative</code>-constraint:
+</p>
+<pre>
+   proc {Relative Signs Param G}
+      if Param then
+         ...
+      end
+   end
+</pre>	 
+<p>
+Each plugin procedure has three arguments: <code>Signs</code> is the
+list of signs of the current parse. <code>Param</code> is the
+parameter given to the procedure: <code>true</code> or
+<code>false</code> for constraints of type <code>bool</code>, or one
+of the values defined under <code>values</code> for constraints of
+type <code>radio</code>. Finally, <code>G</code> is the grammar
+which the current parse uses.
+</p>
+
+<p>
+An outline of the <code>root</code>-constraint is shown below:
+</p>
+<pre>
+   proc {Root Signs Param G}
+      case Param
+      of norestr then
+         ...
+      [] n then
+	 ...
+      [] v12 then
+         ...
+      [] v then
+	 ...
+      end
+   end
+</pre>
+<p>
+Here, we make a case distinction because the parameter
+<code>Param</code> is not boolean as before but either
+<code>norestr</code>, <code>n</code>, <code>v12</code> or
+<code>v</code>.
+</p>
+
+<table align="center" border="0" cellpadding="6" cellspacing="6" summary="navigation table">
+<tr>
+<td><a href="parsing.html">&lt;&lt; Previous</a></td>
+<td><a href="index.html">- Up -</a></td>
+<td><a href="gui.html">Next &gt;&gt;</a></td>
+</tr>
+</table>
+
+</body>
+</html>

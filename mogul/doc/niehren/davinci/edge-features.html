@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>Edge Features</TITLE>
+<STYLE>
+BODY {
+        background-color: white;
+        margin-left     : 2cm;
+        margin-right    : 2cm;
+        font-family     : tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+        text-align      : center;
+        color           : #9B0000;
+}
+H2 {    color           : #FF9933; }
+H4 {    color           : slateblue; }
+H3 {    color           : #881155; }
+H5 {    color           : darkslateblue; }
+CODE {  color           : #663366; }
+CODE,TT {
+        font-family     : "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+        display         : block;
+        white-space     : pre;
+        margin-left     : 2cm;
+        margin-top      : 1em;
+        margin-bottom   : 1em;
+}
+P.AUTHOR {
+        text-align      : center;
+        font-weight     : bold;
+}
+SPAN.MODULE {
+        color           : steelblue;
+}
+A {     color           : steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<br><br><br>
+<p align=right>Back to<a href= "index.html"> index.html</a></p>
+
+<p>
+
+<h2>Edge Attributes</h2>
+
+An edge is a record with features <code>id</code>, <code>to</code>,
+<code>kind</code>,  <code>kinds</code>, and some edge 
+attributes. These attributes are specified by
+<code>DaVinci</code> and taken over by this interface.
+We now specify the types of values of the edge attributes.
+
+<code><pre>		type Edge.'OBJECT' = VirtualString </pre></code>
+
+This attribute is used to set an edge label. The label is displayed with the edge in grey in the background. When the edge is selected, the label is displayed in the foreground using the color of the edge.
+Multi-line text is possible using <code>\\n</code>  inside the attribute value. The default value for this attribute is the empty string. 
+<br>(Only supported by <i>DV-Presenter 3.0</i>)
+
+<code><pre>		type Edge.'FONTFAMILY' = Family 
+                type Family = lucida + times + helvetica + courier </pre></code>
+This is used to visualize the text of an edge in a different font.
+<br>(Only supported by <i>DV-Presenter 3.0</i>)
+
+<code><pre>		type Edge.'FONTSTYLE' = Style
+                type Style = normal + bold<span class="COMMENT"> %default</span> + italic + bold_italic</pre></code>
+This  attribute is used to visualize the text of an edge in a different font.
+<br>(Only supported by <i>DV-Presenter 3.0</i>)
+
+<code><pre>		type Edge.'INFO' = VirtualString </pre></code>
+This is used to define the tooltip text that appears after a delay when the mouse pointer is over the edge.
+<br>(Only supported by <i>DV-Presenter 3.0</i>)
+
+<code><pre>		type Edge.'EDGECOLOR' = Color</pre></code>
+can be used to define the color of an edge.<code> Color</code> may be any X-Window colorname (see file lib/rgb.txt in
+your X11 directory) or any RGB color specification in a format like '#0f331e', where 0f is the hexadecimal value for the red part of the
+color, 33 is the green part and 1e is the blue. 
+Defaults to black. 
+
+
+<code><pre>		type Edge.'EDGEPATTERN' = Pattern
+                type Pattern = solid<span class="COMMENT"> %default</span> + dotted + dashed + thick + double</pre></code>
+<p>particularizes the pattern style of an edge
+<p>This attribute underwent major changes in <i>DV-Presenter 3.0</i> version:
+It is now composed by 4 parameters, separated by '<code>;</code>'.
+<br>Therefore the type of <code>Pattern</code> is now: 
+
+<code><pre>type Pattern = 'Type;Shape;Width;Spline'
+type Type    = single + double 
+type Shape   = solid + dotted + dashed
+type Width   = Int 
+type Spline  = 0 + 1</pre></code> 
+
+So, to visualize an edge using a solid, double-lined spline with a width of 3 pixels, you use: <br>
+<code>               type Edge.'EDGEPATTERN' = 'double;solid;3;1'</code>
+
+<br>The old values of daVinci 2.x versions are still supported and are translated to the new style using the following conventions: 
+
+<code><pre>solid  => single;solid;1;0
+dotted => single;dotted;1;0
+dashed => single;dashed;1;0
+thick  => single;solid;3;0
+double => double;solid;5;0
+</pre></code>
+
+ 
+<code><pre>		type Edge.'_DIR' = Direction
+                type Direction = normal <i>(=last)</i><span class="COMMENT">%default</span> + inverse <i>(=first)</i> + both + none</pre></code><br>
+
+<p>This attribute is used to control the arrow of an edge. In a graph visualization, each edge usually has an arrow pointing to the child node.
+This attribute can be used to let the arrow be drawn inverse (i.e. pointing to the parent), to get an arrow at both sides of an edge or to
+suppress arrows for a particular edge. The italic values are DV-Presenter 3.0 syntax.
+
+<code><pre>		type Edge.'HEAD' = Head
+                type Head = farrow <span class="COMMENT">%default</span> + arrow + fcircle + circle</pre></code>
+DaVinci will draw a little image at no, one or both ends of an edge. This behaviour is controlled with the attribute "_DIR". With the
+attribute "HEAD" you can define which image this should be. 
+				
+<code><pre>		type Edge.menu = MenuList = list(MenuEntry) </pre></code>
+states the menu entries that will be shown as a popup menu at the edge.
+<code><pre>   type MenuEntry  = menu_entry(MenuAction VirtualString) 
+                     + submenu_entry(VirtualString MenuList)  
+		     + edge_entry(EdgeAction VirtualString)
+		     + submenu_edge_entry(VirtualString MenuList)
+                     + blank  
+   type MenuAction = Edge x DaVinci -> 
+   type EdgeAction = Edge -> </pre></code>
+
+
+A <code>MenuAction</code> identifies the action to be executed when choosing this entry. A <code> VirtualString</code> represents the label of the entry (i.e. what is shown at the menu bar).
+
+The <code>MenuAction</code> receives two arguments, the first being the<code> Edge</code>, the second denoting the DaVinci environment built from the parameters. This enviroment will provide some defaults like removing items or changing attributes.
+<code>blank</code> serves as a seperator. 
+(cf.<a href= "http://www.ps.uni-sb.de/%7Eniehren/mogul/publish/doc/niehren-davinci/examples/example2.oz">example2.oz</a>) 
+
+
+<p align=right>Back to<a href= "index.html"> index.html</a></p>

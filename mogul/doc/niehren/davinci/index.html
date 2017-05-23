@@ -1,0 +1,505 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>Interface to daVinci</TITLE>
+<STYLE>
+BODY {
+        background-color: white;
+        margin-left     : 2cm;
+        margin-right    : 2cm;
+        font-family     : tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+        text-align      : center;
+        color           : #9B0000;
+}
+H2 {    color           : #FF9933; }
+H4 {    color           : slateblue; }
+H3 {    color           : #881155; }
+H5 {    color           : darkslateblue; }
+CODE {  color           : #663366; }
+CODE,TT {
+        font-family     : "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+        display         : block;
+        white-space     : pre;
+        margin-left     : 2cm;
+        margin-top      : 1em;
+        margin-bottom   : 1em;
+}
+P.AUTHOR {
+        text-align      : center;
+        font-weight     : bold;
+}
+SPAN.MODULE {
+        color           : steelblue;
+}
+A {     color           : steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<H1>An interface to graph drawing with uDraw(Graph), the previous daVinci</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ps.uni-sb.de/~niehren">Joachim Niehren</A> 
+</P>
+<DL>
+  <DT><B>provides</B>
+  <DD><SPAN CLASS="MODULE">----------------- user interface--------------------------</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/davinci/manager.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">----------------- examples--------------------------------</SPAN>
+ <DD><SPAN CLASS="MODULE">x-ozlib://niehren/davinci/examples/example1.oz</SPAN>
+ <DD><SPAN CLASS="MODULE">x-ozlib://niehren/davinci/examples/example2.oz</SPAN>
+ <DD><SPAN CLASS="MODULE">x-ozlib://niehren/davinci/examples/noonoo.gif</SPAN>
+ <DD><SPAN CLASS="MODULE">x-ozlib://niehren/davinci/examples/hi.xbm</SPAN>
+ <DD><SPAN CLASS="MODULE">x-ozlib://niehren/davinci/examples/quit.xbm</SPAN>
+  <DD><SPAN CLASS="MODULE">----------------- implementation -------------------------</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/davinci/layout-functions.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/davinci/graphic-interface.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://niehren/davinci/state.ozf</SPAN>
+ <DD><SPAN CLASS="MODULE">x-ozlib://niehren/davinci/coding.ozf</SPAN>
+<DD><SPAN CLASS="MODULE">x-ozlib://niehren/davinci/actions.ozf</SPAN>
+<DD><SPAN CLASS="MODULE">x-ozlib://niehren/davinci/commands.ozf</SPAN>
+  <DT><B>requires</B>
+  <DD><A href="http://www.informatik.uni-bremen.de/uDrawGraph/en/uDrawGraph/uDrawGraph.html"><SPAN CLASS="MODULE">uDrawGraph-3.11</span> </A>
+  <DD><a href=http://www.mozart-oz.org/mogul/info/duchier/config.html><SPAN CLASS="MODULE">mogul:/duchier/config</SPAN></a>
+<dd><a href=http://www.mozart-oz.org/mogul/info/niehren/base.html><span class= "MODULE">mogul:/niehren/base</a></span>
+<dd><a href=http://www.mozart-oz.org/mogul/info/niehren/output.html><span class= "MODULE">mogul:/niehren/output</a></span>
+<dd><a href=http://www.mozart-oz.org/mogul/info/niehren/inspector-space.html><span class= "MODULE">mogul:/niehren/inspector-space</a></span>
+<dd><a href=http://www.mozart-oz.org/mogul/info/niehren/external-process.html><span class= "MODULE">mogul:/niehren/external-process</a></span>
+</DL>
+<HR>
+
+<H2>Purpose</H2>
+<P> <P>
+This package provides a simple, flexible, and powerful
+interface to the graph drawing tool <SPAN CLASS="TOOL">DaVinci</SPAN>. 
+DaVinci is a professional graph drawing tool developped by Michael 
+Fröhlich and Mattias Werner from the Group of Prof. Dr. Bernd Krieg-Brückner 
+at University of Bremen in Germany. 
+<P>
+To draw a graph,  it is sufficient to specify 
+its nodes and edges, and how to draw 
+them (but not where to). The required graph specifiations 
+can be defined on high level through Oz data-structures. 
+These are automatically converted to strings in DaVinci's 
+API-format and then send to an Oz-external DaVinci process
+that is created.  
+<p>
+The interface also permits to define graph actions that
+are envoked by  clicking on nodes or edges of the 
+drawn graph. Specifications of actions can be defined 
+through arbitrary Oz procedures. They may refer to the 
+actual graph structure which is always memoized by 
+the interface.
+<p>
+So far, the interface is available for Linux but soon,
+it will also be made available for Windows.
+
+<H2>DaVinci</H2>
+<p>DaVinci displays a graph in its window after a term representation of the graph has been loaded from file. It is as well possible to communicate with daVinci directly via the shell by sending strings in the requisite syntax.
+<P>DaVinci was built with respect to the facility of connecting an extern application program that serves as a graph editor. The interface operates as the connector between daVinci and Oz datastructures that edit and modify graphs. 
+<h4>Layout principles</h4>
+<p>DaVinci visualizes graphs in a hierarchical manner, i.e. reflects the hierarchical relationships of a graph by arranging the nodes on horizontal levels in a way that all parent nodes are above their children nodes and edges point downwards (though it is possible to switch to the inverse bottom-up layout as well as to left-right or right-left layout). Cyclic graphs are handled with a trick.
+<p>Here is an example:
+<center><img SRC="graph-ex.gif" ></center>
+<h4>Attributes of a graph</h4>
+<p>Nodes can be labelled with text (edges as well in version 3.x)
+Nodes and edges can have other layout attributes 
+(color, pattern, for more examples see below).
+The graph can be edited 
+(move, remove and add edges and nodes, change attributes). 
+Menus can be placed at nodes, edges and the graph displaying window.
+
+
+
+<H2>Graph Specification in Oz</H2>
+The vital principle of this interface is to seperate the topology of a graph and the attributes of nodes and edges. Attribute definitions are made simple by inheritance. The user can define sets of attributes called 'kinds' and use these kinds in nodes and edges. This defines the attributes oft nodes and edges by inheritance from their kinds.
+<p>Graphs can be modified at run time. Nodes and edges can be added
+  and removed, and attributes can be changed. Every nodes always knows
+  its ingoing and outgoing edges.
+
+<p>For all of the documentation below we recommand to consult one of the examples for illustration.
+<p>
+<dd><SPAN CLASS="MODULE"><a href= "http://www.ps.uni-sb.de/%7Eniehren/mogul/publish/doc/niehren-davinci/examples/example1.oz">example1.oz</a>	(basic)</SPAN>
+<dd><SPAN CLASS="MODULE"><a href= "http://www.ps.uni-sb.de/%7Eniehren/mogul/publish/doc/niehren-davinci/examples/example2.oz">example2.oz</a>	(with actions)</SPAN>
+
+<h4>Nodes and Edges</h4>
+<p>A graph consists of a list of nodes and a list of 
+edges. 
+<p>
+<code><pre>type Graph= unit(nodes:list(Node) 
+                 edges:list(Edge)  
+</pre>
+</code>
+A node is specified by a record of node features
+that define the node's <code>id</code>, <code>kinds</code>, 
+and attributes. For conveniance, an optional feature 
+<code>edges</code> is offered by node specifications 
+where some of 
+the outgoing edges of the node can be specified.
+
+<code><pre>type Node = unit(id      : Atom 
+                 edges   : list(Edge)
+		 kind    : Atom
+		 kinds   : list(Atom)	   
+                'OBJECT' : VirtualString
+	 	 menu    : list(MenuEntry)
+	         ... )
+</pre>
+</code>
+
+<p> This is only a small collection of possible node features. 
+There may be many more useful node attributes. These are defined 
+by actual DaVinci tool used. A set of such node attributes is
+also explained in <a href= "node-features.html">Node Attributes</a>
+
+<p>
+An edge is a record with features for specifying the edge's <code>id</code>, 
+<code>kinds</code>, end-node and attributes. 
+<code><pre>type Edge <= unit(id     : Atom 
+                 'from'  : Atom
+                 to      : Atom 
+		 kind    : Atom
+		 kinds   : list(Atom)	   
+                'OBJECT' : VirtualString
+	 	 menu    : list(MenuEntry)
+	         ... )
+</pre></code>
+<p> The edge feature <code>'from'</code> can be ommited in edge
+specifications that are embedded into the specification of that
+node where the edge starts. The above types lists only a small 
+collection of possible edge features. For additional features,
+we refer to <a href= "edge-features.html">Edge attributes</a></p>
+
+<h4>Graph and Window Parameter</h4>
+The nodes and edges of a graph and also the window in which it
+resides usually depend on a large number of parameter. They 
+serves for specifying the layout of the daVinci window, i.e.
+how certain kinds of edges and nodes will be drawn. They also
+specify menus or other actions such as for reacting to mouse-clicks 
+at the graph window.  Parameters can be specified by a record of
+the following type where all features are optional.
+<code><pre>type Parameters = unit(layout          : Layout
+                       actions         : Actions
+		       configuration   : Configuration
+		       debugging       : Bool) </pre></code>
+
+<code><pre>type Layout = unit(node  : Layouts
+                   edge  : Layouts
+	           window: WindowProperties) </pre></code>
+
+<h4>Attribute Inheritance via Kinds</h4>
+
+The node or edge layouts define different kinds of nodes 
+and edges. 
+
+<code><pre>type Layouts = unit(default: Kind
+                    atom   : Kind
+	              .       .
+		      .       .
+		      .       .
+                    atom   : Kind) </pre></code>
+A kind specifies values for a set of node resp. edge
+attributes.
+<code><pre>
+type Kind = unit(attribute : Value
+                   .           .
+      	           .           .
+		   .           .
+                 attribute: Value)</pre></code>
+
+A node or edge inherits the values of all attributes of
+its kinds. The complete list of kinds of a node or edge
+is defined by the values of the two features <code>kind</code> 
+and <code>kinds</code>. If both values are available, the 
+overall list is obtained by prepending the value
+of <code>kind</code> to the values of <code>kinds</code>. 
+<P>
+The attributes of the kinds of a node are inherited in that 
+order in which the kinds occur in the overall list of kinds. 
+Note that multiple inheritance may overwrite values 
+inherited earlier.
+<P>
+The types of attributes of nodes and edges where already discussed
+in the subsection on nodes and edges. The features <code>id</code>, 
+<code>edges</code>, <code>kind</code>, and <code>kinds</code> have
+special meanings, i.e., the are not attributes in the sense of
+DaVinci's specification.
+<p>					
+Node and edge attributes that are left unspecified will be 
+given default values. The defaults can be definded by the user,
+as it is given by the value of the <code>default</code> 
+feature of <code>Layouts</code>. 
+
+
+<h4>Window Properties</h4>
+
+The WindowProperties describes the desired features of the daVinci window the graph will be drawn in.
+<code><pre>type WindowProperties = unit(menu : list(MenuEntry)
+                             icons: list(Icon))
+
+</pre></code>
+
+<H4>Menu Entries and Menu Actions</H4>
+
+The list of <code>MenuEntries</code> represents the entries of the edit menu in the daVinci window, while <code>Icons</code> represents the icons to be found at the left side of the daVinci window.
+
+<code><pre>type MenuEntry        = menu_entry(MenuAction VirtualString)  
+                        + submenu_entry(MenuLabel list(MenuEntry))  
+                        + blank 
+type MenuAction       = NodeMenuAction + EdgeMenuAction + WindowMenuAction
+type NodeMenuAction   = Node x DaVinci -> 
+type EdgeMenuAction   = Edge x DaVinci -> 
+type WindowMenuAction = DaVinci -> 
+</pre></code>
+
+<br>A <code>MenuAction</code> identifys the action to be executed 
+when choosing the correspinding menu entry. A <code>VirtualString</code> 
+represents the label of this entry (i.e. what is shown at the menu bar).
+For specification of VirtualString cf. <a href= "http://www.mozart-oz.org/documentation/base/index.html"> The Oz Base Environment </a>.
+A <code>MenuAction</code> receives one or two arguments. The last
+argument is always the actual  <code>DaVinci</code>. The first 
+of two arguments  specifies either the node or edge to which 
+the menu belongs. WindowMenuActions only have one argument.
+The <code>blank</code> serves as a seperator of
+menu entries. 
+
+<H4>Window Icons</H4>
+
+The DaVinci window can be equipped with Icons by which to 
+raise actions.
+
+<code><pre>
+type Icons      = list(IconEntry)
+type IconEntry  = icon_entry(IconAction URI IconLabel)
+type IconAction = Node x DaVinci ->
+type IconLabel  = VirtualString</pre></code>
+
+<p><code>IconAction</code> specifies the desired action, which receives two arguments:
+the actual node and the actual DaVinci.
+<p><code>URI</code> adresses the bitmap of the icon in X-Window Bitmap format (.xbm format) of size 18x18 pixel. The URI is resolved to a filename by the Mozart resolver. <p><code>IconLabel</code> should be a short description of the semantic of the icon which will be displayed in the footer area of the daVinci window as soon as the mouse-pointer is over the icon. 
+<p>
+
+
+<H4>Window, Node, and Edge Actions</H4>
+
+Actions specify the reactions to messages from DaVinci. DaVinci will send messages when the user clicks at the graph window. There are predefined defaults for reactions on single and double clicks on nodes and edges. Other DaVinci messages are <i>ok</i> and <i>commmunication_error</i> which comment on the messages which were sent from the interface to Davinci. The default reaction on these commenting messages has no effect. It is possible to define procedures which will overwrite the defaults. Here are the types:
+<br>
+<code><pre>type Actions = unit(nodeDoubleClick:     Node x DaVinci ->
+                    edgeDoubleClick:     Edge x DaVinci ->
+                    nodeSingleClick:     Node x DaVinci ->
+		    edgeSingleClick:     Edge x DaVinci ->
+                    ok:                  DaVinci ->
+                    communication_error: Value x DaVinci ->
+		   )
+</pre></code>
+Please confer <a href= "http://www.ps.uni-sb.de/%7Eniehren/mogul/publish/doc/niehren-davinci/examples/example2.oz">example2.oz</a>.
+
+<h4>The State of the Graph</h2>
+
+Actions often depend on the actual state of the graph in the window.
+<code>DaVinci.state</code> can provide you with that information.
+<code><pre>type DaVinci.graph = unit(inEdges  : Node -> list(Edge)
+                          outEdges : Node -> list(Edge)
+                          reachable: list(Node) ->  list(Node)
+                          %% conversion of the graph
+                          toNodes  : -> list(Node)
+                          toEdges  : -> list(Edge)    
+                          %% implementation
+                          nodes    : dictionary
+                          edges    : dictionary
+                          toNode   : atom -> Node
+                          toEdge   : atom -> Edge
+                          handle   : ( -> ) ->
+			  ...)</pre></code>
+
+The function <code>DaVinci.graph.inEdges</code> maps a node to the list 
+of ingoing edges, and the function <code>DaVinci.graph.outEdges</code>
+to the list of outgoing edges. These function are implemented via
+dictionaries <code>DaVinci.graph.nodes</code> and 
+<code>DaVinci.graph.edges</code> that hash nodes and edges
+via their ids. The type of dictionaries used are defined in
+the package <a href=http://www.mozart-oz.org/mogul/info/niehren/base.html><span class= "MODULE">mogul:/niehren/base</SPAN></a>. These dictionaries
+can be converted into the actual list of nodes and edges by applying
+the functions  <code>DaVinci.graph.toNodes</code> and
+<code>DaVinci.graph.toEdges</code>.
+<p>
+It is also possible at each time point 
+to retrieve the actually selected edge or
+the set of actually selected nodes of the graph:
+
+<code><pre>	type DaVinci.getSelectedNodes = -> list(Node)</pre></code>
+returns a list containing of all nodes that are currently selected
+in the graph window
+<code><pre>	type DaVinci.getSelectedEdge  = -> Edge + NoEdge
+        type NoEdge = Name</pre></code>
+returns the currently selected edge in the graph window
+
+<h4>Configuration</h4> 
+<code><pre>	type Configuration = [DVCommand1 ... DVCommandN]</pre></code> 
+DVCommand is a daVinci command of category 'set' 
+(cf. DV-Documentation <tt><a href="http://www.tzi.de/daVinci/docs/reference/api/api_set_cmd.html">http://www.tzi.de/daVinci/docs/reference/api/api_set_cmd.html</a></tt>). 
+<p>A possible configuration could be:
+<code><pre>configuration: ['set(font_size(12))'
+		'set(gap_width(6))'
+		'set(gap_height(18))']</pre></code>
+
+<h4>Debugging</h4> 
+
+<p>
+<code>type Debugging = Bool</code>
+<p>If <code>Debugging</code> is set to true,
+a large set of debugging information will be
+displayed by the Oz Inspector. These values may
+also be of interest if you want to understand more
+about what this interface is doing internally. 
+By default, the value of this feature is <code>false</code>.
+
+<h2>How to use the Interface</h2>
+
+The following interactions with the user interface are
+provided by the functor <code>manager.ozf</code>. 
+
+<H4>Window Creation</H4>
+
+<code><pre>	[Interface] = {Link ['manager.ozf']}
+	DaVinci = {Interface.new Parameters}</pre></code>
+
+This functor exports a procedure <code>Interface.new</code>;
+it needs <code>Parameters</code> (as defined above) and returns a 
+record with features stated below. Suppose you invoke 
+<code>manager.ozf</code> as follows:
+
+<H4>Graph Creation</H4>
+The procedure <code>DaVinci.newGraph</code> draws a newly 
+specified graph. 
+
+<code><pre>	{DaVinci.newGraph Graph}</pre></code>
+<code>Graph</code> is a graph specification in the form described above. A graph with the given parameters will be drawn into a daVinci window.
+Next, we can add a subgraph that my be connected to the actual
+graph.
+
+<H4>Editing the Graph</H4>
+
+As mentionned above, DaVinci allows you to 
+edit a graph  once drawn. You can add or remove subgraphs, 
+nodes, or edges, and change their attributes.
+These procedures apply to the current state of the graph
+that is memoized oz Oz-side through the given interface.
+<P>
+First of all you can add nodes, edges, or graphs:
+<code><pre>         {DaVinci.add.nodes list(Node)}
+         {DaVinci.add.edges list(Edge)}
+ 	 {DaVinci.add.graph Graph}
+</pre></code>
+Second, you can remove nodes, edges or the subgraph 
+below some node:
+<code><pre>	{DaVinci.remove.subgraph Node}
+	{DaVinci.remove.nodes [Node1 ... NodeN]}
+	{DaVinci.remove.edges [Edge1 ... EdgeN]}</pre></code>
+
+Third, you can change the attributes of nodes and 
+edges:
+<code><pre>	{DaVinci.change AttribChanges}
+	type AttribChanges = list(AttribChange)
+	type AttribChange  = node(Node Kind) + edge(Edge Kind)
+</pre></code>
+The Kinds specify new values for some node or
+edge attributes. 
+
+<!-- <H4>Activate Window Menus and Icons</H4>
+
+<code><pre>	{DaVinci.activate.editmenu [Menu1 ... MenuN]}
+        {DaVinci.activate.icons [Icon1 ... IconN]}</pre></code> 
+This command will activate (i.e. make
+executable) all menu entries or icons in the list, and disable all menu entries or icons not in the list (and this might be even more useful). 
+This is only possible for menu entries found in the edit menu, but not for popup-menus.
+-->
+
+<H4>Changing Parameter</H4>
+
+You can also change the window and graph parameters. 
+This can change the behaviour of the function
+<code>DaVinci.newGraph</code> and of the menu 
+independent  actions. 
+
+<code><pre>	{DaVinci.configure NewParameters}
+	NewParameters = unit(parameter: Parameters
+                             actions  : Actions)</pre></code>   
+The procedure <code>DaVinci.configure</code> receives
+a record of parameters to be changed. The record has two 
+features: at the first you can give the whole parameters; the 
+second provides the possibility to only change the actions. 
+If no parameters or actions are given, the old ones are taken. 
+For types of <code>Parameters</code> and <code>Actions</code> 
+see specification above. 
+
+<code><pre>	{DaVinci.improveAll}</pre></code>
+is a functionality provided by daVinci which reduces edge crossings. (cf. DV documentation).
+
+<code><pre>	{DaVinci.setTitle 'Desired title'}</pre></code>
+<code>setTitle</code> allows you to entitle the daVinci window 		
+
+<code><pre>	{DaVinci.setSize Int#Int}</pre></code>
+<code>setSize</code> allows you to determine the size of the daVinci window. The first integer is the new window width (in pixel) and the second is the new height. Do not use negative values or values larger than the screen.
+
+
+<H4>Access to the Implementation</H4>
+
+<code><pre>     {DaVinci.execute 'DV-Command'}</pre></code>
+enables you to send daVinci commands in daVinci syntax directly to daVinci
+API. The DV-Command must be set into single quotes. Using
+<code>DaVinci.execute</code> 
+is dangerous since the actual state 
+of DaVinci may get inconsistent with respect to its image memoized 
+on the Oz-side. Even more libarally, 
+<code><pre>     DaVinci.gi
+</pre></code> makes the whole implementation of the 
+graphic interface available.
+
+<H2>Installation</H2>
+
+<p>Download the file <code>daVinci.pkg</code>, invoke <i>ozmake</i> and execute in a shell
+<CODE CLASS="DISPLAY">ozmake --freshen --package=niehren-davinci-x.x.x.pkg
+ozmake --extract --package=niehren-davinci-x.x.x.pkg</CODE>
+The second command will provide the necessary file in the current directory.
+<br>Then you can open the example files and feed them to the compiler.
+
+
+In case that did not already install <CODE>ozmake</CODE> on your
+machine, note that it is also available in the Mogul archive. 
+
+<HR>
+<ADDRESS>
+<A HREF="http://www.ps.uni-sb.de/~niehren">Joachim Niehren</A>. 
+
+</ADDRESS>
+</BODY>
+</HTML>
+
+<!--  
+<H1> Uberschrift 1 </h1>
+<H2> Uberschrift 2 </h2>
+<H3> Uberschrift 3 </h3>
+<H4> Uberschrift 4 </h4>
+<H5> Uberschrift 5 </h5>
+<SPAN CLASS="COMMENT">Comment</Span>
+<SPAN CLASS="KEYWORD">Keyword</Span>
+<SPAN CLASS="STRING">String</Span>
+<SPAN CLASS="FUNCTIONNAME">Functionname</Span>
+<SPAN CLASS="TYPE">Type</Span>
+<SPAN CLASS="VARIABLENAME">Variablename</Span>
+<SPAN CLASS="REFERENCE">Reference</Span>
+<SPAN CLASS="BUILTIN">Builtin</Span>
+-->

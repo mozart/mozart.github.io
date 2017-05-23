@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>Inspector Space</TITLE>
+<STYLE>
+BODY {
+        background-color: white;
+        margin-left     : 2cm;
+        margin-right    : 2cm;
+        font-family     : tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+        text-align      : center;
+        color           : #9B0000;
+}
+H2 {    color           : #FF9933; }
+H4 {    color           : slateblue; }
+H3 {    color           : #881155; }
+H5 {    color           : darkslateblue; }
+CODE {  color           : #663366; }
+CODE,TT {
+        font-family     : "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+        display         : block;
+        white-space     : pre;
+        margin-left     : 2cm;
+        margin-top      : 1em;
+        margin-bottom   : 1em;
+}
+P.AUTHOR {
+        text-align      : center;
+        font-weight     : bold;
+}
+SPAN.MODULE {
+        color           : steelblue;
+}
+A {     color           : steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<H1>A fully functional inspector.</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ps.uni-sb.de/~niehren">Joachim Niehren</A> 
+</P>
+<DL>
+  <DT><B>provides</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://base/inspector.ozf</SPAN>  <DD><SPAN CLASS="MODULE">x-ozlib://base/test-inspector.oz</SPAN>
+</DL>
+<HR>
+
+<H2>Purpose</H2>
+
+<P>
+The Oz Inspector of the actual Mozart-1.2.0 is not 
+fully functional in contrast to the Oz Inspector of the
+actual Mozart-1.3.0 devellopment branch.
+<p>
+This package provides the fully functional Inspector from
+the devellopment branch also Mozart-1.2.1. It supports 
+<ol>
+<li>
+inspecting in deep spaces
+<li> displays strings nicely 
+(by default as everybody would expect) 
+<li> and supports the creation of new inspector 
+windows with many user definable options.
+</ol>
+
+<P>
+<H2>Installation</H2>
+<P>Download the file <code>inspector-space-0.7.pkg</code>, 
+invoke <i>ozmake</i> and execute in a shell
+<CODE CLASS="DISPLAY">ozmake --install --package=inspector-space-0.7.pkg
+ozmake --extract --package=inspector-space-0.7.pkg</CODE>
+The second comand will extract the source files in the current directory.
+<br>You can test it from the Mozart Emacs user environment 
+by feeding <CODE CLASS="DISPLAY">test-inspector.oz</CODE>.
+<P>
+<H2>Further Documentation</H2>
+<P> Further documentation is available in the documentation 
+of the devellopment branch: 
+ <A HREF="http://www.mozart-oz.org/devel/doc/inspector/index.html">http://www.mozart-oz.org/devel/doc/inspector/index.html</A> 
+</P>
+<HR>
+<ADDRESS>
+<A HREF="http://www.ps.uni-sb.de/~niehren">Joachim Niehren</A>
+</ADDRESS>
+</BODY>
+</HTML>
+
+<!--  
+<H1> Uberschrift 1 </h1>
+<H2> Uberschrift 2 </h2>
+<H3> Uberschrift 3 </h3>
+<H4> Uberschrift 4 </h4>
+<H5> Uberschrift 5 </h5>
+<SPAN CLASS="COMMENT">Comment</Span>
+<SPAN CLASS="KEYWORD">Keyword</Span>
+<SPAN CLASS="STRING">String</Span>
+<SPAN CLASS="FUNCTIONNAME">Functionname</Span>
+<SPAN CLASS="TYPE">Type</Span>
+<SPAN CLASS="VARIABLENAME">Variablename</Span>
+<SPAN CLASS="REFERENCE">Reference</Span>
+<SPAN CLASS="BUILTIN">Builtin</Span>
+-->

@@ -1,0 +1,1257 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<!-- EDIT -->
+<title>Graph Data Structure and Basic Graph Algorithms</title>
+<style>
+BODY {
+        background-color: white;
+        margin-left     : 2cm;
+        margin-right    : 2cm;
+        font-family     : tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+        text-align      : center;
+        color           : #9B0000;
+}
+h2 {    color           : #FF9933; }
+h4 {    color           : slateblue; }
+h3 {    color           : #881155; }
+h5 {    color           : darkslateblue; }
+code {  color           : #663366; }
+code,TT {
+        font-family     : "lucida console",courier,monospace;
+}
+code.DISPLAY {
+        display         : block;
+        white-space     : pre;
+        margin-left     : 2cm;
+        margin-top      : 1em;
+        margin-bottom   : 1em;
+}
+P.AUTHOR {
+        text-align      : center;
+        font-weight     : bold;
+}
+A {     color           : steelblue; }
+span.MODULE {
+        color           : steelblue;
+}
+span.CMT      { color: #B22222; }
+span.KEY      { color: #A020F0; }
+span.STRING       { color: #BC8F8F; }
+span.FUNCTIONNAME { color: #0000FF; }
+span.TYPE         { color: #228B22; }
+span.VARIABLENAME { color: #B8860B; }
+span.REFERENCE    { color: #5F9EA0; }
+span.BUILTIN      { color: #DA70D6; }
+</style>
+</head>
+<body>
+<!-- EDIT -->
+<h1>Graph Data Structure and Basic Graph Algorithms</h1>
+<p CLASS="AUTHOR">
+  <A HREF="http://ps.uni-sb.de/~smiele">Sebastian Miele</A> 
+</p>
+<DL>
+  <DT><B>provides</B>
+  <DD><span CLASS="MODULE">x-ozlib://smiele/graph/graph.ozf</span>
+  <DD><span CLASS="MODULE">x-ozlib://smiele/graph/lib/graph.ozf</span>
+  <DD><span CLASS="MODULE">x-ozlib://smiele/graph/lib/node-array.ozf</span>
+  <DD><span CLASS="MODULE">x-ozlib://smiele/graph/lib/edge-array.ozf</span>
+  <DD><span CLASS="MODULE">x-ozlib://smiele/graph/lib/node-matrix.ozf</span>
+  <DD><span CLASS="MODULE">x-ozlib://smiele/graph/lib/edge-matrix.ozf</span>
+</DL>
+<HR>
+
+
+<h2>Overview</h2>
+
+This package provides
+
+<ul>
+<li><a href="index.html#graphs">fully dynamic and mutable labeled
+graphs</a></li>
+<li>dynamic and mutable mappings from the nodes or edges of a graph to
+arbitrary values (<a href="index.html#node-arrays">node arrays</a> and <a
+href="index.html#edge-arrays">edge arrays</a>)</li>
+<li>dynamic and mutable <a href="index.html#node-matrices">node matrices</a> and
+<a href="index.html#edge-matrices">edge matrices</a></li>
+<li><a href="index.html#algorithms">basic graph algorithms</a></li>
+</ul>
+
+For efficiency the package is implemented in C++.  The implementation
+of the graph data structure permits an efficient copying of instances
+so that the graph package performs well with the Mozart garbage
+collection and the cloning of computation spaces.
+
+<p>Graphs are implemented using doubly linked lists over the nodes and
+the ingoing and outgoing edges of nodes.  This provides constant time
+adding, removing, hiding and restoring of nodes and edges.  Apart from
+that a graph instance can be efficiently viewed as both, directed and
+undirected.  In the directed version you always consider only outgoing
+edges of a node.  In the undirected version you consider ingoing and
+outgoing edges, incident edges for short.  Similary you can view a
+graph instance simultanously as its transpose simply by considering
+the inedges of nodes instead of their outedges.
+
+<p>The package comes with a nice user interface that is similar to the
+interface of <a
+HREF="http://www.algorithmic-solutions.com/enleda.htm">LEDA</a>
+graphs.
+
+<p>Until now the following graph algorithms are available:
+
+<ul>
+<li><a href="index.html#topological-sort">topological sorting</a></li>
+<li><a href="index.html#wccs-sccs">weakly connected components</a></li>
+<li><a href="index.html#bccs">2-node connected components alias biconnected components</a></li>
+<li><a href="index.html#beccs">2-egde connected components</a></li>
+<li><a href="index.html#wccs-sccs">strongly connected components</a></li>
+<li><a href="index.html#transitive-closure">transitive closure (reachability relation)</a></li>
+<li><a href="index.html#acyclic-transitive-reduction">acyclic transitive reduction (redundant edges)</a></li>
+<li><a href="index.html#isolated-nodes">isolated nodes</a></li>
+<li><a href="index.html#isolated-edges">isolated edges</a></li>
+</ul>
+
+
+<h3>Oz-Library Style versus Object-as-Record Style</h3>
+
+The data structures in this package are provided in two styles: the
+Oz-Library style and the object-as-record style.
+
+<p>The Oz library style is the same style as used in the Oz base
+environment.  The idea is that the functions for all instances of a
+certain data structure are provided by a comon module.  For example,
+the functionalities for all dictionaries are collected in the module
+<code>Dictionary</code>.  If we want to apply such a function to a
+concrete dictionary like <code>EnglishToGerman</code> then we have to
+access that function from the module and pass the concrete dictionary
+as an argument. For instance:
+
+<pre><code>   {Dictionary.get EnglishToGerman hi}</code></pre>
+
+In the object-as-record style, each instance is modelled as a record
+of functions. In other words, each instance of a data structure
+carries its own functions. The above example becomes:
+
+<pre><code>   {EnglishToGerman.get hi}</code></pre>
+
+<p>This package provides graphs in the object-as-record style at the
+URI <span CLASS="MODULE">x-ozlib://smiele/graph/graph.ozf</span>.
+Procedures implementing graph algorithms always show up as features in
+the instace's record.  Node arrays and edge arrays returns by graphs
+in object-as-record style are also in oject-as-record style.  So if
+you prefer to use the object-as-record style, you will only need this
+single functor.
+
+<p>Versions in the Oz-library style are available at the URIs <span
+CLASS="MODULE">x-ozlib://smiele/graph/lib/graph.ozf</span>, <span
+CLASS="MODULE">x-ozlib://smiele/graph/lib/node-array.ozf</span> and
+<span CLASS="MODULE">x-ozlib://smiele/graph/lib/edge-array.ozf</span>.
+
+
+<h3>Example</h3>
+
+<p>We first show how to use a graph in object-as-record style. Here,
+the graph <code>G</code> is a record of functions
+<code>newNode</code>, <code>newEdge</code>, <code>indeg</code>, ... .
+
+<pre><code>
+   local
+      [Graph] = {Link ['x-ozlib://smiele/graph/graph.ozf']}
+      [Dict]  = {Link ['x-ozlib://base/dictionary.ozf']}
+      G = {Graph.new}
+      LitToNode = {Dict.new}
+   in
+      {ForAll [n1 n2 n3 n4 n5]
+       proc{$ X}
+          <span CLASS="CMT">%% create a new node in G with the label X and store</span>
+          <span CLASS="CMT">%% a mapping from X to the node in LitToNode</span>
+          {LitToNode.put X {G.newNode X}}
+       end}
+
+      <span CLASS="CMT">%% add edges so that we get the smallest graph that is</span>
+      <span CLASS="CMT">%% 2-edge connected but not 2-node/bi connected</span>
+      {ForAll [n1#n2 n2#n3 n3#n1 n3#n4 n4#n5 n5#n3]
+       proc{$ E}
+          {G.newEdge {LitToNode.get E.1} {LitToNode.get E.2} unit _}
+       end}
+
+       <span CLASS="CMT">%% inspect the labels of the cut nodes in G (i.e. [n3])</span>
+       {Inspect {Map {G.bccs}.cutNodes G.nodeLabel}}
+
+       <span CLASS="CMT">%% inspect the number of the bridges in G (i.e. 0)</span>
+       {Inspect {Length {G.beccs}.bridges}}
+   end
+</code></pre>
+
+<b>Note:</b> the functor <span
+CLASS="MODULE">x-ozlib://base/dictionary.ozf</span> provides
+object-as-record style dictionaries and is provided by the <span
+CLASS="MODULE">mogul:/niehre/base</span> package.
+
+<p>Here is how to do the same using the in the Oz-library style
+functors.  Now a graph <code>G</code> is the first argument expected
+by the functions in the functor <span
+CLASS="MODULE">lib/graph.ozf</span>:
+
+<pre><code>
+   local
+      [Graph] = {Link ['x-ozlib://smiele/graph/lib/graph.ozf']}
+      [Dict]  = {Link ['x-ozlib://base/dictionary.ozf']}
+      G = {Graph.new}
+      LitToNode = {Dict.new}
+   in
+      {ForAll [n1 n2 n3 n4 n5]
+       proc{$ X}
+          <span CLASS="CMT">%% create a new node in G with the label X and store</span>
+          <span CLASS="CMT">%% a mapping from X to the node in LitToNode</span>
+          {LitToNode.put X {Graph.newNode G X}}
+       end}
+
+      <span CLASS="CMT">%% add edges so that we get the smallest graph that is</span>
+      <span CLASS="CMT">%% 2-edge connected but not 2-node connected</span>
+      {ForAll [n1#n2 n2#n3 n3#n1 n3#n4 n4#n5 n5#n3]
+       proc{$ E}
+          {Graph.newEdge G {LitToNode.get E.1} {LitToNode.get E.2} unit _}
+       end}
+
+       <span CLASS="CMT">%% inspect the labels of the cut nodes in G (i.e. [n3])</span>
+       {Inspect {Map {Graph.bccs G}.cutNodes
+                 fun{$ N} {Graph.nodeLabel G N} end}}
+
+       <span CLASS="CMT">%% inspect the number of the bridges in G (i.e. 0)</span>
+       {Inspect {Length {Graph.beccs G}.bridges}}
+   end
+</code></pre>
+
+
+<h2>Manual</h2>
+
+We will use the following variable names:
+
+<table>
+<tr><td><code>G</code>, <code>G1</code>, ...</td><td>for graphs (in object as record style)</td></tr>
+<tr><td><code>N</code>, <code>N1</code>, ...</td><td>for nodes</td></tr>
+<tr><td><code>E</code>, <code>E1</code>, ...</td><td>for edges</td></tr>
+<tr><td><code>NA</code>, <code>NA1</code>, ...</td><td>for node arrays (in object-as-record style)</td></tr>
+<tr><td><code>EA</code>, <code>EA1</code>, ...</td><td>for edge arrays (in object-as-record style)</td></tr>
+<tr><td><code>NM</code>, <code>NM1</code>, ...</td><td>for node matrices (in object-as-record style)</td></tr>
+<tr><td><code>EM</code>, <code>EM1</code>, ...</td><td>for edge matrices (in object-as-record style)</td></tr>
+<tr><td><code>I</code>, <code>I1</code>, ...</td><td>for integers</td></tr>
+<tr><td><code>B</code>, <code>B1</code>, ...</td><td>for boolean values</td></tr>
+<tr><td><code>R</code>, <code>R1</code>, ...</td><td>for records</td></tr>
+<tr><td><code>X</code>, <code>X1</code>, ...</td><td>for arbitrary values</td></tr>
+</table>
+
+<p>For lists over elements of a certain type we will simply append an
+<code>s</code> to the characteristic variable name of the element
+type.  For example we will write <code>Es</code> for a list of edges.
+
+<p>Many procedures have <b>preconditions</b>.  These preconditions are
+checked preconditions, i.e. if a call to a procedure does not satisfy
+a precondition then an exception is raised.
+
+<p>The structure of the manual is as follows:
+
+<ul>
+<li><a HREF="index.html#graphs">Graphs</a>
+  <ul>
+  <li><a HREF="index.html#graphs-creation">Creation</a></li>
+  <li><a HREF="index.html#graphs-modification">Modification</a></li>
+  <li><a HREF="index.html#graphs-access">Access</a></li>
+  </ul>
+<li><a HREF="index.html#node-arrays">Node Arrays</a></li>
+<li><a HREF="index.html#edge-arrays">Edge Arrays</a></li>
+<li><a HREF="index.html#node-matrices">Node Matrices</a></li>
+<li><a HREF="index.html#edge-matrices">Edge Matrices</a></li>
+<li><a HREF="index.html#algorithms">Algorithms</a></li>
+</ul>
+
+We will use the object-as-record style variants for explanation
+because procedure types are smaller and therefore more concise.  At
+end of each section the use the corresponding Oz-library style
+procedures is explained briefly.
+
+
+<h3><a NAME="graphs">Graphs</a></h3>
+
+A graph <code>G</code> basically consists of a set <code>Ns</code> of
+nodes and a set <code>Es</code> of edges.  An edge <code>E</code>
+basically consists of a <b>source node</b> <code>N1</code> and a
+<b>target node</b> <code>N2</code>, where <code>N1</code> and
+<code>N2</code> must be members of <code>Ns</code>.  Every node and
+every edge also has a <b>label</b>.  Different graphs <code>G1</code>
+and <code>G2</code> have disjoint sets of nodes and edges.  So every
+node and every edge has exactly one graph it <b>belongs</b> to.
+
+<p>An edge with source <code>N1</code> and target <code>N2</code>is an
+<b>outgoing edge</b> of <code>N1</code> and an <b>ingoing edge</b> of
+<code>N2</code>.  An edge <code>E</code> is <b>incident to a node</b>
+<code>N</code> iff <code>N</code> is <code>E</code>'s source or
+target.
+
+<p>A node or edge can be either visible, hidden or deleted.  We say that
+a node <code>N</code> is
+
+<ul>
+<li><b>visible in a graph</b> <code>G</code> iff it belongs to
+<code>G</code> and is visible,</li>
+<li><b>hidden in a graph</b> <code>G</code> iff it belongs to
+<code>G</code> and is hidden,</li>
+<li><b>valid in a graph</b> <code>G</code> iff it belongs to
+<code>G</code> and is visible or hidden</li>
+</ul>
+
+If a node is hidden then all its incident edges must be hidden, too.
+Similary all edges of a deleted node must be deleted.  The
+implementations of <a HREF="index.html#hideNode">hideNode</a> and <a
+HREF="index.html#delNode">del</a> automatically take care of this detail.
+
+<p>Nodes and edges of a graph have unique representations in Oz.
+Using <code>==</code> you can test two nodes or edges for token
+equality.  Two nodes/edges are token equal iff they belong to the same
+graph and are the same node/edge in that graph.
+
+
+<h4><a NAME="graphs-creation">Creation</a></h4>
+
+Let <code>Graph</code> be the module linked from <span
+CLASS="MODULE">x-ozlib://smiele/graph/graph.ozf</span>.
+
+<p><table CELLPADDING="3">
+<tr>
+<td><code>G</code></td><td><code>=</code></td><td><code>{Graph.new}</code></td>
+<td>creates a new and empty graph instance <code>G</code></td>
+</tr>
+<tr>
+<td><code>G1</code></td><td><code>=</code></td><td><code>{G.clone}</code></td>
+<td>creates a clone <code>G1</code> of <code>G</code></td>
+</tr>
+</table>
+
+<p>In Oz-library style you have to link the functor <span
+CLASS="MODULE">x-ozlib://smiele/graph/lib/graph.ozf</span> under some
+varible <code>GraphLib</code>.  Then you can use <code>G =
+{GraphLib.new}</code> to create a new and empty graph in Oz-library
+style and <code>G1 = {GraphLib.clone G}</code> to create a clone of
+<code>G</code> in <code>G1</code>.
+
+
+<h4><a NAME="graphs-modification">Modification</a></h4>
+
+<table CELLPADDING="3">
+
+<tr VALIGN="BASELINE"><td><code>N</code></td><td><code>=</code>
+</td>
+<td><a NAME="newNode"><code>{G.newNode X}</code></a>
+</td>
+<td>adds a new node <code>N</code> to <code>G</code> and sets its
+label to <code>X</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><a NAME="delNode"><code>&nbsp;</code></a></td><td><code>&nbsp;</code>
+</td>
+<td><code>{G.delNode N}</code>
+</td>
+<td>removes the node <code>N</code> from <code>G</code><br>
+<b>Precondition:</b> <code>N</code> is valid in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><a NAME="hideNode"><code>&nbsp;</code></a></td><td><code>&nbsp;</code>
+</td>
+<td><code>{G.hideNode N}</code>
+</td>
+<td>hides the node <code>N</code> and all visible edges incident to
+<code>N</code><br>
+<b>Precondition:</b> <code>N</code> is visible in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>&nbsp;</code></td><td><code>&nbsp;</code>
+</td>
+<td><code>{G.restoreNode N}</code>
+</td>
+<td>restores a hidden node <code>N</code>, e.g. makes it visible; note
+that this operation does <b>not</b> restore the edges that have been hidden
+by <code>{G.hideNode N}</code><br>
+<b>Precondition:</b> <code>N</code> is hidden in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>&nbsp;</code></td><td><code>&nbsp;</code>
+</td>
+<td><code>{G.setNodeLabel N X}</code>
+</td>
+<td>sets the label of node <code>N</code> to <code>X</code><br>
+<b>Precondition:</b> <code>N</code> is valid in <code>G</code>
+</td>
+</tr>
+
+
+
+<tr VALIGN="BASELINE"><td><code>E</code></td><td><code>=</code>
+</td>
+<td><code>{G.newEdge N1 N2 X}</code>
+</td>
+<td>adds a new edge <code>E</code> with source <code>N1</code> and
+target <code>N2</code> to <code>G</code> and sets its label to
+<code>X</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>&nbsp;</code></td><td><code>&nbsp;</code>
+</td>
+<td><code>{G.delEdge E}</code>
+</td>
+<td>removes the edge <code>E</code> from <code>G</code><br>
+<b>Precondition:</b> <code>E</code> is valid in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>&nbsp;</code></td><td><code>&nbsp;</code>
+</td>
+<td><code>{G.hideEdge E}</code>
+</td>
+<td>hides the edge <code>E</code><br>
+<b>Precondition:</b> <code>E</code> is visible in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>&nbsp;</code></td><td><code>&nbsp;</code>
+</td>
+<td><code>{G.restoreEdge E}</code>
+</td>
+<td>restores a hidden edge <code>E</code>, e.g. makes it visible<br>
+<b>Precondition:</b> <code>E</code> is hidden in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>&nbsp;</code></td><td><code>&nbsp;</code>
+</td>
+<td><code>{G.setEdgeLabel E X}</code>
+</td>
+<td>sets the label of edge <code>E</code> to <code>X</code><br>
+<b>Precondition:</b> <code>E</code> is valid in <code>G</code>
+</td>
+</tr>
+
+</table>
+
+
+<h4><a NAME="graphs-access">Access</a></h4>
+
+<table CELLPADDING="3">
+
+<tr VALIGN="BASELINE"><td><code>Ns</code></td><td><code>=</code>
+</td>
+<td><code>{G.nodes}</code>
+</td>
+<td> returns a list of all visible nodes in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>I</code></td><td><code>=</code>
+</td>
+<td><code>{G.nodeCount}</code>
+</td>
+<td> returns the number of all visible edges in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>X</code></td><td><code>=</code>
+</td>
+<td><code>{G.nodeLabel N}</code>
+</td>
+<td> returns the label of the node <code>N</code><br>
+<b>Precondition:</b> <code>N</code> is valid in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>Es</code></td><td><code>=</code>
+</td>
+<td><code>{G.inEdges N}</code>
+</td>
+<td> returns a list of all ingoing edges of <code>N</code><br>
+<b>Precondition:</b> <code>N</code> is visible in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>Es</code></td><td><code>=</code>
+</td>
+<td><code>{G.outEdges N}</code>
+</td>
+<td> returns a list of all outgoing edges of <code>N</code><br>
+<b>Precondition:</b> <code>N</code> is visible in <code>G</code>
+</td>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>Es</code></td><td><code>=</code>
+</td>
+<td><code>{G.incEdges N}</code>
+</td>
+<td> returns the list of all edges incident to <code>N</code><br>
+<b>Precondition:</b> <code>N</code> is visible in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>I</code></td><td><code>=</code>
+</td>
+<td><code>{G.indeg N}</code>
+</td>
+<td> returns the number of all ingoing edges of <code>N</code><br>
+<b>Precondition:</b> <code>N</code> is visible in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>I</code></td><td><code>=</code>
+</td>
+<td><code>{G.outdeg N}</code>
+</td>
+<td> returns the number of all outgoing edges of <code>N</code><br>
+<b>Precondition:</b> <code>N</code> is visible in <code>G</code>
+</td>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>I</code></td><td><code>=</code>
+</td>
+<td><code>{G.degree N}</code>
+</td>
+<td> returns the number of all edges incident to <code>N</code><br>
+<b>Precondition:</b> <code>N</code> is visible in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>B</code></td><td><code>=</code>
+</td>
+<td><code>{G.isVisibleNode N}</code>
+</td>
+<td> tests whether <code>N</code> is visible in <code>G</code><br>
+<b>Precondition:</b> <code>N</code> is valid in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>B</code></td><td><code>=</code>
+</td>
+<td><code>{G.isHiddenNode N}</code>
+</td>
+<td> tests whether <code>N</code> is hidden in <code>G</code><br>
+<b>Precondition:</b> <code>N</code> is valid in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>B</code></td><td><code>=</code>
+</td>
+<td><code>{G.isValidNode N}</code>
+</td>
+<td> tests whether <code>N</code> is valid in <code>G</code>,
+e.g. whether it belongs to <code>G</code> and is not deleted.
+</td>
+</tr>
+
+
+<tr VALIGN="BASELINE"><td><code>Es</code></td><td><code>=</code>
+</td>
+<td><code>{G.edges}</code>
+</td>
+<td> returns a list of all edges in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>I</code></td><td><code>=</code>
+</td>
+<td><code>{G.edgeCount}</code>
+</td>
+<td> returns the number of all edges in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>N</code></td><td><code>=</code>
+</td>
+<td><code>{G.source E}</code>
+</td>
+<td> returns the source node <code>N</code> of <code>E</code>,
+i.e. the node for which <code>E</code> is an outgoing edge<br>
+<b>Precondition:</b> <code>E</code> is valid in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>N</code></td><td><code>=</code>
+</td>
+<td><code>{G.target E}</code>
+</td>
+<td> returns the target node of <code>E</code>, i.e. the node
+for which <code>E</code> is an ingoing edge<br>
+<b>Precondition:</b> <code>E</code> is valid in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>N1</code></td><td><code>=</code>
+</td>
+<td><code>{G.opposite N E}</code>
+</td>
+<td> returns the target of <code>E</code> if <code>N</code> is the
+source of <code>E</code>; otherwise <code>E</code>'s source is
+returned<br>
+<b>Precondition:</b> <code>E</code> is valid in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>B</code></td><td><code>=</code>
+</td>
+<td><code>{G.edgeLabel E}</code>
+</td>
+<td> returns the label of <code>E</code><br>
+<b>Precondition:</b> <code>E</code> is valid in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>B</code></td><td><code>=</code>
+</td>
+<td><pre><code>{G.isVisibleEdge E}</code></pre>
+</td>
+<td> tests whether <code>E</code> is visible in <code>G</code><br>
+<b>Precondition:</b> <code>E</code> is valid in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>B</code></td><td><code>=</code>
+</td>
+<td><code>{G.isHiddenEdge E}</code>
+</td>
+<td> tests whether <code>E</code> is hidden in <code>G</code><br>
+<b>Precondition:</b> <code>E</code> is valid in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>I</code></td><td><code>=</code>
+</td>
+<td><code>{G.isValidEdge E}</code>
+</td>
+<td> tests whether <code>E</code> is valid in <code>G</code>,
+e.g. whether it belongs to <code>G</code> and is not deleted.
+</td>
+</tr>
+
+</table>
+
+<p>Procedures for hidden nodes and edges:
+
+<p><table CELLPADDING="3">
+
+<tr VALIGN="BASELINE"><td><code>Ns</code></td><td><code>=</code>
+</td>
+<td><code>{G.hiddenNodes}</code>
+</td>
+<td> returns a list of all hidden nodes in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>I</code></td><td><code>=</code>
+</td>
+<td><code>{G.hiddenNodeCount}</code>
+</td>
+<td> returns the number of all hidden nodes in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>Es</code></td><td><code>=</code>
+</td>
+<td><code>{G.hiddenEdges}</code>
+</td>
+<td> returns a list of all hidden edges in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>I</code></td><td><code>=</code>
+</td>
+<td><code>{G.hiddenEdgeCount}</code>
+</td>
+<td> returns the number of all hidden edges in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>Es</code></td><td><code>=</code>
+</td>
+<td><code>{G.hiddenInEdges N}</code>
+</td>
+<td> returns a list of all ingoing edges of <code>N</code> that are
+hidden<br>
+<b>Precondition:</b> <code>N</code> is valid in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>Es</code></td><td><code>=</code>
+</td>
+<td><code>{G.hiddenOutEdges N}</code>
+</td>
+<td> returns a list of all outgoing edges of <code>N</code> that are
+hidden<br>
+<b>Precondition:</b> <code>N</code> is valid in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>Es</code></td><td><code>=</code>
+</td>
+<td><code>{G.hiddenIncEdges N}</code>
+</td>
+<td> returns a list of all hidden edges that are incident to <code>N</code><br>
+<b>Precondition:</b> <code>N</code> is valid in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>I</code></td><td><code>=</code>
+</td>
+<td><code>{G.hiddenIndeg N}</code>
+</td>
+<td> returns the number of all hidden ingoing edges of <code>N</code><br>
+<b>Precondition:</b> <code>N</code> is valid in <code>G</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>I</code></td><td><code>=</code>
+</td>
+<td><code>{G.hiddenOutdeg N}</code>
+</td>
+<td> returns the number of all hidden outgoing edges of <code>N</code><br>
+<b>Precondition:</b> <code>N</code> is valid in <code>G</code>
+</td>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>I</code></td><td><code>=</code>
+</td>
+<td><code>{G.hiddenDegree N}</code>
+</td>
+<td> returns the number of all hidden edges incident to <code>N</code><br>
+<b>Precondition:</b> <code>N</code> is valid in <code>G</code>
+</td>
+</tr>
+
+</table>
+
+<p>In order to apply any of the the above procedures to a graph
+<code>G</code> in Oz-library style, for example <code>outEdges</code>
+of a node <code>N</code>, use <code>{GraphLib.outEdges G N}</code>
+(where <code>GraphLib</code> is the module obtained by linking the
+functor <span
+CLASS="MODULE">x-ozlib://smiele/graph/lib/graph.ozf</span>).
+
+
+<h3><a NAME="node-arrays">Node Arrays</a></h3>
+
+A node array is a mutable data structure that maps the nodes of a
+graph to arbitrary values.  Node arrays are implemented efficiently on
+the basis of vectors, so access and modification take constant time
+(except when the vectors must be resized in order to map new nodes
+added to the graph).
+
+<p>In object-as-record style you can create a new node array
+<code>NA</code> that maps each node of a graph <code>G</code> to some
+initial value <code>InitX</code> with <code>NA = {G.newNodeArray
+InitX}</code>.  In Oz-library style you use <code>{NALib.new G
+InitX}</code> (where <code>NALib</code> is the module obtained by
+linking <span
+CLASS="MODULE">x-ozlib://smiele/graph/lib/node-array.ozf</span>).
+
+<p><a name="init-value-restriction">Node arrays are dynamic</a>.  This
+means that you can
+
+<p>
+<ol>
+<li>create a node array <code>NA</code> that maps the nodes of a graph
+<code>G</code> to some intial value <code>InitX</code>
+</li>
+<li>and then add some new nodes <code>N1</code>, ... to the graph.
+</li>
+</ol>
+
+<p>After that the node array automatically maps the new nodes
+<code>N1</code>, ..., too.  E.g. the underlying vector becomes resized
+to fit the new demands.  But you cannot be sure to which values the
+new nodes are mapped.  It could be the initial value
+<code>InitX</code> or the value of some node that has been deleted
+previously.  This is because the graph data structure internally uses
+a numbering of nodes and edges.  Numbers of deleted nodes or edges are
+reused when new nodes or edges are added to the graph.  Node arrays
+simply use these numbers and nothing else.  So they cannot distinguish
+between a node that has been deleted and a new node that got the
+number of the deleted node.
+
+<p>The following procedures are available for node arrays:
+
+<p><table CELLPADDING="3">
+
+<tr VALIGN="BASELINE"><td><code>NA1</code></td><td><code>=</code>
+</td>
+<td><code>{NA.clone}</code>
+</td>
+<td> returns a clone of <code>NA</code> in <code>NA1</code>.
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>&nbsp;</code></td><td><code>&nbsp;</code>
+</td>
+<td><code>{NA.put N X}</code>
+</td>
+<td> sets the value of <code>NA</code> under the node <code>N</code>
+to <code>X</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>X</code></td><td><code>=</code>
+</td>
+<td><code>{NA.get N}</code>
+</td>
+<td> returns the value of <code>NA</code> under the node
+<code>N</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>&nbsp;</code></td><td><code>&nbsp;</code>
+</td>
+<td><code>{NA.collect N X}</code>
+</td>
+<td> is semantically equal to <code>{NA.put N X|{NA.get N}}</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>&nbsp;</code></td><td><code>&nbsp;</code>
+</td>
+<td><code>{NA.inc N}</code>
+</td>
+<td> is semantically equal to <code>{NA.put N 1+{NA.get N}}</code><br>
+<b>Precondition:</b> <code>{NA.get N}</code> is an integer
+</td>
+</tr>
+
+</table>
+
+<p>In order to apply any of the above procedures to a node array
+<code>NA</code> in Oz-library style, for example <code>inc</code> for
+some node <code>N</code>, call <code>{NALib.inc NA N}</code> (where
+<code>NALib</code> is the module obtained by linking <span
+CLASS="MODULE">x-ozlib://smiele/graph/lib/node-array.ozf</span>).
+
+
+<h3><a NAME="edge-arrays">Edge Arrays</a></h3>
+
+Edge arrays are almost equal to <a HREF="index.html#node-arrays">node
+arrays</a>.  Given a graph <code>G</code> in object-as-record style
+and an initial value <code>InitX</code> you can create a new edge
+array <code>EA</code> with <code>EA = {G.newEdgeArray InitX}</code>.
+
+<p>Given a graph <code>G</code> in Oz-library style you get a new edge
+array <code>EA</code> in Oz-library style with <code>EA = {EALib.new G
+InitX}</code> (where <code>EALib</code> is the module obtained by
+linking <span
+CLASS="MODULE">x-ozlib://smiele/graph/lib/edge-array.ozf</span>).
+
+
+<h3><a NAME="node-matrices">Node Matrices</a></h3>
+
+A node matrix is a mutable data structure that maps every pair of a
+graph's nodes to an arbitrary value.  Node matrices are implemented
+efficiently on the basis of vectors, so access and modification take
+constant time (except when the matrix has to be resized in order to
+map pairs containing new nodes added to the graph).
+
+<p>In object-as-record style you can create a new node matrix
+<code>NM</code> that maps each pair of nodes of a graph <code>G</code>
+to some initial value <code>InitX</code> with <code>NM =
+{G.newNodeMatrix InitX}</code>.  In Oz-library style you use
+<code>{NMLib.new G InitX}</code> (where <code>NMLib</code> is the
+module obtained by linking <span
+CLASS="MODULE">x-ozlib://smiele/graph/lib/node-matrix.ozf</span>).
+
+<p>Node matrices, like node arrays, are dynamic, but a similar <a
+href="index.html#init-value-restriction">restriction concerning the initial
+value</a> applies.  When you create a new node matrix from a graph and
+then add a new node you cannot rely on the node matrix to contain the
+initial value at node pairs that contain the new node.  Instead the
+node matrix may contain the value of some previously deleted node.
+
+<p>The following procedures are available for node matrices:
+
+<p><table CELLPADDING="3">
+
+<tr VALIGN="BASELINE"><td><code>NM1</code></td><td><code>=</code>
+</td>
+<td><code>{NM.clone}</code>
+</td>
+<td> returns a clone of <code>NM</code> in <code>NM1</code>.
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>&nbsp;</code></td><td><code>&nbsp;</code>
+</td>
+<td><code>{NM.put N1 N2 X}</code>
+</td>
+<td> sets the value of <code>NM</code> under <code>(N1,N2)</code>
+to <code>X</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>X</code></td><td><code>=</code>
+</td>
+<td><code>{NM.get N1 N2}</code>
+</td>
+<td> returns the value of <code>NM</code> under <code>(N1,N2)</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>&nbsp;</code></td><td><code>&nbsp;</code>
+</td>
+<td><code>{NM.collect N1 N2 X}</code>
+</td>
+<td> is semantically equal to <code>{NM.put N1 N2 X|{NM.get N1 N2}}</code>
+</td>
+</tr>
+
+<tr VALIGN="BASELINE"><td><code>&nbsp;</code></td><td><code>&nbsp;</code>
+</td>
+<td><code>{NM.inc N1 N2}</code>
+</td>
+<td> is semantically equal to <code>{NM.put N1 N2 1+{NM.get N1 N2}}</code><br>
+<b>Precondition:</b> <code>{NM.get N1 N2}</code> is an integer
+</td>
+</tr>
+
+</table>
+
+<p>In order to apply any of the above procedures to a node matrix
+<code>NM</code> in Oz-library style, for example <code>inc</code> for
+some pair of nodes <code>(N1,N2)</code>, call <code>{NMLib.inc NM N1
+N2}</code> (where <code>NMLib</code> is the module obtained by linking
+<span
+CLASS="MODULE">x-ozlib://smiele/graph/lib/node-matrix.ozf</span>).
+
+
+<h3><a NAME="edge-matrices">Edge Matrices</a></h3>
+
+Edge matrices are almost equal to <a HREF="index.html#node-matrices">node
+matrices</a>.  Given a graph <code>G</code> in object-as-record style
+and an initial value <code>InitX</code> you can create a new edge
+matrix <code>EM</code> with <code>EM = {G.newEdgeMatrix InitX}</code>.
+
+<p>Given a graph <code>G</code> in Oz-library style you get a new edge
+matrix <code>EM</code> in Oz-library style with <code>EM = {EMLib.new
+G InitX}</code> (where <code>EMLib</code> is the module obtained by
+linking <span
+CLASS="MODULE">x-ozlib://smiele/graph/lib/edge-matrix.ozf</span>).
+
+
+
+<h3><a NAME="algorithms">Algorithms</a></h3>
+
+All algorithms consider only the visible nodes and edges of a graph.
+
+<ul>
+<li><a href="index.html#topological-sort">topological sorting</a></li>
+<li><a href="index.html#wccs-sccs">weakly connected components</a></li>
+<li><a href="index.html#bccs">2-node connected components alias biconnected components</a></li>
+<li><a href="index.html#beccs">2-egde connected components</a></li>
+<li><a href="index.html#wccs-sccs">strongly connected components</a></li>
+<li><a href="index.html#transitive-closure">transitive closure (reachability relation)</a></li>
+<li><a href="index.html#acyclic-transitive-reduction">acyclic transitive reduction (redundant edges)</a></li>
+<li><a href="index.html#isolated-nodes">isolated nodes</a></li>
+<li><a href="index.html#isolated-edges">isolated edges</a></li>
+</ul>
+
+
+<h4><a NAME="topological-sort">Topological Sorting</a></h4>
+
+A topological sort of a directed acyclic graph <code>G</code> is a
+function <code>Ord : {G.nodes} -> [1..{G.nodeCount}]</code> so that
+for every edge with source <code>N1</code> and target <code>N2</code>
+<code>{Ord N1}<{Ord N2}</code> holds.
+
+<p>This package provides two functions for topological sorting.
+<code>Ord = {G.topologicalSort}</code> returns a function as described
+above or the atom <code>'cyclic'</code> if <code>G</code> is cyclic.
+
+<p><code>B = {G.makeTopologicallySorted}</code> returns a boolean
+value indicating whether <code>G</code> is cyclic.  As a side effect
+<code>G</code>'s nodes and each node's outedges are sorted
+topologically.  This means that after-wards the list <code>Ns =
+{G.nodes}</code> is sortet and for every node <code>N</code> of
+<code>G</code> the list <code>{G.outEdges N}</code> is sorted based on
+the targets of the edges.
+
+<p>The running time of both functions on a graph <code>G</code> with
+nodes <code>Ns</code> and edges <code>Es</code> is in
+<code>O(|Ns|+|Es|)</code>..
+
+
+<h4><a NAME="wccs-sccs">Weakly Connected Components, Strongly Connected Components</a></h4>
+
+A weakly/strongly connected graph is an undirected/directed graph that
+has an undirected/directed path between every two nodes.  A
+weakly/strongly connected component of a graph <code>G</code> is a
+maximal subgraph of <code>G</code> that is weakly/strongly connected.
+The weakly/strongly connected components of a graph <code>G</code>
+provide a proper partition of <code>G</code>'s nodes.
+
+<p>This package's implementation of weakly/strongly connected
+components computes the number <code>I</code> of components and a
+function that maps each node to the number of its component.  The
+components are numbered from <code>1</code> to <code>I</code>.  The
+value returned is a record of the follwing type:
+
+<pre><code>
+   unit(count : int
+        num   : node -> int)
+</code></pre>
+
+The item under <code>count</code> is the total number of components
+<code>I</code> and the item under <code>num</code> is the function
+that returns the component number of a given node.
+
+<p>For a graph <code>G</code> in object-as-record style you can
+compute the weakly/strongly connected components <code>R</code> with
+<code>R = {G.wccs}</code> or <code>R = {G.sccs}</code>.  In
+Oz-library style use <code>R = {GraphLib.wccs G}</code> or <code>R =
+{GraphLib.wccs G}</code>.
+
+<p>The running times of the algorithms on a graph <code>G</code> with
+nodes <code>Ns</code> and edges <code>Es</code> are in
+<code>O(|Ns|+|Es|)</code>.
+
+
+<h4><a name="bccs">2-Node Connected Components alias Biconnected Components</a></h4>
+
+A biconnected graph is a weakly connected undirected graph that
+remains weakly connected if any of its nodes is removed.  An
+equivalent definition is that between every two distinct nodes there
+must exist two node-distjoint paths.  A biconnected component of a
+graph <code>G</code> is a maximal subgraph of <code>G</code> that is
+biconnected.  Biconnected components of a graph <code>G</code> with no
+self-loop edges (edges that have equal source and target) provide a
+proper partition of <code>G</code>'s edges.
+
+<p>A cut node of <code>G</code> is a node that, iff removed, separates
+a weakly connected subgraph of <code>G</code> in at least two disjoint
+weakly connected subgraphs.
+
+<p>This packages's implementation of biconnected componets computes
+the number <code>I</code> of biconnected components and numbers the
+components from <code>1</code> to <code>I</code>.  Apart from that a
+list of all cut nodes is computed.  The value returned is a record of
+the following type:
+
+<pre><code>
+   unit(count    : int
+        num      : edge -> int
+        cutNodes : node list)
+</code></pre>
+
+The item under <code>count</code> is the number <code>I</code> of
+components.  The item under <code>num</code> is a function that, given
+a non-self-loop edge, returns the number of the component the edge
+belongs to.  If the function is feeded with a self-loop edge then it
+returns <code>0</code> (which is not in the range <code>1..I</code> of
+componet numbers).  If the graph has <code>J</code> isolated nodes
+(nodes that have no incident edges), then numbers returned by
+<code>num</code> are always smaller than or equal to <code>I-J</code>.
+The item under <code>cutNodes</code> is a list of all cut nodes.
+
+<p>For a graph <code>G</code> in object-as-record style you can
+compute the biconnected components <code>R</code> with <code>R =
+{G.bccs}</code>.  In Oz-library style use <code>R = {GraphLib.bccs
+G}</code>.
+
+<p>The running time of the algorithm on a graph <code>G</code> with nodes
+<code>Ns</code> and edges <code>Es</code> is in
+<code>O(|Ns|+|Es|)</code>.
+
+
+<h4><a name="beccs">2-Edge Connected Components</a></h4>
+
+A 2-edge connected graph is a weakly connected graph that remains
+weakly connected if any of its edges is removed.  An equivalent
+definition is that between every two distinct nodes there must exist
+two edge-distjoint paths.  A 2-edge connected component of a graph
+<code>G</code> is a maximal subgraph of <code>G</code> that is 2-edge
+connected.  2-edge connected components of a graph <code>G</code>
+provide a proper partition of <code>G</code>'s nodes.
+
+<p>A bridge in <code>G</code> is an edge that, iff removed, separates
+a weakly connected subgraph of <code>G</code> in at least two disjoint
+weakly connected subgraphs.
+
+<p>This packages's implementation of 2-edge connected componets
+computes the number <code>I</code> of 2-edge connected components and
+numbers the components from <code>1</code> to <code>I</code>.  Apart
+from that a list of all bridges is computed.  The value returned is a
+record of the following type:
+
+<pre><code>
+   unit(count   : int
+        num     : node -> int
+        bridges : node list)
+</code></pre>
+
+The item under <code>count</code> is the number <code>I</code> of
+components.  The item under <code>num</code> is a function that, given
+an node <code>N</code>, returns the number of the component
+<code>N</code> belongs to.  The item under <code>cutNodes</code> is a
+list of all cut nodes.
+
+<p>For a graph <code>G</code> in object-as-record style you can
+compute the 2-edge connected components <code>R</code> with <code>R =
+{G.beccs}</code>.  In Oz-library style use <code>R = {GraphLib.beccs
+G}</code>.
+
+<p>The running time of the algorithm on a graph <code>G</code> with
+nodes <code>Ns</code> and edges <code>Es</code> is in
+<code>O(|Ns|+|Es|)</code>.
+
+
+<h4><a NAME="transitive-closure">Transitive Closure (Reachability Relation)</a></h4>
+
+The reachability relation <code>Reach</code> of a directed graph
+<code>G</code> is a binary relation on the set of <code>G</code>'s
+nodes.  <code>(N1,N2)</code> is in <code>Reach</code> iff there
+exists a directed path from <code>N1</code> to <code>N2</code> in
+<code>G</code>.
+
+<p>This package's implementation of reflexive, transitive closure
+computes the characteristic function <code>F : node x node ->
+bool</code> of <code>Reach</code>, i.e. it computes a function that
+takes two nodes <code>N1</code> and <code>N2</code> and returns true
+iff <code>G</code> contains a path from <code>N1</code> to
+<code>N2</code>.  Additionally, if <code>G</code> is acyclic then
+<code>G</code> is <a href="index.html#topological-sort"> sorted
+topologically</a>.
+
+<p>For a graph <code>G</code> in object-as-record style you can
+compute the characteristic function <code>F</code> of <code>G</code>'s
+reachablity relation with <code>F = {G.reachability}</code>.  In
+Oz-library style use <code>F = {GraphLib.reachability G}</code>.
+
+<p>The running time of the algorithm on a graph <code>G</code> with
+nodes <code>Ns</code> and edges <code>Es</code> is in
+<code>O(|Ns|^3)</code>.  More precisely, the running time on an
+acyclic graph with irredundant edges <code>Es'</code> is in
+<code>O(|Ns|+|Es|+|Es'|*|Ns|)</code> (the irredundant edges of an
+acyclic graph <code>G</code> are the edges of <code>G</code>'s
+transitive reduction, see below).  On a cyclic graph the running time
+is in <code>O(|Ns|^2+k^3)</code> where <code>k</code> is the number of
+<code>G</code>'s strongly connected components.
+
+
+<h4><a NAME="acyclic-transitive-reduction">Acyclic Transitive
+Reduction (Redundant Edges)</a></h4>
+
+The transitive reduction <code>G'</code> of a directed acyclic graph
+<code>G</code> (that does not contain two edges with equal source and
+target) is the minimal subgraph of <code>G</code> that has the same
+reflexive, transitive closure.  I.e. <code>G'</code> equals
+<code>G</code> except that it does not contain <code>G</code>'s
+redundant edges (an edge <code>E</code> from <code>N1</code> to
+<code>N2</code> is redundant iff there already is a path with length
+at least <code>2</code> from <code>N1</code> to <code>N2</code> that
+does not use <code>E</code>).
+
+<p>This package's implementation of transitive reduction computes a
+list of a graph's redundant edges.  As a side effect <code>G</code> is
+<a href="index.html#topological-sort">sorted topologically</a>.
+<b>Important:</b> If for two nodes <code>N1</code> and <code>N2</code>
+the graph contains several edges with source <code>N1</code> and
+target <code>N2</code> all but one (<b>random choice</b>)  of these edges
+are considered redundant.
+
+<p>For a directed acyclic graph <code>G</code> in object-as-record
+style you can compute the redundant edges <code>Es</code> with
+<code>Es = {G.redundantEdges}</code>.  In Oz-library style use
+<code>Es = {GraphLib.redundantEdges G}</code>.  If <code>G</code> is
+cyclic then <code>{G.redundantEdges}</code> returns the atom
+<code>'cyclic'</code>.
+
+<p>The running time of the algorithm on a directed acyclic graph
+<code>G</code> with nodes <code>Ns</code> and edges <code>Es</code> is
+in <code>O(|Ns|^3)</code>.  More precisely, the running time is in
+<code>O(|Ns|+|Es|+|Es'|*|Ns|)</code>, where <code>Es'</code> are the
+irredundant edges of <code>G</code>, i.e. <code>Es' = Es -
+{G.redundantEdges}</code>.
+
+
+<h4><a name="isolated-nodes">Isolated Nodes</a></h4>
+
+An isolated node in a graph <code>G</code> is a node that has no
+incident edges.  This package provides a procedure that computes a
+record of the following type:
+
+<pre><code>
+   unit(count : int
+        nodes : node list)
+</code></pre>
+
+The item under <code>count</code> is the total number of isolated
+nodes.  The item under <code>nodes</code> is a list of all isolated
+nodes.
+
+<p>To obtain such a record <code>R</code> for a graph <code>G</code>
+in object-as-record style use <code>R = {G.isolatedNodes}</code>.  In
+Oz-library style use <code>R = {GraphLib.isolatedNodes G}</code>.
+
+<p>The running time of the algorithm on a graph <code>G</code> with
+nodes <code>Ns</code> and edges <code>Es</code> is in
+<code>O(|Ns|+|Es|)</code>.
+
+
+<h4><a name="isolated-edges">Isolated Edges</a></h4>
+
+An isolated edge <code>E</code> with source <code>N1</code> and target
+<code>N2</code> is an edge such that <code>N1</code> and
+<code>N2</code> have no incident edges other than <code>E</code>.
+This package provides a procedure that computes a record of the
+following type:
+
+<pre><code>
+   unit(count : int
+        edges : node list)
+</code></pre>
+
+The item under <code>count</code> is the total number of isolated
+edges.  The item under <code>edges</code> is a list of all isolated
+edges.
+
+<p>To obtain such a record <code>R</code> for a graph <code>G</code>
+in object-as-record style use <code>R = {G.isolatedEdges}</code>.  In
+Oz-library style use <code>R = {GraphLib.isolatedEdges G}</code>.
+
+<p>The running time of the algorithm on a graph <code>G</code> with nodes
+<code>Ns</code> and edges <code>Es</code> is in
+<code>O(|Ns|+|Es|)</code>.
+
+
+<h2>Installation</h2>
+
+<a
+href="http://www.mozart-oz.org/mogul/pkg/smiele/graph/smiele-graph.pkg">Download</a>
+the file <code>smiele-graph.pkg</code> from the <a
+href="http://www.mozart-oz.org/mogul/">Mogul</a>.  Then execute
+
+<code CLASS="DISPLAY">
+ozmake --freshen --package=smiele-graph.pkg
+</code>
+
+<p>In case that you did not already install <a
+href="http://www.mozart-oz.org/mogul/info/duchier/ozmake.html"><span
+CLASS="MODULE">mogul:/duchier/ozmake</span></a> on your machine, note
+that it is also available in the <a
+href="http://www.mozart-oz.org/mogul/">Mogul</a>.
+
+
+<HR>
+<ADDRESS>
+<A HREF="http://ps.uni-sb.de/~smiele">Sebastian Miele</A>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,213 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<!-- EDIT -->
+<TITLE>Config</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H4 {	color		: slateblue; }
+H3 {	color		: #881155; }
+H5 {	color		: darkslateblue; }
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<!-- EDIT -->
+<H1>Config</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.ps.uni-sb.de/~duchier/">Denys Duchier</A>
+</P>
+<DL>
+  <DT><B>provides</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://duchier/ap/Config.ozf</SPAN>
+  <DD><SPAN CLASS="MODULE">x-ozlib://duchier/ap/Config.exe</SPAN>
+</DL>
+<HR>
+
+<H2>Purpose</H2>
+<P>This package permits to configure application parameters in very
+flexible ways.  Every parameter is explicitly declared with a descriptor
+explaining how to compute its value.
+
+<H2>Usage</H2>
+<P>A parameter is denoted by a `key' which is a literal.  We recommend
+that a package parameter be denoted by a URI derived e.g. from the
+package MOGUL URI or the package URI.  For example, parameter
+<CODE>p1</CODE> in a package with URI <CODE>x-ozlib://foo/bar</CODE>
+might be given the key <CODE>x-ozlib://foo/bar/p1</CODE>.  This way
+you can easily avoid collision with parameters from other packages.
+<P>You would normally import the <TT>Config</TT> module as follows:
+<CODE CLASS="DISPLAY"><SPAN CLASS="KEYWORD">import</SPAN> Config <SPAN CLASS="KEYWORD">at</SPAN> <SPAN CLASS="STRING">'x-ozlib://duchier/ap/Config.ozf'</SPAN></CODE>
+<H3>Declaring Parameters</H3>
+<P>Every package parameter must be declared by invoking
+<CODE>Config.decl</CODE> with the parameter's key and a descriptor
+explaining how to compute its value.
+<CODE CLASS="DISPLAY">{Config.decl Key Descriptor}</CODE>
+A descriptor <CODE>D</CODE> is a term of one of the forms listed
+below.  A descriptor may or may not be defined.  When it is defined,
+it has a value.
+<P>
+<DL>
+<DT><CODE>[D1 ... Dn]</CODE>
+<DD>where <CODE>Di</CODE> is a descriptor.  Each descriptor is
+tried in turn until one is found that is defined.  Its value is
+returned.
+<DT><CODE>property(P)</CODE>
+<DD>is defined when <CODE>{Property.get P}</CODE> exists, in which
+case its value is returned.
+<DT><CODE>environ(V)</CODE>
+<DD>is defined when environment variable <CODE>V</CODE> is set, in
+which case its value is returned.
+<DT><CODE>call(F)</CODE>
+<DD>is defined when <CODE>{F}</CODE> doesn't raise an exception, in
+which case the value of <CODE>{F}</CODE> is returned.  When
+<CODE>{F}</CODE> raises an exception, the latter is caught and
+ignored, but <CODE>call(F)</CODE> is known to be undefined.
+<DT><CODE>value(V)</CODE>
+<DD>is always defined and has value <CODE>V</CODE>
+<DT><CODE>platform(P D)</CODE>
+<DD>is defined when <CODE>{Property.get 'platform.os'}</CODE> is
+<CODE>P</CODE> and descriptor <CODE>D</CODE> is defined, in which its
+value is returned. <CODE>P</CODE> may also be a list of platforms.
+<DT><CODE>when(D F)</CODE>
+<DD>is defined when <CODE>D</CODE> is defined, in which case,
+supposing <CODE>D</CODE> has value <CODE>V</CODE>, <CODE>when(D
+F)</CODE> evaluates to <CODE>{F V}</CODE>.
+<DT><CODE>ask(Msg [width:W] [type:{file,openfile,savefile}])</CODE>
+<DD>is always defined.  Evaluation first checks the user's persistent
+answer database for the desired
+parameter.  If a value is found, it is returned.  Else the user is
+prompted using a
+dialog showing message <CODE>Msg</CODE> and with an entry for typing
+the reply of width <CODE>W</CODE> (default 30).  If
+<CODE>{Config.getConfirm}</CODE> is <CODE>true</CODE> then the user is
+prompted even if a value is found in the persistent database.  This
+value is simply used to initialize the dialog's entry.  The value
+typed by the user is returned as the value, it is also saved in the
+user's persistent database.
+<P>The <CODE>type</CODE> option makes it possible to obtain a more
+specialized gui.  Currently, this is only available for files.
+Specifying <CODE>type:file</CODE> prompts the user with a file
+selector widget.  <CODE>type:savefile</CODE> also asks whether the
+user wants to overwrite the file, in case it already exists.
+</DL>
+<H3>Evaluating Parameters</H3>
+<P>You can obtain the value of a parameter by invoking
+<CODE>Config.get</CODE> with the parameter's key as an argument:
+<CODE CLASS="DISPLAY">{Config.get +Key ?Value}</CODE>
+If the parameter's value has previously been computed, then the cached
+value is returned.  Otherwise the parameter's descriptor is evaluated.
+If the descriptor is defined, its value is returned, otherwise an
+exception is raised.
+<H3>Saving the persistent database</H3>
+<P>Whenever the user is prompted for a parameter's value, this answer
+is written into a database of answers.  In order to save this
+database, you must invoke:
+<CODE CLASS="DISPLAY">{Config.save}</CODE>
+The database is only really written if it has been modified.
+
+<H2>Export</H2>
+<DL>
+<DT><CODE>{Config.confirm.get}</CODE>
+<DD>is the user always prompted for confirmation when evaluating an
+<CODE>ask(...)</CODE> descriptor?  Default is <CODE>false</CODE>.
+<DT><CODE>{Config.confirm.set +B}</CODE>
+<DD>set the confirmation flag.
+<DT><CODE>{Config.decl +Key +Descriptor}</CODE>
+<DD>declare a parameter identified by <CODE>Key</CODE> and with the
+given <CODE>Descriptor</CODE>.
+<DT><CODE>{Config.get +Key ?Value}</CODE>
+<DD>get the value of a parameter identified by <CODE>Key</CODE>.
+<DT><CODE>{Config.save}</CODE>
+<DD>if the persistent database of answers has been modified, try to
+write it back.  This will never raise an exception, even if it is not
+possible to write back the database.
+<DT><CODE>{Config.getRecord}</CODE>
+<DD>Return the current contents of the persistent answer database as a
+record.
+</DL>
+
+<H2>Example</H2>
+<P>Suppose that your `sherlock' application needs to be able to invoke
+the `pipe' helper application.  You could declare a
+<CODE>x-ozlib://sherlock/pipe</CODE> key as follows
+<CODE CLASS="DISPLAY">{Config.decl <SPAN CLASS="STRING">'x-ozlib://sherlock/pipe'</SPAN>
+ [property(<SPAN CLASS="STRING">'sherlock.pipe'</SPAN>)
+  environ(<SPAN CLASS="STRING">'SHERLOCK_PIPE'</SPAN>)
+  when([property(<SPAN CLASS="STRING">'sherlock.home'</SPAN>)
+        environ(<SPAN CLASS="STRING">'SHERLOCK_HOME'</SPAN>)]
+       <SPAN CLASS="KEYWORD">fun</SPAN> {<SPAN CLASS="FUNCTIONNAME">$</SPAN> Home} Home<SPAN CLASS="KEYWORD">#</SPAN><SPAN CLASS="STRING">'/'</SPAN><SPAN CLASS="KEYWORD">#</SPAN><SPAN CLASS="STRING">'pipe.exe'</SPAN> <SPAN CLASS="KEYWORD">end</SPAN>)
+  ask(<SPAN CLASS="STRING">"Enter path to Sherlock's pipe executable"</SPAN>)]}</CODE>
+First checking <CODE>property('sherlock.pipe')</CODE> makes it
+possible for example to override the path to the pipe application
+using an option argument when invoking the application.  Just allow an
+option argument of the form:
+<CODE CLASS="DISPLAY">--pipe=<i>PATH</i></CODE>
+and when it is provided, set property <CODE>sherlock.pipe</CODE> to
+<CODE><i>PATH</i></CODE>. You can also override using environment variable
+<CODE>SHERLOCK_PIPE</CODE>.  Else you can try to construct the path to
+the <CODE>pipe.exe</CODE> executable using a `home' prefix which may
+be specified by property <CODE>sherlock.home</CODE> (haha! :-) (again can be
+specified by an option argument) or by environment variable
+<CODE>SHERLOCK_HOME</CODE>.
+If all else fails.  Look up in the user's persistent database to see
+whether the user has already answered this question before.
+Otherwise, prompt the user using an interactive dialog.
+
+<H2>Config.exe</H2>
+<P><CODE>x-ozlib://duchier/ap/Config.exe</CODE> is a graphical
+application to visualize the contents of the persistent database and
+delete entries no longer desired.
+
+<H2>Installation</H2>
+<P>This package can be installed by following the usual
+<I>configure, build, install</I> procedure, i.e. by executing a the
+shell:
+<CODE CLASS="DISPLAY">./configure
+make install</CODE>
+By default, all files of the package are
+installed in the user's <TT>~/.oz</TT> directory tree.  In
+particular, all modules are installed in the user's private cache.
+
+<HR>
+<ADDRESS>
+<A HREF="http://www.ps.uni-sb.de/~duchier/">Denys Duchier</A>
+</ADDRESS>
+</BODY>
+</HTML>

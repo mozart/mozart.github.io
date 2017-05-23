@@ -1,0 +1,119 @@
+BODY, H1, H2, H3, H4, H5, H6, TH, TD {
+  font-family: arial, helvetica, sans-serif;
+  font-size: 80%;
+}
+
+/*
+BODY { 
+  margin-left: 170px;
+  background: url(/images/margin.gif) repeat-y white;
+}
+*/
+
+.margin {
+  position: absolute;
+  left: 0px;
+  width: 145px;
+  color: #0256A2;
+  text-align: center
+}
+
+H1, H2, H3, H4, TH.people {
+  color: #0256A2;
+}
+
+H1 {
+  font-size: large;
+}
+
+H2 {
+  font-size: medium;
+}
+
+ADDRESS {
+  font-size: xx-small; 
+}
+
+PRE, CODE, .code {
+  font-family: "andale mono", "lucida console", courier, monospace;
+}
+
+CODE, .code {
+  color: #663366;
+}
+
+PRE.code {
+  margin-left: 1.5cm;
+}
+
+CODE.keyword, CODE.kw, SPAN.keyword, SPAN.kw {
+  font-weight: bold;
+}
+
+TH.people {
+  text-align: left;
+}
+A:link {
+  color: #0256A2;
+  text-decoration: none;
+}
+
+A:visited {
+  color: #333399;
+  text-decoration: none;
+}
+
+A:hover {
+  text-decoration: underline;
+}
+
+.narrow H2 {
+  border: 0;
+  margin-top: 1.5em;
+  margin-bottom: 1em;
+}
+
+.narrow P, .narrow UL {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.ignore {
+  display: none;
+}
+
+.smallmenu {
+  text-align: center;
+}
+
+.smallmenu A.hilite {
+  color: #ff9933;
+  font-weight: bold;
+}
+
+.paperyear, .paperauthor {
+  font-weight: bold;
+}
+
+MENU.paperlinks LI {
+  list-style-type: none;
+}
+
+.paperlinks P {
+  display: inline;
+  text-indent: -40px;
+  font-weight: normal;
+  font-style: italic;
+}
+
+SPAN.bibauthor {
+  font-style: italic;
+}
+
+SPAN.small {
+  font-size: small;
+}
+
+SPAN.error {
+  color: #ff0000;
+}

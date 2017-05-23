@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<TITLE>Porter Stemmer</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H3,H4 {	color		: #881155; }
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<H1>Porter Stemmer</H1>
+<P CLASS="AUTHOR"> <A HREF="http://www.ling.gu.se/~lager/">Torbjörn Lager</A> 
+</P>
+<DL> 
+  <DT><B>provides</B> 
+  <dd><span class="MODULE">x-ozlib://lager/porter-stemmer/EnglishStemmer.so{native}</span> 
+  <dd><span class="MODULE">x-ozlib://lager/porter-stemmer/stem.exe</span> 
+  <DD>&nbsp; 
+</DL>
+<HR>
+<!-- PURPOSE --> 
+<H2>Purpose</H2>
+<P> This native functor creates a module that exports a function which performs 
+  <b>stemming</b> by means of the <b>Porter stemming algorithm</b>. Quoting Martin 
+  Porter himself: 
+<blockquote>
+  <p>The Porter stemming algorithm (or 'Porter stemmer') is a process for removing 
+    the commoner morphological and inflexional endings from words in English. 
+    Its main use is as part of a term normalisation process that is usually done 
+    when setting up Information Retrieval systems. </p>
+</blockquote>
+<P>The algorithm was originally described in Porter, M.F., 1980, An algorithm 
+  for suffix stripping, <i>Program</i>, 14(3) :130-137. It has since been reprinted 
+  in Sparck Jones, Karen, and Peter Willet, 1997, <i>Readings in Information Retrieval</i>, 
+  San Francisco: Morgan Kaufmann, ISBN 1-55860-454-4. 
+<P>A warning is in place: It is hard to do stemming without using a lexicon. If 
+  you are a linguist, the output from a Porter stemmer could easily make you upset. 
+  A stemmer such as this could still be useful, however.
+<P> This implementation simply links a C-implementation (written by Martin Porter) 
+  into Oz. 
+<h2>Installation</h2>
+<p>Download the package, and invoke ozmake in a shell as follows: 
+<blockquote> 
+  <p><code>ozmake --install --package=lager-porter-stemmer.pkg</code></p>
+</blockquote>
+<p>By default, all files of the package are installed in the user's <code>~/.oz</code> 
+  directory tree. In particular, all modules are installed in the user's private 
+  cache. <!-- --> 
+<h2>Usage</h2>
+<blockquote> 
+  <pre><code><span class="KEYWORD">import</span> Porter <span class="KEYWORD">at</span> <span class="STRING">'x-ozlib://lager/porter-stemmer/EnglishStemmer.so{native}'</span></code>      
+ ... 
+<code>{Porter.stem +S1 ?S2} </code></pre>
+</blockquote>
+<h2>Example</h2>
+<p>For example,</p>
+<blockquote> 
+  <pre><code>{Porter.stem &quot;programming&quot; S}</code></pre>
+</blockquote>
+<p>strips the suffix <code>&quot;ming&quot;</code> from <code>&quot;programming&quot;</code> 
+  and binds <code>S</code> to the remaining stem (i.e. to <code>&quot;program&quot;</code>).<code><br>
+  </code></p>
+<p>
+<h2>Example Application</h2>
+<p>The distribution also includes <code>stem</code>, a stand-alone demo application 
+  which reads and tokenizes a text file and prints the result of stemming each 
+  word to a file, or to <code>stdout</code> by default. It can be invoked in the 
+  following way:</p>
+<blockquote>
+<code>stem -i test.txt </code>
+</blockquote>
+<p>Invoke <code>stem--help</code> to see what options are available. </p>
+<h2>Related Information</h2>
+<p>Here is a link to the ‘official’ home page for distribution of the Porter Stemming 
+  Algorithm, written and maintained by its author, Martin Porter:</p>
+<blockquote> 
+  <p><a href="http://www.tartarus.org/%7Emartin/PorterStemmer/">http://www.tartarus.org/~martin/PorterStemmer/</a></p>
+</blockquote>
+<p>Among other things, you'll find a pointer to resources for creating stemmers 
+  for other languages.</p>
+<blockquote>
+  <p></p>
+</blockquote>
+<HR>
+<ADDRESS> <A HREF="http://www.ling.gu.se/~lager">Torbj&ouml;rn Lager</A></ADDRESS>
+</BODY>
+</HTML>

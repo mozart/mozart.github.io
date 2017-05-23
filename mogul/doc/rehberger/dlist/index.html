@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<TITLE>DList: Distributed List Operations</TITLE>
+<STYLE>
+BODY {
+	background-color: white;
+	margin-left	: 2cm;
+	margin-right	: 2cm;
+	font-family	: tahoma,arial,helvetica,sans-serif;
+}
+H1 {
+	text-align	: center;
+	color		: #9B0000;
+}
+H2 {	color		: #FF9933; }
+H3,H4 {	color		: #881155; }
+CODE {	color		: #663366; }
+CODE,TT {
+	font-family	: "lucida console",courier,monospace;
+}
+CODE.DISPLAY {
+	display		: block;
+	white-space	: pre;
+	margin-left	: 2cm;
+	margin-top	: 1em;
+	margin-bottom	: 1em;
+}
+P.AUTHOR {
+	text-align	: center;
+	font-weight	: bold;
+}
+SPAN.MODULE {
+	color		: steelblue;
+}
+A {	color		: steelblue; }
+
+P.QUOTATION {
+  margin-left: 2cm;
+  margin-right: 2cm;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  font-style: italic;
+}
+SPAN.COMMENT      { color: #B22222; }
+SPAN.KEYWORD      { color: #A020F0; }
+SPAN.STRING       { color: #BC8F8F; }
+SPAN.FUNCTIONNAME { color: #0000FF; }
+SPAN.TYPE         { color: #228B22; }
+SPAN.VARIABLENAME { color: #B8860B; }
+SPAN.REFERENCE    { color: #5F9EA0; }
+SPAN.BUILTIN      { color: #DA70D6; }
+</STYLE>
+</HEAD>
+<BODY>
+<H1>DList: Distributed List Operations</H1>
+<P CLASS="AUTHOR">
+  <A HREF="http://www.cs.tu-berlin.de/~frehberg">Frank Rehberger</A>
+</P>
+<DL>
+  <DT><B>provides</B>
+  <DD><SPAN CLASS="MODULE">x-ozlib://rehberger/dp/DList.oz</SPAN>
+  <DT><B>requires</B>
+</DL>
+<HR>
+<!-- PURPOSE --> <H2>Purpose</H2> <P>This is a set of operations on
+distributed lists. Currently it supports balancing and distributed,
+parallel sorting of lists. 
+
+<H2>Balancing</H2> This operation can be used for load balancing. Data
+is distributed equally betweeen all participating processes. After
+execution length of lists of all processes will differ at most
+one. This operation keeps ordering.  Each participating process calls
+<CODE CLASS="DISPLAY">{<SPAN CLASS="FUNCTIONNAME">DList.balance</SPAN> <SPAN CLASS="VARIABLENAME">Xs</SPAN> <SPAN CLASS="VARIABLENAME">Sync</SPAN> <SPAN CLASS="VARIABLENAME">NPEs</SPAN> <SPAN CLASS="VARIABLENAME">MyPE</SPAN> <SPAN CLASS="VARIABLENAME">?Ys</SPAN> } </CODE>
+
+where
+<ul>
+  <li> <SPAN CLASS="VARIABLENAME">Xs</SPAN> is the local list of a
+  specific process
+
+  <li> <SPAN CLASS="VARIABLENAME">Sync</SPAN> a fresh variable shared
+between all process for synchronization
+
+  <li> <SPAN CLASS="VARIABLENAME">NPEs</SPAN> number of processes
+participating
+
+  <li> <SPAN CLASS="VARIABLENAME">MyPE</SPAN> a unique, logic number
+between <SPAN CLASS="VARIABLENAME">1..NPES</SPAN> for each process.
+</ul>
+<br>
+This operation returns the list <SPAN CLASS="VARIABLENAME">Ys</SPAN>
+within each process. The number of elements differs at most one
+between all processes.
+
+<H2>Sorting</H2> This operation can be used for sorting of distributed
+lists and makes use of parallelism. This is an implementation of <SPAN
+CLASS="REFERENCE">"On the Versatility of Parallel Sorting by Regular
+Sampling",Jonathon Schaeffer et al., Parallel Computing, vol. 19, pp.
+1079-110, 1993.  [<a
+href="http://www.cs.tu-berlin.de/~frehberg/mogul/dlist/parsort.ps.gz">ps.gz</a>]
+</SPAN>
+<br>
+<P class="QUOTATION"><B>Abstract:</B>
+The algorithm reduces memory and
+bus contention, which many parallel sorting algorithms suffer from, by
+using a regular sampling of data to ensure good pivot selection. For n
+data elements to be sorted and p processors, when n>=p*p*p, the
+algorithm is within a factor of 2 of achieving ideal load
+balancing. In practice, there is almost a perfect partitioning of
+work. On a variety of shared and distributed memory machines, the
+algorithm achieves better than half-linear speedups.</P>
+
+Each process participating has to apply this function with its local
+list as argument:
+<CODE CLASS="DISPLAY">{ <SPAN CLASS="FUNCTIONNAME">DList.sort</SPAN> <SPAN CLASS="VARIABLENAME">Xs</SPAN> <SPAN CLASS="VARIABLENAME">Sync</SPAN> <SPAN CLASS="VARIABLENAME">NPEs</SPAN> <SPAN CLASS="VARIABLENAME">MyPE</SPAN> <SPAN CLASS="VARIABLENAME">Op</SPAN> <SPAN CLASS="VARIABLENAME">?Ys</SPAN> } </CODE>
+
+<ul>
+  <li> <SPAN CLASS="VARIABLENAME">Xs</SPAN> is the local list of a
+  specific process
+
+  <li> <SPAN CLASS="VARIABLENAME">Sync</SPAN> a fresh variable shared
+between all process for synchronization
+
+  <li> <SPAN CLASS="VARIABLENAME">NPEs</SPAN> number of processes
+participating
+
+  <li> <SPAN CLASS="VARIABLENAME">MyPE</SPAN> a unique, logic number
+between <SPAN CLASS="VARIABLENAME">1..NPES</SPAN> for each process.
+
+  <li> <SPAN CLASS="VARIABLENAME">Op</SPAN> is the local operation
+  used for sorting and must be the same on all sides.
+</ul>
+<br>
+This operation returns the list <SPAN CLASS="VARIABLENAME">Ys</SPAN>
+within each process. The number of sorted elements differs at most one
+between all processes.  (If number of elements is low, all data will
+be transfered to process with MyPE==1 where centralized sorting is
+done. )
+
+<H2>Installation</H2>
+This package is pure OZ code. Get the package from Mogul, extract, 
+change directory and call
+<CODE CLASS="DISPLAY">ozmake --install</CODE>
+<HR>
+<ADDRESS>
+<A HREF="http://www.cs.tu-berlin.de/~frehberg">Frank Rehberger</A>
+</ADDRESS>
+</BODY>
+</HTML>
