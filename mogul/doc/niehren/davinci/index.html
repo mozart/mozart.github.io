@@ -72,11 +72,11 @@ SPAN.BUILTIN      { color: #DA70D6; }
 <DD><SPAN CLASS="MODULE">x-ozlib://niehren/davinci/commands.ozf</SPAN>
   <DT><B>requires</B>
   <DD><A href="http://www.informatik.uni-bremen.de/uDrawGraph/en/uDrawGraph/uDrawGraph.html"><SPAN CLASS="MODULE">uDrawGraph-3.11</span> </A>
-  <DD><a href=http://www.mozart-oz.org/mogul/info/duchier/config.html><SPAN CLASS="MODULE">mogul:/duchier/config</SPAN></a>
-<dd><a href=http://www.mozart-oz.org/mogul/info/niehren/base.html><span class= "MODULE">mogul:/niehren/base</a></span>
-<dd><a href=http://www.mozart-oz.org/mogul/info/niehren/output.html><span class= "MODULE">mogul:/niehren/output</a></span>
-<dd><a href=http://www.mozart-oz.org/mogul/info/niehren/inspector-space.html><span class= "MODULE">mogul:/niehren/inspector-space</a></span>
-<dd><a href=http://www.mozart-oz.org/mogul/info/niehren/external-process.html><span class= "MODULE">mogul:/niehren/external-process</a></span>
+  <DD><a href=/mogul/info/duchier/config.html><SPAN CLASS="MODULE">mogul:/duchier/config</SPAN></a>
+<dd><a href=/mogul/info/niehren/base.html><span class= "MODULE">mogul:/niehren/base</a></span>
+<dd><a href=/mogul/info/niehren/output.html><span class= "MODULE">mogul:/niehren/output</a></span>
+<dd><a href=/mogul/info/niehren/inspector-space.html><span class= "MODULE">mogul:/niehren/inspector-space</a></span>
+<dd><a href=/mogul/info/niehren/external-process.html><span class= "MODULE">mogul:/niehren/external-process</a></span>
 </DL>
 <HR>
 
@@ -267,7 +267,7 @@ type WindowMenuAction = DaVinci ->
 <br>A <code>MenuAction</code> identifys the action to be executed 
 when choosing the correspinding menu entry. A <code>VirtualString</code> 
 represents the label of this entry (i.e. what is shown at the menu bar).
-For specification of VirtualString cf. <a href= "http://www.mozart-oz.org/documentation/base/index.html"> The Oz Base Environment </a>.
+For specification of VirtualString cf. <a href= "/documentation/base/index.html"> The Oz Base Environment </a>.
 A <code>MenuAction</code> receives one or two arguments. The last
 argument is always the actual  <code>DaVinci</code>. The first 
 of two arguments  specifies either the node or edge to which 
@@ -330,7 +330,7 @@ to the list of outgoing edges. These function are implemented via
 dictionaries <code>DaVinci.graph.nodes</code> and 
 <code>DaVinci.graph.edges</code> that hash nodes and edges
 via their ids. The type of dictionaries used are defined in
-the package <a href=http://www.mozart-oz.org/mogul/info/niehren/base.html><span class= "MODULE">mogul:/niehren/base</SPAN></a>. These dictionaries
+the package <a href=/mogul/info/niehren/base.html><span class= "MODULE">mogul:/niehren/base</SPAN></a>. These dictionaries
 can be converted into the actual list of nodes and edges by applying
 the functions  <code>DaVinci.graph.toNodes</code> and
 <code>DaVinci.graph.toEdges</code>.
