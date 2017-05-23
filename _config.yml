@@ -10,7 +10,7 @@ timezone: Europe/Brussels
 # github overrides some values as follows
 safe: true
 lsi: false
-highlighter: true
+rouge: true
 
 
 redcloth:
