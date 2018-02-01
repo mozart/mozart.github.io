@@ -181,6 +181,8 @@ Jump to:
 
 - [An Oz Implementation Using Truffle and Graal](/publications/abstracts/istasse-thesis.html) (2017) Maxime Istasse
 
+- [Extending Mozart 2 to Support Multicore Processors](/publications/abstracts/daloze-thesis.html) (2014) Benoit Daloze
+
 - [The Oz Virtual Machine - Records, Transients, and Deep Guards](/publications/abstracts/mehl-thesis.html) (1999) Michael Mehl
 
 - [Design, Implementierung und Evaluierung einer virtuellen Maschine für Oz](/publications/abstracts/scheidhauer-thesis.html) (1998) Ralf Scheidhauer
