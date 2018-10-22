@@ -13,8 +13,8 @@ both expressive power and advanced functionality.
 
 ## Mozart 2
 
-The PLDC Research Group at UCL is proud to announce the first release of Mozart
-2. This release contains a completely redesigned 64-bit virtual machine
+The PLDC Research Group at UCL is proud to announce the first release of
+Mozart 2. This release contains a completely redesigned 64-bit virtual machine
 (compatible with 32-bit and 64-bit processors), and adds an extension interface
 to the virtual machine to allow language extensions defined within Oz. The PLDC
 Research Group will use Mozart 2 for future programming education and future
