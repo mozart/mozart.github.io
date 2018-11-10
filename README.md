@@ -1,5 +1,5 @@
-These files comprise the www.mozart-oz.org website. 
-Edits here will take some time to pass through the caching layer, but will change the live site. 
+These files comprise the old (now non functional) www.mozart-oz.org website.
+Edits here will take some time to pass through the caching layer, but will change the live site.
 No other uploads are required, simply change this repository.
 
 Web hosting is provided by [Github Pages](http://pages.github.com/).
@@ -7,8 +7,8 @@ Page layout was hard-coded using [Bootstrap 2.3](getbootstrap.com/2.3.2)
 
 # How the site works
 
-The git repository's master branch is converted to HTML by [Github Pages](http://pages.github.com/) 
-in a preconfigured service fashion, built on the [Jekyll](http://jekyllrb.com/) static website processor. 
+The git repository's master branch is converted to HTML by [Github Pages](http://pages.github.com/)
+in a preconfigured service fashion, built on the [Jekyll](http://jekyllrb.com/) static website processor.
 Jekyll is written in the Ruby, but all you need to update the site is English, eyes, and a keyboard.
 
 
@@ -19,14 +19,14 @@ This section describes the plain-text markup formats used in producing the site,
 ## Online web-based editing (try this first)
 
 For small textual changes you can perform online editing through the Github
-website. Viewing the page of interest's source file and click "Edit". 
+website. Viewing the page of interest's source file and click "Edit".
 This brings up an in-browser text editor, and a preview tab for some file formats.
 This allows you to modify the website without needing to understand git.
 
 
 ## Source file format
 
-The site is written in Markdown, Textile and HTML (in order of decreasing convenience). 
+The site is written in Markdown, Textile and HTML (in order of decreasing convenience).
 Markdown is used as much as possible for content-pages, which are expected to be updated by many users, but layouts are in HTML and are not expected to be modified very often.
 Some HTML content exists where it was copied directly from the Mozart 1 site. Textile might be used for new content containing complex HTML elements such as tables, but it sometimes seems simpler to use HTML.
 
@@ -46,10 +46,10 @@ Save all files as UTF-8 unicode WITHOUT BOM. Including a BOM will crash the comp
 
 If making major changes to the site it is recommended to make them offline, on
 your computer, and check things work correctly and look ok before uploading
-to the main site. 
+to the main site.
 
-In order to modify and view the pages on your computer you should use git as 
-normal (clone the repository, commit local changes, then push to the 
+In order to modify and view the pages on your computer you should use git as
+normal (clone the repository, commit local changes, then push to the
 github remote's master branch).
 
 ### To run Jekyll on your machine:
