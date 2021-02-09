@@ -142,7 +142,7 @@ Jump to:
 
 
 
-##Distribution <a name="distribution" />
+## Distribution <a name="distribution" />
 
 - Géry Debongnie, Raphaël Collet, Sébastien Doeraene, and Peter Van Roy. [Modular Fault Handling in a Network-Transparent Language](http://www.info.ucl.ac.be/%7Epvr/weh2012_cr.pdf), 5th International Workshop on Exception Handling (WEH 12), Zurich, Switzerland, June 9, 2012.
 - Boris Mejías. [Beernet: A Relaxed Approach to the Design of Scalable Systems with Self-Managing Behaviour and Transactional Robust Storage](http://www.info.ucl.ac.be/%7Epvr/beernet-phd-cl.pdf), Ph.D. dissertation, ICTEAM Institute (formerly Department of Computing Science and Engineering), Université catholique de Louvain, Oct. 2010.
