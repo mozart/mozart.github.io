@@ -5,7 +5,7 @@ title: Mozart bugs
 
 {% comment %} <!-- markdown formatted, see http://daringfireball.net/projects/markdown/basics --> {% endcomment %}
 
-#Report a Bug
+# Report a Bug
 
 Please submit Mozart 2 bug reports to [Github Issues](https://github.com/mozart/mozart2/issues).
 You need a Github account to use the system, but it is free to register.
