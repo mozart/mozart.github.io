@@ -91,6 +91,6 @@ Past board members include:
 ### Documentation Comics
 The comics used in the Mozart documentation have been done by Andreas Schoch.
 
-###The Mozart Logo
+### The Mozart Logo
 
 The Mozart logo was designed by Christian Lindig.
